@@ -1,0 +1,2 @@
+services:
+	- Model\Math\Statistics\StatisticsManager

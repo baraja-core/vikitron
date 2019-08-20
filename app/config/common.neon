@@ -1,0 +1,23 @@
+includes:
+    - services.neon
+
+parameters:
+	rootDir: %appDir%/..
+	translation:
+		availableLocales: cs
+	packageRegistrator:
+		customPackagesNamePatterns:
+			- '^baraja-'
+			- '^mathematicator'
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+session:
+	expiration: 14 days
+
+services:
+	- Texy\Texy
+	router: App\RouterFactory::createRouter

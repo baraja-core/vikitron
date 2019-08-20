@@ -1,0 +1,23 @@
+{
+	"name": "baraja-core/package-manager",
+	"description": "Search all package dependencies automatically and register to your project.",
+	"homepage": "https://github.com/baraja-core/package-manager",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1.0",
+		"ext-PDO": "*",
+		"ext-json": "*",
+		"nette/application": "^3.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

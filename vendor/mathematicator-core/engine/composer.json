@@ -1,0 +1,21 @@
+{
+	"name": "mathematicator-core/engine",
+	"description": "Math computational Engine",
+	"homepage": "https://github.com/mathematicator-core/engine",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"nette/tester": "^2.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

@@ -1,0 +1,26 @@
+{
+	"name": "mathematicator-core/search",
+	"description": "Mathematicator advance search engine.",
+	"homepage": "https://github.com/mathematicator-core/search",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"mathematicator-core/engine": "~1.0",
+		"mathematicator-core/router": "~1.0",
+		"mathematicator-core/calculator": "~1.0",
+		"mathematicator-core/tokenizer": "~1.0",
+		"mathematicator-core/statistic": "~1.0",
+		"mathematicator-core/numbers": "~1.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

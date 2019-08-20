@@ -1,0 +1,263 @@
+{dump $result}
+{include scripts}
+
+<div class="container">
+	{if is_array($result)}
+		<div class="row">
+			<div class="col">
+				{include interpret, interpret => $result['left']->getInterpret()}
+				{include searchResults, boxes => $result['left']->getBoxes()}
+			</div>
+			<div class="col">
+				{include interpret, interpret => $result['right']->getInterpret()}
+				{include searchResults, boxes => $result['right']->getBoxes()}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="search-box-loader">
+					Výsledky připravujeme...
+				</div>
+			</div>
+		</div>
+	{else}
+		<div class="row">
+			<div class="col-sm-8">
+				{if $result->getInterpret() !== null}
+					{include interpret, interpret => $result->getInterpret()}
+				{/if}
+				<div class="search-box-loader">
+					Výsledky připravujeme...
+				</div>
+				{include searchResults, boxes => $result->getBoxes()}
+			</div>
+			<div class="col-sm-4">
+				{include searchMenu}
+			</div>
+		</div>
+	{/if}
+</div>
+
+{define interpret}
+	<div class="search-box" id="searchBox_interpret">
+		<div class="search-box-header" style="background: #3369c1">
+			<div class="row search-box-header-row">
+				<div class="col-xs-1 search-box-header-icon">
+					<i class="material-icons">{$interpret->getIcon()|noescape}</i>
+				</div>
+				<div class="col-xs-11 search-box-header-title">
+					<div>{$renderer->renderTitle($interpret->getTitle())|noescape}</div>
+				</div>
+			</div>
+		</div>
+		<div class="search-box-content">
+			<div>{$renderer->render($interpret->getText(), $interpret->getType())|noescape}</div>
+			<div>{$interpret->getUrl()}</div>
+		</div>
+	</div>
+{/define}
+
+{define searchResults}
+	{foreach $boxes as $box}
+		{var $boxId = 'steps_' . $iterator->getCounter()}
+		<div class="search-box search-box-hide" id="searchBox_{$iterator->getCounter()|noescape}">
+			<div class="search-box-header">
+				<div class="row search-box-header-row">
+					<div class="col- search-box-header-icon">
+						<i class="material-icons">{$box->getIcon()|noescape}</i>
+					</div>
+					<div class="col search-box-header-title">
+						<div>{$renderer->renderTitle($box->getTitle())|noescape}</div>
+					</div>
+					<div class="col-2" n:if="$box->getSteps() !== []">
+						<span class="search-box-header-hightlight cursor w-100 text-center"
+							  onclick="renderInlineStep({$boxId});">
+							<div class="row">
+								<div class="col">
+									Proč?
+								</div>
+								<div class="col-2">
+									<i class="fa fa-caret-down" aria-hidden="true"></i>
+								</div>
+							</div>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="search-box-content">
+				<div>{$renderer->render($box->getText(), $box->getType())|noescape}</div>
+				<div>{$box->getUrl()}</div>
+				<div class="search-box-steps step-none" id="{$boxId}" n:if="$box->getSteps() !== []">
+					<div n:foreach="$box->getSteps() as $step" class="row step">
+						<div class="col-1">
+							<div class="search-box-steps-counter d-flex align-self-center justify-content-center">
+								<div class="d-flex align-self-center justify-content-center">
+									{$iterator->getCounter()}
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div n:class="$iterator->isFirst() || $iterator->isLast() ? step-last">
+								<div class="row">
+									<div class="col">
+										<b style="color: #3369c1" n:if="$step->getTitle()">
+											{if $step->isHtmlTitle()}
+												{$step->getTitle()|noescape}
+											{else}
+												{$step->getTitle()}
+											{/if}
+										</b>
+										<div style="margin-top: 8px" n:if="$step->getDescription()">
+											{if $step->isHtmlDescription()}
+												{$step->getDescription()|noescape}
+											{else}
+												{$step->getDescription()|breaklines}
+											{/if}
+										</div>
+										<div style="margin-top: 8px" n:if="$step->getLatex()">
+											{$renderer->render($step->getLatex(), 'type_latex')|noescape}
+										</div>
+									</div>
+									<div n:if="$step->getAjaxEndpoint()" class="col-2 text-right">
+										<input type="button" class="btn btn-sm btn-primary why-button" value="Proč?"
+											   onclick="renderAjaxStep('ajaxstep_{$iterator->getCounter()|noescape}', {$step->getAjaxEndpoint()})">
+									</div>
+								</div>
+								<div n:if="$step->getAjaxEndpoint()"
+										id="ajaxstep_{$iterator->getCounter()|noescape}"
+										class="col step-ajax">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>showBox('searchBox_{$iterator->getCounter()|noescape}');</script>
+	{/foreach}
+{/define}
+
+{define searchMenu}
+	<div class="search-box">
+		<div class="search-box-header" style="background: #0F9D58; padding-left: 1em">
+			Systémové informace
+		</div>
+		<div class="search-box-content">
+			<table class="table">
+				<tr>
+					<th style="width: 50%">Celkový čas</th>
+					<td>{$result->getTime()}&nbsp;ms</td>
+				</tr>
+				<tr>
+					<th style="width: 50%">Routa</th>
+					<td>{$result->getMatchedRoute()}</td>
+				</tr>
+				<tr n:if="$result->getLength() > 4">
+					<th>Délka dotazu</th>
+					<td>{$result->getLength()}&nbsp;znaků</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div n:if="$result->getSources() !== []" class="search-box">
+		<div class="search-box-header" style="background: #0F9D58; padding-left: 1em">
+			Zdroje výsledků vyhledávání
+		</div>
+		<div class="search-box-content">
+			<div n:foreach="$result->getSources() as $source" class="row my-2">
+				<div class="col">
+					{$source|noescape}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="search-box">
+		<div class="search-box-header" style="background: #0F9D58; padding-left: 1em">
+			O&nbsp;vyhledávání
+		</div>
+		<div class="search-box-content">
+			<p>
+				Právě se&nbsp;díváte na&nbsp;testovací provoz nového vyhledávacího jádra, které umí na&nbsp;základě
+				analýzy vstupu provádět symbolické úpravy a&nbsp;najít tak řešení i&nbsp;pro úlohy, pro které nezná
+				přesný algoritmus.
+			</p>
+			<p>
+				Provoz tohoto nástroje je zatím experimentální a&nbsp;slouží k&nbsp;vybudování obrovské databáze dotazů,
+				které uživatelé běžně pokládají. Na základě této databáze učíme neuronovovu síť tvořit stále lepší a&nbsp;lepší
+				výsledky.
+			</p>
+		</div>
+	</div>
+{/define}
+
+{define scripts}
+	<script>
+		var boxIdIterator = 0;
+		var boxIds = [];
+		var uidIterator = 0;
+
+		function showBox(id) {
+			boxIds[boxIdIterator] = '#' + id;
+			boxIdIterator++;
+		}
+
+		$(document).ready(function () {
+			$('.search-box-loader').hide(500);
+			boxIdIterator = 0;
+			$.each(boxIds, function (key, value) {
+				$(value).delay(200 * boxIdIterator).slideDown(300);
+				boxIdIterator++;
+			});
+		});
+
+		function renderInlineStep(id) {
+			$('#' + id).slideToggle(600);
+		}
+
+		function renderAjaxStep(id, endpoint) {
+			$('#' + id).slideDown(300).html('<div style="padding: 32px">Loading...</div>');
+
+			$.get(endpoint).done(function (data) {
+				var stepBuffer = '';
+				var stepIterator = 0;
+
+				$.each(data, function (key, value) {
+					if (value.ajaxEndpoint) {
+						var uid = uidGenerator();
+					}
+					stepBuffer += ''
+						+ '<div class="row step">'
+						+ '   <div class="col-1">'
+						+ '      <div class="search-box-steps-counter d-flex align-self-center justify-content-center" style="background:#4CAF50">'
+						+ '         <div class="d-flex align-self-center justify-content-center" style="background:#4CAF50">'
+						+ '            ' + (++stepIterator)
+						+ '         </div>'
+						+ '      </div>'
+						+ '   </div>'
+						+ '   <div class="col">'
+						+ (value.title ? '<div><b>' + value.title + '</b></div>' : '')
+						+ (value.description ? '<div><p>' + value.description + '</p></div>' : '')
+						+ (value.latex ? '<div class="latex">\\\(' + value.latex + '\\\)</div>' : '')
+						+ (value.ajaxEndpoint ? '<div style="text-align:right"><input type="button" class="btn btn-primary why-button" value="Proč?" onclick="renderAjaxStep(\'' + uid + '\', \'' + value.ajaxEndpoint + '\')" style="margin:.5rem"></div>' : '')
+						+ '   </div>'
+						+ '</div>'
+						+ (value.ajaxEndpoint ? '<div id="' + uid + '" class="step-ajax-inner"></div>' : '');
+				});
+
+				setTimeout(function () {
+					$('#' + id).html(stepBuffer);
+					MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+				}, 1300);
+
+				$('#' + id).delay(600).hide(600).delay(300).slideDown(600);
+			});
+		}
+
+		function uidGenerator() {
+			uidIterator++;
+			return 'uid_' + uidIterator;
+		}
+	</script>
+{/define}

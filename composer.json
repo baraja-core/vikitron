@@ -1,0 +1,72 @@
+{
+	"name": "baraja-core/vikitron",
+	"description": "VikiTron - Smart search engine.",
+	"homepage": "https://github.com/baraja-core/vikitron",
+	"type": "project",
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">= 7.1",
+		"nette/application": "^3.0",
+		"nette/bootstrap": "^3.0",
+		"nette/caching": "^3.0",
+		"nette/database": "^3.0",
+		"nette/di": "^3.0",
+		"nette/finder": "^2.5",
+		"nette/forms": "^3.0",
+		"nette/http": "^3.0",
+		"nette/mail": "^3.0",
+		"nette/robot-loader": "^3.0",
+		"nette/security": "^3.0",
+		"nette/utils": "^3.0",
+		"latte/latte": "^2.5",
+		"tracy/tracy": "^2.6",
+		"nette/tester": "^2.0",
+		"baraja-core/package-manager": "~1.0",
+		"baraja-core/doctrine": "~1.0",
+		"mathematicator-core/search": "~1.0",
+		"mathematicator-core/engine": "~1.0",
+		"mathematicator-core/router": "~1.0",
+		"mathematicator-core/calculator": "~1.0",
+		"mathematicator-core/tokenizer": "~1.0",
+		"mathematicator-core/statistic": "~1.0",
+		"mathematicator-core/numbers": "~1.0",
+		"martindilling/sunny": "^0.5.3",
+		"janbarasek/php-moon-phase": "^2.0",
+		"symfony/console": "^4.2.3",
+		"texy/texy": "^3.0",
+		"nette/tokenizer": "3.0",
+		"ext-pdo": "*",
+		"ext-tokenizer": "*",
+		"ext-iconv": "*",
+		"ext-json": "*",
+		"ext-session": "*",
+		"ext-PDO": "*"
+	},
+	"require-dev": {
+		"nette/tester": "^2.0"
+	},
+	"minimum-stability": "stable",
+	"autoload": {
+		"classmap": [
+			"app/Booting.php"
+		]
+	},
+	"config": {
+		"platform": {
+			"php": "7.2.20"
+		}
+	},
+	"scripts": {
+		"post-autoload-dump": "Baraja\\PackageManager\\PackageRegistrator::composerPostAutoloadDump"
+	}
+}

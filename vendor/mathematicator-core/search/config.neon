@@ -1,0 +1,19 @@
+parameters:
+	search:
+		controllerNamespace: 'App\Model\Search\SearchController\{{name}}Controller'
+
+services:
+	- Mathematicator\Search\Search
+	search: Mathematicator\Search\SearchAccessor
+	searchConsole: Mathematicator\Search\Console
+	boxRenderer: Mathematicator\Search\Renderer
+
+	# controlers
+	- Mathematicator\SearchController\NumberController
+	- Mathematicator\SearchController\DateController
+	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
+	- Mathematicator\SearchController\SequenceController
+	- Mathematicator\SearchController\OEISController
+	- Mathematicator\SearchController\CrossMultiplicationController
+	- Mathematicator\SearchController\OtherController
+	- Mathematicator\SearchController\ErrorTooLongController

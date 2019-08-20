@@ -1,0 +1,14 @@
+services:
+	- Mathematicator\Router\Router(%math.functions%)
+
+parameters:
+	math:
+		functions:
+			- sin
+			- cos
+			- tan
+			- cotan
+			- log
+			- log\d*
+			- ln
+			- sqrt

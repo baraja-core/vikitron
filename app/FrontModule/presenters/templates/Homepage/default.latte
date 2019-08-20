@@ -1,0 +1,116 @@
+{block content}
+	<div class="container my-5">
+		<div n:if="$result === null" class="row">
+			<div class="col text-center mt-5 vikitron">
+				VikiTron
+			</div>
+		</div>
+		<div n:if="$result !== null" class="row">
+			<div class="col text-center my-2 vikitron">
+				VikiTron
+			</div>
+		</div>
+		<div n:if="$result === null" class="row">
+			<div class="col text-center mb-5">
+				<i>Power&nbsp;user</i> search engine
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<form>
+					<input name="q" id="q" value="{$query}" class="search"
+						   placeholder="Zadejte matematický dotaz a prozkoumejte výsledky s postupy">
+					<input type="submit" style="display: none">
+				</form>
+			</div>
+		</div>
+		<div n:if="$result !== null" class="row mb-5">
+			<div class="col">
+				{include '../Search/result.latte'}
+			</div>
+		</div>
+		<div n:if="$result === null" class="row my-5">
+			<div class="col">
+				<h1 class="mb-3">
+					VikiTron je projekt otevřeného znalostního vyhledávače
+				</h1>
+				<p>
+					Představte si stroj, kterému položíte <i>(téměř)</i> libovolný technický dotaz a on na základě
+					tisíců algoritmů automaticky sestaví nejlepší možnou odpověď. Nejde pouze o vyhledávání
+					v rozsáhlé databázi, ale provádí se i podrobná analýza položeného dotazu.
+					Toto není jen sen nebo sci-fi, ale <b>vyhledávač VikiTron</b>.
+				</p>
+				<p>
+					Záměrem projektu je otestovat možnosti jazyka PHP, Nette Framework a natrénování pokročilých
+					algoritmů pro řešení extrémně komplikovaných úloh, kde konvenční způsoby selhávají.
+				</p>
+				<p>
+					<b>Proč název VikiTron?</b><br>
+					Název a koncept projektu vznikl v roce 2012, když autor projektu (Jan Barášek) probíral
+					filozofické možnosti současné inteligence a strojového účení s kamarádem (Jaromír Kaňák), který
+					tento název poprvé navrhnul a nakonec se i uchytil.
+				</p>
+				<p>
+					<b>Kam dál?</b><br>
+					Toto je první testovací provoz běhu vyhledávacího jádra. Pokud se provoz osvědčí,
+					plánuji uvolnit část kódu jako opensource. Během vývoje jsem narážel na stovky náročných problémů,
+					které bylo potřeba vyřešit a díky tomu jsem získal mnoho zajímavých algoritmů, které chci
+					dále sdílet. Projekt je unikátní nejen díky nástrojům pro přirozenou analýzu dotazu, ale
+					i díky vnitřním postupům, jak se dotaz zpracovává - proti konvenčním kalkulátorům se nepoužívá
+					jen řada předem napsaných algoritmů, ale jednotlivá pravidla proti sobě "soupeří"
+					a při rozhodování se vnitřně provádí dokazování jednotlivých tvrzení (důležité závěry z argumentace
+					řešení je vždy viditelná pro uživatele po otevření sekce <b>proč?</b>).
+					<br><br>
+					O návrhu jádra a jeho vnitřní architektury budou postupně vznikat blogové články.
+					Autor přiznává, že je část systému inspirována skvělým nástrojem Wolfram alpha a linuxovým
+					Terminálem, nicméně vnitřní filozofie a implementace je jiná.
+				</p>
+				<div class="p-3" style="border: 1px solid #e85a2d">
+					Narazili jste na chybu?
+					Máte reálný nápad na zlepšení?
+					Máte užitečný algoritmus v jazyce PHP, který chcete dále sdílet?
+					<br><br>
+					Napište mi! Autorem projektu je <a href="http://facebook.com/janbarasek">Jan&nbsp;Barášek</a>,
+					<a href="mailto:jan@barasek.com">jan@barasek.com</a>,
+					<a href="http://php.baraja.cz">Osobní blog o&nbsp;PHP</a>
+				</div>
+				<p class="mt-5">
+					Aktualizováno 18. února 2019
+				</p>
+			</div>
+		</div>
+	</div>
+
+	{if $result === null}
+		<script>
+			$(document).ready(function () {
+				$('#q').focus();
+			});
+		</script>
+	{/if}
+
+	<style>
+		.vikitron {
+			font-size: 28pt;
+			color: #ff7013;
+		}
+
+		.search {
+			width: 100%;
+			border: 0;
+			background: #f5f5f5;
+			border-radius: .3em;
+			font-size: 16pt;
+			padding: .5em;
+		}
+
+		.search:focus {
+			outline: none;
+		}
+
+		h1 {
+			color: #e85a2d;
+			font-size: 18pt;
+		}
+	</style>
+{/block}

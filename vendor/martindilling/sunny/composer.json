@@ -1,0 +1,30 @@
+{
+    "name": "martindilling/sunny",
+    "type": "library",
+    "description": "Extends Carbon with sunrise/sunset functionality.",
+    "homepage": "https://github.com/martindilling/Sunny",
+    "keywords": [
+        "date",
+        "time",
+        "sunrise",
+        "sunset"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Dilling-Hansen",
+            "email": "martindilling@gmail.com",
+            "homepage": "http://martindilling.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "nesbot/carbon": "~1.8"
+    },
+    "autoload": {
+        "psr-0": {
+            "Martindilling\\Sunny": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,23 @@
+{
+	"name": "janbarasek/doctrine-pro",
+	"description": "Smart library for Doctrine with data types in entities.",
+	"homepage": "https://github.com/janbarasek/doctrine-pro",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1.0",
+		"ext-pdo": "*",
+		"ext-tokenizer": "*",
+		"symfony/console": "~3.0|~4.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

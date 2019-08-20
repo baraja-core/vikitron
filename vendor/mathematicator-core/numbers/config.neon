@@ -1,0 +1,2 @@
+services:
+	- Mathematicator\Numbers\NumberFactory

@@ -1,0 +1,9 @@
+services:
+	- Mathematicator\Engine\Engine
+	- Mathematicator\Engine\QueryNormalizer
+	- Mathematicator\Engine\Translator
+	- Model\Math\NumberRewriter
+
+orm.annotations:
+	paths:
+		Mathematicator: %appDir%/../vendor/mathematicator-core

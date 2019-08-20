@@ -1,0 +1,22 @@
+{
+	"name": "mathematicator-core/router",
+	"description": "router",
+	"homepage": "https://github.com/mathematicator-core/router",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1.0",
+		"nette/utils": "^3.0",
+		"mathematicator-core/search": "~1.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

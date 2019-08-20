@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134727421-1"></script>
+	<script n:syntax="off">
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-134727421-1');
+	</script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="{$basePath}/css/style.css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.png" type="image/x-icon">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" async
+			src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+	</script>
+
+	<script n:syntax="off" type="text/javascript">
+		window.smartlook||(function(d) {
+			var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+			var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+			c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);
+		})(document);
+		smartlook('init', '2dd38dc6a38ca500807ff0bc7069e55e24ff9894');
+	</script>
+
+	<title>{ifset title}{include title|stripHtml}{/ifset}</title>
+</head>
+
+<body>
+<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">
+	{$flash->message}
+</div>
+
+{include content}
+
+{block scripts}
+	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+	<script src="{$basePath}/js/main.js"></script>
+{/block}
+</body>
+</html>
