@@ -215,8 +215,8 @@
             "authors": [
                 {
                     "name": "Erik Scheepers",
-                    "email": "e.scheepers@linkorb.com",
-                    "role": "Packaging for composer"
+                    "role": "Packaging for composer",
+                    "email": "e.scheepers@linkorb.com"
                 },
                 {
                     "name": "Samir Shah",

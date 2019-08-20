@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a
+class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
 {
     public static $files = array (
         '59af96974553a1fc6407327354b6f47e' => __DIR__ . '/..' . '/nette/di/src/compatibility.php',
@@ -1458,11 +1458,11 @@ class ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb4db1ed0334b913447ef808b6cb8740a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$classMap;
 
         }, null, ClassLoader::class);
     }

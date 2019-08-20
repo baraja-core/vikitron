@@ -219,8 +219,8 @@
         "authors": [
             {
                 "name": "Erik Scheepers",
-                "email": "e.scheepers@linkorb.com",
-                "role": "Packaging for composer"
+                "role": "Packaging for composer",
+                "email": "e.scheepers@linkorb.com"
             },
             {
                 "name": "Samir Shah",
@@ -2072,7 +2072,7 @@
         },
         "time": "2018-07-02T15:55:56+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"
@@ -2194,7 +2194,7 @@
                 "dev-master": "3.x-dev"
             }
         },
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Ramsey\\Uuid\\": "src/"

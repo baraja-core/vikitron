@@ -100,7 +100,6 @@ class PackageRegistrator
 
 	public static function composerPostAutoloadDump(): void
 	{
-		Debugger::enable(null, __DIR__.'/../../../../log');
 		try {
 			$interactiveComposer = new InteractiveComposer(
 				new self(__DIR__ . '/../../../../', __DIR__ . '/../../../../temp/')
