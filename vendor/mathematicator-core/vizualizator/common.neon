@@ -1,0 +1,3 @@
+services:
+	- Mathematicator\Vizualizator\MathFunctionRenderer
+	- Mathematicator\Vizualizator\Renderer

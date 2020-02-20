@@ -5,7 +5,7 @@
 	"authors": [
 		{
 			"name": "Jan Barášek",
-			"homepage": "http://baraja.cz"
+			"homepage": "https://baraja.cz"
 		}
 	],
 	"require": {
@@ -18,7 +18,8 @@
 		"mathematicator-core/statistic": "~1.0",
 		"mathematicator-core/numbers": "~1.0",
 		"mathematicator-core/mandelbrot-set": "~1.0",
-		"mathematicator-core/integral-solver": "~1.0"
+		"mathematicator-core/integral-solver": "~1.0",
+		"mathematicator-core/vizualizator": "~1.0"
 	},
 	"autoload": {
 		"classmap": [

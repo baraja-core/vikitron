@@ -79,6 +79,7 @@ services:
 	baseOperation: Mathematicator\Calculator\Operation\BaseOperation
 	boxRenderer: Mathematicator\Search\Renderer
 	calculator: Mathematicator\Calculator\Calculator
+	integralSolver: Mathematicator\Integral\IntegralSolver
 	mathematicator.engine:
 		factory: Mathematicator\Engine\Engine
 		setup:
@@ -92,33 +93,35 @@ services:
 	
 	search: Mathematicator\Search\SearchAccessor
 	searchConsole: Mathematicator\Search\Console
+	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
+	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
 	- Mathematicator\Tokenizer\TokensToLatex(%math.functions%)
 	- Mathematicator\Tokenizer\Tokenizer(%math%)
-	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
 	- Mathematicator\Router\Router(%math.functions%)
 	- Baraja\Doctrine\EntityManagerDependencies
-	- Mathematicator\Step\Controller\StepPowController
-	- Mathematicator\Calculator\Operation\Factorial
-	- Mathematicator\Step\StepEndpoint
+	- Mathematicator\MathFunction\FunctionManager
 	- Mathematicator\Step\RomanIntSteps
 	- Mathematicator\Step\Controller\StepPlusController
 	- Mathematicator\Step\Controller\StepMultiplicationController
 	- Mathematicator\Step\Controller\StepSqrtController
 	- Mathematicator\Step\Controller\StepSqrtHelper
-	- Mathematicator\MathFunction\FunctionManager
+	- Mathematicator\Step\Controller\StepPowController
 	- Mathematicator\Step\Controller\StepSinController
-	- Mathematicator\Calculator\Operation\DivisionNumbers
+	- Mathematicator\MathFunction\SinFunction
 	- Mathematicator\MathFunction\AbsFunction
 	- Mathematicator\MathFunction\SqrtFunction
-	- Mathematicator\MathFunction\SinFunction
+	- Mathematicator\Calculator\Operation\Factorial
 	- Mathematicator\NewtonMethod
 	- Mathematicator\Pi
 	- Mathematicator\Tokenizer\TokensToObject
 	- Mathematicator\Statistics\StatisticsManager
+	- Mathematicator\Numbers\NumberFactory
+	- Mathematicator\Vizualizator\MathFunctionRenderer
+	- Mathematicator\Vizualizator\Renderer
+	- Mathematicator\Step\StepEndpoint
+	- Mathematicator\Calculator\Operation\DivisionNumbers
 	- Mathematicator\Calculator\Operation\PowNumber
-	- Mathematicator\Calculator\Operation\SubtractNumbers
-	- Mathematicator\Calculator\Operation\MultiplicationNumber
-	- Mathematicator\SearchController\MandelbrotSetController
+	- Mathematicator\SearchController\TreeController
 	- Baraja\Doctrine\DoctrineHelper
 	- Baraja\Doctrine\DoctrineHelperAccessor
 	- Mathematicator\Search\Search
@@ -128,9 +131,9 @@ services:
 	- Mathematicator\SearchController\SequenceController
 	- Mathematicator\SearchController\OEISController
 	- Mathematicator\SearchController\CrossMultiplicationController
-	- Mathematicator\SearchController\TreeController
-	- Baraja\Doctrine\EntityManagerDependenciesAccessor
+	- Mathematicator\SearchController\MandelbrotSetController
 	- Mathematicator\SearchController\OtherController
+	- Baraja\Doctrine\EntityManagerDependenciesAccessor
 	- Mathematicator\SearchController\ErrorTooLongController
 	- Mathematicator\NumberRewriter
 	- Mathematicator\NaturalTextFormatter
@@ -139,4 +142,6 @@ services:
 	- Mathematicator\NumberHelper
 	- Mathematicator\Step\StepFactory
 	- Mathematicator\Calculator\Operation\AddNumbers
-	- Mathematicator\Numbers\NumberFactory
+	- Mathematicator\Calculator\Operation\SubtractNumbers
+	- Mathematicator\Calculator\Operation\MultiplicationNumber
+	- Mathematicator\Integral\Solver\Solver

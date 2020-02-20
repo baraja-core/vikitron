@@ -1,0 +1,21 @@
+{
+	"name": "mathematicator-core/vizualizator",
+	"description": "Core logic for elegant graphic visualization. Render to SVG, PNG, JPG and Base64.",
+	"homepage": "https://github.com/mathematicator-core/vizualizator",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "https://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"nette/utils": "^3.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

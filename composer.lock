@@ -629,16 +629,16 @@
         },
         {
             "name": "mathematicator-core/search",
-            "version": "v1.0.13",
+            "version": "v1.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/search.git",
-                "reference": "5d3ac7a26e360631d5eb585c663f86b56338cb5b"
+                "reference": "e7063832a0d06781a071bebf40fb2eadeaa8be9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/search/zipball/5d3ac7a26e360631d5eb585c663f86b56338cb5b",
-                "reference": "5d3ac7a26e360631d5eb585c663f86b56338cb5b",
+                "url": "https://api.github.com/repos/mathematicator-core/search/zipball/e7063832a0d06781a071bebf40fb2eadeaa8be9f",
+                "reference": "e7063832a0d06781a071bebf40fb2eadeaa8be9f",
                 "shasum": ""
             },
             "require": {
@@ -650,6 +650,7 @@
                 "mathematicator-core/router": "~1.0",
                 "mathematicator-core/statistic": "~1.0",
                 "mathematicator-core/tokenizer": "~1.0",
+                "mathematicator-core/vizualizator": "~1.0",
                 "nette/utils": "^3.0",
                 "php": ">=7.1"
             },
@@ -663,12 +664,12 @@
             "authors": [
                 {
                     "name": "Jan Barášek",
-                    "homepage": "http://baraja.cz"
+                    "homepage": "https://baraja.cz"
                 }
             ],
             "description": "Mathematicator advance search engine.",
             "homepage": "https://github.com/mathematicator-core/search",
-            "time": "2019-12-26T22:26:49+00:00"
+            "time": "2020-02-20T08:45:29+00:00"
         },
         {
             "name": "mathematicator-core/statistic",
@@ -745,6 +746,41 @@
             "description": "Math Tokenizer",
             "homepage": "https://github.com/mathematicator-core/tokenizer",
             "time": "2020-01-23T11:08:28+00:00"
+        },
+        {
+            "name": "mathematicator-core/vizualizator",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mathematicator-core/vizualizator.git",
+                "reference": "f5e02add3321b7c17f091e226d4b03d3d5e8f2a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mathematicator-core/vizualizator/zipball/f5e02add3321b7c17f091e226d4b03d3d5e8f2a0",
+                "reference": "f5e02add3321b7c17f091e226d4b03d3d5e8f2a0",
+                "shasum": ""
+            },
+            "require": {
+                "nette/utils": "^3.0",
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Jan Barášek",
+                    "homepage": "https://baraja.cz"
+                }
+            ],
+            "description": "Core logic for elegant graphic visualization. Render to SVG, PNG, JPG and Base64.",
+            "homepage": "https://github.com/mathematicator-core/vizualizator",
+            "time": "2019-11-01T16:24:46+00:00"
         },
         {
             "name": "nesbot/carbon",

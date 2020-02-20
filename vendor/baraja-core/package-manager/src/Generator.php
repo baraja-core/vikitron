@@ -81,7 +81,7 @@ final class Generator
 
 	/**
 	 * @param string[][] $composer
-	 * @return string[][]|string[][][]|string[][][][]
+	 * @return mixed[]
 	 * @throws PackageDescriptorException
 	 */
 	private function getPackages(array $composer): array
@@ -94,7 +94,22 @@ final class Generator
 			$packagesVersions = [];
 		}
 
-		foreach (array_merge($composer['require'], $packagesVersions) as $name => $dependency) {
+		$packageDirs = array_merge($composer['require'], $packagesVersions);
+
+		// Find other packages
+		foreach (new \DirectoryIterator($this->projectRoot . '/vendor') as $vendorNamespace) {
+			if ($vendorNamespace->isDir() === true && ($namespace = $vendorNamespace->getFilename()) !== '.' && $namespace !== '..') {
+				foreach (new \DirectoryIterator($this->projectRoot . '/vendor/' . $namespace) as $packageName) {
+					if ($packageName->isDir() === true && ($name = $packageName->getFilename()) !== '.' && $name !== '..'
+						&& isset($packageDirs[$package = $namespace . '/' . $name]) === false
+					) {
+						$packageDirs[$package] = '*';
+					}
+				}
+			}
+		}
+
+		foreach ($packageDirs as $name => $dependency) {
 			if (is_dir($path = $this->projectRoot . '/vendor/' . ($name = mb_strtolower($name, 'UTF-8'))) === false) {
 				continue;
 			}
