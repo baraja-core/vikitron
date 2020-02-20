@@ -1,0 +1,25 @@
+{
+	"name": "mathematicator-core/mandelbrot-set",
+	"description": "Mandelbrot set simple PHP Generator.",
+	"homepage": "https://github.com/mathematicator-core/mandelbrot-set",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "http://baraja.cz"
+		},
+		{
+			"name": "Pavol Hejný",
+			"homepage": "https://www.pavolhejny.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"nette/utils": "^3.0"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"minimum-stability": "stable"
+}

@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\SearchController;
+
 
 use Mathematicator\Calculator\Operation\AddNumbers;
 use Mathematicator\Engine\Source;
 use Mathematicator\Search\Box;
 use Mathematicator\Statistics\Entity\Sequence;
+use Mathematicator\Statistics\StatisticsManager;
+use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Tokenizer;
-use Model\Math\Statistics\StatisticsManager;
-use Model\Math\Step\StepFactory;
 use Nette\Application\LinkGenerator;
 use Nette\Utils\Strings;
 
@@ -125,7 +128,7 @@ class SequenceController extends BaseController
 				$calculate = $this->addNumbers->process($sum, $numberToken);
 
 				$step = $this->stepFactory->create();
-				$step->setLatex($sum);
+				$step->setLatex((string) $sum);
 				$step->setTitle($calculate->getTitle());
 				$step->setDescription($calculate->getDescription());
 
@@ -136,7 +139,7 @@ class SequenceController extends BaseController
 
 		if ($sum !== null) {
 			$step = $this->stepFactory->create();
-			$step->setLatex($sum->getNumber());
+			$step->setLatex((string) $sum->getNumber());
 			$step->setTitle('Součet řady');
 
 			$sumSteps[] = $step;
@@ -255,14 +258,13 @@ class SequenceController extends BaseController
 		return $return;
 	}
 
-
 	/**
 	 * @param string $data
 	 * @return string
 	 */
 	private function formatLinks(string $data): string
 	{
-		return preg_replace_callback('/\s(A\d{6})\s/', function (array $row) {
+		return (string) preg_replace_callback('/\s(A\d{6})\s/', function (array $row): string {
 			return ' <a href="' . $this->linkToSearch($row[1]) . '">' . $row[1] . '</a> ';
 		}, $data);
 	}

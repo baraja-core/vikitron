@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
+
 
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Nette\SmartObject;
 
 /**
  * @property NumberToken $number
- * @property null|string $title
- * @property null|string $description
- * @property null|string $ajaxEndpoint
+ * @property string|null $title
+ * @property string|null $description
+ * @property string|null $ajaxEndpoint
  */
 class NumberOperationResult
 {
@@ -22,17 +25,17 @@ class NumberOperationResult
 	private $number;
 
 	/**
-	 * @var null|string
+	 * @var string|null
 	 */
 	private $title;
 
 	/**
-	 * @var null|string
+	 * @var string|null
 	 */
 	private $description;
 
 	/**
-	 * @var null|string
+	 * @var string|null
 	 */
 	private $ajaxEndpoint;
 
@@ -51,14 +54,17 @@ class NumberOperationResult
 
 	/**
 	 * @param NumberToken $number
+	 * @return NumberOperationResult
 	 */
-	public function setNumber(NumberToken $number): void
+	public function setNumber(NumberToken $number): self
 	{
 		$this->number = $number;
+
+		return $this;
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getDescription(): ?string
 	{
@@ -67,14 +73,17 @@ class NumberOperationResult
 
 	/**
 	 * @param string $description
+	 * @return NumberOperationResult
 	 */
-	public function setDescription(string $description): void
+	public function setDescription(string $description): self
 	{
 		$this->description = $description;
+
+		return $this;
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getTitle(): ?string
 	{
@@ -83,14 +92,17 @@ class NumberOperationResult
 
 	/**
 	 * @param string|null $title
+	 * @return NumberOperationResult
 	 */
-	public function setTitle(string $title = null): void
+	public function setTitle(string $title = null): self
 	{
 		$this->title = $title;
+
+		return $this;
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getAjaxEndpoint(): ?string
 	{
@@ -99,10 +111,13 @@ class NumberOperationResult
 
 	/**
 	 * @param string|null $ajaxEndpoint
+	 * @return NumberOperationResult
 	 */
-	public function setAjaxEndpoint(string $ajaxEndpoint = null): void
+	public function setAjaxEndpoint(string $ajaxEndpoint = null): self
 	{
 		$this->ajaxEndpoint = $ajaxEndpoint;
+
+		return $this;
 	}
 
 	/**
@@ -115,10 +130,13 @@ class NumberOperationResult
 
 	/**
 	 * @param int $iteratorStep
+	 * @return NumberOperationResult
 	 */
-	public function setIteratorStep(int $iteratorStep): void
+	public function setIteratorStep(int $iteratorStep): self
 	{
 		$this->iteratorStep = $iteratorStep;
+
+		return $this;
 	}
 
 }

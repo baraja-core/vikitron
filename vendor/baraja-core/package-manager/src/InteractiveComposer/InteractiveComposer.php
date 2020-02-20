@@ -12,7 +12,7 @@ use Baraja\PackageManager\Composer\ConfigLocalNeonTask;
 use Baraja\PackageManager\Composer\ITask;
 use Baraja\PackageManager\Exception\TaskException;
 
-class InteractiveComposer
+final class InteractiveComposer
 {
 
 	/**

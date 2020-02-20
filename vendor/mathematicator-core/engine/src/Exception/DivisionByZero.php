@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Engine;
 
 
@@ -12,15 +14,13 @@ class DivisionByZero extends MathErrorException
 	private $fraction;
 
 	/**
-	 * DivisionByZero constructor.
-	 *
 	 * @param string $message
 	 * @param int $code
-	 * @param null $previous
-	 * @param string[] $fraction
-	 * @throws \Exception
+	 * @param \Exception|null $previous
+	 * @param array $fraction
+	 * @throws MathematicatorException
 	 */
-	public function __construct($message, $code = 0, $previous = null, array $fraction)
+	public function __construct(string $message, int $code = 0, \Exception $previous = null, array $fraction = [])
 	{
 		parent::__construct($message, $code, $previous);
 

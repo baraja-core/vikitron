@@ -50,7 +50,8 @@
 		"ext-iconv": "*",
 		"ext-json": "*",
 		"ext-session": "*",
-		"ext-PDO": "*"
+		"ext-PDO": "*",
+		"ext-bcmath": "*"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"

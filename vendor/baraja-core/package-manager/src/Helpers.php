@@ -6,19 +6,24 @@ namespace Baraja\PackageManager;
 
 
 use Baraja\PackageManager\Exception\PackageDescriptorException;
-use Nette\StaticClass;
 
-class Helpers
+final class Helpers
 {
 
-	use StaticClass;
+	/**
+	 * @throws \Error
+	 */
+	public function __construct()
+	{
+		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
+	}
 
 	/**
 	 * @param mixed[] $array1
 	 * @param mixed[] $array2
-	 * @return mixed
+	 * @return mixed[]
 	 */
-	public static function recursiveMerge(array &$array1, array &$array2)
+	public static function recursiveMerge(array &$array1, array &$array2): array
 	{
 		$merged = $array1;
 
@@ -44,12 +49,8 @@ class Helpers
 		static $disabled;
 
 		if (\function_exists($functionName)) {
-			if ($disabled === null) {
-				$disableFunctions = ini_get('disable_functions');
-
-				if (\is_string($disableFunctions)) {
-					$disabled = explode(',', $disableFunctions) ? : [];
-				}
+			if ($disabled === null && \is_string($disableFunctions = ini_get('disable_functions'))) {
+				$disabled = explode(',', $disableFunctions) ? : [];
 			}
 
 			return \in_array($functionName, $disabled, true) === false;
@@ -67,14 +68,12 @@ class Helpers
 	public static function terminalRenderCode(string $path, int $line = null): void
 	{
 		echo "\n" . $path . ($line === null ? '' : ' [on line ' . $line . ']') . "\n\n";
-		if (\is_file($path)) {
+		if (\is_file($path) === true) {
 			echo '----- file -----' . "\n";
-			$file = str_replace(["\r\n", "\r"], "\n", (string) file_get_contents($path));
-			$fileParser = explode("\n", $file);
-			$start = $line > 8 ? $line - 8 : 0;
+			$fileParser = explode("\n", str_replace(["\r\n", "\r"], "\n", (string) file_get_contents($path)));
 
-			for ($i = $start; $i <= $start + 15; $i++) {
-				if (!isset($fileParser[$i])) {
+			for ($i = ($start = $line > 8 ? $line - 8 : 0); $i <= $start + 15; $i++) {
+				if (isset($fileParser[$i]) === false) {
 					break;
 				}
 
@@ -135,10 +134,9 @@ class Helpers
 			throw new PackageDescriptorException('Problem with opening "php://stdin".');
 		}
 
-		$input = trim((string) fgets($fOpen));
 		echo "\n";
 
-		$input = $input === '' ? null : $input;
+		$input = ($input = trim((string) fgets($fOpen))) === '' ? null : $input;
 
 		if ($possibilities !== [] && $possibilities !== null) {
 			if (\in_array($input, $possibilities, true)) {

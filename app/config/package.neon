@@ -1,3 +1,13 @@
+extensions:
+	packageManagerExtension: Baraja\PackageManager\PackageManagerExtension
+	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	dbal: Baraja\Doctrine\DBAL\DI\DbalExtension
+	dbal.console: Baraja\Doctrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
+	orm: Baraja\Doctrine\ORM\DI\OrmExtension
+	orm.console: Baraja\Doctrine\ORM\DI\OrmConsoleExtension
+	orm.annotations: Baraja\Doctrine\ORM\DI\OrmAnnotationsExtension
+	baraja.database: Baraja\Doctrine\DatabaseExtension
+
 parameters:
 	packageRegistrator:
 		customPackagesNamePatterns:
@@ -12,7 +22,7 @@ parameters:
 			driver: mysqli
 	
 	search:
-		controllerNamespace: "App\\Model\\Search\\SearchController\\{{name}}Controller"
+		controllerNamespace: "Mathematicator\\SearchController\\{{name}}Controller"
 	
 	math:
 		functions:
@@ -27,15 +37,6 @@ parameters:
 
 tracy:
 	showLocation: true
-
-extensions:
-	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
-	dbal: Baraja\Doctrine\DBAL\DI\DbalExtension
-	dbal.console: Baraja\Doctrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
-	orm: Baraja\Doctrine\ORM\DI\OrmExtension
-	orm.console: Baraja\Doctrine\ORM\DI\OrmConsoleExtension
-	orm.annotations: Baraja\Doctrine\ORM\DI\OrmAnnotationsExtension
-	baraja.database: Baraja\Doctrine\DatabaseExtension
 
 dbal:
 	debug: %debugMode%
@@ -52,6 +53,10 @@ orm:
 baraja.database:
 	types:
 		uuid: Baraja\Doctrine\UUID\UuidType
+		uuid-binary: Baraja\Doctrine\UUID\UuidBinaryType
+	
+	propertyIgnoreAnnotations:
+		- sample
 
 orm.annotations:
 	paths:
@@ -67,57 +72,71 @@ console:
 	version: "3.0"
 	catchExceptions: true
 	autoExit: true
-	url: http://baraja.cz
+	url: https://baraja.cz
 	lazy: false
 
 services:
 	baseOperation: Mathematicator\Calculator\Operation\BaseOperation
 	boxRenderer: Mathematicator\Search\Renderer
 	calculator: Mathematicator\Calculator\Calculator
+	mathematicator.engine:
+		factory: Mathematicator\Engine\Engine
+		setup:
+			- addExtraModule(@Mathematicator\Engine\SampleModule)
+	
+	mathematicator.queryNormalizer:
+		factory: Mathematicator\Engine\QueryNormalizer
+	
+	mathematicator.translator:
+		factory: Mathematicator\Engine\Translator
+	
 	search: Mathematicator\Search\SearchAccessor
 	searchConsole: Mathematicator\Search\Console
 	- Mathematicator\Tokenizer\TokensToLatex(%math.functions%)
-	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
 	- Mathematicator\Tokenizer\Tokenizer(%math%)
+	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
 	- Mathematicator\Router\Router(%math.functions%)
-	- Baraja\Doctrine\DoctrineHelper
-	- Model\Math\Step\Controller\StepPowController
-	- Model\Math\Step\StepEndpoint
-	- Math\Steps\Model\RomanIntSteps
-	- Model\Math\Step\Controller\StepPlusController
-	- Model\Math\Step\Controller\StepMultiplicationController
-	- Model\Math\Step\Controller\StepSqrtController
-	- Model\Math\Step\Controller\StepSqrtHelper
-	- Model\Math\MathFunction\AbsFunction
-	- Model\Math\Step\Controller\StepSinController
-	- Model\Math\MathFunction\FunctionManager
-	- Mathematicator\Calculator\Operation\PowNumber
-	- Model\Math\MathFunction\SqrtFunction
-	- Model\Math\MathFunction\SinFunction
-	- Model\Math\NewtonMethod
-	- Model\Math\Pi
-	- Mathematicator\Tokenizer\TokensToObject
-	- Model\Math\Statistics\StatisticsManager
+	- Baraja\Doctrine\EntityManagerDependencies
+	- Mathematicator\Step\Controller\StepPowController
 	- Mathematicator\Calculator\Operation\Factorial
-	- Mathematicator\Calculator\Operation\MultiplicationNumber
+	- Mathematicator\Step\StepEndpoint
+	- Mathematicator\Step\RomanIntSteps
+	- Mathematicator\Step\Controller\StepPlusController
+	- Mathematicator\Step\Controller\StepMultiplicationController
+	- Mathematicator\Step\Controller\StepSqrtController
+	- Mathematicator\Step\Controller\StepSqrtHelper
+	- Mathematicator\MathFunction\FunctionManager
+	- Mathematicator\Step\Controller\StepSinController
 	- Mathematicator\Calculator\Operation\DivisionNumbers
-	- Mathematicator\Engine\Engine
+	- Mathematicator\MathFunction\AbsFunction
+	- Mathematicator\MathFunction\SqrtFunction
+	- Mathematicator\MathFunction\SinFunction
+	- Mathematicator\NewtonMethod
+	- Mathematicator\Pi
+	- Mathematicator\Tokenizer\TokensToObject
+	- Mathematicator\Statistics\StatisticsManager
+	- Mathematicator\Calculator\Operation\PowNumber
+	- Mathematicator\Calculator\Operation\SubtractNumbers
+	- Mathematicator\Calculator\Operation\MultiplicationNumber
+	- Mathematicator\SearchController\MandelbrotSetController
+	- Baraja\Doctrine\DoctrineHelper
+	- Baraja\Doctrine\DoctrineHelperAccessor
 	- Mathematicator\Search\Search
 	- Mathematicator\SearchController\NumberController
 	- Mathematicator\SearchController\DateController
+	- Mathematicator\SearchController\IntegralController
 	- Mathematicator\SearchController\SequenceController
 	- Mathematicator\SearchController\OEISController
 	- Mathematicator\SearchController\CrossMultiplicationController
+	- Mathematicator\SearchController\TreeController
+	- Baraja\Doctrine\EntityManagerDependenciesAccessor
 	- Mathematicator\SearchController\OtherController
 	- Mathematicator\SearchController\ErrorTooLongController
-	- Mathematicator\Engine\QueryNormalizer
-	- Baraja\Doctrine\DoctrineHelperAccessor
-	- Mathematicator\Engine\Translator
-	- Model\Math\NumberRewriter
+	- Mathematicator\NumberRewriter
+	- Mathematicator\NaturalTextFormatter
+	- Mathematicator\Engine\SampleModule
 	- Mathematicator\Calculator\TokensCalculator
-	- App\VikiTron\Model\Number\NumberHelper
-	- Model\Math\Step\StepFactory
-	- Model\Math\NaturalTextFormatter
+	- Mathematicator\NumberHelper
+	- Mathematicator\Step\StepFactory
 	- Mathematicator\Calculator\Operation\AddNumbers
-	- Mathematicator\Calculator\Operation\SubtractNumbers
 	- Mathematicator\Numbers\NumberFactory

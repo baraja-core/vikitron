@@ -1,6 +1,6 @@
 parameters:
 	search:
-		controllerNamespace: 'App\Model\Search\SearchController\{{name}}Controller'
+		controllerNamespace: 'Mathematicator\SearchController\{{name}}Controller'
 
 services:
 	- Mathematicator\Search\Search
@@ -12,8 +12,11 @@ services:
 	- Mathematicator\SearchController\NumberController
 	- Mathematicator\SearchController\DateController
 	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
+	- Mathematicator\SearchController\IntegralController
 	- Mathematicator\SearchController\SequenceController
 	- Mathematicator\SearchController\OEISController
 	- Mathematicator\SearchController\CrossMultiplicationController
+	- Mathematicator\SearchController\MandelbrotSetController
+	- Mathematicator\SearchController\TreeController
 	- Mathematicator\SearchController\OtherController
 	- Mathematicator\SearchController\ErrorTooLongController

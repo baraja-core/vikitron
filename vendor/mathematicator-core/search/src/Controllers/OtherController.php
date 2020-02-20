@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\SearchController;
+
 
 use Mathematicator\Search\Box;
 use Nette\Application\LinkGenerator;
@@ -38,7 +41,8 @@ class OtherController extends BaseController
 				. '</div>'
 				. '</div>'
 			)
-			->setIcon('&#xE002;');
+			->setIcon('fas fa-exclamation-triangle')
+			->setTag('no-results');
 	}
 
 }

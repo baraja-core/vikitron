@@ -1,6 +1,9 @@
 <?php
 
-namespace Model\Math;
+declare(strict_types=1);
+
+namespace Mathematicator;
+
 
 class FixSpaces
 {
@@ -8,7 +11,7 @@ class FixSpaces
 	/**
 	 * @var string[]
 	 */
-	private $rules = [
+	private static $rules = [
 		'(\s|;|^)(\w)\s' => '$1$2&nbsp;',
 		'(\d)\s(let|rok.*?|g|kg|m|mm|h|hod|hodi.+?|m|min|minu.+?|s|sekun.+?|sec|second|milio.+?|miliar.+?|kč|Kč|°)([^\w])' => '$1&nbsp;$2$3',
 		'(\d)\s*(\%)' => '$1&nbsp;$2',
@@ -20,26 +23,18 @@ class FixSpaces
 	];
 
 	/**
-	 * @param array $rules
-	 */
-	public function __construct(array $rules = [])
-	{
-		$this->rules = $rules === [] ? $this->rules : array_merge($this->rules, $rules);
-	}
-
-	/**
 	 * @param string $content
 	 * @return mixed|string
 	 */
 	public function fix(string $content)
 	{
-		$content = preg_replace('/(\&nbsp\;|\s)+/', ' ', $content);
+		$content = (string) preg_replace('/(\&nbsp\;|\s)+/', ' ', $content);
 		$iterator = 0;
 
 		while (true) {
 			$origin = $content;
-			foreach ($this->rules as $pattern => $replacement) {
-				$content = preg_replace('/' . $pattern . '/', $replacement, $content);
+			foreach (self::$rules as $pattern => $replacement) {
+				$content = (string) preg_replace('/' . $pattern . '/', $replacement, $content);
 			}
 
 			$iterator++;

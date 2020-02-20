@@ -52,6 +52,7 @@ final class ComponentReflection extends \ReflectionClass
 				if (!$rp->isStatic() && self::parseAnnotation($rp, 'persistent')) {
 					$params[$name] = [
 						'def' => $default,
+						'type' => Nette\Utils\Reflection::getPropertyType($rp) ?: gettype($default),
 						'since' => $isPresenter ? Nette\Utils\Reflection::getPropertyDeclaringClass($rp)->getName() : null,
 					];
 				}
@@ -111,13 +112,12 @@ final class ComponentReflection extends \ReflectionClass
 				$params[$name] = $component->$name; // object property value
 			}
 
-			$type = gettype($meta['def']);
-			if (!self::convertType($params[$name], $type)) {
+			if (!self::convertType($params[$name], $meta['type'])) {
 				throw new InvalidLinkException(sprintf(
 					"Value passed to persistent parameter '%s' in %s must be %s, %s given.",
 					$name,
 					$component instanceof Presenter ? 'presenter ' . $component->getName() : "component '{$component->getUniqueId()}'",
-					$type === 'NULL' ? 'scalar' : $type,
+					$meta['type'] === 'NULL' ? 'scalar' : $meta['type'],
 					is_object($params[$name]) ? get_class($params[$name]) : gettype($params[$name])
 				));
 			}
@@ -154,10 +154,10 @@ final class ComponentReflection extends \ReflectionClass
 		$res = [];
 		foreach ($method->getParameters() as $i => $param) {
 			$name = $param->getName();
-			[$type, $isClass] = self::getParameterType($param);
+			$type = self::getParameterType($param);
 			if (isset($args[$name])) {
 				$res[$i] = $args[$name];
-				if (!self::convertType($res[$i], $type, $isClass)) {
+				if (!self::convertType($res[$i], $type)) {
 					throw new Nette\InvalidArgumentException(sprintf(
 						'Argument $%s passed to %s() must be %s, %s given.',
 						$name,
@@ -187,9 +187,15 @@ final class ComponentReflection extends \ReflectionClass
 	/**
 	 * Non data-loss type conversion.
 	 */
-	public static function convertType(&$val, string $type, bool $isClass = false): bool
+	public static function convertType(&$val, string $type): bool
 	{
-		if ($isClass) {
+		static $builtin = [
+			'string' => 1, 'int' => 1, 'float' => 1, 'bool' => 1, 'array' => 1, 'object' => 1,
+			'callable' => 1, 'iterable' => 1, 'void' => 1, 'null' => 1,
+			'boolean' => 1, 'integer' => 1, 'double' => 1, 'NULL' => 1,
+		];
+
+		if (empty($builtin[$type])) {
 			return $val instanceof $type;
 
 		} elseif ($type === 'callable') {
@@ -207,7 +213,7 @@ final class ComponentReflection extends \ReflectionClass
 		} else {
 			$tmp = ($val === false ? '0' : (string) $val);
 			if ($type === 'double' || $type === 'float') {
-				$tmp = preg_replace('#\.0*\z#', '', $tmp);
+				$tmp = preg_replace('#\.0*$#D', '', $tmp);
 			}
 			$orig = $tmp;
 			settype($tmp, $type);
@@ -226,7 +232,7 @@ final class ComponentReflection extends \ReflectionClass
 	 */
 	public static function parseAnnotation(\Reflector $ref, string $name): ?array
 	{
-		if (!preg_match_all('#[\\s*]@' . preg_quote($name, '#') . '(?:\(\\s*([^)]*)\\s*\)|\\s|$)#', (string) $ref->getDocComment(), $m)) {
+		if (!preg_match_all('#[\s*]@' . preg_quote($name, '#') . '(?:\(\s*([^)]*)\s*\)|\s|$)#', (string) $ref->getDocComment(), $m)) {
 			return null;
 		}
 		static $tokens = ['true' => true, 'false' => false, 'null' => null];
@@ -240,14 +246,11 @@ final class ComponentReflection extends \ReflectionClass
 	}
 
 
-	/**
-	 * @return array [string|null, bool]
-	 */
-	public static function getParameterType(\ReflectionParameter $param): array
+	public static function getParameterType(\ReflectionParameter $param): string
 	{
 		return $param->hasType()
-			? [$param->getType()->getName(), !$param->getType()->isBuiltin()]
-			: [gettype($param->isDefaultValueAvailable() ? $param->getDefaultValue() : null), false];
+			? $param->getType()->getName()
+			: gettype($param->isDefaultValueAvailable() ? $param->getDefaultValue() : null);
 	}
 
 
@@ -307,3 +310,6 @@ final class ComponentReflection extends \ReflectionClass
 		return $res;
 	}
 }
+
+
+class_exists(PresenterComponentReflection::class);

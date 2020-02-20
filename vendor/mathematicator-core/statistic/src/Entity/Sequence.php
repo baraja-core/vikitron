@@ -40,6 +40,15 @@ class Sequence
 	private $data;
 
 	/**
+	 * @param string $aId
+	 */
+	public function __construct(string $aId)
+	{
+		$this->aId = $aId;
+		$this->updateData();
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getAId(): string

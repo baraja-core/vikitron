@@ -1,17 +1,17 @@
 [
     {
         "name": "baraja-core/doctrine",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "v1.0.17",
+        "version_normalized": "1.0.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/doctrine.git",
-            "reference": "6548d4e7d73e8ebd7c5555e93449edeec0edcfbb"
+            "reference": "442502281991beb5f0833e3616e9177615334eae"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/6548d4e7d73e8ebd7c5555e93449edeec0edcfbb",
-            "reference": "6548d4e7d73e8ebd7c5555e93449edeec0edcfbb",
+            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/442502281991beb5f0833e3616e9177615334eae",
+            "reference": "442502281991beb5f0833e3616e9177615334eae",
             "shasum": ""
         },
         "require": {
@@ -27,7 +27,7 @@
             "ramsey/uuid": "^3.0",
             "symfony/console": "^4.2.3"
         },
-        "time": "2019-07-12T12:40:02+00:00",
+        "time": "2020-02-06T12:23:05+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -39,7 +39,7 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Doctrine port to Nette 3.0 with maximal performance.",
@@ -47,17 +47,17 @@
     },
     {
         "name": "baraja-core/package-manager",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.2",
+        "version_normalized": "1.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/package-manager.git",
-            "reference": "bd2fa9404e59ab2f2d7d534a9f6383d39dcc7034"
+            "reference": "d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/bd2fa9404e59ab2f2d7d534a9f6383d39dcc7034",
-            "reference": "bd2fa9404e59ab2f2d7d534a9f6383d39dcc7034",
+            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10",
+            "reference": "d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10",
             "shasum": ""
         },
         "require": {
@@ -66,7 +66,7 @@
             "nette/application": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-08-13T15:51:32+00:00",
+        "time": "2020-01-12T21:24:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -78,7 +78,7 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Search all package dependencies automatically and register to your project.",
@@ -288,17 +288,17 @@
     },
     {
         "name": "latte/latte",
-        "version": "v2.5.2",
-        "version_normalized": "2.5.2.0",
+        "version": "v2.6.1",
+        "version_normalized": "2.6.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/latte.git",
-            "reference": "c41020789756c044deb4d5d535855405c421ad08"
+            "reference": "82321e0d039d7b7e3324b5a7cb8f046a69458da9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/latte/zipball/c41020789756c044deb4d5d535855405c421ad08",
-            "reference": "c41020789756c044deb4d5d535855405c421ad08",
+            "url": "https://api.github.com/repos/nette/latte/zipball/82321e0d039d7b7e3324b5a7cb8f046a69458da9",
+            "reference": "82321e0d039d7b7e3324b5a7cb8f046a69458da9",
             "shasum": ""
         },
         "require": {
@@ -311,6 +311,8 @@
         },
         "require-dev": {
             "nette/tester": "~2.0",
+            "nette/utils": "^3.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
         "suggest": {
@@ -318,11 +320,11 @@
             "ext-mbstring": "to use filters like lower, upper, capitalize, ...",
             "nette/utils": "to use filter |webalize"
         },
-        "time": "2019-07-16T16:19:33+00:00",
+        "time": "2020-01-14T18:32:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.5-dev"
+                "dev-master": "2.6-dev"
             }
         },
         "installation-source": "dist",
@@ -334,8 +336,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -409,17 +411,17 @@
     },
     {
         "name": "mathematicator-core/calculator",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/calculator.git",
-            "reference": "0bc77686153b5c12868ec3b8b3cb1c3a9660081b"
+            "reference": "52d9bffede42d811e30c1cdede45d99edbc03982"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/0bc77686153b5c12868ec3b8b3cb1c3a9660081b",
-            "reference": "0bc77686153b5c12868ec3b8b3cb1c3a9660081b",
+            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/52d9bffede42d811e30c1cdede45d99edbc03982",
+            "reference": "52d9bffede42d811e30c1cdede45d99edbc03982",
             "shasum": ""
         },
         "require": {
@@ -430,7 +432,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-07-25T20:15:20+00:00",
+        "time": "2019-10-27T16:03:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -450,24 +452,27 @@
     },
     {
         "name": "mathematicator-core/engine",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "v1.0.8",
+        "version_normalized": "1.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/engine.git",
-            "reference": "8fd4e39d1882ed877493891d0cc4c863e747a8e8"
+            "reference": "cff88517600d10658d25773b67c05c33c716b0bd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/8fd4e39d1882ed877493891d0cc4c863e747a8e8",
-            "reference": "8fd4e39d1882ed877493891d0cc4c863e747a8e8",
+            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/cff88517600d10658d25773b67c05c33c716b0bd",
+            "reference": "cff88517600d10658d25773b67c05c33c716b0bd",
             "shasum": ""
         },
         "require": {
+            "nette/di": "^3.0",
             "nette/tester": "^2.0",
-            "php": ">=7.1"
+            "nette/utils": "^3.0",
+            "php": ">=7.1",
+            "tracy/tracy": "^2.6"
         },
-        "time": "2019-08-20T08:16:08+00:00",
+        "time": "2019-10-16T09:25:52+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -486,27 +491,108 @@
         "homepage": "https://github.com/mathematicator-core/engine"
     },
     {
-        "name": "mathematicator-core/numbers",
+        "name": "mathematicator-core/integral-solver",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mathematicator-core/integral-solver.git",
+            "reference": "36bc35207032666bf30dc973d98da2b20df4f52a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mathematicator-core/integral-solver/zipball/36bc35207032666bf30dc973d98da2b20df4f52a",
+            "reference": "36bc35207032666bf30dc973d98da2b20df4f52a",
+            "shasum": ""
+        },
+        "require": {
+            "mathematicator-core/engine": "~1.0",
+            "mathematicator-core/numbers": "~1.0",
+            "mathematicator-core/tokenizer": "~1.0",
+            "php": ">=7.1"
+        },
+        "time": "2019-10-26T21:25:06+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Jan Barášek",
+                "homepage": "https://baraja.cz"
+            }
+        ],
+        "description": "Simple package for solving integrals.",
+        "homepage": "https://github.com/mathematicator-core/integral-solver"
+    },
+    {
+        "name": "mathematicator-core/mandelbrot-set",
         "version": "v1.0.0",
         "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/mathematicator-core/numbers.git",
-            "reference": "cf06afc4d624793a6a59ba081b983cec0f34b5dc"
+            "url": "https://github.com/mathematicator-core/mandelbrot-set.git",
+            "reference": "8ac3905cff93ac5d19184584949b1e0a24f7ac9c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/cf06afc4d624793a6a59ba081b983cec0f34b5dc",
-            "reference": "cf06afc4d624793a6a59ba081b983cec0f34b5dc",
+            "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/8ac3905cff93ac5d19184584949b1e0a24f7ac9c",
+            "reference": "8ac3905cff93ac5d19184584949b1e0a24f7ac9c",
             "shasum": ""
         },
         "require": {
+            "nette/utils": "^3.0",
+            "php": ">=7.1"
+        },
+        "time": "2019-09-06T14:14:48+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Jan Barášek",
+                "homepage": "http://baraja.cz"
+            },
+            {
+                "name": "Pavol Hejný",
+                "homepage": "https://www.pavolhejny.com"
+            }
+        ],
+        "description": "Mandelbrot set simple PHP Generator.",
+        "homepage": "https://github.com/mathematicator-core/mandelbrot-set"
+    },
+    {
+        "name": "mathematicator-core/numbers",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mathematicator-core/numbers.git",
+            "reference": "c278a1c4cbbcbb73719a6352928d440b538a123b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/c278a1c4cbbcbb73719a6352928d440b538a123b",
+            "reference": "c278a1c4cbbcbb73719a6352928d440b538a123b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-bcmath": "*",
             "mathematicator-core/engine": "~1.0",
             "mathematicator-core/search": "~1.0",
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-07-25T20:21:26+00:00",
+        "time": "2019-10-17T15:37:04+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -526,17 +612,17 @@
     },
     {
         "name": "mathematicator-core/router",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/router.git",
-            "reference": "707af399043341f86cdbf83576c87f836efd65c8"
+            "reference": "33ee66391c824ba309a36116d6da6e2bcaf1b6d2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/707af399043341f86cdbf83576c87f836efd65c8",
-            "reference": "707af399043341f86cdbf83576c87f836efd65c8",
+            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/33ee66391c824ba309a36116d6da6e2bcaf1b6d2",
+            "reference": "33ee66391c824ba309a36116d6da6e2bcaf1b6d2",
             "shasum": ""
         },
         "require": {
@@ -544,7 +630,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-07-25T20:23:40+00:00",
+        "time": "2019-10-27T16:00:56+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -564,29 +650,32 @@
     },
     {
         "name": "mathematicator-core/search",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "v1.0.12",
+        "version_normalized": "1.0.12.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/search.git",
-            "reference": "ab20893c98f854cf1c390f67849caa9366ab1157"
+            "reference": "6121ba076cd5580c9f6c3230a598934e16c3fbe5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/ab20893c98f854cf1c390f67849caa9366ab1157",
-            "reference": "ab20893c98f854cf1c390f67849caa9366ab1157",
+            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/6121ba076cd5580c9f6c3230a598934e16c3fbe5",
+            "reference": "6121ba076cd5580c9f6c3230a598934e16c3fbe5",
             "shasum": ""
         },
         "require": {
             "mathematicator-core/calculator": "~1.0",
             "mathematicator-core/engine": "~1.0",
+            "mathematicator-core/integral-solver": "~1.0",
+            "mathematicator-core/mandelbrot-set": "~1.0",
             "mathematicator-core/numbers": "~1.0",
             "mathematicator-core/router": "~1.0",
             "mathematicator-core/statistic": "~1.0",
             "mathematicator-core/tokenizer": "~1.0",
+            "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-08-20T08:18:30+00:00",
+        "time": "2019-11-01T16:21:00+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -606,17 +695,17 @@
     },
     {
         "name": "mathematicator-core/statistic",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/statistic.git",
-            "reference": "a2c970501929ce1d5faae68e5ef34a72bf320bea"
+            "reference": "0a37c7db20fe3c1dfe89840caee35aab005a01a7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/a2c970501929ce1d5faae68e5ef34a72bf320bea",
-            "reference": "a2c970501929ce1d5faae68e5ef34a72bf320bea",
+            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/0a37c7db20fe3c1dfe89840caee35aab005a01a7",
+            "reference": "0a37c7db20fe3c1dfe89840caee35aab005a01a7",
             "shasum": ""
         },
         "require": {
@@ -624,7 +713,7 @@
             "nette/tester": "^2.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-08-20T08:20:49+00:00",
+        "time": "2019-08-26T08:39:14+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -644,27 +733,29 @@
     },
     {
         "name": "mathematicator-core/tokenizer",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/tokenizer.git",
-            "reference": "9bbc6a7d5b2736f083773b36b3570a2417fae3a0"
+            "reference": "e8a884d9b899cd1ff9a8d75283e97fe8af7010f7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/9bbc6a7d5b2736f083773b36b3570a2417fae3a0",
-            "reference": "9bbc6a7d5b2736f083773b36b3570a2417fae3a0",
+            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/e8a884d9b899cd1ff9a8d75283e97fe8af7010f7",
+            "reference": "e8a884d9b899cd1ff9a8d75283e97fe8af7010f7",
             "shasum": ""
         },
         "require": {
             "mathematicator-core/engine": "~1.0",
             "mathematicator-core/numbers": "~1.0",
+            "nette/di": "^3.0",
+            "nette/tester": "^2.0",
             "nette/tokenizer": "^3.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-07-25T20:29:26+00:00",
+        "time": "2019-10-27T15:53:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -684,17 +775,17 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "1.39.0",
-        "version_normalized": "1.39.0.0",
+        "version": "1.39.1",
+        "version_normalized": "1.39.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "dd62a58af4e0775a45ea5f99d0363d81b7d9a1e0"
+            "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/dd62a58af4e0775a45ea5f99d0363d81b7d9a1e0",
-            "reference": "dd62a58af4e0775a45ea5f99d0363d81b7d9a1e0",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4be0c005164249208ce1b5ca633cd57bdd42ff33",
+            "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33",
             "shasum": ""
         },
         "require": {
@@ -707,7 +798,7 @@
             "friendsofphp/php-cs-fixer": "~2",
             "phpunit/phpunit": "^4.8.35 || ^5.7"
         },
-        "time": "2019-06-11T09:07:59+00:00",
+        "time": "2019-10-14T05:51:36+00:00",
         "bin": [
             "bin/upgrade-carbon"
         ],
@@ -747,46 +838,48 @@
     },
     {
         "name": "nette/application",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.4",
+        "version_normalized": "3.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/application.git",
-            "reference": "d81167866eccf5ae19929aa759967f29989cbcbb"
+            "reference": "da24ae52e65fe52fa6d26f2181a56ec48958ccb0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/application/zipball/d81167866eccf5ae19929aa759967f29989cbcbb",
-            "reference": "d81167866eccf5ae19929aa759967f29989cbcbb",
+            "url": "https://api.github.com/repos/nette/application/zipball/da24ae52e65fe52fa6d26f2181a56ec48958ccb0",
+            "reference": "da24ae52e65fe52fa6d26f2181a56ec48958ccb0",
             "shasum": ""
         },
         "require": {
             "nette/component-model": "^3.0",
             "nette/http": "^3.0.2",
             "nette/routing": "~3.0.0",
-            "nette/utils": "^3.0",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "conflict": {
+            "latte/latte": "<2.6",
             "nette/di": "<3.0-stable",
             "nette/forms": "<3.0",
-            "nette/latte": "<3.0"
+            "tracy/tracy": "<2.5"
         },
         "require-dev": {
-            "latte/latte": "^2.5.1",
+            "latte/latte": "^2.6",
             "mockery/mockery": "^1.0",
             "nette/di": "^v3.0",
             "nette/forms": "^3.0",
             "nette/robot-loader": "^3.2",
             "nette/security": "^3.0",
-            "nette/tester": "^2.0.1",
+            "nette/tester": "^2.3.1",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.6"
         },
         "suggest": {
             "latte/latte": "Allows using Latte in templates",
             "nette/forms": "Allows to use Nette\\Application\\UI\\Form"
         },
-        "time": "2019-07-08T10:01:44+00:00",
+        "time": "2020-01-22T21:39:02+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -797,16 +890,13 @@
         "autoload": {
             "classmap": [
                 "src/"
-            ],
-            "files": [
-                "src/compatibility.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -835,23 +925,26 @@
     },
     {
         "name": "nette/bootstrap",
-        "version": "v3.0.0",
-        "version_normalized": "3.0.0.0",
+        "version": "v3.0.1",
+        "version_normalized": "3.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/bootstrap.git",
-            "reference": "e1075af05c211915e03e0c86542f3ba5433df4a3"
+            "reference": "b45a1e33b6a44beb307756522396551e5a9ff249"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/bootstrap/zipball/e1075af05c211915e03e0c86542f3ba5433df4a3",
-            "reference": "e1075af05c211915e03e0c86542f3ba5433df4a3",
+            "url": "https://api.github.com/repos/nette/bootstrap/zipball/b45a1e33b6a44beb307756522396551e5a9ff249",
+            "reference": "b45a1e33b6a44beb307756522396551e5a9ff249",
             "shasum": ""
         },
         "require": {
             "nette/di": "^3.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
+        },
+        "conflict": {
+            "tracy/tracy": "<2.6"
         },
         "require-dev": {
             "latte/latte": "^2.2",
@@ -871,7 +964,7 @@
             "nette/robot-loader": "to use Configurator::createRobotLoader()",
             "tracy/tracy": "to use Configurator::enableTracy()"
         },
-        "time": "2019-03-26T12:59:07+00:00",
+        "time": "2019-09-30T08:19:38+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -910,37 +1003,34 @@
     },
     {
         "name": "nette/caching",
-        "version": "v3.0.0",
-        "version_normalized": "3.0.0.0",
+        "version": "v3.0.1",
+        "version_normalized": "3.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/caching.git",
-            "reference": "d1abc4216f1cd42263c266af1907bbcbda4094c9"
+            "reference": "b9ecbf920f240bd1ab14900d9a77876924ad7fb4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/caching/zipball/d1abc4216f1cd42263c266af1907bbcbda4094c9",
-            "reference": "d1abc4216f1cd42263c266af1907bbcbda4094c9",
+            "url": "https://api.github.com/repos/nette/caching/zipball/b9ecbf920f240bd1ab14900d9a77876924ad7fb4",
+            "reference": "b9ecbf920f240bd1ab14900d9a77876924ad7fb4",
             "shasum": ""
         },
         "require": {
-            "nette/finder": "^2.4 || ~3.0.0",
-            "nette/utils": "^2.4 || ~3.0.0",
+            "nette/finder": "^2.4 || ^3.0",
+            "nette/utils": "^2.4 || ^3.0",
             "php": ">=7.1"
-        },
-        "conflict": {
-            "nette/nette": "<2.2"
         },
         "require-dev": {
             "latte/latte": "^2.4",
-            "nette/di": "^v3.0.0-beta2",
+            "nette/di": "^v3.0",
             "nette/tester": "^2.0",
             "tracy/tracy": "^2.4"
         },
         "suggest": {
             "ext-pdo_sqlite": "to use SQLiteStorage or SQLiteJournal"
         },
-        "time": "2019-02-05T21:28:16+00:00",
+        "time": "2019-11-19T18:41:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1044,23 +1134,23 @@
     },
     {
         "name": "nette/database",
-        "version": "v3.0.2",
-        "version_normalized": "3.0.2.0",
+        "version": "v3.0.6",
+        "version_normalized": "3.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/database.git",
-            "reference": "7c7ac131068c769862aad2164571bef9a16cc78c"
+            "reference": "daccbd526f74311549e5c81d3181fc74f87c6733"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/database/zipball/7c7ac131068c769862aad2164571bef9a16cc78c",
-            "reference": "7c7ac131068c769862aad2164571bef9a16cc78c",
+            "url": "https://api.github.com/repos/nette/database/zipball/daccbd526f74311549e5c81d3181fc74f87c6733",
+            "reference": "daccbd526f74311549e5c81d3181fc74f87c6733",
             "shasum": ""
         },
         "require": {
             "ext-pdo": "*",
             "nette/caching": "^3.0",
-            "nette/utils": "^3.0",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "conflict": {
@@ -1070,9 +1160,10 @@
             "mockery/mockery": "^1.0.0",
             "nette/di": "^v3.0",
             "nette/tester": "^2.0",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2019-07-08T10:09:11+00:00",
+        "time": "2020-02-04T12:48:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1088,8 +1179,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1118,26 +1209,26 @@
     },
     {
         "name": "nette/di",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.3",
+        "version_normalized": "3.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/di.git",
-            "reference": "4aff517a1c6bb5c36fa09733d4cea089f529de6d"
+            "reference": "77d69061cbf8f9cfb7363dd983136f51213d3e41"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/di/zipball/4aff517a1c6bb5c36fa09733d4cea089f529de6d",
-            "reference": "4aff517a1c6bb5c36fa09733d4cea089f529de6d",
+            "url": "https://api.github.com/repos/nette/di/zipball/77d69061cbf8f9cfb7363dd983136f51213d3e41",
+            "reference": "77d69061cbf8f9cfb7363dd983136f51213d3e41",
             "shasum": ""
         },
         "require": {
             "ext-tokenizer": "*",
             "nette/neon": "^3.0",
-            "nette/php-generator": "^3.2.2",
+            "nette/php-generator": "^3.3.3",
             "nette/robot-loader": "^3.2",
             "nette/schema": "^1.0",
-            "nette/utils": "^3.0",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "conflict": {
@@ -1145,9 +1236,10 @@
         },
         "require-dev": {
             "nette/tester": "^2.2",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-08-07T12:11:33+00:00",
+        "time": "2020-01-20T12:14:54+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1158,16 +1250,13 @@
         "autoload": {
             "classmap": [
                 "src/"
-            ],
-            "files": [
-                "src/compatibility.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1193,21 +1282,21 @@
     },
     {
         "name": "nette/finder",
-        "version": "v2.5.0",
-        "version_normalized": "2.5.0.0",
+        "version": "v2.5.2",
+        "version_normalized": "2.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/finder.git",
-            "reference": "6be1b83ea68ac558aff189d640abe242e0306fe2"
+            "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/finder/zipball/6be1b83ea68ac558aff189d640abe242e0306fe2",
-            "reference": "6be1b83ea68ac558aff189d640abe242e0306fe2",
+            "url": "https://api.github.com/repos/nette/finder/zipball/4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
+            "reference": "4ad2c298eb8c687dd0e74ae84206a4186eeaed50",
             "shasum": ""
         },
         "require": {
-            "nette/utils": "^2.4 || ~3.0.0",
+            "nette/utils": "^2.4 || ^3.0",
             "php": ">=7.1"
         },
         "conflict": {
@@ -1215,9 +1304,10 @@
         },
         "require-dev": {
             "nette/tester": "^2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-02-28T18:13:25+00:00",
+        "time": "2020-01-03T20:35:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1246,7 +1336,7 @@
                 "homepage": "https://nette.org/contributors"
             }
         ],
-        "description": "? Nette Finder: find files and directories with an intuitive API.",
+        "description": "🔍 Nette Finder: find files and directories with an intuitive API.",
         "homepage": "https://nette.org",
         "keywords": [
             "filesystem",
@@ -1257,17 +1347,17 @@
     },
     {
         "name": "nette/forms",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.3",
+        "version_normalized": "3.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/forms.git",
-            "reference": "b8d3a7c2004ee233f0309ac648980b7ecb3fa5cf"
+            "reference": "ec59537f26d5a9ba0ca3575f628957273e2a361a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/forms/zipball/b8d3a7c2004ee233f0309ac648980b7ecb3fa5cf",
-            "reference": "b8d3a7c2004ee233f0309ac648980b7ecb3fa5cf",
+            "url": "https://api.github.com/repos/nette/forms/zipball/ec59537f26d5a9ba0ca3575f628957273e2a361a",
+            "reference": "ec59537f26d5a9ba0ca3575f628957273e2a361a",
             "shasum": ""
         },
         "require": {
@@ -1283,9 +1373,10 @@
             "latte/latte": "^2.4.1",
             "nette/di": "^3.0",
             "nette/tester": "^2.0",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2019-07-08T09:57:57+00:00",
+        "time": "2020-01-02T16:48:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1327,17 +1418,17 @@
     },
     {
         "name": "nette/http",
-        "version": "v3.0.2",
-        "version_normalized": "3.0.2.0",
+        "version": "v3.0.3",
+        "version_normalized": "3.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/http.git",
-            "reference": "96d8a7e05e41af89569ddf8ad662c27fcf1a9a9b"
+            "reference": "1df063526343299ea7fccdf90de6575db3559ff5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/http/zipball/96d8a7e05e41af89569ddf8ad662c27fcf1a9a9b",
-            "reference": "96d8a7e05e41af89569ddf8ad662c27fcf1a9a9b",
+            "url": "https://api.github.com/repos/nette/http/zipball/1df063526343299ea7fccdf90de6575db3559ff5",
+            "reference": "1df063526343299ea7fccdf90de6575db3559ff5",
             "shasum": ""
         },
         "require": {
@@ -1356,7 +1447,7 @@
             "ext-fileinfo": "to detect type of uploaded files",
             "nette/security": "allows use Nette\\Http\\UserStorage"
         },
-        "time": "2019-07-08T20:28:51+00:00",
+        "time": "2019-10-31T15:07:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1475,33 +1566,34 @@
     },
     {
         "name": "nette/neon",
-        "version": "v3.0.0",
-        "version_normalized": "3.0.0.0",
+        "version": "v3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/neon.git",
-            "reference": "cbff32059cbdd8720deccf9e9eace6ee516f02eb"
+            "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/neon/zipball/cbff32059cbdd8720deccf9e9eace6ee516f02eb",
-            "reference": "cbff32059cbdd8720deccf9e9eace6ee516f02eb",
+            "url": "https://api.github.com/repos/nette/neon/zipball/bf658bafcf56e36cfa0922f4866869927672cf2c",
+            "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c",
             "shasum": ""
         },
         "require": {
             "ext-iconv": "*",
             "ext-json": "*",
-            "php": ">=7.0"
+            "php": ">=7.1"
         },
         "require-dev": {
             "nette/tester": "^2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-02-05T21:30:40+00:00",
+        "time": "2020-02-12T11:15:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.0-dev"
+                "dev-master": "3.1-dev"
             }
         },
         "installation-source": "dist",
@@ -1513,8 +1605,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1526,8 +1618,8 @@
                 "homepage": "https://nette.org/contributors"
             }
         ],
-        "description": "? Nette NEON: encodes and decodes NEON file format.",
-        "homepage": "http://ne-on.org",
+        "description": "🍸 Nette NEON: encodes and decodes NEON file format.",
+        "homepage": "https://ne-on.org",
         "keywords": [
             "export",
             "import",
@@ -1538,32 +1630,33 @@
     },
     {
         "name": "nette/php-generator",
-        "version": "v3.2.3",
-        "version_normalized": "3.2.3.0",
+        "version": "v3.3.4",
+        "version_normalized": "3.3.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/php-generator.git",
-            "reference": "aea6e81437bb238e5f0e5b5ce06337433908e63b"
+            "reference": "8fe7e699dca7db186f56d75800cb1ec32e39c856"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/php-generator/zipball/aea6e81437bb238e5f0e5b5ce06337433908e63b",
-            "reference": "aea6e81437bb238e5f0e5b5ce06337433908e63b",
+            "url": "https://api.github.com/repos/nette/php-generator/zipball/8fe7e699dca7db186f56d75800cb1ec32e39c856",
+            "reference": "8fe7e699dca7db186f56d75800cb1ec32e39c856",
             "shasum": ""
         },
         "require": {
-            "nette/utils": "^2.4.2 || ~3.0.0",
+            "nette/utils": "^2.4.2 || ^3.0",
             "php": ">=7.1"
         },
         "require-dev": {
             "nette/tester": "^2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-07-05T13:01:56+00:00",
+        "time": "2020-02-09T14:39:09+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.2-dev"
+                "dev-master": "3.3-dev"
             }
         },
         "installation-source": "dist",
@@ -1575,8 +1668,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1588,7 +1681,7 @@
                 "homepage": "https://nette.org/contributors"
             }
         ],
-        "description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 7.3 features.",
+        "description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 7.4 features.",
         "homepage": "https://nette.org",
         "keywords": [
             "code",
@@ -1599,30 +1692,31 @@
     },
     {
         "name": "nette/robot-loader",
-        "version": "v3.2.0",
-        "version_normalized": "3.2.0.0",
+        "version": "v3.2.1",
+        "version_normalized": "3.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/robot-loader.git",
-            "reference": "0712a0e39ae7956d6a94c0ab6ad41aa842544b5c"
+            "reference": "d2a100e1f5cab390c78bc88709abbc91249c3993"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/robot-loader/zipball/0712a0e39ae7956d6a94c0ab6ad41aa842544b5c",
-            "reference": "0712a0e39ae7956d6a94c0ab6ad41aa842544b5c",
+            "url": "https://api.github.com/repos/nette/robot-loader/zipball/d2a100e1f5cab390c78bc88709abbc91249c3993",
+            "reference": "d2a100e1f5cab390c78bc88709abbc91249c3993",
             "shasum": ""
         },
         "require": {
             "ext-tokenizer": "*",
-            "nette/finder": "^2.5",
+            "nette/finder": "^2.5 || ^3.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
         "require-dev": {
             "nette/tester": "^2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-03-08T21:57:24+00:00",
+        "time": "2019-12-26T22:32:02+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1651,7 +1745,7 @@
                 "homepage": "https://nette.org/contributors"
             }
         ],
-        "description": "? Nette RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
+        "description": "🍀 Nette RobotLoader: high performance and comfortable autoloader that will search and autoload classes within your application.",
         "homepage": "https://nette.org",
         "keywords": [
             "autoload",
@@ -1722,33 +1816,32 @@
     },
     {
         "name": "nette/schema",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.2",
+        "version_normalized": "1.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/schema.git",
-            "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d"
+            "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/schema/zipball/6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
-            "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
+            "url": "https://api.github.com/repos/nette/schema/zipball/febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
+            "reference": "febf71fb4052c824046f5a33f4f769a6e7fa0cb4",
             "shasum": ""
         },
         "require": {
-            "nette/utils": "^3.0.1",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "require-dev": {
             "nette/tester": "^2.2",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2019-04-03T15:53:25+00:00",
+        "time": "2020-01-06T22:52:48+00:00",
         "type": "library",
         "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
+            "branch-alias": []
         },
         "installation-source": "dist",
         "autoload": {
@@ -1781,21 +1874,21 @@
     },
     {
         "name": "nette/security",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.3",
+        "version_normalized": "3.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/security.git",
-            "reference": "d4525fe0bc50f8edd96ffad0c958fb7f657aa1d9"
+            "reference": "f53dcb32d1103669e9a639ebb1500ce8fc642c53"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/security/zipball/d4525fe0bc50f8edd96ffad0c958fb7f657aa1d9",
-            "reference": "d4525fe0bc50f8edd96ffad0c958fb7f657aa1d9",
+            "url": "https://api.github.com/repos/nette/security/zipball/f53dcb32d1103669e9a639ebb1500ce8fc642c53",
+            "reference": "f53dcb32d1103669e9a639ebb1500ce8fc642c53",
             "shasum": ""
         },
         "require": {
-            "nette/utils": "^2.4 || ^3.0",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "conflict": {
@@ -1805,9 +1898,10 @@
             "nette/di": "^3.0.0",
             "nette/http": "^3.0.0",
             "nette/tester": "^2.0",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2019-04-14T20:36:23+00:00",
+        "time": "2020-01-13T14:58:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1823,8 +1917,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1847,23 +1941,23 @@
     },
     {
         "name": "nette/tester",
-        "version": "v2.3.0",
-        "version_normalized": "2.3.0.0",
+        "version": "v2.3.1",
+        "version_normalized": "2.3.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/tester.git",
-            "reference": "60c71a62c2bd18903729251c0a8483c6c3397891"
+            "reference": "c3bd1b2c1074dfb957288b716c06aa7b4b5295a8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/tester/zipball/60c71a62c2bd18903729251c0a8483c6c3397891",
-            "reference": "60c71a62c2bd18903729251c0a8483c6c3397891",
+            "url": "https://api.github.com/repos/nette/tester/zipball/c3bd1b2c1074dfb957288b716c06aa7b4b5295a8",
+            "reference": "c3bd1b2c1074dfb957288b716c06aa7b4b5295a8",
             "shasum": ""
         },
         "require": {
             "php": ">=7.1"
         },
-        "time": "2019-08-11T17:02:47+00:00",
+        "time": "2019-11-19T13:19:16+00:00",
         "bin": [
             "src/tester"
         ],
@@ -1969,17 +2063,17 @@
     },
     {
         "name": "nette/utils",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/utils.git",
-            "reference": "bd961f49b211997202bda1d0fbc410905be370d4"
+            "reference": "2c17d16d8887579ae1c0898ff94a3668997fd3eb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/utils/zipball/bd961f49b211997202bda1d0fbc410905be370d4",
-            "reference": "bd961f49b211997202bda1d0fbc410905be370d4",
+            "url": "https://api.github.com/repos/nette/utils/zipball/2c17d16d8887579ae1c0898ff94a3668997fd3eb",
+            "reference": "2c17d16d8887579ae1c0898ff94a3668997fd3eb",
             "shasum": ""
         },
         "require": {
@@ -1987,6 +2081,7 @@
         },
         "require-dev": {
             "nette/tester": "~2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
         "suggest": {
@@ -1995,13 +2090,14 @@
             "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
             "ext-json": "to use Nette\\Utils\\Json",
             "ext-mbstring": "to use Strings::lower() etc...",
+            "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
             "ext-xml": "to use Strings::length() etc. when mbstring is not available"
         },
-        "time": "2019-03-22T01:00:30+00:00",
+        "time": "2020-02-09T14:10:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.0-dev"
+                "dev-master": "3.1-dev"
             }
         },
         "installation-source": "dist",
@@ -2013,8 +2109,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -2145,49 +2241,51 @@
     },
     {
         "name": "ramsey/uuid",
-        "version": "3.8.0",
-        "version_normalized": "3.8.0.0",
+        "version": "3.9.2",
+        "version_normalized": "3.9.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/ramsey/uuid.git",
-            "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3"
+            "reference": "7779489a47d443f845271badbdcedfe4df8e06fb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/ramsey/uuid/zipball/d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
-            "reference": "d09ea80159c1929d75b3f9c60504d613aeb4a1e3",
+            "url": "https://api.github.com/repos/ramsey/uuid/zipball/7779489a47d443f845271badbdcedfe4df8e06fb",
+            "reference": "7779489a47d443f845271badbdcedfe4df8e06fb",
             "shasum": ""
         },
         "require": {
-            "paragonie/random_compat": "^1.0|^2.0|9.99.99",
-            "php": "^5.4 || ^7.0",
+            "ext-json": "*",
+            "paragonie/random_compat": "^1 | ^2 | 9.99.99",
+            "php": "^5.4 | ^7 | ^8",
             "symfony/polyfill-ctype": "^1.8"
         },
         "replace": {
             "rhumsaa/uuid": "self.version"
         },
         "require-dev": {
-            "codeception/aspect-mock": "^1.0 | ~2.0.0",
-            "doctrine/annotations": "~1.2.0",
-            "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ~2.1.0",
-            "ircmaxell/random-lib": "^1.1",
-            "jakub-onderka/php-parallel-lint": "^0.9.0",
-            "mockery/mockery": "^0.9.9",
+            "codeception/aspect-mock": "^1 | ^2",
+            "doctrine/annotations": "^1.2",
+            "goaop/framework": "1.0.0-alpha.2 | ^1 | ^2.1",
+            "jakub-onderka/php-parallel-lint": "^1",
+            "mockery/mockery": "^0.9.11 | ^1",
             "moontoast/math": "^1.1",
-            "php-mock/php-mock-phpunit": "^0.3|^1.1",
-            "phpunit/phpunit": "^4.7|^5.0|^6.5",
-            "squizlabs/php_codesniffer": "^2.3"
+            "paragonie/random-lib": "^2",
+            "php-mock/php-mock-phpunit": "^0.3 | ^1.1",
+            "phpunit/phpunit": "^4.8 | ^5.4 | ^6.5",
+            "squizlabs/php_codesniffer": "^3.5"
         },
         "suggest": {
             "ext-ctype": "Provides support for PHP Ctype functions",
             "ext-libsodium": "Provides the PECL libsodium extension for use with the SodiumRandomGenerator",
+            "ext-openssl": "Provides the OpenSSL extension for use with the OpenSslGenerator",
             "ext-uuid": "Provides the PECL UUID extension for use with the PeclUuidTimeGenerator and PeclUuidRandomGenerator",
-            "ircmaxell/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
             "moontoast/math": "Provides support for converting UUID to 128-bit integer (in string form).",
+            "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
             "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
             "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
         },
-        "time": "2018-07-19T23:38:55+00:00",
+        "time": "2019-12-17T08:18:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2198,7 +2296,10 @@
         "autoload": {
             "psr-4": {
                 "Ramsey\\Uuid\\": "src/"
-            }
+            },
+            "files": [
+                "src/functions.php"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -2206,17 +2307,17 @@
         ],
         "authors": [
             {
+                "name": "Ben Ramsey",
+                "email": "ben@benramsey.com",
+                "homepage": "https://benramsey.com"
+            },
+            {
                 "name": "Marijn Huizendveld",
                 "email": "marijn.huizendveld@gmail.com"
             },
             {
                 "name": "Thibaud Fabre",
                 "email": "thibaud@aztech.io"
-            },
-            {
-                "name": "Ben Ramsey",
-                "email": "ben@benramsey.com",
-                "homepage": "https://benramsey.com"
             }
         ],
         "description": "Formerly rhumsaa/uuid. A PHP 5.4+ library for generating RFC 4122 version 1, 3, 4, and 5 universally unique identifiers (UUID).",
@@ -2229,28 +2330,29 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.3.3",
-        "version_normalized": "4.3.3.0",
+        "version": "v4.4.4",
+        "version_normalized": "4.4.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9"
+            "reference": "f512001679f37e6a042b51897ed24a2f05eba656"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9",
-            "reference": "8b0ae5742ce9aaa8b0075665862c1ca397d1c1d9",
+            "url": "https://api.github.com/repos/symfony/console/zipball/f512001679f37e6a042b51897ed24a2f05eba656",
+            "reference": "f512001679f37e6a042b51897ed24a2f05eba656",
             "shasum": ""
         },
         "require": {
             "php": "^7.1.3",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php73": "^1.8",
-            "symfony/service-contracts": "^1.1"
+            "symfony/service-contracts": "^1.1|^2"
         },
         "conflict": {
             "symfony/dependency-injection": "<3.4",
-            "symfony/event-dispatcher": "<4.3",
+            "symfony/event-dispatcher": "<4.3|>=5",
+            "symfony/lock": "<4.4",
             "symfony/process": "<3.3"
         },
         "provide": {
@@ -2258,12 +2360,12 @@
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/config": "~3.4|~4.0",
-            "symfony/dependency-injection": "~3.4|~4.0",
+            "symfony/config": "^3.4|^4.0|^5.0",
+            "symfony/dependency-injection": "^3.4|^4.0|^5.0",
             "symfony/event-dispatcher": "^4.3",
-            "symfony/lock": "~3.4|~4.0",
-            "symfony/process": "~3.4|~4.0",
-            "symfony/var-dumper": "^4.3"
+            "symfony/lock": "^4.4|^5.0",
+            "symfony/process": "^3.4|^4.0|^5.0",
+            "symfony/var-dumper": "^4.3|^5.0"
         },
         "suggest": {
             "psr/log": "For using the console logger",
@@ -2271,11 +2373,11 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2019-07-24T17:13:59+00:00",
+        "time": "2020-01-25T12:44:29+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.3-dev"
+                "dev-master": "4.4-dev"
             }
         },
         "installation-source": "dist",
@@ -2306,17 +2408,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4"
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/550ebaac289296ce228a706d0867afc34687e3f4",
-            "reference": "550ebaac289296ce228a706d0867afc34687e3f4",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
             "shasum": ""
         },
         "require": {
@@ -2325,11 +2427,11 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2020-01-13T11:15:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.14-dev"
             }
         },
         "installation-source": "dist",
@@ -2366,17 +2468,17 @@
     },
     {
         "name": "symfony/polyfill-mbstring",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-mbstring.git",
-            "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17"
+            "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/b42a2f66e8f1b15ccf25652c3424265923eb4f17",
-            "reference": "b42a2f66e8f1b15ccf25652c3424265923eb4f17",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/34094cfa9abe1f0f14f48f490772db7a775559f2",
+            "reference": "34094cfa9abe1f0f14f48f490772db7a775559f2",
             "shasum": ""
         },
         "require": {
@@ -2385,11 +2487,11 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2020-01-13T11:15:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.14-dev"
             }
         },
         "installation-source": "dist",
@@ -2427,27 +2529,27 @@
     },
     {
         "name": "symfony/polyfill-php73",
-        "version": "v1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "v1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php73.git",
-            "reference": "2ceb49eaccb9352bff54d22570276bb75ba4a188"
+            "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/2ceb49eaccb9352bff54d22570276bb75ba4a188",
-            "reference": "2ceb49eaccb9352bff54d22570276bb75ba4a188",
+            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/5e66a0fa1070bf46bec4bea7962d285108edd675",
+            "reference": "5e66a0fa1070bf46bec4bea7962d285108edd675",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2019-08-06T08:03:45+00:00",
+        "time": "2020-01-13T11:15:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.12-dev"
+                "dev-master": "1.14-dev"
             }
         },
         "installation-source": "dist",
@@ -2487,31 +2589,31 @@
     },
     {
         "name": "symfony/service-contracts",
-        "version": "v1.1.5",
-        "version_normalized": "1.1.5.0",
+        "version": "v2.0.1",
+        "version_normalized": "2.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/service-contracts.git",
-            "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d"
+            "reference": "144c5e51266b281231e947b51223ba14acf1a749"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
-            "reference": "f391a00de78ec7ec8cf5cdcdae59ec7b883edb8d",
+            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/144c5e51266b281231e947b51223ba14acf1a749",
+            "reference": "144c5e51266b281231e947b51223ba14acf1a749",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": "^7.2.5",
             "psr/container": "^1.0"
         },
         "suggest": {
             "symfony/service-implementation": ""
         },
-        "time": "2019-06-13T11:15:36+00:00",
+        "time": "2019-11-18T17:27:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.1-dev"
+                "dev-master": "2.0-dev"
             }
         },
         "installation-source": "dist",
@@ -2547,27 +2649,28 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v4.3.3",
-        "version_normalized": "4.3.3.0",
+        "version": "v4.4.4",
+        "version_normalized": "4.4.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "4e3e39cc485304f807622bdc64938e4633396406"
+            "reference": "f5d2ac46930238b30a9c2f1b17c905f3697d808c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/4e3e39cc485304f807622bdc64938e4633396406",
-            "reference": "4e3e39cc485304f807622bdc64938e4633396406",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/f5d2ac46930238b30a9c2f1b17c905f3697d808c",
+            "reference": "f5d2ac46930238b30a9c2f1b17c905f3697d808c",
             "shasum": ""
         },
         "require": {
             "php": "^7.1.3",
             "symfony/polyfill-mbstring": "~1.0",
-            "symfony/translation-contracts": "^1.1.2"
+            "symfony/translation-contracts": "^1.1.6|^2"
         },
         "conflict": {
             "symfony/config": "<3.4",
             "symfony/dependency-injection": "<3.4",
+            "symfony/http-kernel": "<4.4",
             "symfony/yaml": "<3.4"
         },
         "provide": {
@@ -2575,26 +2678,25 @@
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/config": "~3.4|~4.0",
-            "symfony/console": "~3.4|~4.0",
-            "symfony/dependency-injection": "~3.4|~4.0",
-            "symfony/finder": "~2.8|~3.0|~4.0",
-            "symfony/http-kernel": "~3.4|~4.0",
-            "symfony/intl": "~3.4|~4.0",
-            "symfony/service-contracts": "^1.1.2",
-            "symfony/var-dumper": "~3.4|~4.0",
-            "symfony/yaml": "~3.4|~4.0"
+            "symfony/config": "^3.4|^4.0|^5.0",
+            "symfony/console": "^3.4|^4.0|^5.0",
+            "symfony/dependency-injection": "^3.4|^4.0|^5.0",
+            "symfony/finder": "~2.8|~3.0|~4.0|^5.0",
+            "symfony/http-kernel": "^4.4",
+            "symfony/intl": "^3.4|^4.0|^5.0",
+            "symfony/service-contracts": "^1.1.2|^2",
+            "symfony/yaml": "^3.4|^4.0|^5.0"
         },
         "suggest": {
             "psr/log-implementation": "To use logging capability in translator",
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2019-07-18T10:34:59+00:00",
+        "time": "2020-01-15T13:29:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.3-dev"
+                "dev-master": "4.4-dev"
             }
         },
         "installation-source": "dist",
@@ -2625,30 +2727,30 @@
     },
     {
         "name": "symfony/translation-contracts",
-        "version": "v1.1.5",
-        "version_normalized": "1.1.5.0",
+        "version": "v2.0.1",
+        "version_normalized": "2.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation-contracts.git",
-            "reference": "cb4b18ad7b92a26e83b65dde940fab78339e6f3c"
+            "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/cb4b18ad7b92a26e83b65dde940fab78339e6f3c",
-            "reference": "cb4b18ad7b92a26e83b65dde940fab78339e6f3c",
+            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8cc682ac458d75557203b2f2f14b0b92e1c744ed",
+            "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3"
+            "php": "^7.2.5"
         },
         "suggest": {
             "symfony/translation-implementation": ""
         },
-        "time": "2019-06-13T11:15:36+00:00",
+        "time": "2019-11-18T17:27:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.1-dev"
+                "dev-master": "2.0-dev"
             }
         },
         "installation-source": "dist",
@@ -2684,17 +2786,17 @@
     },
     {
         "name": "texy/texy",
-        "version": "v3.0.0",
-        "version_normalized": "3.0.0.0",
+        "version": "v3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dg/texy.git",
-            "reference": "3b9a25e779f7610f68870fe967c7f0e444a85c1a"
+            "reference": "6f7a7fee99adcfef053237fecb790ae449957275"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dg/texy/zipball/3b9a25e779f7610f68870fe967c7f0e444a85c1a",
-            "reference": "3b9a25e779f7610f68870fe967c7f0e444a85c1a",
+            "url": "https://api.github.com/repos/dg/texy/zipball/6f7a7fee99adcfef053237fecb790ae449957275",
+            "reference": "6f7a7fee99adcfef053237fecb790ae449957275",
             "shasum": ""
         },
         "require": {
@@ -2704,30 +2806,29 @@
             "dg/texy": "*"
         },
         "require-dev": {
+            "latte/latte": "^2.6",
             "nette/tester": "^2.0",
+            "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2019-02-13T17:18:44+00:00",
+        "time": "2020-01-20T20:23:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.0-dev"
+                "dev-master": "3.1-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "classmap": [
                 "src/"
-            ],
-            "files": [
-                "src/texy.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -2745,23 +2846,22 @@
             "text",
             "textile",
             "texy",
-            "wiki",
-            "xhtml"
+            "wiki"
         ]
     },
     {
         "name": "tracy/tracy",
-        "version": "v2.6.4",
-        "version_normalized": "2.6.4.0",
+        "version": "v2.7.2",
+        "version_normalized": "2.7.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/tracy.git",
-            "reference": "cad2ec2c40cee828ce5538a4bc5bbde7045a7c1b"
+            "reference": "d28ebdf7ab8d88f231310aef1e8cce965ea0b2ca"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/tracy/zipball/cad2ec2c40cee828ce5538a4bc5bbde7045a7c1b",
-            "reference": "cad2ec2c40cee828ce5538a4bc5bbde7045a7c1b",
+            "url": "https://api.github.com/repos/nette/tracy/zipball/d28ebdf7ab8d88f231310aef1e8cce965ea0b2ca",
+            "reference": "d28ebdf7ab8d88f231310aef1e8cce965ea0b2ca",
             "shasum": ""
         },
         "require": {
@@ -2769,20 +2869,24 @@
             "ext-session": "*",
             "php": ">=7.1"
         },
+        "conflict": {
+            "nette/di": "<3.0"
+        },
         "require-dev": {
-            "nette/di": "^2.4 || ~3.0.0",
+            "nette/di": "^3.0",
             "nette/tester": "^2.2",
-            "nette/utils": "^2.4 || ^3.0",
+            "nette/utils": "^3.0",
+            "phpstan/phpstan": "^0.12",
             "psr/log": "^1.0"
         },
         "suggest": {
             "https://nette.org/donate": "Please support Tracy via a donation"
         },
-        "time": "2019-07-16T14:23:55+00:00",
+        "time": "2019-12-15T22:48:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.7-dev"
             }
         },
         "installation-source": "dist",

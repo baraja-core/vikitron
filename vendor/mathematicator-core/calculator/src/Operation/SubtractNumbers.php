@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
 
 
 use Mathematicator\Numbers\NumberFactory;
+use Mathematicator\Search\Query;
 use Mathematicator\Tokenizer\Token\NumberToken;
 
 class SubtractNumbers
@@ -14,32 +17,32 @@ class SubtractNumbers
 	 */
 	private $numberFactory;
 
-	/**
-	 * @var int
-	 */
-	private $tolerance;
-
 	public function __construct(NumberFactory $numberFactory)
 	{
 		$this->numberFactory = $numberFactory;
-		$this->tolerance = 100;
 	}
 
-	public function process(NumberToken $left, NumberToken $right)
+	/**
+	 * @param NumberToken $left
+	 * @param NumberToken $right
+	 * @param Query $query
+	 * @return NumberOperationResult
+	 */
+	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
 		if ($left->getNumber()->isInteger() && $right->getNumber()->isInteger()) {
-			$result = bcsub($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $this->tolerance);
+			$result = bcsub($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $query->getDecimals());
 		} else {
 			$leftFraction = $left->getNumber()->getFraction();
 			$rightFraction = $right->getNumber()->getFraction();
 
 			$result = bcsub(
-					bcmul($rightFraction[1], $leftFraction[0], $this->tolerance),
-					bcmul($leftFraction[1], $rightFraction[0], $this->tolerance),
-					$this->tolerance
+					bcmul($rightFraction[1], $leftFraction[0], $query->getDecimals()),
+					bcmul($leftFraction[1], $rightFraction[0], $query->getDecimals()),
+					$query->getDecimals()
 				)
 				. '/'
-				. bcmul($leftFraction[1], $rightFraction[1], $this->tolerance);
+				. bcmul($leftFraction[1], $rightFraction[1], $query->getDecimals());
 		}
 
 		$newNumber = new NumberToken($this->numberFactory->create($result));
@@ -47,15 +50,13 @@ class SubtractNumbers
 		$newNumber->setPosition($left->getPosition());
 		$newNumber->setType('number');
 
-		$result = new NumberOperationResult();
-		$result->setNumber($newNumber);
-		$result->setDescription(
-			'Odčítání čísel '
-			. $left->getNumber()->getHumanString()
-			. ' - ' . $right->getNumber()->getHumanString()
-		);
-
-		return $result;
+		return (new NumberOperationResult)
+			->setNumber($newNumber)
+			->setDescription(
+				'Odčítání čísel '
+				. $left->getNumber()->getHumanString()
+				. ' - ' . $right->getNumber()->getHumanString()
+			);
 	}
 
 }

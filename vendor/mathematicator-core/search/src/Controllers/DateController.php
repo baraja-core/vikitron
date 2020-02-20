@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\SearchController;
 
 
@@ -25,7 +27,6 @@ class DateController extends BaseController
 	public function actionDefault(): void
 	{
 		$date = DateTime::from($this->getQuery());
-		$timestamp = $date->getTimestamp();
 
 		$this->setInterpret(
 			Box::TYPE_HTML,
@@ -37,7 +38,7 @@ class DateController extends BaseController
 			. '</div>'
 		);
 
-		$dates = $this->getDates($date->format('Y'));
+		$dates = $this->getDates((int) $date->format('Y'));
 
 		$this->renderCalendar($date, $dates);
 		$this->sun($date);
@@ -132,14 +133,14 @@ class DateController extends BaseController
 
 		$phaseTable = '';
 		$phaseData = [
-			'Nov' => date('d. m. Y', $moon->getNewMoon())
-				. ' (další: ' . date('d. m. Y', $moon->getNextNewMoon()) . ')',
-			'První čtvrť' => date('d. m. Y', $moon->getFirstQuarter())
-				. ' (další: ' . date('d. m. Y', $moon->getNextFirstQuarter()) . ')',
-			'Úplněk' => date('d. m. Y', $moon->getFullMoon())
-				. ' (další: ' . date('d. m. Y', $moon->getNextFullMoon()) . ')',
-			'Poslední čtvrť' => date('d. m. Y', $moon->getLastQuarter())
-				. ' (další: ' . date('d. m. Y', $moon->getNextLastQuarter()) . ')',
+			'Nov' => date('d. m. Y', (int) $moon->getNewMoon())
+				. ' (další: ' . date('d. m. Y', (int) $moon->getNextNewMoon()) . ')',
+			'První čtvrť' => date('d. m. Y', (int) $moon->getFirstQuarter())
+				. ' (další: ' . date('d. m. Y', (int) $moon->getNextFirstQuarter()) . ')',
+			'Úplněk' => date('d. m. Y', (int) $moon->getFullMoon())
+				. ' (další: ' . date('d. m. Y', (int) $moon->getNextFullMoon()) . ')',
+			'Poslední čtvrť' => date('d. m. Y', (int) $moon->getLastQuarter())
+				. ' (další: ' . date('d. m. Y', (int) $moon->getNextLastQuarter()) . ')',
 		];
 
 		foreach ($phaseData as $phaseKey => $phaseValue) {

@@ -53,6 +53,12 @@ class User
 	/** @var IAuthorizator|null */
 	private $authorizator;
 
+	/** @var IIdentity|null|false  false means undefined */
+	private $identity = false;
+
+	/** @var bool|null */
+	private $authenticated;
+
 
 	public function __construct(IUserStorage $storage, IAuthenticator $authenticator = null, IAuthorizator $authorizator = null)
 	{
@@ -84,6 +90,8 @@ class User
 		}
 		$this->storage->setIdentity($user);
 		$this->storage->setAuthenticated(true);
+		$this->identity = $user;
+		$this->authenticated = true;
 		$this->onLoggedIn($this);
 	}
 
@@ -96,9 +104,11 @@ class User
 		if ($this->isLoggedIn()) {
 			$this->onLoggedOut($this);
 			$this->storage->setAuthenticated(false);
+			$this->authenticated = false;
 		}
 		if ($clearIdentity) {
 			$this->storage->setIdentity(null);
+			$this->identity = null;
 		}
 	}
 
@@ -108,7 +118,10 @@ class User
 	 */
 	final public function isLoggedIn(): bool
 	{
-		return $this->storage->isAuthenticated();
+		if ($this->authenticated === null) {
+			$this->authenticated = $this->storage->isAuthenticated();
+		}
+		return $this->authenticated;
 	}
 
 
@@ -117,7 +130,10 @@ class User
 	 */
 	final public function getIdentity(): ?IIdentity
 	{
-		return $this->storage->getIdentity();
+		if ($this->identity === false) {
+			$this->identity = $this->storage->getIdentity();
+		}
+		return $this->identity;
 	}
 
 
@@ -149,7 +165,7 @@ class User
 	final public function getAuthenticator(): ?IAuthenticator
 	{
 		if (func_num_args()) {
-			trigger_error(__METHOD__ . '() parameter $throw is deprecated, use hasAuthenticator()', E_USER_DEPRECATED);
+			trigger_error(__METHOD__ . '() parameter $throw is deprecated, use getAuthenticatorIfExists()', E_USER_DEPRECATED);
 			$throw = func_get_arg(0);
 		}
 		if (($throw ?? true) && !$this->authenticator) {
@@ -160,8 +176,15 @@ class User
 
 
 	/**
-	 * Does the authentication exist?
+	 * Returns authentication handler.
 	 */
+	final public function getAuthenticatorIfExists(): ?IAuthenticator
+	{
+		return $this->authenticator;
+	}
+
+
+	/** @deprecated */
 	final public function hasAuthenticator(): bool
 	{
 		return (bool) $this->authenticator;
@@ -260,7 +283,7 @@ class User
 	final public function getAuthorizator(): ?IAuthorizator
 	{
 		if (func_num_args()) {
-			trigger_error(__METHOD__ . '() parameter $throw is deprecated, use hasAuthorizator()', E_USER_DEPRECATED);
+			trigger_error(__METHOD__ . '() parameter $throw is deprecated, use getAuthorizatorIfExists()', E_USER_DEPRECATED);
 			$throw = func_get_arg(0);
 		}
 		if (($throw ?? true) && !$this->authorizator) {
@@ -271,8 +294,15 @@ class User
 
 
 	/**
-	 * Does the authorization exist?
+	 * Returns current authorization handler.
 	 */
+	final public function getAuthorizatorIfExists(): ?IAuthorizator
+	{
+		return $this->authorizator;
+	}
+
+
+	/** @deprecated */
 	final public function hasAuthorizator(): bool
 	{
 		return (bool) $this->authorizator;

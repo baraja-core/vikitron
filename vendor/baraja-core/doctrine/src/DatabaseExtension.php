@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Baraja\Doctrine;
 
 
+use Baraja\PackageManager\Console;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\SQLite3Cache;
 use Nette\DI\CompilerExtension;
@@ -26,18 +28,20 @@ class DatabaseExtension extends CompilerExtension
 	{
 		$this->types = $this->getConfig();
 		$initialize = $class->getMethod('initialize');
+		$cache = $this->processCache();
 
 		$initialize->setBody(
-			$this->getTypeDefinition() . "\n"
-			. '/** @var ' . EntityManager::class . ' $entityManager */' . "\n"
-			. '$entityManager = $this->getByType(' . EntityManager::class . '::class);' . "\n"
-			. '$entityManager->setCache(' . $this->processCache() . ');' . "\n"
-			. '$entityManager->getConnection()->getSchemaManager()->getDatabasePlatform()'
+			EntityManager::class . '::addInit(function(' . EntityManager::class . ' $entityManager) {' . "\n"
+			. $this->getTypeDefinition() . "\n"
+			. "\t" . '$entityManager->setCache(' . $cache['cache'] . ');' . "\n"
+			. "\t" . '$entityManager->getConnection()->getSchemaManager()->getDatabasePlatform()'
 			. '->registerDoctrineTypeMapping(\'enum\', \'string\');' . "\n"
-			. '$entityManager->getConfiguration()->addCustomNumericFunction(\'rand\', ' . Rand::class . '::class);' . "\n"
-			. '$entityManager->buildCache();' . "\n"
+			. "\t" . '$entityManager->getConfiguration()->addCustomNumericFunction(\'rand\', ' . Rand::class . '::class);' . "\n"
+			. "\t" . '$entityManager->buildCache();' . "\n"
+			. ($cache['after'] ? "\t" . $cache['after'] . "\n" : '')
+			. '});' . "\n"
 			. $initialize->getBody()
-			. (PHP_SAPI === 'cli' ? "\n"
+			. (PHP_SAPI === 'cli' && class_exists(Console::class) === false ? "\n"
 				. OrmSchemaUpdateTool::class . '::setContainer($this);' . "\n"
 				. 'register_shutdown_function([' . OrmSchemaUpdateTool::class . '::class, \'run\']);' : '')
 		);
@@ -51,18 +55,26 @@ class DatabaseExtension extends CompilerExtension
 		$return = '';
 
 		foreach ($this->getConfig()['types'] ?? [] as $name => $className) {
-			$return .= '\Doctrine\DBAL\Types\Type::addType('
+			if (\class_exists($className) === false) {
+				ConfiguratorException::typeDoesNotExist($name, $className);
+			}
+			$return .= "\t" . 'if (\Doctrine\DBAL\Types\Type::hasType(' . Helpers::dump($name) . ') === false) { '
+				. '\Doctrine\DBAL\Types\Type::addType('
 				. Helpers::dump($name) . ',' . Helpers::dump($className)
-				. ');' . "\n";
+				. '); }' . "\n";
+		}
+
+		foreach ($this->getConfig()['propertyIgnoreAnnotations'] ?? [] as $ignorePropertyAnnotation) {
+			$return .= "\t" . AnnotationReader::class . '::addGlobalIgnoredName(\'' . $ignorePropertyAnnotation . '\');' . "\n";
 		}
 
 		return $return;
 	}
 
 	/**
-	 * @return string
+	 * @return string[]
 	 */
-	private function processCache(): string
+	private function processCache(): array
 	{
 		if (Utils::functionIsAvailable('apcu_cache_info')) {
 			$cache = new ApcuCache;
@@ -72,14 +84,30 @@ class DatabaseExtension extends CompilerExtension
 				@apcu_clear_cache();
 			}
 
-			return 'new ' . ApcuCache::class;
+			return [
+				'cache' => 'new ' . ApcuCache::class,
+				'after' => '',
+			];
 		}
 
 		if (extension_loaded('sqlite3')) {
-			return 'new ' . SQLite3Cache::class . '(new \SQLite3($entityManager->getDbDirPath() . \'/doctrine.db\'), \'doctrine\')';
+			return [
+				'cache' => 'new ' . SQLite3Cache::class . '('
+					. '(function (Baraja\Doctrine\EntityManager $entityManager) {'
+					. "\n\t\t" . '$cache = new \SQLite3($entityManager->getDbDirPath());'
+					. "\n\t\t" . '$cache->busyTimeout(5000);'
+					. "\n\t\t" . '$cache->exec(\'PRAGMA journal_mode = wal;\');'
+					. "\n\t\t" . 'return $cache;'
+					. "\n\t" . '})($entityManager)'
+					. ', \'doctrine\')',
+				'after' => '$entityManager->fixDbDirPathPermission();',
+			];
 		}
 
-		return 'null /* CACHE DOES NOT EXIST! */';
+		return [
+			'cache' => 'null /* CACHE DOES NOT EXIST! */',
+			'after' => '',
+		];
 	}
 
 }

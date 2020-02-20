@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Engine;
 
 
@@ -17,7 +19,7 @@ class Source
 	private $title;
 
 	/**
-	 * @var \string[]
+	 * @var string[]
 	 */
 	private $authors = [];
 
@@ -84,7 +86,7 @@ class Source
 	}
 
 	/**
-	 * @param \string[] $authors
+	 * @param string[] $authors
 	 */
 	public function setAuthors(array $authors): void
 	{

@@ -5,12 +5,18 @@ declare(strict_types=1);
 namespace Baraja\Doctrine;
 
 
-use Nette\Utils\ArrayHash;
-
-class Utils
+final class Utils
 {
 
-	public const DOC_PATTERN = '/[@=](?<name>[^\(\s\n]+)\s*(?<value>[^\n]+)/';
+	private const DOC_PATTERN = '/[@=](?<name>[^\(\s\n]+)\s*(?<value>[^\n]+)/';
+
+	/**
+	 * @throws \Error
+	 */
+	public function __construct()
+	{
+		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
+	}
 
 	/**
 	 * Find annotation /^[@=] in class DocComment by reflection.
@@ -22,16 +28,12 @@ class Utils
 	 */
 	public static function reflectionClassDocComment(string $class, string $key): ?string
 	{
-		$reflection = self::getReflectionClass($class);
-		$key = strtolower($key);
-
-		try {
-			foreach (self::matchAll(self::DOC_PATTERN, (string) $reflection->getDocComment()) as $annotation) {
-				if (strtolower((string) $annotation->name) === $key) {
-					return trim((string) $annotation->value);
+		if (preg_match_all(self::DOC_PATTERN, (string) self::getReflectionClass($class)->getDocComment(), $matches)) {
+			foreach ($matches['name'] ?? [] as $matchKey => $match) {
+				if (strtolower($match) === strtolower($key)) {
+					return trim($matches['value'][$matchKey]);
 				}
 			}
-		} catch (DatabaseException $e) {
 		}
 
 		return null;
@@ -48,7 +50,7 @@ class Utils
 	{
 		static $cache = [];
 
-		if (!isset($cache[$class])) {
+		if (isset($cache[$class]) === false) {
 			$cache[$class] = new \ReflectionClass($class);
 		}
 
@@ -65,73 +67,24 @@ class Utils
 	{
 		static $disabled;
 
-		if (\function_exists($functionName)) {
-			if ($disabled === null) {
-				$disableFunctions = ini_get('disable_functions');
-
-				if (\is_string($disableFunctions)) {
-					$disabled = explode(',', $disableFunctions) ? : [];
-				}
+		if (\function_exists($functionName) === true) {
+			if ($disabled === null && \is_string($disableFunctions = ini_get('disable_functions'))) {
+				$disabled = explode(',', $disableFunctions) ? : [];
 			}
 
-			return \in_array($functionName, $disabled, true) === false;
+			return \in_array($functionName, $disabled ?? [], true) === false;
 		}
 
 		return false;
 	}
 
 	/**
-	 * Simple way how to match all data by regular expression and return as ArrayHash[].
-	 *
-	 * @param string $pattern
-	 * @param string $data
-	 * @param string|null $config
-	 * @return ArrayHash[]
-	 * @throws DatabaseException
+	 * @param string $sql
+	 * @return string
 	 */
-	private static function matchAll(string $pattern, string $data, ?string $config = null): array
+	public static function createSqlHash(string $sql): string
 	{
-		if (@preg_match_all('/' . trim($pattern, '/') . '/' . ($config ?? ''), $data, $output)) {
-			$matches = [];
-
-			for ($i = 0; isset($output[0][$i]); $i++) {
-				foreach ($output as $key => $value) {
-					foreach ($value as $_key => $_value) {
-						$matches[$_key][$key] = $_value;
-					}
-				}
-			}
-
-			$return = [];
-			foreach ($matches as $value) {
-				$match = new ArrayHash;
-				$haystack = new ArrayHash;
-
-				foreach ($value as $_key => $_value) {
-					if (\is_string($_key)) {
-						$match->{$_key} = $_value;
-					} elseif ($_key > 0) {
-						$haystack->{$_key} = $_value;
-					}
-				}
-
-				$match->original = $value[0];
-				$match->haystack = $haystack;
-
-				$return[] = $match;
-			}
-
-			return $return;
-		}
-
-		if (preg_match('/^preg_match_all\(\):?\s+(?<message>.+)$/', error_get_last()['message'], $error)) {
-			$errorMessage = trim($error['message']);
-			throw new DatabaseException('Invalid regular expression!'
-				. ($errorMessage ? ' Hint: ' . $errorMessage : '')
-			);
-		}
-
-		throw new DatabaseException('Regular not match.');
+		return md5((string) preg_replace('/(\w+)(?:\s*=\s*(?:[\'"].*?[\'"]|[\d-.]+)|\s+IN\s+\([^\)]+\))/', '$1 = \?', $sql));
 	}
 
 }

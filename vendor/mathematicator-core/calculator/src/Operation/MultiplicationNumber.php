@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
 
+
 use Mathematicator\Numbers\NumberFactory;
+use Mathematicator\Search\Query;
+use Mathematicator\Step\Controller\StepMultiplicationController;
+use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
-use Model\Math\Step\Controller\StepMultiplicationController;
-use Model\Math\Step\StepFactory;
 
 class MultiplicationNumber
 {
@@ -21,11 +25,6 @@ class MultiplicationNumber
 	private $stepFactory;
 
 	/**
-	 * @var int
-	 */
-	private $tolerance;
-
-	/**
 	 * @param NumberFactory $numberFactory
 	 * @param StepFactory $stepFactory
 	 */
@@ -33,18 +32,23 @@ class MultiplicationNumber
 	{
 		$this->numberFactory = $numberFactory;
 		$this->stepFactory = $stepFactory;
-		$this->tolerance = 100;
 	}
 
-	public function process(NumberToken $left, NumberToken $right)
+	/**
+	 * @param NumberToken $left
+	 * @param NumberToken $right
+	 * @param Query $query
+	 * @return NumberOperationResult
+	 */
+	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
 		if ($left->getNumber()->isInteger() && $right->getNumber()->isInteger()) {
-			$result = bcmul($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $this->tolerance);
+			$result = bcmul($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $query->getDecimals());
 		} else {
 			$leftFraction = $left->getNumber()->getFraction();
 			$rightFraction = $right->getNumber()->getFraction();
 
-			$result = bcmul($leftFraction[0], $rightFraction[0], $this->tolerance) . '/' . bcmul($leftFraction[1], $rightFraction[1], $this->tolerance);
+			$result = bcmul($leftFraction[0], $rightFraction[0], $query->getDecimals()) . '/' . bcmul($leftFraction[1], $rightFraction[1], $query->getDecimals());
 		}
 
 		$newNumber = new NumberToken($this->numberFactory->create($result));
@@ -52,19 +56,17 @@ class MultiplicationNumber
 		$newNumber->setPosition($left->getPosition());
 		$newNumber->setType('number');
 
-		$result = new NumberOperationResult();
-		$result->setNumber($newNumber);
-		$result->setDescription(
-			'Násobení čísel ' . $left->getNumber()->getHumanString() . ' * ' . $right->getNumber()->getHumanString()
-		);
-		$result->setAjaxEndpoint(
-			$this->stepFactory->getAjaxEndpoint(StepMultiplicationController::class, [
-				'x' => $left->getNumber()->getHumanString(),
-				'y' => $right->getNumber()->getHumanString(),
-			])
-		);
-
-		return $result;
+		return (new NumberOperationResult)
+			->setNumber($newNumber)
+			->setDescription(
+				'Násobení čísel ' . $left->getNumber()->getHumanString() . ' * ' . $right->getNumber()->getHumanString()
+			)
+			->setAjaxEndpoint(
+				$this->stepFactory->getAjaxEndpoint(StepMultiplicationController::class, [
+					'x' => $left->getNumber()->getHumanString(),
+					'y' => $right->getNumber()->getHumanString(),
+				])
+			);
 	}
 
 }

@@ -1,9 +1,8 @@
 services:
 	calculator: Mathematicator\Calculator\Calculator
 	- Mathematicator\Calculator\TokensCalculator
-	- App\VikiTron\Model\Number\NumberHelper
-	- Model\Math\Step\StepFactory
-	- Model\Math\NaturalTextFormatter
+	- Mathematicator\NumberHelper
+	- Mathematicator\Step\StepFactory
 
 	# operations
 	baseOperation: Mathematicator\Calculator\Operation\BaseOperation
@@ -15,23 +14,23 @@ services:
 	- Mathematicator\Calculator\Operation\Factorial
 
 	# steps
-	- Model\Math\Step\StepEndpoint
-	- Math\Steps\Model\RomanIntSteps
+	- Mathematicator\Step\StepEndpoint
+	- Mathematicator\Step\RomanIntSteps
 
 	# step controllers
-	- Model\Math\Step\Controller\StepPlusController
-	- Model\Math\Step\Controller\StepMultiplicationController
-	- Model\Math\Step\Controller\StepSqrtController
-	- Model\Math\Step\Controller\StepSqrtHelper
-	- Model\Math\Step\Controller\StepPowController
-	- Model\Math\Step\Controller\StepSinController
+	- Mathematicator\Step\Controller\StepPlusController
+	- Mathematicator\Step\Controller\StepMultiplicationController
+	- Mathematicator\Step\Controller\StepSqrtController
+	- Mathematicator\Step\Controller\StepSqrtHelper
+	- Mathematicator\Step\Controller\StepPowController
+	- Mathematicator\Step\Controller\StepSinController
 
 	# Functions
-	- Model\Math\MathFunction\FunctionManager
-	- Model\Math\MathFunction\AbsFunction
-	- Model\Math\MathFunction\SqrtFunction
-	- Model\Math\MathFunction\SinFunction
+	- Mathematicator\MathFunction\FunctionManager
+	- Mathematicator\MathFunction\AbsFunction
+	- Mathematicator\MathFunction\SqrtFunction
+	- Mathematicator\MathFunction\SinFunction
 
 	# Algorithm
-	- Model\Math\NewtonMethod
-	- Model\Math\Pi
+	- Mathematicator\NewtonMethod
+	- Mathematicator\Pi

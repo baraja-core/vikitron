@@ -80,7 +80,7 @@ final class UIMacros extends Latte\Macros\MacroSet
 		}
 		$name = $writer->formatWord($words[0]);
 		$method = ucfirst($words[1] ?? '');
-		$method = Strings::match($method, '#^\w*\z#') ? "render$method" : "{\"render$method\"}";
+		$method = Strings::match($method, '#^\w*$#D') ? "render$method" : "{\"render$method\"}";
 
 		$tokens = $node->tokenizer;
 		$pos = $tokens->position;
@@ -113,8 +113,8 @@ final class UIMacros extends Latte\Macros\MacroSet
 	 */
 	public function macroLink(MacroNode $node, PhpWriter $writer)
 	{
-		$node->modifiers = preg_replace('#\|safeurl\s*(?=\||\z)#i', '', $node->modifiers);
-		return $writer->using($node)
+		$node->modifiers = preg_replace('#\|safeurl\s*(?=\||$)#Di', '', $node->modifiers);
+		return $writer->using($node, $this->getCompiler())
 			->write('echo %escape(%modify('
 				. ($node->name === 'plink' ? '$this->global->uiPresenter' : '$this->global->uiControl')
 				. '->link(%node.word, %node.array?)))'

@@ -6,7 +6,7 @@ namespace Mathematicator\Engine\Test;
 
 
 use Mathematicator\Engine\QueryNormalizer;
-use Model\Math\NumberRewriter;
+use Mathematicator\NumberRewriter;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -59,6 +59,7 @@ class QueryNormalizerTest extends TestCase
 		return [
 			['5+3', '5 + 3'],
 			['123456789', '123456789'],
+			['1.05*12000', '1.05 * 12,000'],
 			['(5+9)*5', '(5 + 9) * 5'],
 			['5+3*(2-1)', '5 + 3 * (2-1'],
 			['(10.2+0.5*(2-0.4))*2+(2.1*4)', '(10.2+0.5 * (2-0.4)) * 2 + (2.1 * 4)'],
@@ -72,12 +73,20 @@ class QueryNormalizerTest extends TestCase
 			['((5*x+1)/(2*x-4))-5', '((5x+1)/(2x-4))-5'],
 			['(3*x*5-3*x^3)*(x^3-2+sin(x))/(cos(x)*x-sin(x)*x^3)', '(3x*5-3x^3)*(x^3-2+sin(x))/(cos(x)*x-sin(x)*x^3)'],
 			['(x^2-4*x+4)/(4*x^3-2*x^4)', '(x^2-4 x+4)/(4 x^3-2 x^4)'],
+			['sqrt(3^2+4^2)', 'sqrt (3^2 + 4^2)'],
+			['5*x-3 zebry', '5x - 3 zebry'],
+			['5*x-3zebry', '5x - 3zebry'],
+			['22/6', '\frac{22}{6}'],
+			['22/(2/3)', '\frac{22}{\frac{2}{3}}'],
 			['INF', 'nekonečno'],
 			['INF^2', 'nekonečno^2'],
 			['INF+INF', 'nekonečno+inf'],
 			['INF-0', '∞-0'],
 			['INF-INF', 'INF-inf'],
 			['2^4', '2˘4'],
+			['16/72 na 8 míst', '16/72 na 8 míst'],
+			['PI', '\pi'],
+			['PI', '\Pi'],
 			['PI', 'π'],
 			['6', 'šest'],
 			['5+3*2', 'pět plus tři krát dva'],
@@ -97,4 +106,6 @@ class QueryNormalizerTest extends TestCase
 
 }
 
-(new QueryNormalizerTest)->run();
+if (isset($_SERVER['NETTE_TESTER_RUNNER'])) {
+	(new QueryNormalizerTest)->run();
+}

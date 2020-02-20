@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
+
 
 use Mathematicator\Engine\UndefinedOperationException;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Numbers\SmartNumber;
+use Mathematicator\Search\Query;
+use Mathematicator\Step\Controller\StepPowController;
+use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
-use Model\Math\Step\Controller\StepPowController;
-use Model\Math\Step\StepFactory;
 
 class PowNumber
 {
@@ -22,33 +26,34 @@ class PowNumber
 	 */
 	private $stepFactory;
 
-	/**
-	 * @var int
-	 */
-	private $tolerance;
-
 	public function __construct(NumberFactory $numberFactory, StepFactory $stepFactory)
 	{
 		$this->numberFactory = $numberFactory;
 		$this->stepFactory = $stepFactory;
-		$this->tolerance = 100;
 	}
 
-	public function process(NumberToken $left, NumberToken $right)
+	/**
+	 * @param NumberToken $left
+	 * @param NumberToken $right
+	 * @param Query $query
+	 * @return NumberOperationResult|string|null
+	 * @throws UndefinedOperationException
+	 */
+	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
 		$leftFraction = $left->getNumber()->getFraction();
 		$rightFraction = $right->getNumber()->getFraction();
 
 		$result = null;
 
-		if ($left->getNumber()->isInteger() && $right->getNumber()->isInteger()) {
+		if (($rightInteger = $right->getNumber()->isInteger()) && $left->getNumber()->isInteger()) {
 			if ($left->getNumber()->getInteger() === '0' && $right->getNumber()->getInteger() === '0') {
 				throw new UndefinedOperationException(__METHOD__ . ': Undefined operation.');
 			}
 
-			$result = bcpow($left->getToken(), $right->getToken(), $this->tolerance);
-		} elseif ($right->getNumber()->isInteger()) {
-			$result = bcpow($leftFraction[0], $right->getToken(), $this->tolerance) . '/' . bcpow($leftFraction[1], $right->getToken(), $this->tolerance);
+			$result = bcpow($left->getToken(), $right->getToken(), $query->getDecimals());
+		} elseif ($rightInteger === true) {
+			$result = bcpow($leftFraction[0], $right->getToken(), $query->getDecimals()) . '/' . bcpow($leftFraction[1], $right->getToken(), $query->getDecimals());
 		} else {
 			if ($right->getNumber()->isNegative()) {
 				$rightFraction = [
@@ -57,9 +62,15 @@ class PowNumber
 				];
 			}
 
-			$result = pow(bcpow($leftFraction[0], $rightFraction[0], $this->tolerance), bcdiv(1, $rightFraction[1], $this->tolerance))
+			$result = pow(
+					bcpow($leftFraction[0], $rightFraction[0], $query->getDecimals()),
+					bcdiv('1', $rightFraction[1], $query->getDecimals())
+				)
 				. '/'
-				. pow(bcpow($leftFraction[1], $rightFraction[0], $this->tolerance), bcdiv(1, $rightFraction[1], $this->tolerance));
+				. pow(
+					bcpow($leftFraction[1], $rightFraction[0], $query->getDecimals()),
+					bcdiv('1', $rightFraction[1], $query->getDecimals())
+				);
 		}
 
 		$newNumber = new NumberToken($this->numberFactory->create($result));
@@ -67,19 +78,17 @@ class PowNumber
 		$newNumber->setPosition($left->getPosition());
 		$newNumber->setType('number');
 
-		$result = new NumberOperationResult();
-		$result->setNumber($newNumber);
-		$result->setTitle('Umocňování čísel ' . $left->getNumber()->getHumanString() . ' ^ ' . $right->getNumber()->getHumanString());
-		$result->setDescription($this->renderDescription($left->getNumber(), $right->getNumber(), $newNumber->getNumber()));
-		$result->setAjaxEndpoint(
-			$this->stepFactory->getAjaxEndpoint(StepPowController::class, [
-				'x' => $left->getNumber()->getHumanString(),
-				'y' => $right->getNumber()->getHumanString(),
-				'result' => $newNumber->getNumber()->getString(),
-			])
-		);
-
-		return $result;
+		return (new NumberOperationResult)
+			->setNumber($newNumber)
+			->setTitle('Umocňování čísel ' . $left->getNumber()->getHumanString() . ' ^ ' . $right->getNumber()->getHumanString())
+			->setDescription($this->renderDescription($left->getNumber(), $right->getNumber(), $newNumber->getNumber()))
+			->setAjaxEndpoint(
+				$this->stepFactory->getAjaxEndpoint(StepPowController::class, [
+					'x' => $left->getNumber()->getHumanString(),
+					'y' => $right->getNumber()->getHumanString(),
+					'result' => $newNumber->getNumber()->getString(),
+				])
+			);
 	}
 
 	/**

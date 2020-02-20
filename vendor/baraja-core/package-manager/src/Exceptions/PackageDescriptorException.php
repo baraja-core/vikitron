@@ -38,4 +38,16 @@ class PackageDescriptorException extends \Exception
 		);
 	}
 
+	/**
+	 * @param string $path
+	 * @throws PackageDescriptorException
+	 */
+	public static function canNotRewritePackageNeon(string $path): void
+	{
+		throw new self(
+			'Can not rewrite package.neon. Path: "' . $path . '"'
+			. "\n" . error_get_last()['message']
+		);
+	}
+
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
 
 
@@ -8,7 +10,6 @@ use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Tokens;
-use Model\Math\Step\StepFactory;
 
 class Factorial
 {
@@ -19,21 +20,18 @@ class Factorial
 	private $numberFactory;
 
 	/**
-	 * @var StepFactory
-	 */
-	private $stepFactory;
-
-	/**
 	 * @param NumberFactory $numberFactory
-	 * @param StepFactory $stepFactory
 	 */
-	public function __construct(NumberFactory $numberFactory, StepFactory $stepFactory)
+	public function __construct(NumberFactory $numberFactory)
 	{
 		$this->numberFactory = $numberFactory;
-		$this->stepFactory = $stepFactory;
-		$this->tolerance = 100;
 	}
 
+	/**
+	 * @param FactorialToken $token
+	 * @return NumberOperationResult
+	 * @throws MathErrorException
+	 */
 	public function process(FactorialToken $token): NumberOperationResult
 	{
 		$result = $token->getNumber()->getInteger();
@@ -46,32 +44,37 @@ class Factorial
 
 		$return = new NumberOperationResult;
 		$return->setNumber($newNumber);
-		$return->setTitle('Faktoriál');
+		$return->setTitle('Faktoriál ' . $result . '!');
 		$return->setDescription(
 			'Definice:' . "\n"
 			. '\(n!\ =\ n\ \cdot\ (n-1)\ \cdot\ (n-2)\ \cdot\ \cdots\)' . "\n\n"
 			. 'Výpočet:' . "\n"
-			. $this->getDescriptionTimes($token->getNumber()->getInteger()) . "\n"
+			. $this->getDescriptionTimes((int) $token->getNumber()->getInteger()) . "\n"
 			. '\(' . $token->getNumber()->getString() . '!\ =\ '
-			. number_format($newNumber->getNumber()->getString(), 0, '', '\ ')
+			. preg_replace('/(\d{3})/', '$1\ ', $newNumber->getNumber()->getString())
 			. '\)'
 		);
 
 		return $return;
 	}
 
+	/**
+	 * @param string $num
+	 * @return string
+	 * @throws MathErrorException
+	 */
 	private function bcFact(string $num): string
 	{
 		if ($num === '0') {
 			return '1';
 		}
 
-		if (!filter_var($num, FILTER_VALIDATE_INT) || $num <= 0) {
-			throw new MathErrorException('Argument must be natural number, ' . json_encode($num) . ' given.');
+		if ($num <= 0 || !filter_var($num, FILTER_VALIDATE_INT)) {
+			throw new MathErrorException('Argument must be natural number, "' . $num . '" given.');
 		}
 
-		for ($result = '1'; $num > 0; $num--) {
-			$result = bcmul($result, $num);
+		for ($result = 1; $num > 0; $num--) {
+			$result = bcmul((string) $result, (string) (int) $num);
 		}
 
 		return $result;

@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Search;
+
 
 use Nette\SmartObject;
 
@@ -28,10 +31,13 @@ class AutoCompleteResult
 
 	/**
 	 * @param Result $result
+	 * @return AutoCompleteResult
 	 */
-	public function setResult(Result $result)
+	public function setResult(Result $result): self
 	{
 		$this->result = $result;
+
+		return $this;
 	}
 
 	/**
@@ -44,10 +50,13 @@ class AutoCompleteResult
 
 	/**
 	 * @param VideoResult[] $videos
+	 * @return AutoCompleteResult
 	 */
-	public function setVideos(array $videos)
+	public function setVideos(array $videos): self
 	{
 		$this->videos = $videos;
+
+		return $this;
 	}
 
 }

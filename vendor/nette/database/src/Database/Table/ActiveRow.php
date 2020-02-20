@@ -58,10 +58,11 @@ class ActiveRow implements \IteratorAggregate, IRow
 		try {
 			return (string) $this->getPrimary();
 		} catch (\Throwable $e) {
-			if (func_num_args()) {
+			if (func_num_args() || PHP_VERSION_ID >= 70400) {
 				throw $e;
 			}
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			return '';
 		}
 	}
 
@@ -277,7 +278,7 @@ class ActiveRow implements \IteratorAggregate, IRow
 		}
 
 		$this->removeAccessColumn($key);
-		$hint = Nette\Utils\ObjectHelpers::getSuggestion(array_keys($this->data), $key);
+		$hint = Nette\Utils\Helpers::getSuggestion(array_keys($this->data), $key);
 		throw new Nette\MemberAccessException("Cannot read an undeclared column '$key'" . ($hint ? ", did you mean '$hint'?" : '.'));
 	}
 

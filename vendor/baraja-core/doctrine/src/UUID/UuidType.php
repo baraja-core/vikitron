@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Baraja\Doctrine\UUID;
 
 
-use Doctrine\Common\Proxy\Exception\InvalidArgumentException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
@@ -43,12 +42,12 @@ class UuidType extends Type
 		}
 
 		if ($value instanceof UuidInterface) {
-			return $value;
+			return (string) $value;
 		}
 
 		try {
-			return Uuid::fromString($value)->toString();
-		} catch (InvalidArgumentException $e) {
+			return (string) Uuid::fromString($value)->toString();
+		} catch (\InvalidArgumentException $e) {
 			throw ConversionException::conversionFailed($value, static::NAME);
 		}
 	}
@@ -66,10 +65,7 @@ class UuidType extends Type
 		}
 
 		if ($value instanceof UuidInterface
-			|| (
-				(\is_string($value) || method_exists($value, '__toString'))
-				&& Uuid::isValid((string) $value)
-			)
+			|| ((\is_string($value) || method_exists($value, '__toString')) && Uuid::isValid((string) $value))
 		) {
 			return (string) $value;
 		}

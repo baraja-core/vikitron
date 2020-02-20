@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\SearchController;
+
 
 use Mathematicator\Search\Box;
 use Nette\Utils\Strings;
@@ -17,7 +20,8 @@ class ErrorTooLongController extends BaseController
 			Toto omezení nasazujeme z výkonnostních důvodů.
 			
 			Pokud potřebujete vykonávat náročnější výpočty, kontaktujte nás.')
-			->setIcon('&#xE869;');
+			->setIcon('fas fa-exclamation-triangle')
+			->setTag('no-results');
 	}
 
 }

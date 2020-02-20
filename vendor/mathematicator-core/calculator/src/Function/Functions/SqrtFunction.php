@@ -1,12 +1,15 @@
 <?php
 
-namespace Model\Math\MathFunction;
+declare(strict_types=1);
+
+namespace Mathematicator\MathFunction;
+
 
 use Mathematicator\Engine\MathErrorException;
+use Mathematicator\Step\Controller\StepSqrtController;
+use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
-use Model\Math\Step\Controller\StepSqrtController;
-use Model\Math\Step\StepFactory;
 
 class SqrtFunction implements IFunction
 {

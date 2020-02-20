@@ -1,3 +1,6 @@
+extensions:
+	packageManagerExtension: Baraja\PackageManager\PackageManagerExtension
+
 parameters:
 	packageRegistrator:
 		customPackagesNamePatterns:

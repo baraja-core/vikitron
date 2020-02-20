@@ -6,11 +6,11 @@ namespace Mathematicator\Tokenizer;
 
 
 use Mathematicator\Engine\MathematicatorException;
-use Mathematicator\Tokenizer\Token\BaseToken;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\OperatorToken;
+use Mathematicator\Tokenizer\Token\PolynomialToken;
 use Mathematicator\Tokenizer\Token\RomanNumberToken;
 use Mathematicator\Tokenizer\Token\SubToken;
 use Mathematicator\Tokenizer\Token\VariableToken;
@@ -46,6 +46,11 @@ class TokensToLatex
 	/**
 	 * @var string[]
 	 */
+	private $beforeReplaceTable;
+
+	/**
+	 * @var string[]
+	 */
 	private $afterReplaceTable;
 
 	/**
@@ -60,14 +65,18 @@ class TokensToLatex
 	 */
 	public function __construct(array $functions)
 	{
+		$this->beforeReplaceTable = [
+			'INF' => '\\infty',
+			'PI' => '\\pi',
+		];
+
 		$this->afterReplaceTable = [
 			'log(\d+)' => '\log_{$1}',
 			'\*' => '\cdot ',
 			'(\d)\\\cdot\s*([a-z])' => '$1$2',
 			'abs\\\left[\(\[\{](.+?)\\\right[\)\]\}]' => '\mid $1 \mid',
 			'\\\(' . implode('|', $functions) . ')\{\\\left\(([^\(\)]+?)\\\right\)\}' => '\\\$1{$2}',
-			'INF' => '\\infty',
-			'PI' => '\\pi',
+			'([+-]?[0-9]*[.]?[0-9]+)[eE]([+-]?[0-9]*[.]?[0-9]+)' => '{$1}^{$2}',
 		];
 	}
 
@@ -78,7 +87,7 @@ class TokensToLatex
 	 */
 	public function process(array $tokens): string
 	{
-		return $this->iterator($tokens, 0);
+		return $this->iterator($tokens);
 	}
 
 	/**
@@ -87,26 +96,17 @@ class TokensToLatex
 	 * @return string
 	 * @throws MathematicatorException
 	 */
-	private function iterator(array $tokens, int $level): string
+	private function iterator(array $tokens, int $level = 0): string
 	{
 		$latex = '';
 		$iterator = new TokenIterator($tokens);
 
-		while (true) {
-			/** @var BaseToken $token */
-			$token = $iterator->getToken();
-			$isSubToken = $token instanceof SubToken;
-			$isFunctionToken = $token instanceof FunctionToken;
-
-			if (
-				($isSubToken || $isFunctionToken)
-				&& ($iterator->getNextToken() === null
-					|| (
-						$iterator->getNextToken()->getToken() !== '/'
-						&& $iterator->getNextToken()->getToken() !== '^'
-					)
-				)
-			) {
+		do {
+			$tk = ($token = $iterator->getToken()) === null ? null : $token->getToken();
+			$nextTk = ($next = $iterator->getNextToken()) === null ? null : $next->getToken();
+			$isFunc = $token instanceof FunctionToken;
+			if (($isFunc === true || $token instanceof SubToken) && ($next === null || ($nextTk !== '/' && $nextTk !== '^'))) {
+				// Function or sub token (fraction, etc...)
 				if ($token instanceof FunctionToken) {
 					$latex .= $this->latexTranslateTable($token->getName());
 					$latex .= '{';
@@ -123,41 +123,43 @@ class TokensToLatex
 					$latex .= $this->iterator($token->getTokens(), $level + 1);
 					$latex .= $this->getRightBracket($level);
 				}
-			} elseif ($isFunctionToken) {
-				$latex .= $this->latexTranslateTable(
-					preg_replace('/\(+$/', '', $token->getToken())
-				);
-			} elseif ($token instanceof OperatorToken && $token->getToken() === '/') {
+			} elseif ($isFunc === true) {
+				$latex .= $this->latexTranslateTable((string) preg_replace('/\(+$/', '', $tk));
+			} elseif (($isOperator = $token instanceof OperatorToken) && $tk === '/') { // Fraction x/y
 				$latex .= $this->renderFraction($iterator, $level);
-			} elseif ($token instanceof OperatorToken && $token->getToken() === '^') {
-				$latex .= $this->renderPow($iterator, $level);
-			} elseif ($token instanceof ComparatorToken) {
-				$latex .= $this->latexTranslateTable($token->getToken());
-			} elseif ($token instanceof RomanNumberToken) {
-				$latex .= '\textrm{' . $token->getToken() . '}';
-			} elseif ($token instanceof VariableToken) {
+			} elseif (($isOperator === true && $tk === '^') || ($next !== null && $nextTk === '^')) { // Pow x^y
+				if ($token instanceof OperatorToken) {
+					$latex .= $this->renderPow($iterator, $level);
+				}
+			} elseif ($token instanceof ComparatorToken) { // Comparator x=y
+				$latex .= $this->latexTranslateTable($tk);
+			} elseif ($token instanceof RomanNumberToken) { // Roman number XVII
+				$latex .= '\textrm{' . $tk . '}';
+			} elseif ($token instanceof PolynomialToken) {
+				$latex .= ($token->getTimes()->getToken() === '1' ? '' : $token->getTimes()->getNumber()->getString())
+					. ($token->getPower()->getToken() === '1'
+						? $token->getVariable()->getToken()
+						: '{' . $token->getVariable()->getToken() . '}'
+						. '^{' . $token->getPower()->getNumber()->getString() . '}'
+					);
+			} elseif ($token instanceof VariableToken) { // Variable "x"
 				$latex .= ($token->getTimes()->isInteger() === false || $token->getTimes()->getInteger() !== '1'
 						? $token->getTimes()->getString()
 						: ''
-					) . $token->getToken();
-			} elseif ($token) {
-				if ($iterator->getNextToken() === null
-					|| (
-						$iterator->getNextToken()->getToken() !== '/'
-						&& $iterator->getNextToken()->getToken() !== '^'
-					)
-				) {
-					$latex .= $this->latexTranslateTable($token->getToken());
+					) . $tk;
+			} elseif ($token !== null) { // Other tokens
+				if ($next === null || ($nextTk !== '/' && $nextTk !== '^')) {
+					$latex .= $this->latexTranslateTable($tk);
 				}
 			}
 
 			$iterator->next();
-			if ($iterator->isFinal()) {
-				break;
-			}
-		}
+		} while ($iterator->isFinal() === false);
 
-		return $this->afterReplaceTable($latex);
+		return $this->processReplaceTable(
+			$this->processReplaceTable($latex, $this->beforeReplaceTable),
+			$this->afterReplaceTable
+		);
 	}
 
 	/**
@@ -191,6 +193,7 @@ class TokensToLatex
 	 * @param TokenIterator $iterator
 	 * @param int $level
 	 * @return string
+	 * @throws MathematicatorException
 	 */
 	private function renderFraction(TokenIterator $iterator, int $level): string
 	{
@@ -217,6 +220,7 @@ class TokensToLatex
 	 * @param TokenIterator $iterator
 	 * @param int $level
 	 * @return string
+	 * @throws MathematicatorException
 	 */
 	private function renderPow(TokenIterator $iterator, int $level): string
 	{
@@ -225,35 +229,38 @@ class TokensToLatex
 		$iterator->next();
 
 		if ($lastToken instanceof SubToken) {
-			$_lastToken = $this->getLeftBracket($level)
+			$downToken = $this->getLeftBracket($level)
 				. $this->iterator($lastToken->getTokens(), $level)
 				. $this->getRightBracket($level);
 		} else {
-			$_lastToken = $lastToken->getToken();
+			$downToken = $lastToken ? $lastToken->getToken() : '?';
 		}
 
 		if ($nextToken instanceof SubToken) {
-			$_nextToken = $this->getLeftBracket($level)
+			$topToken = $this->getLeftBracket($level)
 				. $this->iterator($nextToken->getTokens(), $level)
 				. $this->getRightBracket($level);
 		} else {
-			$_nextToken = $nextToken ? $nextToken->getToken() : '?';
+			$topToken = $nextToken ? $nextToken->getToken() : '?';
 		}
 
-		return '{' . $_lastToken . '}^{' . $_nextToken . '}';
+		return '{' . $downToken . '}^{' . $topToken . '}';
 	}
 
 	/**
-	 * @param string $latex
+	 * Fix generated haystack by smart regular patterns.
+	 *
+	 * @param string $haystack
+	 * @param string[] $replaceTable
 	 * @return string
 	 */
-	private function afterReplaceTable(string $latex): string
+	private function processReplaceTable(string $haystack, array $replaceTable): string
 	{
-		foreach ($this->afterReplaceTable as $key => $value) {
-			$latex = Strings::replace($latex, '/' . $key . '/', $value);
+		foreach ($replaceTable as $key => $value) {
+			$haystack = Strings::replace($haystack, '/' . $key . '/', $value);
 		}
 
-		return $latex;
+		return $haystack;
 	}
 
 }

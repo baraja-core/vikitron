@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator;
+
 
 use Mathematicator\Tokenizer\Token\IToken;
 use Nette\SmartObject;
@@ -97,18 +100,18 @@ class CalculatorResult
 	{
 		$return = [];
 
-		$lastStep = null;
+		$lastStepHash = null;
 		foreach ($steps as $step) {
-			$currentStep = $step->getTitle()
-				. '_' . md5($step->getDescription())
-				. '_' . md5(trim($step->getLatex()))
+			$stepHash = $step->getTitle()
+				. '_' . md5((string) $step->getDescription())
+				. '_' . md5(trim((string) $step->getLatex()))
 				. '_' . $step->getAjaxEndpoint();
 
-			if ($currentStep !== $lastStep) {
+			if ($stepHash !== $lastStepHash) { // Ignore internal same steps
 				$return[] = $step;
 			}
 
-			$lastStep = $currentStep;
+			$lastStepHash = $stepHash;
 		}
 
 		$this->steps = $return;

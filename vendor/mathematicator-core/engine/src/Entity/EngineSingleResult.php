@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Engine;
 
 
@@ -21,7 +23,12 @@ class EngineSingleResult extends EngineResult
 	/**
 	 * @var Source[]
 	 */
-	private $sources = [];
+	private $sources;
+
+	/**
+	 * @var string[]
+	 */
+	private $filters;
 
 	/**
 	 * @param string $query
@@ -29,13 +36,15 @@ class EngineSingleResult extends EngineResult
 	 * @param Box|null $interpret
 	 * @param Box[] $boxes
 	 * @param Source[] $sources
+	 * @param string[] $filters
 	 */
-	public function __construct(string $query, string $matchedRoute, ?Box $interpret, array $boxes, array $sources = [])
+	public function __construct(string $query, string $matchedRoute, ?Box $interpret = null, array $boxes = [], array $sources = [], array $filters = [])
 	{
 		parent::__construct($query, $matchedRoute);
 		$this->interpret = $interpret;
 		$this->boxes = $boxes;
 		$this->sources = $sources;
+		$this->filters = $filters;
 	}
 
 	/**
@@ -43,7 +52,40 @@ class EngineSingleResult extends EngineResult
 	 */
 	public function getBoxes(): array
 	{
-		return $this->boxes;
+		$withoutNoResult = [];
+
+		foreach ($this->boxes as $box) {
+			if ($box->getTag() !== 'no-results') {
+				$withoutNoResult[] = $box;
+			}
+		}
+
+		$return = $withoutNoResult === [] ? $this->boxes : $withoutNoResult;
+
+		if ($this->filters !== []) {
+			foreach ($return as $boxKey => $box) {
+				if (\in_array($box->getTag(), $this->filters, true) === false) {
+					unset($return[$boxKey]);
+				}
+			}
+		}
+
+		usort($return, static function (Box $a, Box $b): int {
+			return $a->getRank() < $b->getRank() ? 1 : -1;
+		});
+
+		return $return;
+	}
+
+	/**
+	 * @param Box $box
+	 * @return EngineSingleResult
+	 */
+	public function addBox(Box $box): self
+	{
+		$this->boxes[] = $box;
+
+		return $this;
 	}
 
 	/**
@@ -60,6 +102,17 @@ class EngineSingleResult extends EngineResult
 	public function getSources(): array
 	{
 		return $this->sources;
+	}
+
+	/**
+	 * @param Source $source
+	 * @return EngineSingleResult
+	 */
+	public function addSource(Source $source): self
+	{
+		$this->sources[] = $source;
+
+		return $this;
 	}
 
 }

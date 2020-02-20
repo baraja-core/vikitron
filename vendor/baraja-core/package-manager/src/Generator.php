@@ -9,9 +9,8 @@ use Baraja\PackageManager\Exception\PackageDescriptorCompileException;
 use Baraja\PackageManager\Exception\PackageDescriptorException;
 use Composer\Autoload\ClassLoader;
 use Nette\Neon\Neon;
-use Nette\Utils\Strings;
 
-class Generator
+final class Generator
 {
 
 	/**
@@ -46,19 +45,16 @@ class Generator
 	 * @return PackageDescriptorEntity
 	 * @throws PackageDescriptorException
 	 */
-	public function generate(): PackageDescriptorEntity
+	public function run(): PackageDescriptorEntity
 	{
 		$packageDescriptor = new PackageDescriptorEntity($this->customPackagesNamePatterns);
 
 		$composerJson = $this->storage->haystackToArray(
-			json_decode(
-				(string) file_get_contents($this->projectRoot . '/composer.json')
-			)
+			json_decode((string) file_get_contents($this->projectRoot . '/composer.json'))
 		);
 
-		$packages = $this->getPackages($composerJson);
 		$packageDescriptor->setComposer($composerJson);
-		$packageDescriptor->setPackages($packages);
+		$packageDescriptor->setPackages($packages = $this->getPackages($composerJson));
 
 		$customRouters = [];
 		$afterInstallScripts = [];
@@ -85,7 +81,7 @@ class Generator
 
 	/**
 	 * @param string[][] $composer
-	 * @return string[][]
+	 * @return string[][]|string[][][]|string[][][][]
 	 * @throws PackageDescriptorException
 	 */
 	private function getPackages(array $composer): array
@@ -98,16 +94,8 @@ class Generator
 			$packagesVersions = [];
 		}
 
-		$allPackages = array_merge(
-			$composer['require'],
-			$packagesVersions
-		);
-
-		foreach ($allPackages as $packageName => $dependency) {
-			$packageName = Strings::lower($packageName);
-			$path = $this->projectRoot . '/vendor/' . $packageName;
-
-			if (!is_dir($path)) {
+		foreach (array_merge($composer['require'], $packagesVersions) as $name => $dependency) {
+			if (is_dir($path = $this->projectRoot . '/vendor/' . ($name = mb_strtolower($name, 'UTF-8'))) === false) {
 				continue;
 			}
 
@@ -118,26 +106,19 @@ class Generator
 				$configPath = $path . '/config.neon';
 			}
 
-			$composerPath = $path . '/composer.json';
-
-			if (is_file($composerPath) && json_decode(file_get_contents($composerPath)) === null) {
-				PackageDescriptorCompileException::composerJsonIsBroken($packageName);
+			if (is_file($composerPath = $path . '/composer.json') && json_decode(file_get_contents($composerPath)) === null) {
+				PackageDescriptorCompileException::composerJsonIsBroken($name);
 			}
 
-			$item = [
-				'name' => $packageName,
-				'version' => $packagesVersions[$packageName] ?? null,
+			$packages[] = [
+				'name' => $name,
+				'version' => $packagesVersions[$name] ?? null,
 				'dependency' => $dependency,
 				'config' => $configPath !== null ? $this->formatConfigSections($configPath) : null,
 				'composer' => is_file($composerPath)
-					? $this->storage->haystackToArray(
-						json_decode(
-							file_get_contents($composerPath)
-						)
-					) : null,
+					? $this->storage->haystackToArray(json_decode(file_get_contents($composerPath)))
+					: null,
 			];
-
-			$packages[] = $item;
 		}
 
 		return $packages;
@@ -150,15 +131,13 @@ class Generator
 	private function formatConfigSections(string $path): array
 	{
 		$return = [];
-		$neon = Neon::decode(file_get_contents($path));
 
-		foreach (\is_array($neon) ? $neon : [] as $part => $haystack) {
+		foreach (\is_array($neon = Neon::decode(file_get_contents($path))) ? $neon : [] as $part => $haystack) {
 			if ($part === 'services') {
 				$servicesList = '';
 
-				foreach ($haystack as $serviceKey => $serviceClass) {
-					$servicesList .= (\is_int($serviceKey) ? '- ' : $serviceKey . ': ')
-						. Neon::encode($serviceClass) . "\n";
+				foreach ($haystack as $key => $serviceClass) {
+					$servicesList .= (\is_int($key) ? '- ' : $key . ': ') . Neon::encode($serviceClass) . "\n";
 				}
 
 				$return[$part] = [
@@ -192,7 +171,7 @@ class Generator
 				$lockFile = null;
 			}
 
-			if (!is_file($lockFile)) {
+			if (is_file($lockFile) === false) {
 				PackageDescriptorCompileException::canNotLoadComposerLock($lockFile);
 			}
 

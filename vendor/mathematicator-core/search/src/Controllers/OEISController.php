@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\SearchController;
 
 
+use Baraja\Doctrine\EntityManagerException;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Mathematicator\Engine\Source;
 use Mathematicator\Search\Box;
-use Model\Math\Statistics\StatisticsManager;
+use Mathematicator\Statistics\StatisticsManager;
 use Nette\Application\LinkGenerator;
 use Nette\Utils\Strings;
 
@@ -13,7 +18,7 @@ class OEISController extends BaseController
 {
 
 	/**
-	 * @var \string[]
+	 * @var string[]
 	 */
 	private static $types = [
 		'O' => 'Offset',
@@ -41,15 +46,19 @@ class OEISController extends BaseController
 
 	public function actionDefault(): void
 	{
-		$sequence = $this->statisticManager->getSequence($this->getQuery());
-
 		$this->setInterpret(Box::TYPE_HTML)
 			->setText(
-				'<a href="https://oeis.org/' . $sequence->getAId() . '" target="_blank">'
-				. $sequence->getAId()
+				'<a href="https://oeis.org/' . $this->getQuery() . '" target="_blank">'
+				. $this->getQuery()
 				. '</a>'
 				. '<br>On-line Encyklopedie celočíselných posloupností'
 			);
+
+		try {
+			$sequence = $this->statisticManager->getSequence($this->getQuery());
+		} catch (NoResultException|NonUniqueResultException|EntityManagerException $e) {
+			return;
+		}
 
 		$this->addBox(Box::TYPE_HTML)
 			->setTitle('Posloupnost')
@@ -141,7 +150,7 @@ class OEISController extends BaseController
 	 */
 	private function formatLinks(string $data): string
 	{
-		return preg_replace_callback('/\s(A\d{6})\s/', function (array $row) {
+		return (string) preg_replace_callback('/\s(A\d{6})\s/', function (array $row): string {
 			return ' <a href="' . $this->linkToSearch($row[1]) . '">' . $row[1] . '</a> ';
 		}, $data);
 	}

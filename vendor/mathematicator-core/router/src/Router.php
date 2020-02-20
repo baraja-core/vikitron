@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace Mathematicator\Router;
 
+
 use Mathematicator\Engine\TerminateException;
 use Mathematicator\SearchController\CrossMultiplicationController;
 use Mathematicator\SearchController\DateController;
 use Mathematicator\SearchController\ErrorTooLongController;
+use Mathematicator\SearchController\IntegralController;
+use Mathematicator\SearchController\MandelbrotSetController;
 use Mathematicator\SearchController\NumberController;
 use Mathematicator\SearchController\NumberCounterController;
 use Mathematicator\SearchController\OEISController;
 use Mathematicator\SearchController\OtherController;
 use Mathematicator\SearchController\SequenceController;
+use Mathematicator\SearchController\TreeController;
 use Nette\Utils\Strings;
 
 class Router
@@ -46,7 +50,7 @@ class Router
 		$route = OtherController::class;
 
 		try {
-			$this->router();
+			$this->process();
 		} catch (TerminateException $e) {
 			$route = $e->getMessage();
 		}
@@ -57,17 +61,21 @@ class Router
 	/**
 	 * @throws TerminateException
 	 */
-	private function router(): void
+	private function process(): void
 	{
 		$this->tooLongQueryRoute(ErrorTooLongController::class);
+		$this->regexRoute('(?:strom|tree)\s+.+', TreeController::class);
+		$this->regexRoute('integr(?:a|á)l\s+.+', IntegralController::class);
 		$this->regexRoute('-?[0-9]*[.]?[0-9]+([Ee]\d+)?', NumberController::class);
 		$this->regexRoute('\d+\/\d+', NumberController::class);
 		$this->regexRoute('[IVXLCDMivxlcdm]{2,}', NumberController::class);
+		$this->staticRoute(['pi', 'ludolfovo cislo'], NumberController::class);
 		$this->regexRoute('A\d{6}', OEISController::class);
 		$this->tokenizeRoute(NumberCounterController::class);
 		$this->regexRoute('now|\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{1,2}-\d{1,2}', DateController::class);
 		$this->regexRoute('(\-?[0-9]*[.]?[0-9]+([^0-9\.\-]+)?){3,}', SequenceController::class);
-		$this->keyWordRoute();
+		$this->staticRoute(['mandelbrotova mnozina', 'mandelbrot set'], MandelbrotSetController::class);
+		$this->staticRoute(['trojclenka'], CrossMultiplicationController::class);
 	}
 
 	/**
@@ -94,6 +102,24 @@ class Router
 	}
 
 	/**
+	 * @param string[] $queries
+	 * @param string $entity
+	 * @throws TerminateException
+	 */
+	private function staticRoute(array $queries, string $entity): void
+	{
+		static $queryCache = [];
+
+		if (isset($queryCache[$this->query]) === false) {
+			$queryCache[$this->query] = strtolower(trim(Strings::toAscii($this->query)));
+		}
+
+		if (\in_array($queryCache[$this->query], $queries, true) === true) {
+			throw new TerminateException($entity);
+		}
+	}
+
+	/**
 	 * @param string $entity
 	 * @throws TerminateException
 	 */
@@ -101,18 +127,6 @@ class Router
 	{
 		if (preg_match('/([\+\-\*\/\^\!])|INF|PI|<=>|<=+|>=+|!=+|=+|<>|>+|<+|(' . implode('\(|', $this->functions) . '\()/', $this->query)) {
 			throw new TerminateException($entity);
-		}
-	}
-
-	/**
-	 * @throws TerminateException
-	 */
-	private function keyWordRoute(): void
-	{
-		$query = trim(Strings::toAscii($this->query));
-
-		if ($query === 'trojclenka') {
-			throw new TerminateException(CrossMultiplicationController::class);
 		}
 	}
 

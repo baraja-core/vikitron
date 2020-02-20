@@ -10,7 +10,10 @@
 	],
 	"require": {
 		"php": ">=7.1",
-		"nette/tester": "^2.0"
+		"nette/di": "^3.0",
+		"nette/tester": "^2.0",
+		"nette/utils": "^3.0",
+		"tracy/tracy": "^2.6"
 	},
 	"autoload": {
 		"classmap": [

@@ -1,8 +1,15 @@
 services:
-	- Mathematicator\Engine\Engine
-	- Mathematicator\Engine\QueryNormalizer
-	- Mathematicator\Engine\Translator
-	- Model\Math\NumberRewriter
+	mathematicator.engine:
+		factory: Mathematicator\Engine\Engine
+		setup:
+			- addExtraModule(@Mathematicator\Engine\SampleModule)
+	mathematicator.queryNormalizer:
+		factory: Mathematicator\Engine\QueryNormalizer
+	mathematicator.translator:
+	 	factory: Mathematicator\Engine\Translator
+	- Mathematicator\NumberRewriter
+	- Mathematicator\NaturalTextFormatter
+	- Mathematicator\Engine\SampleModule
 
 orm.annotations:
 	paths:

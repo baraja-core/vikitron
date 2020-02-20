@@ -1,6 +1,9 @@
 <?php
 
-namespace Model\Math\MathFunction;
+declare(strict_types=1);
+
+namespace Mathematicator\MathFunction;
+
 
 use Mathematicator\Engine\MathematicatorException;
 
@@ -20,7 +23,7 @@ class FunctionDoesNotExistsException extends MathematicatorException
 	 * @param \Throwable|null $previous
 	 * @param string $function
 	 */
-	public function __construct(string $message = '', int $code = 0, \Throwable $previous = null, string $function)
+	public function __construct(string $message = '', int $code = 0, \Throwable $previous = null, string $function = '')
 	{
 		parent::__construct($message, $code, $previous);
 		$this->function = $function;

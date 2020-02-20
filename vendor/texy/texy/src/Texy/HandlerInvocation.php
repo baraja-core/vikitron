@@ -17,7 +17,7 @@ final class HandlerInvocation
 {
 	use Strict;
 
-	/** @var array of callbacks */
+	/** @var array<int, callable> */
 	private $handlers;
 
 	/** @var int  callback counter */
@@ -40,9 +40,7 @@ final class HandlerInvocation
 	}
 
 
-	/**
-	 * @return mixed
-	 */
+	/** @return mixed */
 	public function proceed(...$args)
 	{
 		if ($this->pos === 0) {

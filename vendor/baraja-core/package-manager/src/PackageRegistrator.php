@@ -20,7 +20,7 @@ class PackageRegistrator
 	/**
 	 * @var bool
 	 */
-	private static $singleton = false;
+	private static $created = false;
 
 	/**
 	 * @var string
@@ -58,24 +58,34 @@ class PackageRegistrator
 	private static $runAfterScripts = false;
 
 	/**
+	 * @var string[]
+	 */
+	private static $neonNoUseParams = [
+		'includes' => true,
+		'application' => true,
+		'menu' => true,
+		'routers' => true,
+		'afterInstall' => true,
+	];
+
+	/**
 	 * @param string|null $projectRoot
 	 * @param string|null $tempPath
 	 */
-	public function __construct(string $projectRoot = null, string $tempPath = null)
+	public function __construct(?string $projectRoot = null, ?string $tempPath = null)
 	{
-		if (self::$singleton === true) {
+		if (self::$created === true || $projectRoot === null || $tempPath === null) {
 			return;
 		}
 
-		self::$singleton = true;
+		self::$created = true;
 		self::$projectRoot = rtrim($projectRoot, '/');
 		self::$configPath = self::$projectRoot . '/app/config/common.neon';
 		self::$configPackagePath = self::$projectRoot . '/app/config/package.neon';
 		self::$configLocalPath = self::$projectRoot . '/app/config/local.neon';
 
-		$storage = new Storage($tempPath);
-
 		try {
+			$storage = new Storage($tempPath);
 			try {
 				self::$packageDescriptorEntity = $storage->load();
 
@@ -84,9 +94,7 @@ class PackageRegistrator
 				}
 			} catch (PackageEntityDoesNotExistsException $e) {
 				$storage->save(
-					self::$packageDescriptorEntity = (
-					new Generator($projectRoot, $this->getCustomPackageNamePatters(), $storage)
-					)->generate(),
+					self::$packageDescriptorEntity = (new Generator($projectRoot, $this->getPackageNamePatterns(), $storage))->run(),
 					$this->getComposerHash()
 				);
 				$this->createPackageConfig(self::$packageDescriptorEntity);
@@ -101,11 +109,7 @@ class PackageRegistrator
 	public static function composerPostAutoloadDump(): void
 	{
 		try {
-			$interactiveComposer = new InteractiveComposer(
-				new self(__DIR__ . '/../../../../', __DIR__ . '/../../../../temp/')
-			);
-
-			$interactiveComposer->run();
+			(new InteractiveComposer(new self(__DIR__ . '/../../../../', __DIR__ . '/../../../../temp/')))->run();
 		} catch (\Exception $e) {
 			Helpers::terminalRenderError($e->getMessage());
 			Helpers::terminalRenderCode($e->getFile(), $e->getLine());
@@ -127,12 +131,8 @@ class PackageRegistrator
 	 */
 	public function getParameters(): array
 	{
-		if (self::$parameters === null) {
-			$configNeon = Neon::decode(file_get_contents(self::$configPath));
-
-			if (isset($configNeon['parameters'])) {
-				self::$parameters = $configNeon['parameters'];
-			}
+		if (self::$parameters === null && isset(($configNeon = Neon::decode(file_get_contents(self::$configPath)))['parameters'])) {
+			self::$parameters = $configNeon['parameters'];
 		}
 
 		return self::$parameters ?? [];
@@ -141,14 +141,13 @@ class PackageRegistrator
 	/**
 	 * @return string[]
 	 */
-	public function getCustomPackageNamePatters(): array
+	public function getPackageNamePatterns(): array
 	{
 		$return = ['^baraja-'];
 
 		$packageRegistrator = $this->getParameters()['packageRegistrator'] ?? null;
-		$cuPaNaPa = 'customPackagesNamePatterns';
-		if (isset($packageRegistrator[$cuPaNaPa]) && \is_array($packageRegistrator[$cuPaNaPa])) {
-			return \array_merge($return, $packageRegistrator[$cuPaNaPa]);
+		if (isset($packageRegistrator[$key = 'customPackagesNamePatterns']) && \is_array($packageRegistrator[$key])) {
+			return \array_merge($return, $packageRegistrator[$key]);
 		}
 
 		return $return;
@@ -204,37 +203,22 @@ class PackageRegistrator
 	 */
 	public function runAfterActions(Configurator $configurator): void
 	{
-		static $singleton = false;
+		static $created = false;
 
-		if ($singleton === true) {
-			return;
-		}
+		if ($created === false) {
+			$created = true;
+			if (self::$runAfterScripts === true) {
+				$containerClass = $configurator->loadContainer();
+				/** @var Container $container */
+				$container = new $containerClass;
 
-		$singleton = true;
-
-		if (self::$runAfterScripts === true) {
-			$containerClass = $configurator->loadContainer();
-			/** @var Container $container */
-			$container = new $containerClass;
-
-			$someChanged = false;
-
-			foreach (self::$packageDescriptorEntity->getAfterInstallScripts() as $script) {
-				if (\class_exists($script)) {
-					/** @var IAfterInstall $instance */
-					$instance = new $script($container, $this);
-					if ($instance->run() === true) {
-						$someChanged = true;
+				foreach (self::$packageDescriptorEntity->getAfterInstallScripts() as $script) {
+					if (\class_exists($script) === true) {
+						/** @var IAfterInstall $instance */
+						$instance = new $script($container, $this);
+						$instance->run();
 					}
 				}
-			}
-
-			if ($someChanged === true) {
-				echo "\n\n";
-				echo '----------------------------------------------------' . "\n";
-				echo '---------------- PLEASE RELOAD PAGE ----------------' . "\n";
-				echo '----------------------------------------------------' . "\n\n";
-				die;
 			}
 		}
 	}
@@ -247,17 +231,9 @@ class PackageRegistrator
 	{
 		$neon = [];
 
-		$neonNoUseParam = [
-			'includes',
-			'application',
-			'menu',
-			'routers',
-			'afterInstall',
-		];
-
 		foreach ($packageDescriptorEntity->getPackagest(true) as $package) {
 			foreach ($package->getConfig() as $param => $value) {
-				if (!\in_array($param, $neonNoUseParam, true)) {
+				if (isset(self::$neonNoUseParams[$param]) === false) {
 					$neon[$param][] = [
 						'name' => $package->getName(),
 						'version' => $package->getVersion(),
@@ -276,9 +252,7 @@ class PackageRegistrator
 
 			if ($param === 'services') {
 				foreach (\is_array($values) ? $values : [] as $value) {
-					$neonData = Neon::decode($value['data']['data']);
-
-					foreach ($neonData as $treeKey => $treeValue) {
+					foreach ($neonData = Neon::decode($value['data']['data']) as $treeKey => $treeValue) {
 						if (is_int($treeKey) || (is_string($treeKey) && preg_match('/^-?\d+\z/', $treeKey))) {
 							unset($neonData[$treeKey]);
 							$neonData['helperKey_' . $anonymousServiceCounter] = $treeValue;
@@ -325,10 +299,7 @@ class PackageRegistrator
 						return $score;
 					};
 
-					$a = $score($left);
-					$b = $score($right);
-
-					if ($a > $b) {
+					if (($a = $score($left)) > ($b = $score($right))) {
 						return -1;
 					}
 
@@ -361,10 +332,7 @@ class PackageRegistrator
 		$return = (string) preg_replace('/(\s)\[\]\-(\s)/', '$1-$2', $return);
 
 		if (!@file_put_contents(self::$configPackagePath, trim($return) . "\n")) {
-			throw new PackageDescriptorException(
-				'Can not rewrite package.neon. Path: [' . self::$configPackagePath . ']'
-				. "\n" . error_get_last()['message']
-			);
+			PackageDescriptorException::canNotRewritePackageNeon(self::$configPackagePath);
 		}
 	}
 
@@ -394,11 +362,11 @@ class PackageRegistrator
 	{
 		static $cache;
 
-		if ($cache !== null) {
-			return $cache;
+		if ($cache === null) {
+			$cache = (@md5_file(self::$projectRoot . '/vendor/composer/installed.json')) ? : md5((string) time());
 		}
 
-		return $cache = (@md5_file(self::$projectRoot . '/vendor/composer/installed.json')) ? : md5((string) time());
+		return $cache;
 	}
 
 }

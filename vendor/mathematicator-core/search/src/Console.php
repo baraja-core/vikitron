@@ -37,6 +37,11 @@ class Console extends Command
 			->setDescription('Search by computational knowledge engine.');
 	}
 
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		try {
@@ -75,6 +80,9 @@ class Console extends Command
 		}
 	}
 
+	/**
+	 * @param EngineSingleResult $result
+	 */
 	private function render(EngineSingleResult $result): void
 	{
 		if ($result->getInterpret() !== null) {

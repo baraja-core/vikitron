@@ -28,13 +28,13 @@ final class Modifier
 	/** @var string|null */
 	public $id;
 
-	/** @var array of classes (as keys) */
+	/** @var array<string, bool> of classes (as keys) */
 	public $classes = [];
 
-	/** @var array of CSS styles */
+	/** @var array<string, string> of CSS styles */
 	public $styles = [];
 
-	/** @var array of HTML element attributes */
+	/** @var array<string, string|string[]> of HTML element attributes */
 	public $attrs = [];
 
 	/** @var string|null */
@@ -49,95 +49,55 @@ final class Modifier
 	/** @var string|null */
 	public $cite;
 
-	/** @var array  list of properties which are regarded as HTML element attributes */
+	/** @var array<string, int>  list of properties which are regarded as HTML element attributes */
 	public static $elAttrs = [
-		'abbr' => 1, 'accesskey' => 1, 'align' => 1, 'alt' => 1, 'archive' => 1, 'axis' => 1, 'bgcolor' => 1, 'cellpadding' => 1,
-		'cellspacing' => 1, 'char' => 1, 'charoff' => 1, 'charset' => 1, 'cite' => 1, 'classid' => 1, 'codebase' => 1, 'codetype' => 1,
-		'colspan' => 1, 'compact' => 1, 'coords' => 1, 'data' => 1, 'datetime' => 1, 'declare' => 1, 'dir' => 1, 'face' => 1, 'frame' => 1,
-		'headers' => 1, 'href' => 1, 'hreflang' => 1, 'hspace' => 1, 'ismap' => 1, 'lang' => 1, 'longdesc' => 1, 'name' => 1,
-		'noshade' => 1, 'nowrap' => 1, 'onblur' => 1, 'onclick' => 1, 'ondblclick' => 1, 'onkeydown' => 1, 'onkeypress' => 1,
-		'onkeyup' => 1, 'onmousedown' => 1, 'onmousemove' => 1, 'onmouseout' => 1, 'onmouseover' => 1, 'onmouseup' => 1, 'rel' => 1,
-		'rev' => 1, 'rowspan' => 1, 'rules' => 1, 'scope' => 1, 'shape' => 1, 'size' => 1, 'span' => 1, 'src' => 1, 'standby' => 1,
-		'start' => 1, 'summary' => 1, 'tabindex' => 1, 'target' => 1, 'title' => 1, 'type' => 1, 'usemap' => 1, 'valign' => 1,
-		'value' => 1, 'vspace' => 1,
+		'abbr' => 1, 'accesskey' => 1, 'alt' => 1, 'cite' => 1, 'colspan' => 1, 'contenteditable' => 1, 'crossorigin' => 1,
+		'datetime' => 1, 'decoding' => 1, 'download' => 1, 'draggable' => 1, 'for' => 1, 'headers' => 1, 'hidden' => 1,
+		'href' => 1, 'hreflang' => 1, 'id' => 1, 'itemid' => 1, 'itemprop' => 1, 'itemref' => 1, 'itemscope' => 1, 'itemtype' => 1,
+		'lang' => 1, 'name' => 1, 'ping' => 1, 'referrerpolicy' => 1, 'rel' => 1, 'reversed' => 1, 'rowspan' => 1, 'scope' => 1,
+		'slot' => 1, 'src' => 1, 'srcset' => 1, 'start' => 1, 'target' => 1, 'title' => 1, 'translate' => 1, 'type' => 1, 'value' => 1,
 	];
 
 
-	public function __construct(string $mod = null)
+	public function __construct(string $s = null)
 	{
-		$this->setProperties($mod);
+		$this->setProperties($s);
 	}
 
 
-	public function setProperties(?string $mod): void
+	public function setProperties(?string $s): void
 	{
-		if (!$mod) {
-			return;
-		}
-
 		$p = 0;
-		$len = strlen($mod);
+		$len = $s ? strlen($s) : 0;
 
 		while ($p < $len) {
-			$ch = $mod[$p];
+			$ch = $s[$p];
 
 			if ($ch === '(') { // title
-				preg_match('#(?:\\\\\)|[^)\n])++\)#', $mod, $m, 0, $p);
-				$this->title = html_entity_decode(str_replace('\)', ')', trim(substr($m[0], 1, -1))), ENT_QUOTES, 'UTF-8');
+				preg_match('#(?:\\\\\)|[^)\n])++\)#', $s, $m, 0, $p);
+				$this->title = Helpers::unescapeHtml(str_replace('\)', ')', trim(substr($m[0], 1, -1))));
 				$p += strlen($m[0]);
 
 			} elseif ($ch === '{') { // style & attributes
-				$a = strpos($mod, '}', $p) + 1;
-				foreach (explode(';', substr($mod, $p + 1, $a - $p - 2)) as $value) {
-					$pair = explode(':', $value, 2);
-					$prop = strtolower(trim($pair[0]));
-					if ($prop === '' || !isset($pair[1])) {
-						continue;
-					}
-					$value = trim($pair[1]);
-
-					if (isset(self::$elAttrs[$prop]) || substr($prop, 0, 5) === 'data-') { // attribute
-						$this->attrs[$prop] = $value;
-					} elseif ($value !== '') { // style
-						$this->styles[$prop] = $value;
-					}
-				}
+				$a = strpos($s, '}', $p) + 1;
+				$this->parseStyle(substr($s, $p + 1, $a - $p - 2));
 				$p = $a;
 
 			} elseif ($ch === '[') { // classes & ID
-				$a = strpos($mod, ']', $p) + 1;
-				$s = str_replace('#', ' #', substr($mod, $p + 1, $a - $p - 2));
-				foreach (explode(' ', $s) as $value) {
-					if ($value === '') {
-						continue;
-					} elseif ($value{0} === '#') {
-						$this->id = substr($value, 1);
-					} else {
-						$this->classes[$value] = true;
-					}
-				}
+				$a = strpos($s, ']', $p) + 1;
+				$this->parseClasses(str_replace('#', ' #', substr($s, $p + 1, $a - $p - 2)));
 				$p = $a;
 
-			} elseif ($ch === '^') { // alignment
-				$this->vAlign = 'top';
+			} elseif ($val = ['^' => 'top', '-' => 'middle', '_' => 'bottom'][$ch] ?? null) { // alignment
+				$this->vAlign = $val;
 				$p++;
-			} elseif ($ch === '-') {
-				$this->vAlign = 'middle';
-				$p++;
-			} elseif ($ch === '_') {
-				$this->vAlign = 'bottom';
-				$p++;
-			} elseif ($ch === '=') {
-				$this->hAlign = 'justify';
-				$p++;
-			} elseif ($ch === '>') {
-				$this->hAlign = 'right';
-				$p++;
-			} elseif (substr($mod, $p, 2) === '<>') {
+
+			} elseif (substr($s, $p, 2) === '<>') {
 				$this->hAlign = 'center';
 				$p += 2;
-			} elseif ($ch === '<') {
-				$this->hAlign = 'left';
+
+			} elseif ($val = ['=' => 'justify', '>' => 'right', '<' => 'left'][$ch] ?? null) {
+				$this->hAlign = $val;
 				$p++;
 			} else {
 				break;
@@ -151,92 +111,143 @@ final class Modifier
 	 */
 	public function decorate(Texy $texy, HtmlElement $el): HtmlElement
 	{
-		$elAttrs = &$el->attrs;
-
-		// tag & attibutes
-		$tmp = $texy->allowedTags; // speed-up
-		if (!$this->attrs) {
-		} elseif ($tmp === $texy::ALL) {
-			$elAttrs = $this->attrs;
-			$el->validateAttrs($texy->dtd);
-
-		} elseif (is_array($tmp) && isset($tmp[$el->getName()])) {
-			$tmp = $tmp[$el->getName()];
-
-			if ($tmp === $texy::ALL) {
-				$elAttrs = $this->attrs;
-
-			} elseif (is_array($tmp) && count($tmp)) {
-				$tmp = array_flip($tmp);
-				foreach ($this->attrs as $key => $value) {
-					if (isset($tmp[$key])) {
-						$el->attrs[$key] = $value;
-					}
-				}
-			}
-			$el->validateAttrs($texy->dtd);
-		}
-
-		// title
-		if ($this->title !== null) {
-			$elAttrs['title'] = $texy->typographyModule->postLine($this->title);
-		}
-
-		// classes & ID
-		if ($this->classes || $this->id !== null) {
-			$tmp = $texy->_classes; // speed-up
-			if ($tmp === $texy::ALL) {
-				foreach ($this->classes as $value => $foo) {
-					$elAttrs['class'][] = $value;
-				}
-				$elAttrs['id'] = $this->id;
-			} elseif (is_array($tmp)) {
-				foreach ($this->classes as $value => $foo) {
-					if (isset($tmp[$value])) {
-						$elAttrs['class'][] = $value;
-					}
-				}
-
-				if (isset($tmp['#' . $this->id])) {
-					$elAttrs['id'] = $this->id;
-				}
-			}
-		}
-
-		// styles
-		if ($this->styles) {
-			$tmp = $texy->_styles; // speed-up
-			if ($tmp === $texy::ALL) {
-				foreach ($this->styles as $prop => $value) {
-					$elAttrs['style'][$prop] = $value;
-				}
-			} elseif (is_array($tmp)) {
-				foreach ($this->styles as $prop => $value) {
-					if (isset($tmp[$prop])) {
-						$elAttrs['style'][$prop] = $value;
-					}
-				}
-			}
-		}
-
-		// horizontal align
-		if ($this->hAlign) {
-			if (empty($texy->alignClasses[$this->hAlign])) {
-				$elAttrs['style']['text-align'] = $this->hAlign;
-			} else {
-				$elAttrs['class'][] = $texy->alignClasses[$this->hAlign];
-			}
-		}
-
-		// vertical align
-		if ($this->vAlign) {
-			if (empty($texy->alignClasses[$this->vAlign])) {
-				$elAttrs['style']['vertical-align'] = $this->vAlign;
-			} else {
-				$elAttrs['class'][] = $texy->alignClasses[$this->vAlign];
-			}
-		}
-
+		$this->decorateAttrs($texy, $el->attrs, $el->getName());
+		$el->validateAttrs($texy->getDTD());
+		$this->decorateClasses($texy, $el->attrs);
+		$this->decorateStyles($texy, $el->attrs);
+		$this->decorateAligns($texy, $el->attrs);
 		return $el;
+	}
+
+
+	private function decorateAttrs(Texy $texy, array &$attrs, string $name): void
+	{
+		if (!$this->attrs) {
+		} elseif ($texy->allowedTags === $texy::ALL) {
+			$attrs = $this->attrs;
+
+		} elseif (is_array($texy->allowedTags)) {
+			$attrs = $texy->allowedTags[$name] ?? null;
+
+			if ($attrs === $texy::ALL) {
+				$attrs = $this->attrs;
+
+			} elseif (is_array($attrs) && count($attrs)) {
+				$attrs = array_flip($attrs);
+				foreach ($this->attrs as $key => $value) {
+					if (isset($attrs[$key])) {
+						$attrs[$key] = $value;
+					}
+				}
+			}
+		}
+
+		if ($this->title !== null) {
+			$attrs['title'] = $texy->typographyModule->postLine($this->title);
+		}
+	}
+
+
+	private function decorateClasses(Texy $texy, array &$attrs): void
+	{
+		if ($this->classes || $this->id !== null) {
+			[$allowedClasses] = $texy->getAllowedProps();
+			settype($attrs['class'], 'array');
+			if ($allowedClasses === $texy::ALL) {
+				foreach ($this->classes as $value => $foo) {
+					$attrs['class'][] = $value;
+				}
+				$attrs['id'] = $this->id;
+			} elseif (is_array($allowedClasses)) {
+				foreach ($this->classes as $value => $foo) {
+					if (isset($allowedClasses[$value])) {
+						$attrs['class'][] = $value;
+					}
+				}
+
+				if (isset($allowedClasses['#' . $this->id])) {
+					$attrs['id'] = $this->id;
+				}
+			}
+		}
+	}
+
+
+	private function decorateStyles(Texy $texy, array &$attrs): void
+	{
+		if ($this->styles) {
+			[, $allowedStyles] = $texy->getAllowedProps();
+			settype($attrs['style'], 'array');
+			if ($allowedStyles === $texy::ALL) {
+				foreach ($this->styles as $prop => $value) {
+					$attrs['style'][$prop] = $value;
+				}
+			} elseif (is_array($allowedStyles)) {
+				foreach ($this->styles as $prop => $value) {
+					if (isset($allowedStyles[$prop])) {
+						$attrs['style'][$prop] = $value;
+					}
+				}
+			}
+		}
+	}
+
+
+	private function decorateAligns(Texy $texy, array &$attrs): void
+	{
+		if ($this->hAlign) {
+			$class = $texy->alignClasses[$this->hAlign] ?? null;
+			if ($class) {
+				settype($attrs['class'], 'array');
+				$attrs['class'][] = $class;
+			} else {
+				settype($attrs['style'], 'array');
+				$attrs['style']['text-align'] = $this->hAlign;
+			}
+		}
+
+		if ($this->vAlign) {
+			$class = $texy->alignClasses[$this->vAlign] ?? null;
+			if ($class) {
+				settype($attrs['class'], 'array');
+				$attrs['class'][] = $class;
+			} else {
+				settype($attrs['style'], 'array');
+				$attrs['style']['vertical-align'] = $this->vAlign;
+			}
+		}
+	}
+
+
+	private function parseStyle(string $s): void
+	{
+		foreach (explode(';', $s) as $value) {
+			$pair = explode(':', $value, 2);
+			$prop = strtolower(trim($pair[0]));
+			if ($prop === '' || !isset($pair[1])) {
+				continue;
+			}
+			$value = trim($pair[1]);
+
+			if (isset(self::$elAttrs[$prop]) || substr($prop, 0, 5) === 'data-') { // attribute
+				$this->attrs[$prop] = $value;
+			} elseif ($value !== '') { // style
+				$this->styles[$prop] = $value;
+			}
+		}
+	}
+
+
+	private function parseClasses(string $s): void
+	{
+		foreach (explode(' ', $s) as $value) {
+			if ($value === '') {
+				continue;
+			} elseif ($value[0] === '#') {
+				$this->id = substr($value, 1);
+			} else {
+				$this->classes[$value] = true;
+			}
+		}
 	}
 }

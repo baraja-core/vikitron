@@ -1,6 +1,9 @@
 <?php
 
-namespace Model\Math;
+declare(strict_types=1);
+
+namespace Mathematicator;
+
 
 use Mathematicator\Engine\MathematicatorException;
 

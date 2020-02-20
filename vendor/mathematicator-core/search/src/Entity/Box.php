@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Search;
+
 
 use Latte\Runtime\Filters;
 use Mathematicator\Calculator\Step;
 use Nette\SmartObject;
 use Nette\Utils\Json;
 use Nette\Utils\Strings;
-
 
 class Box
 {
@@ -19,6 +21,8 @@ class Box
 	public const TYPE_TEXT = 'type_text';
 	public const TYPE_LATEX = 'type_latex';
 	public const TYPE_HTML = 'type_html';
+	public const TYPE_KEYWORD = 'type_keyword';
+	public const TYPE_IMAGE = 'type_image';
 	public const TYPE_GRAPH = 'type_graph';
 	public const TYPE_TABLE = 'type_table';
 
@@ -28,17 +32,17 @@ class Box
 	private $type;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
-	private $icon = '&#xE155';
+	private $icon;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $title;
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	private $text;
 
@@ -51,6 +55,13 @@ class Box
 	 * @var int
 	 */
 	private $rank;
+
+	/**
+	 * Internal technical identifier.
+	 *
+	 * @var string|null
+	 */
+	private $tag;
 
 	/**
 	 * @var Step[]
@@ -91,10 +102,13 @@ class Box
 
 	/**
 	 * @param int[]|string[] $table
+	 * @return Box
 	 */
-	public function setTable(array $table): void
+	public function setTable(array $table): self
 	{
 		$this->text = Json::encode($table);
+
+		return $this;
 	}
 
 	/**
@@ -126,7 +140,17 @@ class Box
 	 */
 	public function getIcon(): string
 	{
-		return $this->icon;
+		if ($this->icon === null) {
+			$icon = 'fas fa-hashtag';
+
+			if ($this->type === self::TYPE_IMAGE) {
+				$icon = 'fas fa-image';
+			}
+		} else {
+			$icon = $this->icon;
+		}
+
+		return '<i class="' . $icon . '"></i>';
 	}
 
 	/**
@@ -135,7 +159,13 @@ class Box
 	 */
 	public function setIcon(string $icon): self
 	{
-		$this->icon = $icon;
+		if (preg_match('/^(fas?)\s+(fa-[a-z0-9\-]+)$/', Strings::normalize($icon), $parser)) {
+			$this->icon = $parser[1] . ' ' . $parser[2];
+		} else {
+			trigger_error(
+				'Icon "' . $icon . '" is not valid FontAwesome icon. Use format "fas fa-xxx".'
+			);
+		}
 
 		return $this;
 	}
@@ -145,7 +175,7 @@ class Box
 	 */
 	public function getTitle(): string
 	{
-		return $this->title;
+		return $this->title ?? '';
 	}
 
 	/**
@@ -164,22 +194,22 @@ class Box
 	 */
 	public function getText(): string
 	{
-		return $this->text;
+		return $this->text ?? '';
 	}
 
 	/**
-	 * @param string $text
+	 * @param mixed $text
 	 * @return Box
 	 */
-	public function setText(string $text): self
+	public function setText($text): self
 	{
-		$this->text = $text;
+		$this->text = (string) $text;
 
 		return $this;
 	}
 
 	/**
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getUrl(): ?string
 	{
@@ -212,6 +242,27 @@ class Box
 	}
 
 	/**
+	 * @internal
+	 * @return string|null
+	 */
+	public function getTag(): ?string
+	{
+		return $this->tag;
+	}
+
+	/**
+	 * @internal
+	 * @param string|null $tag
+	 * @return Box
+	 */
+	public function setTag(?string $tag): self
+	{
+		$this->tag = $tag;
+
+		return $this;
+	}
+
+	/**
 	 * @return Step[]
 	 */
 	public function getSteps(): array
@@ -221,9 +272,10 @@ class Box
 
 	/**
 	 * @param Step[] $steps
+	 * @return Box
 	 * @throws \InvalidArgumentException
 	 */
-	public function setSteps(array $steps): void
+	public function setSteps(array $steps): self
 	{
 		foreach ($steps as $step) {
 			if (!($step instanceof Step)) {
@@ -232,14 +284,19 @@ class Box
 		}
 
 		$this->steps = $steps;
+
+		return $this;
 	}
 
 	/**
 	 * @param Step $step
+	 * @return Box
 	 */
-	public function addStep(Step $step): void
+	public function addStep(Step $step): self
 	{
 		$this->steps[] = $step;
+
+		return $this;
 	}
 
 	/**

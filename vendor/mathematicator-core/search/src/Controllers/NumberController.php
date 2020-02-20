@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Mathematicator\SearchController;
 
 
-use App\VikiTron\Model\Number\NumberHelper;
-use Math\Steps\Model\RomanIntSteps;
 use Mathematicator\Engine\DivisionByZero;
 use Mathematicator\Engine\Helper\Czech;
 use Mathematicator\Engine\Helper\DateTime;
 use Mathematicator\Engine\Translator;
+use Mathematicator\NumberHelper;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Numbers\SmartNumber;
 use Mathematicator\Search\Box;
-use Model\Math\Step\StepFactory;
+use Mathematicator\Step\RomanIntSteps;
+use Mathematicator\Step\StepFactory;
 use Nette\Application\LinkGenerator;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
@@ -91,11 +91,17 @@ class NumberController extends BaseController
 				->setSteps($this->romanToIntSteps->getRomanToIntSteps($this->getQuery()));
 		}
 
+		if (\in_array(strtolower(Strings::toAscii((string) $number)), ['pi', 'ludolfovo cislo'], true) === true) {
+			$this->aboutPi();
+
+			return;
+		}
+
 		try {
 			$this->number = $this->numberFactory->create($number);
 			$this->actionNumericalField($this->number);
 		} catch (DivisionByZero $e) {
-			$this->actionDivisionByZero($number);
+			$this->actionDivisionByZero((string) $number);
 		}
 
 		if ($this->number->isInteger()) {
@@ -112,12 +118,11 @@ class NumberController extends BaseController
 			$this->setInterpret(
 				Box::TYPE_LATEX,
 				'\frac{' . $fraction[0] . '}{' . $fraction[1]
-				. '} ≈ ' . Strings::substring($this->number->getFloat(),
-					0, 50
-				)
+				. '} ≈ '
+				. number_format($this->number->getFloat(), $this->queryEntity->getDecimals(), '.', ' ')
 			);
 
-			$this->actionFloat($this->number->getFloat());
+			$this->actionFloat();
 		}
 	}
 
@@ -178,15 +183,8 @@ class NumberController extends BaseController
 			->setSteps([$step]);
 	}
 
-	/**
-	 * @param float $float
-	 */
-	private function actionFloat(float $float): void
+	private function actionFloat(): void
 	{
-		if (abs($float - M_PI) < 0.1) {
-			$this->aboutPi();
-		}
-
 		if ($this->number->getFraction()[1] !== 1) {
 			$this->convertToFraction();
 		}
@@ -239,7 +237,7 @@ class NumberController extends BaseController
 				$stepDescription[] = 'Je větší než nula.';
 			}
 		} else {
-			$text = 'Iracionální reálné číslo';
+			$text = 'Reálné číslo';
 			$stepDescription[] = 'Není celé číslo.';
 
 			if ($number->getFloat() === round($number->getFloat(), 3)) {
@@ -327,18 +325,19 @@ class NumberController extends BaseController
 		$currentTimestamp = \time();
 		$dateDiff = abs($currentTimestamp - $int);
 
-		$timestamp = '<b>' . DateTime::getDateTimeIso((int) $int) . '</b>'
-			. '<br><br>'
+		$timestamp = '<p><b>' . DateTime::getDateTimeIso((int) $int) . '</b></p>'
+			. '<p>'
 			. ($currentTimestamp < $int
 				? 'Bude za ' . $dateDiff . ' sekund (' . DateTime::formatTimeAgo($currentTimestamp - $dateDiff) . ')'
-				: 'Bylo před ' . $dateDiff . ' sekundami (' . DateTime::formatTimeAgo($int) . ').'
+				: 'Bylo před ' . $dateDiff . ' sekundami (' . DateTime::formatTimeAgo((int) $int) . ').'
 			)
-			. ((int) date('Y', $int) >= 2038
-				? '<br><br>Pozor: Po roce 2038 nemusí tento timestamp fungovat na 32-bitových počítačích, protože překračuje maximální hodnotu, kterou je možné uložit do 32-bitového integeru.'
+			. '</p>'
+			. ((int) date('Y', (int) $int) >= 2038
+				? '<p class="text-secondary">Pozor: Po roce 2038 nemusí tento timestamp fungovat na 32-bitových počítačích, protože překračuje maximální hodnotu, kterou je možné uložit do 32-bitového integeru.</p>'
 				: '');
 
-		$this->addBox(Box::TYPE_TEXT)
-			->setTitle('Unix Timestamp')
+		$this->addBox(Box::TYPE_HTML)
+			->setTitle('Unix Timestamp | Čas serveru: ' . date('d. m. Y H:i:s'))
 			->setText($timestamp);
 	}
 
@@ -350,17 +349,20 @@ class NumberController extends BaseController
 		if (\count($factors) === 1) {
 			$this->addBox(Box::TYPE_TEXT)
 				->setTitle('Prvočíselný rozklad')
-				->setText('Číslo ' . $int . ' je prvočíslo, proto nelze dále rozložit.');
+				->setText('Číslo ' . $int . ' je prvočíslo, proto nelze dále rozložit.')
+				->setTag('prime-factorizationx');
 		} else {
 			$outputFactor = '';
 			$items = 0;
+			$primaries = 0;
 
 			foreach (array_count_values($factors) as $b => $e) {
 				if ($outputFactor) {
-					$outputFactor .= ' * ';
+					$outputFactor .= ' \cdot ';
 				}
 				$items += $e;
-				if (preg_match('/^(.+)E[+-]?(.+)$/', $b, $bParser)) {
+				$primaries++;
+				if (preg_match('/^(.+)E[+-]?(.+)$/', (string) $b, $bParser)) {
 					$outputFactor .= '\left({' . $bParser[1] . '}^{' . $bParser[2] . '}\right)';
 				} else {
 					$outputFactor .= $b . ($e > 1 ? '^{' . $e . '}' : '');
@@ -368,8 +370,13 @@ class NumberController extends BaseController
 			}
 
 			$this->addBox(Box::TYPE_LATEX)
-				->setTitle('Prvočíselný rozklad | ' . Czech::inflection($items, ['člen', 'členy', 'členů']))
-				->setText($outputFactor);
+				->setTitle(
+					'Prvočíselný rozklad'
+					. ' | ' . Czech::inflection($items, ['člen', 'členy', 'členů'])
+					. ' | ' . Czech::inflection($primaries, ['prvočíslo', 'prvočísla', 'prvočísel'])
+				)
+				->setText($outputFactor)
+				->setTag('prime-factorization');
 		}
 	}
 
@@ -377,25 +384,25 @@ class NumberController extends BaseController
 	{
 		$int = $this->number->getInteger();
 		$divisors = $this->sort($this->numberHelper->getDivisors($int));
+		$title = 'Dělitelé čísla ' . $int
+			. ' | ' . Czech::inflection(\count($divisors), ['dělitel', 'dělitelé', 'dělitelů'])
+			. ' | Součet: ' . array_sum($divisors);
 
-		$divisor = ['!Dělitel'];
-		$share = ['!Podíl'];
+		if (\count($divisors) < 5) {
+			$divisor = ['!Dělitel'];
+			$share = ['!Podíl'];
 
-		for ($i = 0; isset($divisors[$i]); $i++) {
-			$divisor[] = '=' . $divisors[$i] . '=';
-			$share[] = '=' . ($int / $divisors[$i]) . '=';
+			for ($i = 0; isset($divisors[$i]); $i++) {
+				$divisor[] = '=' . $divisors[$i] . '=';
+				$share[] = '=' . ($int / $divisors[$i]) . '=';
+			}
+
+			$box = $this->addBox(Box::TYPE_TABLE)->setTable([$divisor, $share]);
+		} else {
+			$box = $this->addBox(Box::TYPE_HTML)->setText(implode(', ', $divisors));
 		}
 
-		$this->addBox(Box::TYPE_TABLE)
-			->setTitle(
-				'Dělitelé čísla ' . $int
-				. ' | ' . Czech::inflection(\count($divisors), ['dělitel', 'dělitelé', 'dělitelů'])
-				. ' | Součet: ' . array_sum($divisors)
-			)
-			->setTable([
-				$divisor,
-				$share,
-			]);
+		$box->setTitle($title)->setTag('divisors');
 
 		// TODO: 'hiddenContent' => 'Vlastnosti dělitelnosti'
 	}
@@ -432,9 +439,11 @@ class NumberController extends BaseController
 
 	private function aboutPi(): void
 	{
+		$this->setInterpret(Box::TYPE_LATEX, '\pi');
+
 		$this->addBox(Box::TYPE_TEXT)
-			->setTitle('Přibližná hodnota π | Ludolfovo číslo | Přesnost: 100')
-			->setText('π ≈ ' . str_replace(' ', '<wbr> ', $this->numberHelper->getPi(100)) . ' …');
+			->setTitle('Přibližná hodnota π | Ludolfovo číslo | Přesnost: ' . $this->queryEntity->getDecimals())
+			->setText('π ≈ ' . $this->numberHelper->getPi($this->queryEntity->getDecimals()) . ' …');
 	}
 
 	private function convertToFraction(): void
@@ -443,7 +452,10 @@ class NumberController extends BaseController
 
 		$this->addBox(Box::TYPE_LATEX)
 			->setTitle('Zlomkový zápis | Nejlepší odhad')
-			->setText('\frac{' . $factor[0] . '}{' . $factor[1] . '} ≈ ' . ($factor[0] / $factor[1]));
+			->setText(
+				'\frac{' . $factor[0] . '}{' . $factor[1] . '} ≈ '
+				. number_format($factor[0] / $factor[1], $this->queryEntity->getDecimals(), '.', ' ')
+			);
 
 		if ($factor[0] > $factor[1] && Validators::isNumericInt($factor[0]) && Validators::isNumericInt($factor[1])) {
 			$int = (int) floor($factor[0] / $factor[1]);
@@ -489,14 +501,7 @@ class NumberController extends BaseController
 		for ($i = 0; $i < $x; $i++) {
 			for ($j = 0; $j < $y; $j++) {
 				$char = $data[$iterator];
-
-				if (isset($colorCache[$char])) {
-					$color = $colorCache[$char];
-				} else {
-					$color = $colorCache[$char] = $colors[\count($colorCache)];
-				}
-
-				$return .= '<span style="color:' . $color . '">' . $char . '</span>';
+				$return .= '<span style="color:' . ($colorCache[$char] ?? $colors[\count($colorCache)]) . '">' . $char . '</span>';
 				$iterator++;
 			}
 			$return .= '<br>';

@@ -1,10 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Calculator\Operation;
 
+
+use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\MathErrorException;
 use Mathematicator\Engine\UndefinedOperationException;
+use Mathematicator\Search\Query;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
+use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Tokens;
 
@@ -62,25 +69,27 @@ class BaseOperation
 	 * @param NumberToken $left
 	 * @param NumberToken $right
 	 * @param string $operation
+	 * @param Query $query
 	 * @return NumberOperationResult|null
+	 * @throws MathematicatorException
 	 */
-	public function process(NumberToken $left, NumberToken $right, string $operation): ?NumberOperationResult
+	public function process(NumberToken $left, NumberToken $right, string $operation, Query $query): ?NumberOperationResult
 	{
 		switch ($operation) {
 			case '+':
-				return $this->addNumbers->process($left, $right);
+				return $this->addNumbers->process($left, $right, $query);
 
 			case '-':
-				return $this->subtractNumbers->process($left, $right);
+				return $this->subtractNumbers->process($left, $right, $query);
 
 			case '*':
-				return $this->multiplicationNumber->process($left, $right);
+				return $this->multiplicationNumber->process($left, $right, $query);
 
 			case '/':
-				return $this->divisionNumbers->process($left, $right);
+				return $this->divisionNumbers->process($left, $right, $query);
 
 			case '^':
-				return $this->powNumbers->process($left, $right);
+				return $this->powNumbers->process($left, $right, $query);
 
 			default:
 				return null;
@@ -140,10 +149,11 @@ class BaseOperation
 	}
 
 	/**
-	 * @param FactorialToken $token
+	 * @param IToken|FactorialToken $token
 	 * @return NumberOperationResult
+	 * @throws MathErrorException
 	 */
-	public function processFactorial(FactorialToken $token): NumberOperationResult
+	public function processFactorial(IToken $token): NumberOperationResult
 	{
 		return $this->factorial->process($token);
 	}
@@ -151,18 +161,16 @@ class BaseOperation
 	/**
 	 * @param NumberToken $token
 	 * @return NumberOperationResult
+	 * @throws MathErrorException
 	 */
 	public function processNumberToFactorial(NumberToken $token): NumberOperationResult
 	{
-		$factorialToken = new FactorialToken($token->getNumber());
-		$factorialToken->setToken($token->getNumber()->getHumanString());
-		$factorialToken->setPosition($token->getPosition());
-		$factorialToken->setType(Tokens::M_FACTORIAL);
-
-		$return = $this->processFactorial($factorialToken);
-		$return->setIteratorStep(1);
-
-		return $return;
+		return $this->processFactorial(
+			(new FactorialToken($token->getNumber()))
+				->setToken($token->getNumber()->getHumanString())
+				->setPosition($token->getPosition())
+				->setType(Tokens::M_FACTORIAL)
+		)->setIteratorStep(1);
 	}
 
 }

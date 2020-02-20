@@ -31,6 +31,9 @@ orm:
 baraja.database:
 	types:
 		uuid: Baraja\Doctrine\UUID\UuidType
+		uuid-binary: Baraja\Doctrine\UUID\UuidBinaryType
+	propertyIgnoreAnnotations:
+		- sample
 
 orm.annotations:
 	paths:
@@ -44,9 +47,11 @@ console:
     version: '3.0'
     catchExceptions: true
     autoExit: true
-    url: http://baraja.cz
+    url: https://baraja.cz
     lazy: false
 
 services:
+	- Baraja\Doctrine\EntityManagerDependencies
+	- Baraja\Doctrine\EntityManagerDependenciesAccessor
 	- Baraja\Doctrine\DoctrineHelper
 	- Baraja\Doctrine\DoctrineHelperAccessor

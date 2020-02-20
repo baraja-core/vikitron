@@ -1,2 +1,2 @@
 services:
-	- Model\Math\Statistics\StatisticsManager
+	- Mathematicator\Statistics\StatisticsManager

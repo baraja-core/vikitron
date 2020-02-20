@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Model\Math;
+namespace Mathematicator;
 
 
 use Mathematicator\Engine\MathematicatorException;

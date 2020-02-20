@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Engine;
 
 
@@ -70,10 +72,13 @@ class EngineResult
 
 	/**
 	 * @param int $time
+	 * @return EngineResult
 	 */
-	public function setTime(int $time): void
+	public function setTime(int $time): self
 	{
 		$this->time = $time;
+
+		return $this;
 	}
 
 }

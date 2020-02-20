@@ -157,6 +157,13 @@ abstract class Presenter extends Control implements Application\IPresenter
 	}
 
 
+	final public function getPresenterIfExists(): self
+	{
+		return $this;
+	}
+
+
+	/** @deprecated */
 	final public function hasPresenter(): bool
 	{
 		return true;
@@ -169,6 +176,13 @@ abstract class Presenter extends Control implements Application\IPresenter
 	public function getUniqueId(): string
 	{
 		return '';
+	}
+
+
+	public function isModuleCurrent(string $module): bool
+	{
+		$current = Helpers::splitName($this->getName())[0];
+		return Nette\Utils\Strings::startsWith($current . ':', ltrim($module . ':', ':'));
 	}
 
 
@@ -188,15 +202,15 @@ abstract class Presenter extends Control implements Application\IPresenter
 			}
 
 			$this->initGlobalParameters();
-			$this->checkRequirements($this->getReflection());
+			$this->checkRequirements(static::getReflection());
 			$this->onStartup($this);
 			$this->startup();
 			if (!$this->startupCheck) {
-				$class = $this->getReflection()->getMethod('startup')->getDeclaringClass()->getName();
+				$class = static::getReflection()->getMethod('startup')->getDeclaringClass()->getName();
 				throw new Nette\InvalidStateException("Method $class::startup() or its descendant doesn't call parent::startup().");
 			}
 			// calls $this->action<Action>()
-			$this->tryCall($this->formatActionMethod($this->action), $this->params);
+			$this->tryCall(static::formatActionMethod($this->action), $this->params);
 
 			// autoload components
 			foreach ($this->globalParams as $id => $foo) {
@@ -218,7 +232,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 			$this->beforeRender();
 			$this->onRender($this);
 			// calls $this->render<View>()
-			$this->tryCall($this->formatRenderMethod($this->view), $this->params);
+			$this->tryCall(static::formatRenderMethod($this->view), $this->params);
 			$this->afterRender();
 
 			// save component tree persistent state
@@ -506,7 +520,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 		}
 		[$module, $presenter] = Helpers::splitName($this->getName());
 		$layout = $this->layout ?: 'layout';
-		$dir = dirname($this->getReflection()->getFileName());
+		$dir = dirname(static::getReflection()->getFileName());
 		$dir = is_dir("$dir/templates") ? $dir : dirname($dir);
 		$list = [
 			"$dir/templates/$presenter/@$layout.latte",
@@ -526,7 +540,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 	public function formatTemplateFiles(): array
 	{
 		[, $presenter] = Helpers::splitName($this->getName());
-		$dir = dirname($this->getReflection()->getFileName());
+		$dir = dirname(static::getReflection()->getFileName());
 		$dir = is_dir("$dir/templates") ? $dir : dirname($dir);
 		return [
 			"$dir/templates/$presenter/$this->view.latte",
@@ -740,7 +754,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 
 		$this->lastCreatedRequest = $this->lastCreatedRequestFlag = null;
 
-		$parts = $this->parseDestination($destination);
+		$parts = static::parseDestination($destination);
 		$path = $parts['path'];
 		$args = $parts['args'] ?? $args;
 
@@ -961,7 +975,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 		$i = 0;
 		$rm = new \ReflectionMethod($class, $method);
 		foreach ($rm->getParameters() as $param) {
-			[$type, $isClass] = ComponentReflection::getParameterType($param);
+			$type = ComponentReflection::getParameterType($param);
 			$name = $param->getName();
 
 			if (array_key_exists($i, $args)) {
@@ -984,7 +998,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 				continue;
 			}
 
-			if (!ComponentReflection::convertType($args[$name], $type, $isClass)) {
+			if (!ComponentReflection::convertType($args[$name], $type)) {
 				throw new InvalidLinkException(sprintf(
 					'Argument $%s passed to %s() must be %s, %s given.',
 					$name,
@@ -1054,11 +1068,15 @@ abstract class Presenter extends Control implements Application\IPresenter
 		}
 		$request = clone $session[$key][1];
 		unset($session[$key]);
-		$request->setFlag(Application\Request::RESTORED, true);
 		$params = $request->getParameters();
 		$params[self::FLASH_KEY] = $this->getFlashKey();
 		$request->setParameters($params);
-		$this->sendResponse(new Responses\ForwardResponse($request));
+		if ($request->isMethod('POST')) {
+			$request->setFlag(Application\Request::RESTORED, true);
+			$this->sendResponse(new Responses\ForwardResponse($request));
+		} else {
+			$this->redirectUrl($this->requestToUrl($request));
+		}
 	}
 
 
@@ -1151,7 +1169,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 	 */
 	public function saveState(array &$params, ComponentReflection $reflection = null): void
 	{
-		($reflection ?: $this->getReflection())->saveState($this, $params);
+		($reflection ?: static::getReflection())->saveState($this, $params);
 	}
 
 
@@ -1186,7 +1204,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 		}
 
 		foreach ($params as $key => $value) {
-			if (!preg_match('#^((?:[a-z0-9_]+-)*)((?!\d+\z)[a-z0-9_]+)\z#i', (string) $key, $matches)) {
+			if (!preg_match('#^((?:[a-z0-9_]+-)*)((?!\d+$)[a-z0-9_]+)$#Di', (string) $key, $matches)) {
 				continue;
 			} elseif (!$matches[1]) {
 				$selfParams[$key] = $value;
@@ -1197,7 +1215,7 @@ abstract class Presenter extends Control implements Application\IPresenter
 
 		// init & validate $this->action & $this->view
 		$action = $selfParams[self::ACTION_KEY] ?? self::DEFAULT_ACTION;
-		if (!is_string($action) || !Nette\Utils\Strings::match($action, '#^[a-zA-Z0-9][a-zA-Z0-9_\x7f-\xff]*\z#')) {
+		if (!is_string($action) || !Nette\Utils\Strings::match($action, '#^[a-zA-Z0-9][a-zA-Z0-9_\x7f-\xff]*$#D')) {
 			$this->error('Action name is not valid.');
 		}
 		$this->changeAction($action);
@@ -1277,8 +1295,8 @@ abstract class Presenter extends Control implements Application\IPresenter
 	/********************* services ****************d*g**/
 
 
-	final public function injectPrimary(Nette\DI\Container $context = null, Application\IPresenterFactory $presenterFactory = null, Nette\Routing\Router $router = null,
-		Http\IRequest $httpRequest, Http\IResponse $httpResponse, Http\Session $session = null, Nette\Security\User $user = null, ITemplateFactory $templateFactory = null)
+	final public function injectPrimary(?Nette\DI\Container $context, ?Application\IPresenterFactory $presenterFactory, ?Nette\Routing\Router $router,
+		Http\IRequest $httpRequest, Http\IResponse $httpResponse, ?Http\Session $session = null, ?Nette\Security\User $user = null, ?ITemplateFactory $templateFactory = null)
 	{
 		if ($this->presenterFactory !== null) {
 			throw new Nette\InvalidStateException('Method ' . __METHOD__ . ' is intended for initialization and should not be called more than once.');

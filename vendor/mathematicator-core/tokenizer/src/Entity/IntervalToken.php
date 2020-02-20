@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Tokenizer\Token;
 
 
 class IntervalToken extends BaseToken
 {
 
-	const TYPE_OPEN = 'open';
-	const TYPE_CLOSED = 'closed';
+	public const TYPE_OPEN = 'open';
+	public const TYPE_CLOSED = 'closed';
 
 	/**
 	 * @var IToken

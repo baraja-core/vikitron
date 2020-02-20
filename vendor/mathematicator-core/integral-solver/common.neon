@@ -1,0 +1,3 @@
+services:
+	integralSolver: Mathematicator\Integral\IntegralSolver
+	- Mathematicator\Integral\Solver\Solver

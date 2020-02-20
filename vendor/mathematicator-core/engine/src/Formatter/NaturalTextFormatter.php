@@ -1,19 +1,30 @@
 <?php
 
-namespace Model\Math;
+declare(strict_types=1);
+
+namespace Mathematicator;
+
 
 use Mathematicator\Engine\QueryNormalizer;
+use Mathematicator\Search\TextRenderer;
 use Mathematicator\Tokenizer\Tokenizer;
 use Nette\Utils\Strings;
-use Texy\Texy;
 
 class NaturalTextFormatter
 {
 
 	/**
-	 * @var Texy
+	 * @var string[]
 	 */
-	private $texy;
+	private static $allowedFunctions = [
+		'sin',
+		'cos',
+		'tan',
+		'cotan',
+		'tg',
+		'log\d*',
+		'sqrt',
+	];
 
 	/**
 	 * @var QueryNormalizer
@@ -26,21 +37,11 @@ class NaturalTextFormatter
 	private $tokenizer;
 
 	/**
-	 * @var string[]
+	 * @param QueryNormalizer $queryNormalizer
+	 * @param Tokenizer $tokenizer
 	 */
-	private $allowedFunctions = [
-		'sin',
-		'cos',
-		'tan',
-		'cotan',
-		'tg',
-		'log\d*',
-		'sqrt',
-	];
-
-	public function __construct(Texy $texy, QueryNormalizer $queryNormalizer, Tokenizer $tokenizer)
+	public function __construct(QueryNormalizer $queryNormalizer, Tokenizer $tokenizer)
 	{
-		$this->texy = $texy;
 		$this->queryNormalizer = $queryNormalizer;
 		$this->tokenizer = $tokenizer;
 	}
@@ -63,7 +64,7 @@ class NaturalTextFormatter
 
 					$return .= '<div class="latex"><p>\(' . $latex . '\)</p><code>' . $line . '</code></div>';
 				} else {
-					$return .= $this->texy->process($line) . "\n\n";
+					$return .= TextRenderer::process($line) . "\n\n";
 				}
 			}
 		}
@@ -79,10 +80,10 @@ class NaturalTextFormatter
 	{
 		$words = 0;
 
-		$text = preg_replace('/\s+/', ' ', Strings::toAscii(Strings::lower($text)));
+		$text = (string) preg_replace('/\s+/', ' ', Strings::toAscii(Strings::lower($text)));
 
 		while (true) {
-			$newText = preg_replace('/([a-z0-9]{2,})\s+([a-z0-9]{1,})(\s+|[:.!?,]|$)/', '$1$2', $text);
+			$newText = (string) preg_replace('/([a-z0-9]{2,})\s+([a-z0-9]{1,})(\s+|[:.!?,]|$)/', '$1$2', $text);
 			if ($newText === $text) {
 				break;
 			}
@@ -110,7 +111,7 @@ class NaturalTextFormatter
 	 */
 	private function wordInAllowedFunctions(string $word): bool
 	{
-		foreach ($this->allowedFunctions as $allowedFunction) {
+		foreach (self::$allowedFunctions as $allowedFunction) {
 			if (preg_match('/^' . $allowedFunction . '$/', $word)) {
 				return true;
 			}

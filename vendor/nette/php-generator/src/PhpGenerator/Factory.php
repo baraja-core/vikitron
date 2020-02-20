@@ -25,8 +25,8 @@ final class Factory
 			? new ClassType
 			: new ClassType($from->getShortName(), new PhpNamespace($from->getNamespaceName()));
 		$class->setType($from->isInterface() ? $class::TYPE_INTERFACE : ($from->isTrait() ? $class::TYPE_TRAIT : $class::TYPE_CLASS));
-		$class->setFinal($from->isFinal() && $class->getType() === $class::TYPE_CLASS);
-		$class->setAbstract($from->isAbstract() && $class->getType() === $class::TYPE_CLASS);
+		$class->setFinal($from->isFinal() && $class->isClass());
+		$class->setAbstract($from->isAbstract() && $class->isClass());
 
 		$ifaces = $from->getInterfaceNames();
 		foreach ($ifaces as $iface) {
@@ -75,7 +75,7 @@ final class Factory
 		$method->setReturnReference($from->returnsReference());
 		$method->setVariadic($from->isVariadic());
 		$method->setComment(Helpers::unformatDocComment((string) $from->getDocComment()));
-		if ($from->hasReturnType()) {
+		if ($from->getReturnType() instanceof \ReflectionNamedType) {
 			$method->setReturnType($from->getReturnType()->getName());
 			$method->setReturnNullable($from->getReturnType()->allowsNull());
 		}
@@ -83,9 +83,7 @@ final class Factory
 	}
 
 
-	/**
-	 * @return GlobalFunction|Closure
-	 */
+	/** @return GlobalFunction|Closure */
 	public function fromFunctionReflection(\ReflectionFunction $from)
 	{
 		$function = $from->isClosure() ? new Closure : new GlobalFunction($from->getName());
@@ -95,7 +93,7 @@ final class Factory
 		if (!$from->isClosure()) {
 			$function->setComment(Helpers::unformatDocComment((string) $from->getDocComment()));
 		}
-		if ($from->hasReturnType()) {
+		if ($from->getReturnType() instanceof \ReflectionNamedType) {
 			$function->setReturnType($from->getReturnType()->getName());
 			$function->setReturnNullable($from->getReturnType()->allowsNull());
 		}
@@ -103,15 +101,25 @@ final class Factory
 	}
 
 
+	/** @return Method|GlobalFunction|Closure */
+	public function fromCallable(callable $from)
+	{
+		$ref = Nette\Utils\Callback::toReflection($from);
+		return $ref instanceof \ReflectionMethod
+			? self::fromMethodReflection($ref)
+			: self::fromFunctionReflection($ref);
+	}
+
+
 	public function fromParameterReflection(\ReflectionParameter $from): Parameter
 	{
 		$param = new Parameter($from->getName());
 		$param->setReference($from->isPassedByReference());
-		$param->setTypeHint($from->hasType() ? $from->getType()->getName() : null);
+		$param->setType($from->getType() instanceof \ReflectionNamedType ? $from->getType()->getName() : null);
 		$param->setNullable($from->hasType() && $from->getType()->allowsNull());
 		if ($from->isDefaultValueAvailable()) {
 			$param->setDefaultValue($from->isDefaultValueConstant()
-				? new PhpLiteral($from->getDefaultValueConstantName())
+				? new Literal($from->getDefaultValueConstantName())
 				: $from->getDefaultValue());
 			$param->setNullable($param->isNullable() && $param->getDefaultValue() !== null);
 		}
@@ -121,13 +129,19 @@ final class Factory
 
 	public function fromPropertyReflection(\ReflectionProperty $from): Property
 	{
+		$defaults = $from->getDeclaringClass()->getDefaultProperties();
 		$prop = new Property($from->getName());
-		$prop->setValue($from->getDeclaringClass()->getDefaultProperties()[$prop->getName()] ?? null);
+		$prop->setValue($defaults[$prop->getName()] ?? null);
 		$prop->setStatic($from->isStatic());
 		$prop->setVisibility($from->isPrivate()
 			? ClassType::VISIBILITY_PRIVATE
 			: ($from->isProtected() ? ClassType::VISIBILITY_PROTECTED : ClassType::VISIBILITY_PUBLIC)
 		);
+		if (PHP_VERSION_ID >= 70400 && ($from->getType() instanceof \ReflectionNamedType)) {
+			$prop->setType($from->getType()->getName());
+			$prop->setNullable($from->getType()->allowsNull());
+			$prop->setInitialized(array_key_exists($prop->getName(), $defaults));
+		}
 		$prop->setComment(Helpers::unformatDocComment((string) $from->getDocComment()));
 		return $prop;
 	}

@@ -37,7 +37,7 @@ class Selection implements \Iterator, IRowContainer, \ArrayAccess, \Countable
 	/** @var string table name */
 	protected $name;
 
-	/** @var string|array|null primary key field name */
+	/** @var string|string[]|null primary key field name */
 	protected $primary;
 
 	/** @var string|bool primary column sequence name, false for autodetection */
@@ -58,23 +58,23 @@ class Selection implements \Iterator, IRowContainer, \ArrayAccess, \Countable
 	/** @var mixed */
 	protected $refCache;
 
-	/** @var string */
+	/** @var string|null */
 	protected $generalCacheKey;
 
-	/** @var string */
+	/** @var string|null */
 	protected $specificCacheKey;
 
 	/** @var array of [conditions => [key => IRow]]; used by GroupedSelection */
 	protected $aggregation = [];
 
-	/** @var array of touched columns */
+	/** @var array|false|null of touched columns */
 	protected $accessedColumns;
 
-	/** @var array of earlier touched columns */
+	/** @var array|false|null of earlier touched columns */
 	protected $previousAccessedColumns;
 
-	/** @var bool should instance observe accessed columns caching */
-	protected $observeCache = false;
+	/** @var self|null should instance observe accessed columns caching */
+	protected $observeCache;
 
 	/** @var array of primary key values */
 	protected $keys = [];
@@ -115,7 +115,7 @@ class Selection implements \Iterator, IRowContainer, \ArrayAccess, \Countable
 
 
 	/**
-	 * @return string|array|null
+	 * @return string|string[]|null
 	 */
 	public function getPrimary(bool $throw = true)
 	{
@@ -394,7 +394,7 @@ class Selection implements \Iterator, IRowContainer, \ArrayAccess, \Countable
 	 * Sets limit clause, more calls rewrite old values.
 	 * @return static
 	 */
-	public function limit(int $limit, int $offset = null)
+	public function limit(?int $limit, int $offset = null)
 	{
 		$this->emptyResultSet();
 		$this->sqlBuilder->setLimit($limit, $offset);

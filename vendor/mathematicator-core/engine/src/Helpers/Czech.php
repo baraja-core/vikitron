@@ -49,5 +49,41 @@ class Czech
 		return $result;
 	}
 
+	/**
+	 * Return "6. září 2018"
+	 *
+	 * @param string|int|\DateTime $date
+	 * @param bool $singular (true => "5. květen 2018", false => "5. května 2018")
+	 * @return string
+	 */
+	public static function getDate($date = null, bool $singular = false): string
+	{
+		if ($date === null) {
+			$time = \time();
+		} elseif ($date instanceof \DateTime) {
+			$time = $date->getTimestamp();
+		} else {
+			$time = is_numeric($date) ? $date : @strtotime($date);
+		}
+
+		$months = [
+			'ledna', 'února', 'března', 'dubna', 'května',
+			'června', 'července', 'srpna', 'září', 'října',
+			'listopadu', 'prosince',
+		];
+
+		$singularMonths = [
+			'leden', 'únor', 'březen', 'duben', 'květen',
+			'červen', 'červenec', 'srpen', 'září', 'říjen',
+			'listopad', 'prosinec',
+		];
+
+		[$day, $month, $year] = explode('-', date('j-n-Y', (int) $time));
+
+		return $day . '. ' . ($singular === true
+				? $singularMonths[(int) $month - 1]
+				: $months[(int) $month - 1]
+			) . ' ' . $year;
+	}
 
 }

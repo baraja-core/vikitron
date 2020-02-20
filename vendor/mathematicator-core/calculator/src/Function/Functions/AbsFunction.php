@@ -1,6 +1,8 @@
 <?php
 
-namespace Model\Math\MathFunction;
+declare(strict_types=1);
+
+namespace Mathematicator\MathFunction;
 
 
 use Mathematicator\Tokenizer\Token\IToken;

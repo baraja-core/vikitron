@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace Mathematicator\SearchController;
 
 
-use App\VikiTron\Model\Number\NumberHelper;
 use Mathematicator\Calculator\Calculator;
+use Mathematicator\Calculator\CalculatorResult;
 use Mathematicator\Calculator\Step;
 use Mathematicator\Engine\DivisionByZero;
 use Mathematicator\Engine\Helper\Czech;
+use Mathematicator\Engine\MathematicatorException;
 use Mathematicator\Engine\MathErrorException;
 use Mathematicator\Engine\Translator;
 use Mathematicator\Engine\UndefinedOperationException;
+use Mathematicator\MathFunction\FunctionDoesNotExistsException;
+use Mathematicator\NumberHelper;
 use Mathematicator\Search\Box;
+use Mathematicator\Search\Query;
+use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\EquationToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
@@ -21,8 +26,7 @@ use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Token\OperatorToken;
 use Mathematicator\Tokenizer\Tokenizer;
-use Model\Math\MathFunction\FunctionDoesNotExistsException;
-use Model\Math\Step\StepFactory;
+use Mathematicator\Vizualizator\MathFunctionRenderer;
 use Nette\Application\LinkGenerator;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
@@ -32,28 +36,39 @@ class NumberCounterController extends BaseController
 
 	/**
 	 * @var Translator
+	 * @inject
 	 */
-	private $translator;
+	public $translator;
 
 	/**
 	 * @var Tokenizer
+	 * @inject
 	 */
-	private $tokenizer;
+	public $tokenizer;
 
 	/**
 	 * @var StepFactory
+	 * @inject
 	 */
-	private $stepFactory;
+	public $stepFactory;
 
 	/**
 	 * @var Calculator
+	 * @inject
 	 */
-	private $calculator;
+	public $calculator;
 
 	/**
-	 * @var Number
+	 * @var NumberHelper
+	 * @inject
 	 */
-	private $number;
+	public $number;
+
+	/**
+	 * @var MathFunctionRenderer
+	 * @inject
+	 */
+	public $mathFunctionRenderer;
 
 	/**
 	 * @var string[]
@@ -66,31 +81,13 @@ class NumberCounterController extends BaseController
 	private $haveResult = false;
 
 	/**
-	 * @param \string[] $functions
+	 * @param string[] $functions
 	 * @param LinkGenerator $linkGenerator
-	 * @param Translator $translator
-	 * @param Tokenizer $tokenizer
-	 * @param StepFactory $stepFactory
-	 * @param Calculator $calculator
-	 * @param NumberHelper $number
 	 */
-	public function __construct(
-		array $functions,
-		LinkGenerator $linkGenerator,
-		Translator $translator,
-		Tokenizer $tokenizer,
-		StepFactory $stepFactory,
-		Calculator $calculator,
-		NumberHelper $number
-	)
+	public function __construct(array $functions, LinkGenerator $linkGenerator)
 	{
 		parent::__construct($linkGenerator);
 		$this->functions = $functions;
-		$this->translator = $translator;
-		$this->tokenizer = $tokenizer;
-		$this->stepFactory = $stepFactory;
-		$this->calculator = $calculator;
-		$this->number = $number;
 	}
 
 	public function actionDefault(): void
@@ -105,7 +102,7 @@ class NumberCounterController extends BaseController
 		$steps = [];
 
 		try {
-			$calculatorResult = $this->calculator->calculate($objects);
+			$calculatorResult = $this->calculate($objects);
 			$calculator = $calculatorResult->getResultTokens();
 			$steps = $calculatorResult->getSteps();
 		} catch (DivisionByZero $e) {
@@ -113,7 +110,7 @@ class NumberCounterController extends BaseController
 
 			$step = $this->stepFactory->create();
 			$step->setTitle('Dělení nulou');
-			$step->setDescription($this->translator->getTranslate('divisionByZero', [
+			$step->setDescription($this->translator->translate('divisionByZero', [
 				'count' => $fraction[0],
 			]));
 
@@ -147,7 +144,7 @@ class NumberCounterController extends BaseController
 					. $supportedFunctions);
 
 			$this->haveResult = true;
-		} catch (MathErrorException $e) {
+		} catch (MathErrorException|MathematicatorException $e) {
 			$this->addBox(Box::TYPE_TEXT)
 				->setTitle('Řešení')
 				->setText(
@@ -183,12 +180,27 @@ class NumberCounterController extends BaseController
 				->setText($this->tokenizer->tokensToLatex($calculator))
 				->setSteps($steps);
 
+			// TODO: $this->plotFunction($calculator);
+
 			$this->haveResult = true;
 		}
 
 		if ($this->haveResult === false) {
 			$this->actionError($steps);
 		}
+	}
+
+	/**
+	 * Bridge for define types of possible exceptions.
+	 *
+	 * @param IToken[] $tokens
+	 * @param int $basicTtl
+	 * @return CalculatorResult
+	 * @throws MathematicatorException|DivisionByZero|UndefinedOperationException|FunctionDoesNotExistsException|MathErrorException
+	 */
+	private function calculate(array $tokens, int $basicTtl = 3): CalculatorResult
+	{
+		return $this->calculator->calculate($tokens, $this->getQueryEntity(), $basicTtl);
 	}
 
 	private function actionError(array $steps): void
@@ -229,7 +241,7 @@ class NumberCounterController extends BaseController
 			$buffer .= '</div>';
 		}
 
-		$this->addBox(Box::TYPE_TEXT)
+		$this->addBox(Box::TYPE_HTML)
 			->setTitle('Grafická reprezentace příkladu')
 			->setText('<div style="overflow:auto">' . $buffer . '</div>');
 
@@ -376,7 +388,7 @@ class NumberCounterController extends BaseController
 		}
 
 		$calculatorResult = $this->calculator->calculateString(
-			$numberA . '-' . $numberB
+			new Query($numberA . '-' . $numberB, $numberA . '-' . $numberB)
 		);
 		$calculator = $calculatorResult->getResultTokens();
 		$steps = $calculatorResult->getSteps();
@@ -387,7 +399,7 @@ class NumberCounterController extends BaseController
 			->setSteps($steps);
 
 		$calculatorShareResult = $this->calculator->calculateString(
-			$numberA . '/' . $numberB
+			new Query($numberA . '-' . $numberB, $numberA . '-' . $numberB)
 		);
 		$calculatorShare = $calculatorShareResult->getResultTokens();
 		$stepsShare = $calculatorShareResult->getSteps();
@@ -414,16 +426,17 @@ class NumberCounterController extends BaseController
 	{
 		if ($token instanceof NumberToken) {
 			if ($token->getNumber()->isInteger()) {
-				$result = $token->getNumber()->getInteger();
+				$result = '\(' . $token->getNumber()->getInteger() . '\)';
 			} else {
 				$fraction = $token->getNumber()->getFraction();
-				$result = ($fraction[0] < 0 ? '-' : '')
+				$result = '\(' . ($fraction[0] < 0 ? '-' : '')
 					. '\frac{' . abs($fraction[0]) . '}'
 					. '{' . $fraction[1] . '} ≈ '
-					. preg_replace('/^(.+)[eE](.+)$/', '$1\ \cdot\ {10}^{$2}', $token->getNumber()->getFloat());
+					. preg_replace('/^(.+)[eE](.+)$/', '$1\ \cdot\ {10}^{$2}', $token->getNumber()->getFloat()) . '\)'
+					. '<br><br><span class="text-secondary">Upozornění: Řešení může být zobrazeno jen přibližně.</span>';
 			}
 
-			$this->addBox(Box::TYPE_LATEX)
+			$this->addBox(Box::TYPE_HTML)
 				->setTitle('Řešení')
 				->setText($result)
 				->setSteps($steps);
@@ -434,11 +447,7 @@ class NumberCounterController extends BaseController
 				if ($numberLength > 8) {
 					$this->addBox(Box::TYPE_TEXT)
 						->setTitle('Délka čísla')
-						->setText(Czech::inflection($numberLength, [
-							'desetinná cifra',
-							'desetinné cifry',
-							'desetinných cifer',
-						]));
+						->setText(Czech::inflection($numberLength, ['cifra', 'cifry', 'cifer']));
 
 					if (preg_match('/^(\d)((\d{1,7}).*?)$/', $int, $intParser)) {
 						$this->addBox(Box::TYPE_LATEX)
@@ -448,9 +457,21 @@ class NumberCounterController extends BaseController
 
 					if (Strings::endsWith($int, '0')) {
 						$zeros = preg_replace('/^\d+?(0+)$/', '$1', $int);
-						$this->addBox(Box::TYPE_LATEX)
+						$trailingZerosBox = $this->addBox(Box::TYPE_LATEX)
 							->setTitle('Počet nul na konci')
 							->setText((string) \strlen($zeros));
+
+						if (preg_match('/^(\d+)\s*\!$/', $this->query, $factorialParser)) {
+							$trailingZerosBox->setSteps($this->getStepsFactorialTrailingZeros((int) $factorialParser[1]));
+						} else {
+							$trailingZerosBox->setSteps([
+								new Step(
+									'Manuální výpočet',
+									null,
+									'Pro tuto úlohu neznáme elegantní způsob, jak zjistit počet nul na konci, proto je potřeba celkový počet spočítat ručně přímo z výsledku.'
+								),
+							]);
+						}
 					}
 				}
 			}
@@ -529,6 +550,57 @@ class NumberCounterController extends BaseController
 		}
 
 		return '<div style="max-width:70px">' . $render . '</div>';
+	}
+
+	/**
+	 * @param int $factorial
+	 * @return Step[]
+	 */
+	private function getStepsFactorialTrailingZeros(int $factorial): array
+	{
+		$return = [];
+
+		$return[] = new Step(
+			'Výpočet počtu nul na konci pro faktoriál ' . $factorial . '!',
+			'\begin{aligned} f(n) &= \sum_{i=1}^k \left\lfloor{\frac{n}{5^i}}\right\rfloor = \left\lfloor{\frac{n}{5}}\right\rfloor+\left\lfloor{\frac{n}{5^2}}\right\rfloor+\left\lfloor{\frac{n}{5^3}}\right\rfloor+\dots+\left\lfloor{\frac{n}{5^k}}\right\rfloor \end{aligned}',
+			'Počet nul, kterými končí faktoriál libovolného celého čísla \(n\) lze vypočítat součtem řady zlomků. Řadu je potřeba sčítat až do hodnoty \(k=\left\lfloor \log_5{n} \right\rfloor\).'
+		);
+
+		$fractions = '';
+		$fractionValues = '';
+		$count = 0;
+
+		for ($i = 5; $factorial / $i >= 1; $i *= 5) {
+			$count += $factorial / $i;
+			$fractions .= ($fractions ? ' + ' : '') . '\left\lfloor{\frac{' . $factorial . '}{' . $i . '}}\right\rfloor';
+			$fractionValues .= ($fractionValues ? ' + ' : '') . ((int) ($factorial / $i));
+		}
+
+		$return[] = new Step(
+			'Sestavíme řadu zlomků',
+			'\begin{aligned} f(n) &= \sum_{i=1}^k \left\lfloor{\frac{n}{5^i}}\right\rfloor = ' . $fractions . ' \end{aligned}',
+			'Řešíme úlohu pro \(n = ' . $factorial . '\). U zlomků si všimněte závorky, která značí zaokrouhlení směrem dolů.'
+		);
+
+		$return[] = new Step(
+			'Vypočítáme hodnotu zlomků a sečteme',
+			$fractionValues . ' = ' . ((int) $count),
+			null
+		);
+
+		return $return;
+	}
+
+	/**
+	 * @param IToken[] $tokens
+	 */
+	private function plotFunction(array $tokens): void
+	{
+		$image = $this->mathFunctionRenderer->plot($tokens);
+
+		$this->addBox(Box::TYPE_IMAGE)
+			->setTitle('Graf funkce')
+			->setText($image);
 	}
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mathematicator\Engine;
 
 
@@ -27,7 +29,7 @@ class EngineMultiResult extends EngineResult
 	public function getResult(string $name = null): EngineResult
 	{
 		if (!isset($this->results[$name])) {
-			throw new NoResultsException('Result "' . $name . '" does not exists.');
+			throw new NoResultsException('Result "' . $name . '" does not exist.');
 		}
 
 		return $this->results[$name];
@@ -36,8 +38,9 @@ class EngineMultiResult extends EngineResult
 	/**
 	 * @param EngineResult $result
 	 * @param string|null $name
+	 * @return EngineMultiResult
 	 */
-	public function addResult(EngineResult $result, ?string $name = null): void
+	public function addResult(EngineResult $result, ?string $name = null): self
 	{
 		if ($name !== null) {
 			$this->results[$name] = $result;
@@ -46,6 +49,8 @@ class EngineMultiResult extends EngineResult
 		}
 
 		$this->setTime($this->getTime() + $result->getTime());
+
+		return $this;
 	}
 
 }

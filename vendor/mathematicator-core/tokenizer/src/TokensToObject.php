@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
-use App\VikiTron\Model\Number\NumberHelper;
+use Mathematicator\NumberHelper;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Tokenizer\Token\BaseToken;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
@@ -77,9 +77,7 @@ class TokensToObject
 
 				case Tokens::M_FACTORIAL:
 					$tokenFactory = new FactorialToken(
-						$this->numberFactory->create(
-							str_replace('!', '', $token->value)
-						)
+						$this->numberFactory->create(str_replace('!', '', $token->value))
 					);
 					break;
 
@@ -120,11 +118,9 @@ class TokensToObject
 					$tokenFactory = new OtherToken();
 			}
 
-			$tokenFactory->setToken($token->value);
-			$tokenFactory->setPosition($token->offset);
-			$tokenFactory->setType($token->type);
-
-			$objects[] = $tokenFactory;
+			$objects[] = $tokenFactory->setToken($token->value)
+				->setPosition($token->offset)
+				->setType($token->type);
 		}
 
 		return $objects;

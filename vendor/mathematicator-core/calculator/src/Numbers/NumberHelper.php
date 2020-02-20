@@ -1,6 +1,9 @@
 <?php
 
-namespace App\VikiTron\Model\Number;
+declare(strict_types=1);
+
+namespace Mathematicator;
+
 
 use Nette\Application\LinkGenerator;
 use Nette\Caching\Cache;
@@ -65,15 +68,15 @@ class NumberHelper
 	}
 
 	/**
-	 * @param int $int
+	 * @param string $haystack
 	 * @return string
 	 */
-	public static function intToRoman(int $int): string
+	public static function intToRoman(string $haystack): string
 	{
 		$return = '';
+		$int = (int) $haystack;
 		foreach (self::$romanNumber as $key => $val) {
-			$repeat = floor($int / $val);
-			if ($repeat > 0) {
+			if (($repeat = (int) floor($int / $val)) > 0) {
 				$return .= '\\' . ($val >= 5000
 						? 'overline'
 						: 'textrm'
@@ -168,7 +171,7 @@ class NumberHelper
 
 	/**
 	 * @param string $n
-	 * @return int[]
+	 * @return string[]
 	 */
 	public function getDivisors(string $n): array
 	{
@@ -177,10 +180,10 @@ class NumberHelper
 		$a = [];
 
 		while ($i <= $s) {
-			if (!(bcmod($n, $i))) {
+			if (!bcmod($n, (string) $i)) {
 				$a[] = $i;
-				if ($i != $s) {
-					$a[] = bcdiv($n, $i);
+				if ($i !== $s) {
+					$a[] = bcdiv($n, (string) $i);
 				}
 			}
 			++$i;
@@ -215,7 +218,7 @@ class NumberHelper
 			}
 		}
 
-		$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor($n / $num));
+		$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor((string) ($n / $num)));
 		$this->cache->save($n, $return);
 
 		return $return;

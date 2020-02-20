@@ -1,0 +1,2 @@
+services:
+	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)

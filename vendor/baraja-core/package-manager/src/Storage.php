@@ -10,7 +10,7 @@ use Baraja\PackageManager\Exception\PackageEntityDoesNotExistsException;
 use Nette\PhpGenerator\ClassType;
 use Nette\Utils\Finder;
 
-class Storage
+final class Storage
 {
 
 	/**

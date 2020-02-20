@@ -23,50 +23,67 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 {
 	use Strict;
 
-	/** @var array  element's attributes */
+	public const INNER_TEXT = '%TEXT';
+	public const INNER_TRANSPARENT = '%TRANS';
+
+	/** @var array<string, string|int|bool|string[]|null>  element's attributes */
 	public $attrs = [];
 
-	/** @var bool  use XHTML syntax? */
-	public static $xhtml = true;
-
-	/** @var array  empty elements */
-	public static $emptyElements = ['img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1,
-		'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1, 'isindex' => 1, 'wbr' => 1, 'embed' => 1, ];
-
-	/** @var array  %inline; elements; replaced elements + br have value '1' */
-	public static $inlineElements = ['ins' => 0, 'del' => 0, 'tt' => 0, 'i' => 0, 'b' => 0, 'big' => 0, 'small' => 0, 'em' => 0,
-		'strong' => 0, 'dfn' => 0, 'code' => 0, 'samp' => 0, 'kbd' => 0, 'var' => 0, 'cite' => 0, 'abbr' => 0, 'acronym' => 0,
-		'sub' => 0, 'sup' => 0, 'q' => 0, 'span' => 0, 'bdo' => 0, 'a' => 0, 'object' => 1, 'img' => 1, 'br' => 1, 'script' => 1,
-		'map' => 0, 'input' => 1, 'select' => 1, 'textarea' => 1, 'label' => 0, 'button' => 1,
-		'u' => 0, 's' => 0, 'strike' => 0, 'font' => 0, 'applet' => 1, 'basefont' => 0, // transitional
-		'embed' => 1, 'wbr' => 0, 'nobr' => 0, 'canvas' => 1, // proprietary
+	/** @var array<string, int>  void elements */
+	public static $emptyElements = [
+		'area' => 1, 'base' => 1, 'br' => 1, 'col' => 1, 'embed' => 1, 'hr' => 1, 'img' => 1, 'input' => 1,
+		'link' => 1, 'meta' => 1, 'param' => 1, 'source' => 1, 'track' => 1, 'wbr' => 1,
 	];
 
-	/** @var array  elements with optional end tag in HTML */
-	public static $optionalEnds = ['body' => 1, 'head' => 1, 'html' => 1, 'colgroup' => 1, 'dd' => 1,
-		'dt' => 1, 'li' => 1, 'option' => 1, 'p' => 1, 'tbody' => 1, 'td' => 1, 'tfoot' => 1, 'th' => 1, 'thead' => 1, 'tr' => 1, ];
+	/** @var array<string, int>  phrasing elements; replaced elements + br have value 1 */
+	public static $inlineElements = [
+		'a' => 0, 'abbr' => 0, 'area' => 0, 'audio' => 0, 'b' => 0, 'bdi' => 0, 'bdo' => 0, 'br' => 1, 'button' => 1, 'canvas' => 1,
+		'cite' => 0, 'code' => 0, 'data' => 0, 'datalist' => 0, 'del' => 0, 'dfn' => 0, 'em' => 0, 'embed' => 1, 'i' => 0, 'iframe' => 1,
+		'img' => 1, 'input' => 1, 'ins' => 0, 'kbd' => 0, 'label' => 0, 'link' => 0, 'map' => 0, 'mark' => 0, 'math' => 1, 'meta' => 0,
+		'meter' => 1, 'noscript' => 1, 'object' => 1, 'output' => 1, 'picture' => 1, 'progress' => 1, 'q' => 0, 'ruby' => 0, 's' => 0,
+		'samp' => 0, 'script' => 1, 'select' => 1, 'slot' => 0, 'small' => 0, 'span' => 0, 'strong' => 0, 'sub' => 0, 'sup' => 0,
+		'svg' => 1, 'template' => 0, 'textarea' => 1, 'time' => 0, 'u' => 0, 'var' => 0, 'video' => 1, 'wbr' => 0,
+	];
 
-	/** @see http://www.w3.org/TR/xhtml1/prohibitions.html */
+	/** @var array<string, int>  elements with optional end tag in HTML */
+	public static $optionalEnds = [
+		'body' => 1, 'head' => 1, 'html' => 1, 'colgroup' => 1, 'dd' => 1, 'dt' => 1, 'li' => 1,
+		'option' => 1, 'p' => 1, 'tbody' => 1, 'td' => 1, 'tfoot' => 1, 'th' => 1, 'thead' => 1, 'tr' => 1,
+	];
+
+	/** @var array<string, array<int, string>> */
 	public static $prohibits = [
 		'a' => ['a', 'button'],
-		'img' => ['pre'],
-		'object' => ['pre'],
-		'big' => ['pre'],
-		'small' => ['pre'],
-		'sub' => ['pre'],
-		'sup' => ['pre'],
-		'input' => ['button'],
-		'select' => ['button'],
-		'textarea' => ['button'],
-		'label' => ['button', 'label'],
-		'button' => ['button'],
-		'form' => ['button', 'form'],
-		'fieldset' => ['button'],
-		'iframe' => ['button'],
-		'isindex' => ['button'],
+		'button' => ['a', 'button'],
+		'details' => ['a', 'button'],
+		'embed' => ['a', 'button'],
+		'iframe' => ['a', 'button'],
+		'input' => ['a', 'button'],
+		'label' => ['a', 'button', 'label'],
+		'select' => ['a', 'button'],
+		'textarea' => ['a', 'button'],
+		'header' => ['address', 'dt', 'footer', 'header', 'th'],
+		'footer' => ['address', 'dt', 'footer', 'header', 'th'],
+		'address' => ['address'],
+		'h1' => ['address', 'dt', 'th'],
+		'h2' => ['address', 'dt', 'th'],
+		'h3' => ['address', 'dt', 'th'],
+		'h4' => ['address', 'dt', 'th'],
+		'h5' => ['address', 'dt', 'th'],
+		'h6' => ['address', 'dt', 'th'],
+		'hgroup' => ['address', 'dt', 'th'],
+		'article' => ['address', 'dt', 'th'],
+		'aside' => ['address', 'dt', 'th'],
+		'nav' => ['address', 'dt', 'th'],
+		'section' => ['address', 'dt', 'th'],
+		'table' => ['caption'],
+		'dfn' => ['dfn'],
+		'form' => ['form'],
+		'meter' => ['meter'],
+		'progress' => ['progress'],
 	];
 
-	/** @var array  of HtmlElement | string nodes */
+	/** @var array<int, HtmlElement|string> nodes */
 	protected $children = [];
 
 	/** @var string|null  element's name */
@@ -98,14 +115,9 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 
 	/**
 	 * Changes element's name.
-	 * @throws InvalidArgumentException
 	 */
 	final public function setName(?string $name, bool $empty = null): self
 	{
-		if ($name !== null && !is_string($name)) {
-			throw new \InvalidArgumentException('Name must be string or null.');
-		}
-
 		$this->name = $name;
 		$this->isEmpty = $empty === null ? isset(self::$emptyElements[$name]) : (bool) $empty;
 		return $this;
@@ -149,12 +161,32 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 
 
 	/**
+	 * Sets element's attribute.
+	 */
+	final public function setAttribute(string $name, $value): self
+	{
+		$this->attrs[$name] = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Returns element's attribute.
+	 * @return string|int|bool|string[]|null
+	 */
+	final public function getAttribute(string $name)
+	{
+		return $this->attrs[$name] ?? null;
+	}
+
+
+	/**
 	 * Special setter for element's attribute.
 	 */
 	final public function href(string $path, array $query = null): self
 	{
 		if ($query) {
-			$query = http_build_query($query, null, '&');
+			$query = http_build_query($query, '', '&');
 			if ($query !== '') {
 				$path .= '?' . $query;
 			}
@@ -169,12 +201,8 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 	 */
 	final public function setText(string $text): self
 	{
-		if (is_scalar($text)) {
-			$this->removeChildren();
-			$this->children = [$text];
-		} elseif ($text !== null) {
-			throw new \InvalidArgumentException('Content must be scalar.');
-		}
+		$this->removeChildren();
+		$this->children = [$text];
 		return $this;
 	}
 
@@ -219,22 +247,19 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 	/**
 	 * Inserts child node.
 	 * @param  HtmlElement|string  $child node
-	 * @throws Exception
+	 * @throws \InvalidArgumentException
 	 */
 	public function insert(?int $index, $child, bool $replace = false): self
 	{
-		if ($child instanceof self || is_string($child)) {
-			if ($index === null) { // append
-				$this->children[] = $child;
-
-			} else { // insert or replace
-				array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
-			}
-
-		} else {
+		if (!$child instanceof self && !is_string($child)) {
 			throw new \InvalidArgumentException('Child node must be scalar or HtmlElement object.');
 		}
+		if ($index === null) { // append
+			$this->children[] = $child;
 
+		} else { // insert or replace
+			array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
+		}
 		return $this;
 	}
 
@@ -375,57 +400,39 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 
 		$s = '<' . $this->name;
 
-		if (is_array($this->attrs)) {
-			foreach ($this->attrs as $key => $value) {
-				// skip nulls and false boolean attributes
-				if ($value === null || $value === false) {
-					continue;
-				}
+		foreach ($this->attrs as $key => $value) {
+			if ($value === null || $value === false) {
+				continue; // skip nulls and false boolean attributes
 
-				// true boolean attribute
-				if ($value === true) {
-					// in XHTML must use unminimized form
-					if (self::$xhtml) {
-						$s .= ' ' . $key . '="' . $key . '"';
-					} else {
-						$s .= ' ' . $key;
-					}
-					continue;
+			} elseif ($value === true) {
+				$s .= ' ' . $key; // true boolean attribute
+				continue;
 
-				} elseif (is_array($value)) {
-
-					// prepare into temporary array
-					$tmp = null;
-					foreach ($value as $k => $v) {
-						// skip nulls & empty string; composite 'style' vs. 'others'
-						if ($v == null) {
-							continue;
-						} elseif (is_string($k)) {
-							$tmp[] = $k . ':' . $v;
-						} else {
-							$tmp[] = $v;
-						}
-					}
-
-					if (!$tmp) {
+			} elseif (is_array($value)) {
+				$tmp = null;
+				foreach ($value as $k => $v) {
+					if ($v == null) { // skip nulls & empty string; composite 'style' vs. 'others'
 						continue;
+					} elseif (is_string($k)) {
+						$tmp[] = $k . ':' . $v;
+					} else {
+						$tmp[] = $v;
 					}
-					$value = implode($key === 'style' ? ';' : ' ', $tmp);
-
-				} else {
-					$value = (string) $value;
 				}
+				if (!$tmp) {
+					continue;
+				}
+				$value = implode($key === 'style' ? ';' : ' ', $tmp);
 
-				// add new attribute
-				$value = str_replace(['&', '"', '<', '>', '@'], ['&amp;', '&quot;', '&lt;', '&gt;', '&#64;'], $value);
-				$s .= ' ' . $key . '="' . Helpers::freezeSpaces($value) . '"';
+			} else {
+				$value = (string) $value;
 			}
+
+			// add new attribute
+			$value = str_replace(['&', '"', '<', '>', '@'], ['&amp;', '&quot;', '&lt;', '&gt;', '&#64;'], $value);
+			$s .= ' ' . $key . '="' . Helpers::freezeSpaces($value) . '"';
 		}
 
-		// finish start tag
-		if (self::$xhtml && $this->isEmpty) {
-			return $s . ' />';
-		}
 		return $s . '>';
 	}
 
@@ -457,23 +464,20 @@ class HtmlElement implements \ArrayAccess, /* Countable, */ \IteratorAggregate
 
 	final public function getContentType(): string
 	{
-		if (!isset(self::$inlineElements[$this->name])) {
-			return Texy::CONTENT_BLOCK;
-		}
-
-		return self::$inlineElements[$this->name] ? Texy::CONTENT_REPLACED : Texy::CONTENT_MARKUP;
+		$inlineType = self::$inlineElements[$this->name] ?? null;
+		return $inlineType === null
+			? Texy::CONTENT_BLOCK
+			: ($inlineType ? Texy::CONTENT_REPLACED : Texy::CONTENT_MARKUP);
 	}
 
 
 	final public function validateAttrs(array $dtd): void
 	{
-		if (isset($dtd[$this->name])) {
-			$allowed = $dtd[$this->name][0];
-			if (is_array($allowed)) {
-				foreach ($this->attrs as $attr => $foo) {
-					if (!isset($allowed[$attr]) && (!isset($allowed['data-*']) || substr($attr, 0, 5) !== 'data-')) {
-						unset($this->attrs[$attr]);
-					}
+		$allowed = $dtd[$this->name][0] ?? null;
+		if (is_array($allowed)) {
+			foreach ($this->attrs as $attr => $foo) {
+				if (!isset($allowed[$attr]) && (!isset($allowed['data-*']) || substr($attr, 0, 5) !== 'data-')) {
+					unset($this->attrs[$attr]);
 				}
 			}
 		}

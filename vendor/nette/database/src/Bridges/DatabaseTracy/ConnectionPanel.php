@@ -34,7 +34,7 @@ class ConnectionPanel implements Tracy\IBarPanel
 	/** @var bool */
 	public $disabled = false;
 
-	/** @var int logged time */
+	/** @var float logged time */
 	private $totalTime = 0;
 
 	/** @var int */
@@ -94,19 +94,19 @@ class ConnectionPanel implements Tracy\IBarPanel
 		}
 		return isset($sql) ? [
 			'tab' => 'SQL',
-			'panel' => Helpers::dumpSql($sql),
+			'panel' => Helpers::dumpSql($sql, $e->params ?? []),
 		] : null;
 	}
 
 
 	public function getTab(): string
 	{
-		$name = $this->name;
-		$count = $this->count;
-		$totalTime = $this->totalTime;
-		ob_start(function () {});
-		require __DIR__ . '/templates/ConnectionPanel.tab.phtml';
-		return ob_get_clean();
+		return Nette\Utils\Helpers::capture(function () {
+			$name = $this->name;
+			$count = $this->count;
+			$totalTime = $this->totalTime;
+			require __DIR__ . '/templates/ConnectionPanel.tab.phtml';
+		});
 	}
 
 
@@ -117,26 +117,28 @@ class ConnectionPanel implements Tracy\IBarPanel
 			return null;
 		}
 
-		$name = $this->name;
-		$count = $this->count;
-		$totalTime = $this->totalTime;
 		$queries = [];
 		foreach ($this->queries as $query) {
-			[$connection, $sql, $params, $source, $time, $rows, $error] = $query;
+			[$connection, $sql, $params, , , , $error] = $query;
 			$explain = null;
-			if (!$error && $this->explain && preg_match('#\s*\(?\s*SELECT\s#iA', $sql)) {
+			$command = preg_match('#\s*\(?\s*(SELECT|INSERT|UPDATE|DELETE)\s#iA', $sql, $m) ? strtolower($m[1]) : null;
+			if (!$error && $this->explain && $command === 'select') {
 				try {
 					$cmd = is_string($this->explain) ? $this->explain : 'EXPLAIN';
 					$explain = $connection->queryArgs("$cmd $sql", $params)->fetchAll();
 				} catch (\PDOException $e) {
 				}
 			}
+			$query[] = $command;
 			$query[] = $explain;
 			$queries[] = $query;
 		}
 
-		ob_start(function () {});
-		require __DIR__ . '/templates/ConnectionPanel.panel.phtml';
-		return ob_get_clean();
+		return Nette\Utils\Helpers::capture(function () use ($queries, $connection) {
+			$name = $this->name;
+			$count = $this->count;
+			$totalTime = $this->totalTime;
+			require __DIR__ . '/templates/ConnectionPanel.panel.phtml';
+		});
 	}
 }

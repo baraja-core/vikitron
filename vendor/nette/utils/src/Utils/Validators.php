@@ -19,6 +19,7 @@ class Validators
 {
 	use Nette\StaticClass;
 
+	/** @var array<string,?callable> */
 	protected static $validators = [
 		// PHP types
 		'array' => 'is_array',
@@ -68,6 +69,7 @@ class Validators
 		'type' => [__CLASS__, 'isType'],
 	];
 
+	/** @var array<string,callable> */
 	protected static $counters = [
 		'string' => 'strlen',
 		'unicode' => [Strings::class, 'length'],
@@ -85,6 +87,7 @@ class Validators
 
 	/**
 	 * Throws exception if a variable is of unexpected type (separated by pipe).
+	 * @param  mixed  $value
 	 */
 	public static function assert($value, string $expected, string $label = 'variable'): void
 	{
@@ -104,6 +107,8 @@ class Validators
 
 	/**
 	 * Throws exception if an array field is missing or of unexpected type (separated by pipe).
+	 * @param  mixed[]  $arr
+	 * @param  int|string  $field
 	 */
 	public static function assertField(array $arr, $field, string $expected = null, string $label = "item '%' in array"): void
 	{
@@ -118,6 +123,7 @@ class Validators
 
 	/**
 	 * Finds whether a variable is of expected type (separated by pipe).
+	 * @param  mixed  $value
 	 */
 	public static function is($value, string $expected): bool
 	{
@@ -144,7 +150,7 @@ class Validators
 					continue;
 				}
 			} elseif ($type === 'pattern') {
-				if (preg_match('|^' . ($item[1] ?? '') . '\z|', $value)) {
+				if (Strings::match($value, '|^' . ($item[1] ?? '') . '$|D')) {
 					return true;
 				}
 				continue;
@@ -173,6 +179,7 @@ class Validators
 
 	/**
 	 * Finds whether all values are of expected type (separated by pipe).
+	 * @param  mixed[]  $values
 	 */
 	public static function everyIs(iterable $values, string $expected): bool
 	{
@@ -187,6 +194,7 @@ class Validators
 
 	/**
 	 * Finds whether a value is an integer or a float.
+	 * @param  mixed  $value
 	 */
 	public static function isNumber($value): bool
 	{
@@ -196,24 +204,27 @@ class Validators
 
 	/**
 	 * Finds whether a value is an integer.
+	 * @param  mixed  $value
 	 */
 	public static function isNumericInt($value): bool
 	{
-		return is_int($value) || is_string($value) && preg_match('#^[+-]?[0-9]+\z#', $value);
+		return is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]+$#D', $value));
 	}
 
 
 	/**
 	 * Finds whether a string is a floating point number in decimal base.
+	 * @param  mixed  $value
 	 */
 	public static function isNumeric($value): bool
 	{
-		return is_float($value) || is_int($value) || is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+\z#', $value);
+		return is_float($value) || is_int($value) || (is_string($value) && preg_match('#^[+-]?[0-9]*[.]?[0-9]+$#D', $value));
 	}
 
 
 	/**
 	 * Finds whether a value is a syntactically correct callback.
+	 * @param  mixed  $value
 	 */
 	public static function isCallable($value): bool
 	{
@@ -223,6 +234,7 @@ class Validators
 
 	/**
 	 * Finds whether a value is an UTF-8 encoded string.
+	 * @param  mixed  $value
 	 */
 	public static function isUnicode($value): bool
 	{
@@ -232,6 +244,7 @@ class Validators
 
 	/**
 	 * Finds whether a value is "falsy".
+	 * @param  mixed  $value
 	 */
 	public static function isNone($value): bool
 	{
@@ -248,6 +261,7 @@ class Validators
 
 	/**
 	 * Finds whether a variable is a zero-based integer indexed array.
+	 * @param  mixed  $value
 	 */
 	public static function isList($value): bool
 	{
@@ -257,6 +271,7 @@ class Validators
 
 	/**
 	 * Is a value in specified min and max value pair?
+	 * @param  mixed  $value
 	 */
 	public static function isInRange($value, array $range): bool
 	{
@@ -291,7 +306,7 @@ class Validators
 			@
 			([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+    # domain - RFC 1034
 			[$alpha]([-0-9$alpha]{0,17}[$alpha])?                # top domain
-		\\z)ix", $value);
+		$)Dix", $value);
 	}
 
 
@@ -310,7 +325,9 @@ class Validators
 				|\[[0-9a-f:]{3,39}\]                        # IPv6
 			)(:\\d{1,5})?                                   # port
 			(/\\S*)?                                        # path
-		\\z)ix", $value);
+			(\?\\S*)?                                       # query
+			(\#\\S*)?                                       # fragment
+		$)Dix", $value);
 	}
 
 
@@ -319,7 +336,7 @@ class Validators
 	 */
 	public static function isUri(string $value): bool
 	{
-		return (bool) preg_match('#^[a-z\d+\.-]+:\S+\z#i', $value);
+		return (bool) preg_match('#^[a-z\d+\.-]+:\S+$#Di', $value);
 	}
 
 
@@ -337,6 +354,6 @@ class Validators
 	 */
 	public static function isPhpIdentifier(string $value): bool
 	{
-		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\z#', $value);
+		return is_string($value) && preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#D', $value);
 	}
 }

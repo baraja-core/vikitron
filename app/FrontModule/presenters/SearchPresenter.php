@@ -7,7 +7,6 @@ namespace App\FrontModule\Presenters;
 
 use Mathematicator\Search\Renderer;
 use Mathematicator\Tokenizer\Tokenizer;
-use Model\Math\Step\StepEndpoint;
 use Tracy\Debugger;
 
 class SearchPresenter extends BasePresenter
@@ -25,25 +24,11 @@ class SearchPresenter extends BasePresenter
 	 */
 	public $renderer;
 
-	/**
-	 * @var StepEndpoint
-	 * @inject
-	 */
-	public $stepEndpoint;
-
 	public function actionDefault(string $q = ''): void
 	{
 		$this->template->searchQuery = $q;
 		$this->template->result = $this->search->get()->search($q);
 		$this->template->renderer = $this->renderer;
-	}
-
-	public function actionStep(string $type, string $data): void
-	{
-		$steps = $this->stepEndpoint->getStep($type, $data);
-		bdump($steps, 'Ajax steps');
-
-		$this->sendJson($steps);
 	}
 
 	public function actionParser($q): void

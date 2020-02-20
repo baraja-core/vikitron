@@ -39,6 +39,11 @@ class EntityManager implements EntityManagerInterface
 {
 
 	/**
+	 * @var callable[]
+	 */
+	private static $onInit = [];
+
+	/**
 	 * @var Connection
 	 */
 	private $connection;
@@ -54,22 +59,38 @@ class EntityManager implements EntityManagerInterface
 	private $eventManager;
 
 	/**
-	 * @var string
+	 * @var EntityManagerDependenciesAccessor
 	 */
-	private $dbDirPath;
+	private $dependencies;
 
 	/**
-	 * @param Connection $connection
-	 * @param Configuration $configuration
-	 * @param EventManager $eventManager
+	 * @param EntityManagerDependenciesAccessor $dependencies
 	 */
-	public function __construct(Connection $connection, Configuration $configuration, EventManager $eventManager)
+	public function __construct(EntityManagerDependenciesAccessor $dependencies)
 	{
-		$this->connection = $connection;
-		$this->configuration = $configuration;
-		$this->eventManager = $eventManager;
-		$this->dbDirPath = \dirname(__DIR__, 4) . '/temp/cache/baraja.doctrine';
-		FileSystem::createDir($this->dbDirPath);
+		$this->dependencies = $dependencies;
+	}
+
+	/**
+	 * @internal reserved for DIC
+	 * @param callable(self $entityManager) $callback
+	 */
+	final public static function addInit(callable $callback): void
+	{
+		self::$onInit[] = $callback;
+	}
+
+	public function init(): void
+	{
+		if ($this->connection === null) {
+			$this->connection = ($manager = $this->dependencies->get())->getConnection();
+			$this->configuration = $manager->getConfiguration();
+			$this->eventManager = $manager->getEventManager();
+
+			foreach (self::$onInit as $initCallback) {
+				$initCallback($this);
+			}
+		}
 	}
 
 	/**
@@ -77,20 +98,33 @@ class EntityManager implements EntityManagerInterface
 	 */
 	public function getDbDirPath(): string
 	{
-		return $this->dbDirPath;
+		static $cache;
+
+		if ($cache === null) {
+			FileSystem::createDir($dir = \dirname(__DIR__, 4) . '/temp/cache/baraja.doctrine');
+			$cache = $dir . '/doctrine.db';
+		}
+
+		return $cache;
+	}
+
+	public function fixDbDirPathPermission(): void
+	{
+		if (is_file($path = $this->getDbDirPath()) === true && fileperms($path) < 33204) {
+			chmod($path, 0664);
+		}
 	}
 
 	/**
 	 * @param object $entity
 	 * @return EntityManager
-	 * @throws EntityManagerException
 	 */
 	public function persist($entity): self
 	{
 		try {
 			$this->em()->persist($entity);
 		} catch (ORMException $e) {
-			throw new EntityManagerException($e->getMessage(), $e->getCode(), $e);
+			EntityManagerException::e($e);
 		}
 
 		return $this;
@@ -99,14 +133,13 @@ class EntityManager implements EntityManagerInterface
 	/**
 	 * @param null|object|array $entity
 	 * @return EntityManager
-	 * @throws EntityManagerException
 	 */
 	public function flush($entity = null): self
 	{
 		try {
 			$this->em()->flush($entity);
 		} catch (ORMException|OptimisticLockException $e) {
-			throw new EntityManagerException($e->getMessage(), $e->getCode(), $e);
+			EntityManagerException::e($e);
 		}
 
 		return $this;
@@ -116,7 +149,6 @@ class EntityManager implements EntityManagerInterface
 	 * @param string $className The class name of the object to find.
 	 * @param mixed $id The identity of the object to find.
 	 * @return object|null The found object.
-	 * @throws EntityManagerException
 	 */
 	public function find($className, $id)
 	{
@@ -130,14 +162,13 @@ class EntityManager implements EntityManagerInterface
 	/**
 	 * @param object $object The object instance to remove.
 	 * @return EntityManager
-	 * @throws EntityManagerException
 	 */
 	public function remove($object): self
 	{
 		try {
 			$this->em()->remove($object);
 		} catch (ORMException $e) {
-			throw new EntityManagerException($e->getMessage(), $e->getCode(), $e);
+			EntityManagerException::e($e);
 		}
 
 		return $this;
@@ -437,6 +468,8 @@ class EntityManager implements EntityManagerInterface
 	 */
 	public function getHydrator($hydrationMode): AbstractHydrator
 	{
+		trigger_error(__METHOD__ . ': Method getHydrator() is deprecated, use DIC.', E_DEPRECATED);
+
 		return $this->em()->getHydrator($hydrationMode);
 	}
 
@@ -491,6 +524,7 @@ class EntityManager implements EntityManagerInterface
 	 */
 	public function setCache(?CacheProvider $cache = null): void
 	{
+		$this->init();
 		QueryPanel::setCache($cache);
 
 		if ($cache === null) {
@@ -508,23 +542,21 @@ class EntityManager implements EntityManagerInterface
 		$this->configuration->setAutoGenerateProxyClasses(2);
 	}
 
-	public function buildCache(): void
+	/**
+	 * @param bool $saveMode
+	 * @param bool $invalidCache
+	 */
+	public function buildCache(bool $saveMode = false, $invalidCache = false): void
 	{
-		$invalidCache = false;
+		$this->init();
 		QueryPanel::setInvalidCache($invalidCache);
 
 		if ($invalidCache === true) {
-			$metadata = $this->getMetadataFactory()->getAllMetadata();
-
-			if (empty($metadata)) {
+			if (empty($metadata = $this->getMetadataFactory()->getAllMetadata())) {
 				return;
 			}
 
-			$schemaTool = new SchemaTool($this);
-			$saveMode = false;
-			$sql = $schemaTool->getUpdateSchemaSql($metadata, $saveMode);
-
-			if (empty($sql)) {
+			if (empty(($schemaTool = new SchemaTool($this))->getUpdateSchemaSql($metadata, $saveMode))) {
 				return;
 			}
 
@@ -540,12 +572,9 @@ class EntityManager implements EntityManagerInterface
 		static $cache;
 
 		if ($cache === null) {
+			$this->init();
 			try {
-				$cache = \Doctrine\ORM\EntityManager::create(
-					$this->connection,
-					$this->configuration,
-					$this->eventManager
-				);
+				$cache = \Doctrine\ORM\EntityManager::create($this->connection, $this->configuration, $this->eventManager);
 			} catch (ORMException $e) {
 				Debugger::log($e);
 				trigger_error($e->getMessage(), E_ERROR);

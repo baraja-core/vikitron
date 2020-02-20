@@ -35,26 +35,22 @@ class DoctrineHelper
 	 * @param string[]|null $exclude
 	 * @return string[]
 	 */
-	public function getEntityVariants(string $entity, array $exclude = null): array
+	public function getEntityVariants(string $entity, ?array $exclude = null): array
 	{
 		$return = [];
 
-		$meta = $this->entityManager->getClassMetadata($entity);
-
-		if (\is_array($meta->discriminatorMap) && \count($meta->discriminatorMap) > 0) {
+		if (\is_array(($meta = $this->entityManager->getClassMetadata($entity))->discriminatorMap) && \count($meta->discriminatorMap) > 0) {
 			foreach ($meta->discriminatorMap as $variant) {
 				try {
-					$name = Utils::reflectionClassDocComment($variant, 'name');
+					$return[$variant] = Utils::reflectionClassDocComment($variant, 'name');
 				} catch (\ReflectionException $e) {
-					$name = null;
-				}
-
-				if ($name === null) {
-					$return[$variant] = preg_replace_callback('/([a-z0-9])([A-Z])/', static function (array $match) {
-						return $match[1] . ' ' . strtolower($match[2]);
-					}, preg_replace('/^.*?\\\\([^\\\\]+)$/', '$1', $variant));
-				} else {
-					$return[$variant] = $name;
+					$return[$variant] = (string) preg_replace_callback(
+						'/([a-z0-9])([A-Z])/',
+						static function (array $match) {
+							return $match[1] . ' ' . strtolower($match[2]);
+						},
+						(string) preg_replace('/^.*?\\\\([^\\\\]+)$/', '$1', $variant)
+					);
 				}
 			}
 		}
@@ -75,9 +71,7 @@ class DoctrineHelper
 	 */
 	public function getBestOfType(string $entity): string
 	{
-		$variants = $this->getEntityVariants($entity);
-
-		if (\in_array(\count($variants), [0, 1], true)) {
+		if (\in_array(\count($variants = $this->getEntityVariants($entity)), [0, 1], true) === true) {
 			return $entity;
 		}
 
@@ -86,14 +80,11 @@ class DoctrineHelper
 
 		foreach (array_keys($variants) as $variant) {
 			try {
-				$length = $this->getParentClassLength(Utils::getReflectionClass($variant));
+				if (($length = $this->getParentClassLength(Utils::getReflectionClass($variant))) > $topLength) {
+					$topLength = $length;
+					$topType = $variant;
+				}
 			} catch (\ReflectionException $e) {
-				$length = 0;
-			}
-
-			if ($length > $topLength) {
-				$topLength = $length;
-				$topType = $variant;
 			}
 		}
 
@@ -132,18 +123,14 @@ class DoctrineHelper
 	 */
 	public function getDiscriminatorByEntity(string $entity): string
 	{
-		$meta = $this->entityManager->getClassMetadata($entity);
-
-		foreach ($meta->discriminatorMap ?? [] as $discriminator => $variant) {
+		foreach ($this->entityManager->getClassMetadata($entity)->discriminatorMap ?? [] as $discriminator => $variant) {
 			if ($variant === $entity) {
 				return $discriminator;
 			}
 		}
 
 		$entity = $this->getRootEntityName($entity);
-		$meta = $this->entityManager->getClassMetadata($entity);
-
-		foreach ($meta->discriminatorMap ?? [] as $discriminator => $variant) {
+		foreach ($this->entityManager->getClassMetadata($entity)->discriminatorMap ?? [] as $discriminator => $variant) {
 			if ($variant === $entity) {
 				return $discriminator;
 			}
@@ -163,10 +150,7 @@ class DoctrineHelper
 	 */
 	public function remapEntityToBestType($from)
 	{
-		$fromType = get_class($from);
-		$bestType = $this->getBestOfType($fromType);
-
-		if ($fromType === $bestType) {
+		if (($fromType = get_class($from)) === ($bestType = $this->getBestOfType($fromType))) {
 			return $from;
 		}
 
@@ -186,20 +170,14 @@ class DoctrineHelper
 	 */
 	public function remapEntity($from, $to)
 	{
-		$toType = is_string($to) ? $to : \get_class($to);
-		$fromDiscriminator = $this->getDiscriminatorByEntity(\get_class($from));
-		$toDiscriminator = $this->getDiscriminatorByEntity($toType);
-
-		if ($fromDiscriminator === $toDiscriminator) {
+		if ($this->getDiscriminatorByEntity(\get_class($from)) === ($toDiscriminator = $this->getDiscriminatorByEntity($toType = is_string($to) ? $to : \get_class($to)))) {
 			return $from;
 		}
 
-		$fromMetaData = $this->entityManager->getClassMetadata(\get_class($from));
-		$fromTable = $fromMetaData->getTableName();
-		$toTable = $this->entityManager->getClassMetadata($toType)->getTableName();
+		$fromTable = ($fromMetaData = $this->entityManager->getClassMetadata(\get_class($from)))->getTableName();
 		$discriminatorColumn = $fromMetaData->discriminatorColumn['fieldName'];
 
-		if ($fromTable !== $toTable) {
+		if ($fromTable !== ($toTable = $this->entityManager->getClassMetadata($toType)->getTableName())) {
 			DatabaseException::remapDifferentTypes($fromTable, $toTable);
 		}
 
@@ -248,9 +226,7 @@ class DoctrineHelper
 			&& method_exists($itemEntity, 'setParent')
 			&& method_exists($itemEntity, 'setPosition')
 		) {
-			$parent = $itemEntity->getParent();
-
-			if ($parent !== null && method_exists($parent, 'getId') && $parent->getId() !== $parentId) {
+			if (($parent = $itemEntity->getParent()) !== null && method_exists($parent, 'getId') && $parent->getId() !== $parentId) {
 				try {
 					$parent = $this->entityManager->getRepository(\get_class($itemEntity))
 						->createQueryBuilder('e')
@@ -329,13 +305,13 @@ class DoctrineHelper
 	 */
 	private function getParentClassLength(\ReflectionClass $reflection, int $bind = 1): int
 	{
-		$parent = $reflection->getParentClass();
+		$length = 0;
 
-		if ($parent === false) {
-			return $bind;
+		while (($parent = ($length === 0 ? $reflection : $parent ?? $reflection)->getParentClass()) !== false) {
+			$length++;
 		}
 
-		return $this->getParentClassLength($parent, $bind) + $bind;
+		return $length + ($bind > 0 ? $bind : 0);
 	}
 
 }
