@@ -47,17 +47,17 @@
     },
     {
         "name": "baraja-core/package-manager",
-        "version": "v1.0.2",
-        "version_normalized": "1.0.2.0",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/package-manager.git",
-            "reference": "d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10"
+            "reference": "b88fbddc06a3500c1e0ac21fa6145ee8da7b8197"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10",
-            "reference": "d43890541b5a3dd23d79c3cfe6eb207b5dfd0f10",
+            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/b88fbddc06a3500c1e0ac21fa6145ee8da7b8197",
+            "reference": "b88fbddc06a3500c1e0ac21fa6145ee8da7b8197",
             "shasum": ""
         },
         "require": {
@@ -66,7 +66,7 @@
             "nette/application": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2020-01-12T21:24:00+00:00",
+        "time": "2020-02-20T09:07:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
