@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Engine;
 
 
+use Mathematicator\Search\Box;
+
 class EngineMultiResult extends EngineResult
 {
 
@@ -19,6 +21,30 @@ class EngineMultiResult extends EngineResult
 	public function getResults(): array
 	{
 		return $this->results;
+	}
+
+	/**
+	 * @return Box|null
+	 */
+	public function getInterpret(): ?Box
+	{
+		return null;
+	}
+
+	/**
+	 * @return Box[]
+	 */
+	public function getBoxes(): array
+	{
+		$return = [];
+
+		foreach ($this->getResults() as $result) {
+			foreach ($result->getBoxes() as $box) {
+				$return[] = $box;
+			}
+		}
+
+		return $return;
 	}
 
 	/**

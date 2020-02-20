@@ -39,7 +39,7 @@ class StepPowController implements IStepController
 		if ($data['x'] > 0 && $data['y'] > 0
 			&& Validators::isNumericInt($data['x']) && Validators::isNumericInt($data['y'])
 		) {
-			return $this->getAbsSmallIntegers($data['x'], $data['y']);
+			return $this->getAbsSmallIntegers((string) $data['x'], (string) $data['y']);
 		}
 
 		$steps = [];
@@ -105,11 +105,11 @@ class StepPowController implements IStepController
 	}
 
 	/**
-	 * @param int $x
-	 * @param int $y
+	 * @param string $x
+	 * @param string $y
 	 * @return Step[]
 	 */
-	private function getAbsSmallIntegers(int $x, int $y): array
+	private function getAbsSmallIntegers(string $x, string $y): array
 	{
 		$steps = [];
 

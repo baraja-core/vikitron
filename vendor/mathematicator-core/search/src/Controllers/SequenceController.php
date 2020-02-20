@@ -125,7 +125,7 @@ class SequenceController extends BaseController
 			if ($sum === null) {
 				$sum = $numberToken;
 			} else {
-				$calculate = $this->addNumbers->process($sum, $numberToken);
+				$calculate = $this->addNumbers->process($sum, $numberToken, $this->queryEntity);
 
 				$step = $this->stepFactory->create();
 				$step->setLatex((string) $sum);

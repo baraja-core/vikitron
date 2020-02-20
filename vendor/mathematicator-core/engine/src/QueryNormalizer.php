@@ -67,21 +67,24 @@ class QueryNormalizer
 	 */
 	public function normalize(string $query): string
 	{
-		$query = Strings::trim(Strings::normalize($query));
-		$query = (string) preg_replace('/\s+/', ' ', $query);
+		$query = trim(Strings::normalize($query), " \t\n\r\"'");
+		$query = $this->removeEmoji($query);
 		$query = (string) preg_replace('/=\??$/', '', $query);
 
 		$queryNew = '';
 		foreach (explode('=', $query) as $queryParser) {
-			$queryPart = $queryParser;
+			$queryPart = trim($queryParser);
 			$queryPart = $this->taskFixBrackets($queryPart);
 			$queryPart = $this->taskRewriteWordNumber($queryPart);
 			$queryPart = $this->taskNormalizeNumber($queryPart);
 			$queryPart = $this->taskRegexReplaceMap($queryPart);
-			$queryNew .= ($queryNew ? '=' : '') . $queryPart;
+			$queryNew .= ($queryNew !== '' ? '=' : '') . $queryPart;
 		}
 
-		return $queryNew;
+		$queryNew = $this->replaceSpecialCharacters($queryNew);
+		$queryNew = (string) preg_replace('/\s+/', ' ', $queryNew);
+
+		return trim($queryNew);
 	}
 
 	/**
@@ -90,10 +93,7 @@ class QueryNormalizer
 	 */
 	private function taskFixBrackets(string $query): string
 	{
-		$leftCount = substr_count($query, '(');
-		$rightCount = substr_count($query, ')');
-
-		if ($leftCount === $rightCount) {
+		if (($leftCount = substr_count($query, '(')) === ($rightCount = substr_count($query, ')'))) {
 			$return = $query;
 		} elseif ($leftCount > $rightCount) {
 			$return = $query . str_repeat(')', $leftCount - $rightCount);
@@ -130,7 +130,7 @@ class QueryNormalizer
 			$oldQuery = $query;
 
 			foreach (self::$regexMap as $regex => $replace) {
-				$query = preg_replace('/' . $regex . '/', $replace, $query);
+				$query = (string) preg_replace('/' . $regex . '/', $replace, $query);
 			}
 
 			if ($oldQuery === $query) {
@@ -147,7 +147,7 @@ class QueryNormalizer
 	 */
 	private function taskNormalizeNumber(string $query): string
 	{
-		return preg_replace_callback('/([\d\,]+\,\d{3})\.(\d+)/', function (array $match) {
+		return preg_replace_callback('/([\d\,]+\,\d{3})\.(\d+)/', static function (array $match): string {
 			return preg_replace('/\D/', '', $match[1]) . '.' . $match[2];
 		}, $query);
 	}
@@ -159,6 +159,41 @@ class QueryNormalizer
 	private function taskRewriteWordNumber(string $query): string
 	{
 		return $this->numberRewriter->toNumber($query);
+	}
+
+	/**
+	 * @param string $query
+	 * @return string
+	 */
+	private function removeEmoji(string $query): string
+	{
+		// Match Emoticons
+		$query = (string) preg_replace('/[\x{1F600}-\x{1F64F}]/u', '', $query);
+
+		// Match Miscellaneous Symbols and Pictographs
+		$query = (string) preg_replace('/[\x{1F300}-\x{1F5FF}]/u', '', $query);
+
+		// Match Transport And Map Symbols
+		$query = (string) preg_replace('/[\x{1F680}-\x{1F6FF}]/u', '', $query);
+
+		// Match Miscellaneous Symbols
+		$query = (string) preg_replace('/[\x{2600}-\x{26FF}]/u', '', $query);
+
+		// Match Dingbats
+		$query = (string) preg_replace('/[\x{2700}-\x{27BF}]/u', '', $query);
+
+		return $query;
+	}
+
+	/**
+	 * @param string $query
+	 * @return string
+	 */
+	private function replaceSpecialCharacters(string $query): string
+	{
+		$query = str_replace(['½', 'Ã'], [' 1/2', 'á'], $query);
+
+		return $query;
 	}
 
 }

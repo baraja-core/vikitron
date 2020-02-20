@@ -144,13 +144,18 @@ class TokensCalculator
 					}
 				} else {
 					$_result = $this->iterator($token->getTokens(), $query, $ttl - 1);
-					$_resultResult = $_result->getResult();
 					$resultEntity->setStepTitle($_result->getStepTitle())
 						->setStepDescription($_result->getStepDescription())
 						->setAjaxEndpoint($_result->getAjaxEndpoint());
-					$token->setObjectTokens(\count($_resultResult) === 1
-						? [$_resultResult[0]]
-						: $_resultResult);
+					$token->setObjectTokens(
+						(static function (array $results) {
+							if (\count($results) === 1) {
+								return ($results[0] ?? null) === null ? null : [$results[0]];
+							}
+
+							return $results;
+						})($_result->getResult())
+					);
 					$result[] = $token;
 				}
 				$wasMatched = true;

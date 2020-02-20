@@ -70,6 +70,7 @@ class Router
 		$this->regexRoute('\d+\/\d+', NumberController::class);
 		$this->regexRoute('[IVXLCDMivxlcdm]{2,}', NumberController::class);
 		$this->staticRoute(['pi', 'ludolfovo cislo'], NumberController::class);
+		$this->staticRoute(['inf'], NumberCounterController::class);
 		$this->regexRoute('A\d{6}', OEISController::class);
 		$this->tokenizeRoute(NumberCounterController::class);
 		$this->regexRoute('now|\d{1,2}\.\d{1,2}\.\d{4}|\d{4}-\d{1,2}-\d{1,2}', DateController::class);
@@ -125,7 +126,7 @@ class Router
 	 */
 	private function tokenizeRoute(string $entity): void
 	{
-		if (preg_match('/([\+\-\*\/\^\!])|INF|PI|<=>|<=+|>=+|!=+|=+|<>|>+|<+|(' . implode('\(|', $this->functions) . '\()/', $this->query)) {
+		if (preg_match('/([\+\-\*\/\^\!])|INF[^a-zA-Z]|PI[^a-zA-Z]|<=>|<=+|>=+|!=+|=+|<>|>+|<+|(' . implode('\(|', $this->functions) . '\()/', $this->query, $match)) {
 			throw new TerminateException($entity);
 		}
 	}

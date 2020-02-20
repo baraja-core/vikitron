@@ -411,17 +411,17 @@
     },
     {
         "name": "mathematicator-core/calculator",
-        "version": "v1.0.6",
-        "version_normalized": "1.0.6.0",
+        "version": "v1.0.7",
+        "version_normalized": "1.0.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/calculator.git",
-            "reference": "52d9bffede42d811e30c1cdede45d99edbc03982"
+            "reference": "d4ac988be0c598118114681b513ae5e2e5af4910"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/52d9bffede42d811e30c1cdede45d99edbc03982",
-            "reference": "52d9bffede42d811e30c1cdede45d99edbc03982",
+            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/d4ac988be0c598118114681b513ae5e2e5af4910",
+            "reference": "d4ac988be0c598118114681b513ae5e2e5af4910",
             "shasum": ""
         },
         "require": {
@@ -432,7 +432,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-10-27T16:03:22+00:00",
+        "time": "2020-01-23T11:09:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -452,17 +452,17 @@
     },
     {
         "name": "mathematicator-core/engine",
-        "version": "v1.0.8",
-        "version_normalized": "1.0.8.0",
+        "version": "v1.0.9",
+        "version_normalized": "1.0.9.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/engine.git",
-            "reference": "cff88517600d10658d25773b67c05c33c716b0bd"
+            "reference": "c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/cff88517600d10658d25773b67c05c33c716b0bd",
-            "reference": "cff88517600d10658d25773b67c05c33c716b0bd",
+            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c",
+            "reference": "c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c",
             "shasum": ""
         },
         "require": {
@@ -472,7 +472,7 @@
             "php": ">=7.1",
             "tracy/tracy": "^2.6"
         },
-        "time": "2019-10-16T09:25:52+00:00",
+        "time": "2020-01-26T17:14:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -572,17 +572,17 @@
     },
     {
         "name": "mathematicator-core/numbers",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/numbers.git",
-            "reference": "c278a1c4cbbcbb73719a6352928d440b538a123b"
+            "reference": "4af83b1164c2a4af459c51c1a30d6bae44b863b0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/c278a1c4cbbcbb73719a6352928d440b538a123b",
-            "reference": "c278a1c4cbbcbb73719a6352928d440b538a123b",
+            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/4af83b1164c2a4af459c51c1a30d6bae44b863b0",
+            "reference": "4af83b1164c2a4af459c51c1a30d6bae44b863b0",
             "shasum": ""
         },
         "require": {
@@ -592,7 +592,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-10-17T15:37:04+00:00",
+        "time": "2020-01-23T11:10:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -612,17 +612,17 @@
     },
     {
         "name": "mathematicator-core/router",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/router.git",
-            "reference": "33ee66391c824ba309a36116d6da6e2bcaf1b6d2"
+            "reference": "b7ee11af5808309b84a8cc2637565a3a28dafbad"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/33ee66391c824ba309a36116d6da6e2bcaf1b6d2",
-            "reference": "33ee66391c824ba309a36116d6da6e2bcaf1b6d2",
+            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/b7ee11af5808309b84a8cc2637565a3a28dafbad",
+            "reference": "b7ee11af5808309b84a8cc2637565a3a28dafbad",
             "shasum": ""
         },
         "require": {
@@ -630,7 +630,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-10-27T16:00:56+00:00",
+        "time": "2019-11-03T10:56:27+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -650,17 +650,17 @@
     },
     {
         "name": "mathematicator-core/search",
-        "version": "v1.0.12",
-        "version_normalized": "1.0.12.0",
+        "version": "v1.0.13",
+        "version_normalized": "1.0.13.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/search.git",
-            "reference": "6121ba076cd5580c9f6c3230a598934e16c3fbe5"
+            "reference": "5d3ac7a26e360631d5eb585c663f86b56338cb5b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/6121ba076cd5580c9f6c3230a598934e16c3fbe5",
-            "reference": "6121ba076cd5580c9f6c3230a598934e16c3fbe5",
+            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/5d3ac7a26e360631d5eb585c663f86b56338cb5b",
+            "reference": "5d3ac7a26e360631d5eb585c663f86b56338cb5b",
             "shasum": ""
         },
         "require": {
@@ -675,7 +675,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-11-01T16:21:00+00:00",
+        "time": "2019-12-26T22:26:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -733,17 +733,17 @@
     },
     {
         "name": "mathematicator-core/tokenizer",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/tokenizer.git",
-            "reference": "e8a884d9b899cd1ff9a8d75283e97fe8af7010f7"
+            "reference": "b972c00cbb62982b7cc59b96b0588d60ffdd5c09"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/e8a884d9b899cd1ff9a8d75283e97fe8af7010f7",
-            "reference": "e8a884d9b899cd1ff9a8d75283e97fe8af7010f7",
+            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b972c00cbb62982b7cc59b96b0588d60ffdd5c09",
+            "reference": "b972c00cbb62982b7cc59b96b0588d60ffdd5c09",
             "shasum": ""
         },
         "require": {
@@ -755,7 +755,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-10-27T15:53:10+00:00",
+        "time": "2020-01-23T11:08:28+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

@@ -41,8 +41,11 @@ class DateController extends BaseController
 		$dates = $this->getDates((int) $date->format('Y'));
 
 		$this->renderCalendar($date, $dates);
-		$this->sun($date);
-		$this->moon($date);
+
+		if ($date->format('Y') < 3000) {
+			$this->sun($date);
+			$this->moon($date);
+		}
 	}
 
 	/**

@@ -571,7 +571,7 @@ class NumberCounterController extends BaseController
 		$count = 0;
 
 		for ($i = 5; $factorial / $i >= 1; $i *= 5) {
-			$count += $factorial / $i;
+			$count += (int) ($factorial / $i);
 			$fractions .= ($fractions ? ' + ' : '') . '\left\lfloor{\frac{' . $factorial . '}{' . $i . '}}\right\rfloor';
 			$fractionValues .= ($fractionValues ? ' + ' : '') . ((int) ($factorial / $i));
 		}
@@ -584,7 +584,7 @@ class NumberCounterController extends BaseController
 
 		$return[] = new Step(
 			'Vypočítáme hodnotu zlomků a sečteme',
-			$fractionValues . ' = ' . ((int) $count),
+			$fractionValues . ' = ' . $count,
 			null
 		);
 
