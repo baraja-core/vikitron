@@ -14,7 +14,7 @@ class PackageDescriptorException extends \Exception
 	 */
 	public static function canNotCreateTempDir(string $path): void
 	{
-		throw new self ('Can not create temp dir on path "' . $path . '"' . "\n" . error_get_last()['message']);
+		throw new self('Can not create temp dir on path "' . $path . '"' . "\n" . error_get_last()['message']);
 	}
 
 	/**
@@ -23,7 +23,7 @@ class PackageDescriptorException extends \Exception
 	 */
 	public static function canNotCreateTempFile(string $path): void
 	{
-		throw new self ('Can not create temp file on path "' . $path . '"' . "\n" . error_get_last()['message']);
+		throw new self('Can not create temp file on path "' . $path . '"' . "\n" . error_get_last()['message']);
 	}
 
 	/**

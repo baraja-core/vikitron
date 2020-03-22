@@ -16,7 +16,7 @@ abstract class BaseTask implements ITask
 	 */
 	protected $packageRegistrator;
 
-	public function __construct(PackageRegistrator $packageRegistrator)
+	final public function __construct(PackageRegistrator $packageRegistrator)
 	{
 		$this->packageRegistrator = $packageRegistrator;
 	}

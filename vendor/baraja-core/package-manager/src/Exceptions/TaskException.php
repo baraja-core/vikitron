@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Baraja\PackageManager\Exception;
 
 
-class TaskException extends PackageDescriptorException
+final class TaskException extends PackageDescriptorException
 {
 
 	/**
@@ -36,7 +36,7 @@ class TaskException extends PackageDescriptorException
 		$errorMessage = null;
 		static $pattern = '/\s*\[\<a[^>]+>[a-z0-9\.\-\_\(\)]+<\/a>\]\s*/i';
 
-		if (($lastError = error_get_last()) && isset($lastError['message'])) {
+		if (($lastError = error_get_last()) && isset($lastError['message']) === true) {
 			$errorMessage = trim((string) preg_replace($pattern, ' ', (string) $lastError['message']));
 		}
 

@@ -8,7 +8,7 @@ namespace Baraja\PackageManager;
 use Nette\Neon\Neon;
 use Nette\SmartObject;
 
-class Package
+final class Package
 {
 
 	use SmartObject;
@@ -95,43 +95,11 @@ class Package
 	}
 
 	/**
-	 * @return string[]
-	 */
-	public function getParameters(): array
-	{
-		return $this->getConfigProperty('parameters');
-	}
-
-	/**
-	 * @return string[]
-	 */
-	public function getServices(): array
-	{
-		return $this->getConfigProperty('services');
-	}
-
-	/**
-	 * @return string[]
-	 */
-	public function getRouters(): array
-	{
-		return $this->getConfigProperty('routers');
-	}
-
-	/**
-	 * @param string[] $parent
-	 * @return string[]
-	 */
-	public function getMenu(array $parent = []): array
-	{
-		return $parent !== [] ? $parent : $this->getConfigProperty('menu');
-	}
-
-	/**
+	 * @deprecated please use native implementation or DIC.
 	 * @param string $key
 	 * @return string[][]
 	 */
-	private function getConfigProperty(string $key): array
+	public function getConfigProperty(string $key): array
 	{
 		if (isset($this->getConfig()[$key])) {
 			if ($this->getConfig()[$key]['rewrite'] === true) {

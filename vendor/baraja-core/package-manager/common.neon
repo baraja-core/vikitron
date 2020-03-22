@@ -5,6 +5,3 @@ parameters:
 	packageRegistrator:
 		customPackagesNamePatterns:
 			- '^baraja-'
-
-tracy:
-	showLocation: true

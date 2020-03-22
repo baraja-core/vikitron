@@ -63,7 +63,6 @@ class PackageRegistrator
 	private static $neonNoUseParams = [
 		'includes' => true,
 		'application' => true,
-		'menu' => true,
 		'routers' => true,
 		'afterInstall' => true,
 	];
@@ -179,7 +178,7 @@ class PackageRegistrator
 			$this->createPackageConfig($this->getPackageDescriptorEntity());
 		}
 
-		return file_get_contents(self::$configPackagePath);
+		return (string) file_get_contents(self::$configPackagePath);
 	}
 
 	/**

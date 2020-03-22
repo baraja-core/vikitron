@@ -1,20 +1,21 @@
 [
     {
         "name": "baraja-core/doctrine",
-        "version": "v1.0.17",
-        "version_normalized": "1.0.17.0",
+        "version": "v1.0.23",
+        "version_normalized": "1.0.23.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/doctrine.git",
-            "reference": "442502281991beb5f0833e3616e9177615334eae"
+            "reference": "a07a7ebae0f2bab5ef6feb0eed4b953a7370397c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/442502281991beb5f0833e3616e9177615334eae",
-            "reference": "442502281991beb5f0833e3616e9177615334eae",
+            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/a07a7ebae0f2bab5ef6feb0eed4b953a7370397c",
+            "reference": "a07a7ebae0f2bab5ef6feb0eed4b953a7370397c",
             "shasum": ""
         },
         "require": {
+            "baraja-core/package-manager": "~1.0",
             "contributte/console": "^0.6.0",
             "ext-json": "*",
             "ext-pdo": "*",
@@ -27,7 +28,7 @@
             "ramsey/uuid": "^3.0",
             "symfony/console": "^4.2.3"
         },
-        "time": "2020-02-06T12:23:05+00:00",
+        "time": "2020-03-20T10:31:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -47,17 +48,17 @@
     },
     {
         "name": "baraja-core/package-manager",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v1.0.12",
+        "version_normalized": "1.0.12.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/package-manager.git",
-            "reference": "b88fbddc06a3500c1e0ac21fa6145ee8da7b8197"
+            "reference": "c19401ef6ece7d1b0782b05e290abca2bd09fccc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/b88fbddc06a3500c1e0ac21fa6145ee8da7b8197",
-            "reference": "b88fbddc06a3500c1e0ac21fa6145ee8da7b8197",
+            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/c19401ef6ece7d1b0782b05e290abca2bd09fccc",
+            "reference": "c19401ef6ece7d1b0782b05e290abca2bd09fccc",
             "shasum": ""
         },
         "require": {
@@ -66,7 +67,7 @@
             "nette/application": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2020-02-20T09:07:06+00:00",
+        "time": "2020-03-16T08:30:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -149,17 +150,17 @@
     },
     {
         "name": "janbarasek/doctrine-pro",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/janbarasek/doctrine-pro.git",
-            "reference": "7cac57308e37aa3605829175571b0d0bf5dc5ecd"
+            "reference": "ab78aeb59658ec5aacf810881dbf37054fae9340"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/janbarasek/doctrine-pro/zipball/7cac57308e37aa3605829175571b0d0bf5dc5ecd",
-            "reference": "7cac57308e37aa3605829175571b0d0bf5dc5ecd",
+            "url": "https://api.github.com/repos/janbarasek/doctrine-pro/zipball/ab78aeb59658ec5aacf810881dbf37054fae9340",
+            "reference": "ab78aeb59658ec5aacf810881dbf37054fae9340",
             "shasum": ""
         },
         "require": {
@@ -168,7 +169,7 @@
             "php": ">=7.1.0",
             "symfony/console": "~3.0|~4.0"
         },
-        "time": "2019-07-12T10:57:09+00:00",
+        "time": "2020-02-26T13:42:50+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -288,17 +289,17 @@
     },
     {
         "name": "latte/latte",
-        "version": "v2.6.1",
-        "version_normalized": "2.6.1.0",
+        "version": "v2.7.0",
+        "version_normalized": "2.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/latte.git",
-            "reference": "82321e0d039d7b7e3324b5a7cb8f046a69458da9"
+            "reference": "b91c508a3c5a990c84da8daaf41ad165601858e2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/latte/zipball/82321e0d039d7b7e3324b5a7cb8f046a69458da9",
-            "reference": "82321e0d039d7b7e3324b5a7cb8f046a69458da9",
+            "url": "https://api.github.com/repos/nette/latte/zipball/b91c508a3c5a990c84da8daaf41ad165601858e2",
+            "reference": "b91c508a3c5a990c84da8daaf41ad165601858e2",
             "shasum": ""
         },
         "require": {
@@ -310,6 +311,7 @@
             "nette/application": "<2.4.1"
         },
         "require-dev": {
+            "nette/php-generator": "^3.3.4",
             "nette/tester": "~2.0",
             "nette/utils": "^3.0",
             "phpstan/phpstan": "^0.12",
@@ -317,14 +319,16 @@
         },
         "suggest": {
             "ext-fileinfo": "to use filter |datastream",
+            "ext-iconv": "to use filters |reverse, |substring",
             "ext-mbstring": "to use filters like lower, upper, capitalize, ...",
+            "nette/php-generator": "to use tag {templatePrint}",
             "nette/utils": "to use filter |webalize"
         },
-        "time": "2020-01-14T18:32:37+00:00",
+        "time": "2020-03-05T01:19:01+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.6-dev"
+                "dev-master": "2.7-dev"
             }
         },
         "installation-source": "dist",
@@ -411,17 +415,17 @@
     },
     {
         "name": "mathematicator-core/calculator",
-        "version": "v1.0.7",
-        "version_normalized": "1.0.7.0",
+        "version": "v1.0.8",
+        "version_normalized": "1.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/calculator.git",
-            "reference": "d4ac988be0c598118114681b513ae5e2e5af4910"
+            "reference": "8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/d4ac988be0c598118114681b513ae5e2e5af4910",
-            "reference": "d4ac988be0c598118114681b513ae5e2e5af4910",
+            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee",
+            "reference": "8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee",
             "shasum": ""
         },
         "require": {
@@ -432,7 +436,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-01-23T11:09:53+00:00",
+        "time": "2020-03-16T20:21:39+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -452,17 +456,17 @@
     },
     {
         "name": "mathematicator-core/engine",
-        "version": "v1.0.9",
-        "version_normalized": "1.0.9.0",
+        "version": "v1.0.10",
+        "version_normalized": "1.0.10.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/engine.git",
-            "reference": "c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c"
+            "reference": "3249fbf67604f8c6e791bb6d2457547a00b5debb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c",
-            "reference": "c2b796f0a5290f8a4ae4eb16b3e9ebcbbb82083c",
+            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/3249fbf67604f8c6e791bb6d2457547a00b5debb",
+            "reference": "3249fbf67604f8c6e791bb6d2457547a00b5debb",
             "shasum": ""
         },
         "require": {
@@ -472,7 +476,7 @@
             "php": ">=7.1",
             "tracy/tracy": "^2.6"
         },
-        "time": "2020-01-26T17:14:33+00:00",
+        "time": "2020-03-16T20:22:24+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -531,24 +535,24 @@
     },
     {
         "name": "mathematicator-core/mandelbrot-set",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/mandelbrot-set.git",
-            "reference": "8ac3905cff93ac5d19184584949b1e0a24f7ac9c"
+            "reference": "319ae6611a9c4df2247a85ae93e620ce7dfec9cb"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/8ac3905cff93ac5d19184584949b1e0a24f7ac9c",
-            "reference": "8ac3905cff93ac5d19184584949b1e0a24f7ac9c",
+            "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/319ae6611a9c4df2247a85ae93e620ce7dfec9cb",
+            "reference": "319ae6611a9c4df2247a85ae93e620ce7dfec9cb",
             "shasum": ""
         },
         "require": {
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-09-06T14:14:48+00:00",
+        "time": "2020-03-16T20:23:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -572,17 +576,17 @@
     },
     {
         "name": "mathematicator-core/numbers",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "v1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/numbers.git",
-            "reference": "4af83b1164c2a4af459c51c1a30d6bae44b863b0"
+            "reference": "54370407d8b7ff5792d68693d16a6329ae2e26be"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/4af83b1164c2a4af459c51c1a30d6bae44b863b0",
-            "reference": "4af83b1164c2a4af459c51c1a30d6bae44b863b0",
+            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/54370407d8b7ff5792d68693d16a6329ae2e26be",
+            "reference": "54370407d8b7ff5792d68693d16a6329ae2e26be",
             "shasum": ""
         },
         "require": {
@@ -592,7 +596,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2020-01-23T11:10:49+00:00",
+        "time": "2020-03-16T20:22:01+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -612,17 +616,17 @@
     },
     {
         "name": "mathematicator-core/router",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v1.0.5",
+        "version_normalized": "1.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/router.git",
-            "reference": "b7ee11af5808309b84a8cc2637565a3a28dafbad"
+            "reference": "421c19521b3b6365cafe6f0d814239ef50cfa5c3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/b7ee11af5808309b84a8cc2637565a3a28dafbad",
-            "reference": "b7ee11af5808309b84a8cc2637565a3a28dafbad",
+            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/421c19521b3b6365cafe6f0d814239ef50cfa5c3",
+            "reference": "421c19521b3b6365cafe6f0d814239ef50cfa5c3",
             "shasum": ""
         },
         "require": {
@@ -630,7 +634,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-11-03T10:56:27+00:00",
+        "time": "2020-03-16T20:20:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -650,17 +654,17 @@
     },
     {
         "name": "mathematicator-core/search",
-        "version": "v1.0.14",
-        "version_normalized": "1.0.14.0",
+        "version": "v1.0.15",
+        "version_normalized": "1.0.15.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/search.git",
-            "reference": "e7063832a0d06781a071bebf40fb2eadeaa8be9f"
+            "reference": "086274ab4440909f9e7c5a61d73f5b592156a042"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/e7063832a0d06781a071bebf40fb2eadeaa8be9f",
-            "reference": "e7063832a0d06781a071bebf40fb2eadeaa8be9f",
+            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/086274ab4440909f9e7c5a61d73f5b592156a042",
+            "reference": "086274ab4440909f9e7c5a61d73f5b592156a042",
             "shasum": ""
         },
         "require": {
@@ -676,7 +680,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-02-20T08:45:29+00:00",
+        "time": "2020-03-16T20:20:26+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -696,17 +700,17 @@
     },
     {
         "name": "mathematicator-core/statistic",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/statistic.git",
-            "reference": "0a37c7db20fe3c1dfe89840caee35aab005a01a7"
+            "reference": "88b88adc70de0004a0b282b9f3d8e2e03fd4fe20"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/0a37c7db20fe3c1dfe89840caee35aab005a01a7",
-            "reference": "0a37c7db20fe3c1dfe89840caee35aab005a01a7",
+            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/88b88adc70de0004a0b282b9f3d8e2e03fd4fe20",
+            "reference": "88b88adc70de0004a0b282b9f3d8e2e03fd4fe20",
             "shasum": ""
         },
         "require": {
@@ -714,7 +718,7 @@
             "nette/tester": "^2.0",
             "php": ">=7.1.0"
         },
-        "time": "2019-08-26T08:39:14+00:00",
+        "time": "2020-03-16T20:23:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -734,17 +738,17 @@
     },
     {
         "name": "mathematicator-core/tokenizer",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "v1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/tokenizer.git",
-            "reference": "b972c00cbb62982b7cc59b96b0588d60ffdd5c09"
+            "reference": "0478f1173d20a4e31606b0961efcd0135ea619c9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b972c00cbb62982b7cc59b96b0588d60ffdd5c09",
-            "reference": "b972c00cbb62982b7cc59b96b0588d60ffdd5c09",
+            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/0478f1173d20a4e31606b0961efcd0135ea619c9",
+            "reference": "0478f1173d20a4e31606b0961efcd0135ea619c9",
             "shasum": ""
         },
         "require": {
@@ -756,7 +760,7 @@
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-01-23T11:08:28+00:00",
+        "time": "2020-03-16T20:21:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1530,22 +1534,22 @@
     },
     {
         "name": "nette/mail",
-        "version": "v3.1.0",
-        "version_normalized": "3.1.0.0",
+        "version": "v3.1.1",
+        "version_normalized": "3.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/mail.git",
-            "reference": "82fb366ff218283bd19327ab0f897d2be20a4ce0"
+            "reference": "696dfbcaceb2be678595cf1fade31e8fe36e3232"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/mail/zipball/82fb366ff218283bd19327ab0f897d2be20a4ce0",
-            "reference": "82fb366ff218283bd19327ab0f897d2be20a4ce0",
+            "url": "https://api.github.com/repos/nette/mail/zipball/696dfbcaceb2be678595cf1fade31e8fe36e3232",
+            "reference": "696dfbcaceb2be678595cf1fade31e8fe36e3232",
             "shasum": ""
         },
         "require": {
             "ext-iconv": "*",
-            "nette/utils": "^2.4 || ^3.0",
+            "nette/utils": "^3.1",
             "php": ">=7.1"
         },
         "conflict": {
@@ -1554,33 +1558,31 @@
         "require-dev": {
             "nette/di": "^3.0.0",
             "nette/tester": "^2.0",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
         "suggest": {
             "ext-fileinfo": "to detect type of attached files",
             "ext-openssl": "to use Nette\\Mail\\DkimSigner"
         },
-        "time": "2019-07-01T12:17:45+00:00",
+        "time": "2020-02-23T18:12:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.0-dev"
+                "dev-master": "3.1-dev"
             }
         },
         "installation-source": "dist",
         "autoload": {
             "classmap": [
                 "src/"
-            ],
-            "files": [
-                "src/compatibility.php"
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1604,17 +1606,17 @@
     },
     {
         "name": "nette/neon",
-        "version": "v3.1.1",
-        "version_normalized": "3.1.1.0",
+        "version": "v3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/neon.git",
-            "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c"
+            "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/neon/zipball/bf658bafcf56e36cfa0922f4866869927672cf2c",
-            "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c",
+            "url": "https://api.github.com/repos/nette/neon/zipball/3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
+            "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
             "shasum": ""
         },
         "require": {
@@ -1627,7 +1629,7 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-02-12T11:15:48+00:00",
+        "time": "2020-03-04T11:47:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1730,17 +1732,17 @@
     },
     {
         "name": "nette/robot-loader",
-        "version": "v3.2.2",
-        "version_normalized": "3.2.2.0",
+        "version": "v3.2.3",
+        "version_normalized": "3.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/robot-loader.git",
-            "reference": "38e8a270567a4ad9fe716b40fcda5a6580afa3c0"
+            "reference": "726c462e73e739e965ec654a667407074cfe83c0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/robot-loader/zipball/38e8a270567a4ad9fe716b40fcda5a6580afa3c0",
-            "reference": "38e8a270567a4ad9fe716b40fcda5a6580afa3c0",
+            "url": "https://api.github.com/repos/nette/robot-loader/zipball/726c462e73e739e965ec654a667407074cfe83c0",
+            "reference": "726c462e73e739e965ec654a667407074cfe83c0",
             "shasum": ""
         },
         "require": {
@@ -1754,7 +1756,7 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-02-20T22:17:50+00:00",
+        "time": "2020-02-28T13:10:07+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1979,23 +1981,27 @@
     },
     {
         "name": "nette/tester",
-        "version": "v2.3.1",
-        "version_normalized": "2.3.1.0",
+        "version": "v2.3.2",
+        "version_normalized": "2.3.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/tester.git",
-            "reference": "c3bd1b2c1074dfb957288b716c06aa7b4b5295a8"
+            "reference": "793aa4bb87872319902a569ed84a64844fdc1549"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/tester/zipball/c3bd1b2c1074dfb957288b716c06aa7b4b5295a8",
-            "reference": "c3bd1b2c1074dfb957288b716c06aa7b4b5295a8",
+            "url": "https://api.github.com/repos/nette/tester/zipball/793aa4bb87872319902a569ed84a64844fdc1549",
+            "reference": "793aa4bb87872319902a569ed84a64844fdc1549",
             "shasum": ""
         },
         "require": {
             "php": ">=7.1"
         },
-        "time": "2019-11-19T13:19:16+00:00",
+        "require-dev": {
+            "ext-simplexml": "*",
+            "phpstan/phpstan": "^0.12"
+        },
+        "time": "2020-03-06T15:55:57+00:00",
         "bin": [
             "src/tester"
         ],
@@ -2014,8 +2020,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -2368,17 +2374,17 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.4",
-        "version_normalized": "4.4.4.0",
+        "version": "v4.4.5",
+        "version_normalized": "4.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "f512001679f37e6a042b51897ed24a2f05eba656"
+            "reference": "4fa15ae7be74e53f6ec8c83ed403b97e23b665e9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/f512001679f37e6a042b51897ed24a2f05eba656",
-            "reference": "f512001679f37e6a042b51897ed24a2f05eba656",
+            "url": "https://api.github.com/repos/symfony/console/zipball/4fa15ae7be74e53f6ec8c83ed403b97e23b665e9",
+            "reference": "4fa15ae7be74e53f6ec8c83ed403b97e23b665e9",
             "shasum": ""
         },
         "require": {
@@ -2411,7 +2417,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2020-01-25T12:44:29+00:00",
+        "time": "2020-02-24T13:10:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2442,7 +2448,21 @@
             }
         ],
         "description": "Symfony Console Component",
-        "homepage": "https://symfony.com"
+        "homepage": "https://symfony.com",
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
+        ]
     },
     {
         "name": "symfony/polyfill-ctype",
@@ -2687,17 +2707,17 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v4.4.4",
-        "version_normalized": "4.4.4.0",
+        "version": "v4.4.5",
+        "version_normalized": "4.4.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "f5d2ac46930238b30a9c2f1b17c905f3697d808c"
+            "reference": "0a19a77fba20818a969ef03fdaf1602de0546353"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/f5d2ac46930238b30a9c2f1b17c905f3697d808c",
-            "reference": "f5d2ac46930238b30a9c2f1b17c905f3697d808c",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/0a19a77fba20818a969ef03fdaf1602de0546353",
+            "reference": "0a19a77fba20818a969ef03fdaf1602de0546353",
             "shasum": ""
         },
         "require": {
@@ -2730,7 +2750,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2020-01-15T13:29:06+00:00",
+        "time": "2020-02-04T09:32:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2761,7 +2781,21 @@
             }
         ],
         "description": "Symfony Translation Component",
-        "homepage": "https://symfony.com"
+        "homepage": "https://symfony.com",
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
+        ]
     },
     {
         "name": "symfony/translation-contracts",

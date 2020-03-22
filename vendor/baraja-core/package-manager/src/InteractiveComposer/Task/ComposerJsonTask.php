@@ -12,7 +12,10 @@ use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use Nette\Utils\Strings;
 
-class ComposerJsonTask extends BaseTask
+/**
+ * Priority: 300
+ */
+final class ComposerJsonTask extends BaseTask
 {
 
 	private const PRIORITY_PREFIX = 'baraja-';
@@ -24,9 +27,7 @@ class ComposerJsonTask extends BaseTask
 	 */
 	public function run(): bool
 	{
-		$path = $this->packageRegistrator->getProjectRoot() . '/composer.json';
-
-		if (is_file($path) === false) {
+		if (is_file($path = $this->packageRegistrator->getProjectRoot() . '/composer.json') === false) {
 			Helpers::terminalRenderError('Project composer.json does not exist! ' . $path);
 
 			return false;
@@ -81,10 +82,7 @@ class ComposerJsonTask extends BaseTask
 	{
 		$return = [];
 
-		$packages = $this->packageRegistrator->getPackageDescriptorEntity()
-			->getPackagest(false);
-
-		foreach ($packages as $package) {
+		foreach ($this->packageRegistrator->getPackageDescriptorEntity()->getPackagest(false) as $package) {
 			$path = $this->packageRegistrator->getProjectRoot() . '/vendor/' . $package->getName() . '/composer.json';
 			$composer = is_file($path) ? Json::decode(FileSystem::read($path), Json::FORCE_ARRAY) : [];
 			if (isset($composer['require'])) {

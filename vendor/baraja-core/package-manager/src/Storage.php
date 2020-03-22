@@ -58,13 +58,11 @@ final class Storage
 	{
 		$class = new ClassType('PackageDescriptorEntity');
 
-		$generatedDate = date('Y-m-d H:i:s');
-
 		$class->setFinal()
 			->setExtends(PackageDescriptorEntity::class)
 			->addComment('This is temp class of PackageDescriptorEntity' . "\n")
 			->addComment('@author Baraja PackageManager')
-			->addComment('@generated ' . $generatedDate);
+			->addComment('@generated ' . ($generatedDate = date('Y-m-d H:i:s')));
 
 		$class->addConstant('GENERATED', time())
 			->setVisibility('public')
@@ -115,9 +113,8 @@ final class Storage
 	 * While converting call getters, so you get only properties which you can get.
 	 * Function supports recursive objects structure. Public properties will be included.
 	 *
-	 * @author Jan Barášek [2017-09-09]
-	 * @param object|mixed|mixed[][] $input
-	 * @return string[][]|mixed
+	 * @param mixed $input
+	 * @return mixed
 	 */
 	public function haystackToArray($input)
 	{
@@ -160,47 +157,36 @@ final class Storage
 	{
 		static $cache;
 
-		if ($cache !== null) {
-			return $cache;
+		if ($cache === null) {
+			try {
+				if (!is_dir($dir = $this->basePath . '/cache/baraja/packageDescriptor') && !@mkdir($dir, 0777, true) && !is_dir($dir)) {
+					PackageDescriptorException::canNotCreateTempDir($dir);
+				}
+
+				if (!is_file($cache = $dir . '/PackageDescriptorEntity.php') && !@file_put_contents($cache, '') && !is_file($cache)) {
+					PackageDescriptorException::canNotCreateTempFile($cache);
+				}
+			} catch (PackageDescriptorException $e) {
+				if ($ttl > 0) {
+					$this->tryFixTemp($dir);
+
+					return $this->getPath($ttl - 1);
+				}
+
+				throw $e;
+			}
 		}
 
-		try {
-			$dir = $this->basePath . '/_packageDescriptor';
-
-			if (!is_dir($dir) && !@mkdir($dir, 0777, true) && !is_dir($dir)) {
-				PackageDescriptorException::canNotCreateTempDir($dir);
-			}
-
-			$file = $dir . '/PackageDescriptorEntity.php';
-
-			if (!is_file($file) && !@file_put_contents($file, '') && !is_file($file)) {
-				PackageDescriptorException::canNotCreateTempFile($file);
-			}
-
-			$cache = $file;
-
-			return $file;
-		} catch (PackageDescriptorException $e) {
-			if ($ttl > 0) {
-				$this->tryFixTemp();
-
-				return $this->getPath($ttl - 1);
-			}
-
-			throw $e;
-		}
+		return $cache;
 	}
 
 	/**
+	 * @param string $basePath
 	 * @return bool
 	 */
-	private function tryFixTemp(): bool
+	private function tryFixTemp(string $basePath): bool
 	{
-		$basePath = $this->basePath . '/_packageDescriptor';
-		/** @var string[] $finder */
-		$finder = Finder::find('*')->in($basePath);
-
-		foreach ($finder as $path => $value) {
+		foreach (Finder::find('*')->in($basePath) as $path => $value) {
 			@unlink($path);
 		}
 
