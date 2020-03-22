@@ -7,6 +7,9 @@ namespace Baraja\PackageManager;
 
 use Nette\DI\Container;
 
+/**
+ * @deprecated use DIC extension or event handle to Nette Application.
+ */
 interface IAfterInstall
 {
 

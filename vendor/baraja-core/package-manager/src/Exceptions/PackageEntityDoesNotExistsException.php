@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Baraja\PackageManager\Exception;
 
 
-class PackageEntityDoesNotExistsException extends PackageDescriptorException
+final class PackageEntityDoesNotExistsException extends PackageDescriptorException
 {
 
 	/**

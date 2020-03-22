@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Baraja\PackageManager;
 
 
-use Baraja\PackageManager\Exception\PackageDescriptorException;
-
 final class Helpers
 {
 
@@ -19,25 +17,27 @@ final class Helpers
 	}
 
 	/**
-	 * @param mixed[] $array1
-	 * @param mixed[] $array2
+	 * Merge right set to left set recursively.
+	 *
+	 * @param mixed[] $left
+	 * @param mixed[] $right
 	 * @return mixed[]
 	 */
-	public static function recursiveMerge(array &$array1, array &$array2): array
+	public static function recursiveMerge(array &$left, array &$right): array
 	{
-		$merged = $array1;
+		$return = $left;
 
-		foreach ($array2 as $key => &$value) {
-			if (\is_array($value) && isset($merged[$key]) && \is_array($merged[$key])) {
-				$merged[$key] = self::recursiveMerge($merged[$key], $value);
+		foreach ($right as $key => &$value) {
+			if (\is_array($value) && isset($return[$key]) && \is_array($return[$key])) {
+				$return[$key] = self::recursiveMerge($return[$key], $value);
 			} elseif (\is_int($key)) {
-				$merged[] = $value;
+				$return[] = $value;
 			} else {
-				$merged[$key] = $value;
+				$return[$key] = $value;
 			}
 		}
 
-		return $merged;
+		return $return;
 	}
 
 	/**
@@ -99,7 +99,7 @@ final class Helpers
 	 * @param string $question -> only display to user
 	 * @param string[]|null $possibilities -> if empty, answer can be every valid string or null.
 	 * @return string|null -> null if empty answer
-	 * @throws PackageDescriptorException
+	 * @throws \RuntimeException
 	 */
 	public static function terminalInteractiveAsk(string $question, ?array $possibilities = null): ?string
 	{
@@ -131,10 +131,8 @@ final class Helpers
 		$fOpen = fopen('php://stdin', 'rb');
 
 		if (\is_resource($fOpen) === false) {
-			throw new PackageDescriptorException('Problem with opening "php://stdin".');
+			throw new \RuntimeException('Problem with opening "php://stdin".');
 		}
-
-		echo "\n";
 
 		$input = ($input = trim((string) fgets($fOpen))) === '' ? null : $input;
 
@@ -147,7 +145,7 @@ final class Helpers
 			$staticTtl++;
 
 			if ($staticTtl > 16) {
-				throw new PackageDescriptorException(
+				throw new \RuntimeException(
 					'The maximum invalid response limit was exceeded. Current limit: ' . $staticTtl
 				);
 			}
@@ -165,19 +163,42 @@ final class Helpers
 	 */
 	public static function terminalRenderError(string $message): void
 	{
-		echo "\033[1;37m\033[41m";
+		echo "\033[1;37m\033[41m" . str_repeat(' ', 100) . "\n";
 
-		for ($i = 0; $i < 100; $i++) {
-			echo ' ';
+		foreach (explode("\n", str_replace(["\r\n", "\r"], "\n", $message)) as $line) {
+			while (true) {
+				if (preg_match('/^(.{85,}?)[\s\n](.*)$/', $line, $match) === 0) {
+					echo self::formatTerminalLine($line);
+					break;
+				}
+
+				$line = $match[2];
+				echo self::formatTerminalLine($match[1]);
+			}
 		}
 
-		echo "\n" . str_pad('      ' . $message . '      ', 100) . "\n";
+		echo str_repeat(' ', 100) . "\033[0m";
+	}
 
-		for ($i = 0; $i < 100; $i++) {
-			echo ' ';
-		}
+	/**
+	 * Returns number of characters (not bytes) in UTF-8 string.
+	 * That is the number of Unicode code points which may differ from the number of graphemes.
+	 *
+	 * @param string $s
+	 * @return int
+	 */
+	private static function length(string $s): int
+	{
+		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
+	}
 
-		echo "\033[0m";
+	/**
+	 * @param string $line
+	 * @return string
+	 */
+	private static function formatTerminalLine(string $line): string
+	{
+		return '      ' . $line . (($repeat = 88 - self::length($line)) > 0 ? str_repeat(' ', $repeat) : '') . '      ' . "\n";
 	}
 
 }

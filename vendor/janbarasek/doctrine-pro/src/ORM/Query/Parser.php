@@ -2853,6 +2853,10 @@ class Parser
             default:
                 $peek = $this->lexer->glimpse();
 
+                if ($peek == null) {
+                    return $this->Literal();
+                }
+                
                 if ($peek['value'] == '(') {
                     return $this->FunctionDeclaration();
                 }

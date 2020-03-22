@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Baraja\PackageManager\Exception;
 
 
-class PackageDescriptorCompileException extends PackageDescriptorException
+final class PackageDescriptorCompileException extends PackageDescriptorException
 {
 
 	/**
@@ -14,7 +14,7 @@ class PackageDescriptorCompileException extends PackageDescriptorException
 	 */
 	public static function canNotLoadComposerLock(string $lockPath): void
 	{
-		throw new self('Can not load [composer.lock]. Path: "' . $lockPath . '".');
+		throw new self('Can not load "composer.lock", because path "' . $lockPath . '" does not exist.');
 	}
 
 	/**
@@ -23,7 +23,7 @@ class PackageDescriptorCompileException extends PackageDescriptorException
 	 */
 	public static function composerJsonIsBroken(string $packageName): void
 	{
-		throw new self('Composer.json of "' . $packageName . '" does not exist or is broken.');
+		throw new self('File "composer.json" in package "' . $packageName . '" does not exist.');
 	}
 
 }

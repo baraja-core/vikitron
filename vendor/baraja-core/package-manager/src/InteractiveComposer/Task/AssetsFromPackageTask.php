@@ -8,7 +8,10 @@ namespace Baraja\PackageManager\Composer;
 use Baraja\PackageManager\Exception\PackageDescriptorCompileException;
 use Baraja\PackageManager\Exception\TaskException;
 
-class AssetsFromPackageTask extends BaseTask
+/**
+ * Priority: 200
+ */
+final class AssetsFromPackageTask extends BaseTask
 {
 
 	/**
@@ -17,22 +20,18 @@ class AssetsFromPackageTask extends BaseTask
 	 */
 	public function run(): bool
 	{
-		$packageDescriptor = $this->packageRegistrator->getPackageDescriptorEntity();
-		$basePath = \dirname(__DIR__, 5) . '/';
-
 		try {
-			if (\count($packageDescriptor->getPackagest()) === 0) {
+			if (\count($this->packageRegistrator->getPackageDescriptorEntity()->getPackagest()) === 0) {
 				return false;
 			}
 		} catch (PackageDescriptorCompileException $e) {
 			return false;
 		}
 
-		echo 'BasePath:    ' . $basePath . "\n";
+		echo 'BasePath:    ' . ($basePath = \dirname(__DIR__, 5) . '/') . "\n";
 		echo 'ProjectRoot: ' . \rtrim(\dirname($basePath), '/') . '/' . "\n\n";
 
 		$namePatterns = $this->packageRegistrator->getPackageDescriptorEntity()->getCustomPackagesNamePatterns();
-
 		foreach (glob($basePath . '*') ?? [] as $namespace) {
 			if (\is_dir($namespace)) {
 				$isCustom = false;
@@ -43,7 +42,7 @@ class AssetsFromPackageTask extends BaseTask
 					}
 				}
 
-				if (!$isCustom) {
+				if ($isCustom === false) {
 					continue;
 				}
 
@@ -83,7 +82,7 @@ class AssetsFromPackageTask extends BaseTask
 	 */
 	private function copyInstallDir(string $source, string $projectRoot, bool $forceUpdate = false): bool
 	{
-		if (!\is_dir($source)) {
+		if (\is_dir($source) === false) {
 			return false;
 		}
 

@@ -8,7 +8,10 @@ namespace Baraja\PackageManager\Composer;
 use Baraja\PackageManager\Helpers;
 use Nette\Neon\Neon;
 
-class ConfigLocalNeonTask extends BaseTask
+/**
+ * Priority: 1000
+ */
+final class ConfigLocalNeonTask extends BaseTask
 {
 
 	/**
@@ -32,9 +35,7 @@ class ConfigLocalNeonTask extends BaseTask
 	 */
 	public function run(): bool
 	{
-		$path = \dirname(__DIR__, 6) . '/app/config/local.neon';
-
-		if (\is_file($path)) {
+		if (\is_file($path = \dirname(__DIR__, 6) . '/app/config/local.neon') === true) {
 			echo 'local.neon exist.' . "\n";
 			echo 'Path: ' . $path;
 
@@ -67,30 +68,34 @@ class ConfigLocalNeonTask extends BaseTask
 	 */
 	private function generateMySqlConfig(): array
 	{
-		$mySqlCredentials = $this->mySqlConnect();
 		$connection = new \PDO(
-			'mysql:host=' . $mySqlCredentials['server'],
+			'mysql:host=' . ($mySqlCredentials = $this->mySqlConnect())['server'],
 			$mySqlCredentials['user'],
 			$mySqlCredentials['password']
 		);
 
-		$databases = $connection->query('SHOW DATABASES')->fetchAll();
 		$databaseList = [];
 		$databaseCounter = 1;
 		$usedDatabase = null;
+		$candidateDatabases = [];
+		echo "\n\n";
 
-		foreach ($databases as $database) {
+		foreach ($connection->query('SHOW DATABASES')->fetchAll() as $database) {
 			echo $databaseCounter . ': ' . $database[0] . "\n";
 			$databaseList[$databaseCounter] = $database[0];
 			$databaseCounter++;
+			if ($database[0] !== 'information_schema') {
+				$candidateDatabases[] = $database[0];
+			}
+		}
+
+		if (\count($candidateDatabases) === 1) {
+			$usedDatabase = $candidateDatabases[0];
 		}
 
 		while (true) {
-			$usedDatabase = $this->ask('Which database use? Type "new" for create new.');
-
-			if (preg_match('/^\d+$/', $usedDatabase)) {
-				$usedDatabaseKey = (int) $usedDatabase;
-				if (isset($databaseList[$usedDatabaseKey])) {
+			if ($usedDatabase === null && preg_match('/^\d+$/', $usedDatabase = $this->ask('Which database use? Type number or specific name. Type "new" for create new.') ?? '')) {
+				if (isset($databaseList[$usedDatabaseKey = (int) $usedDatabase])) {
 					$usedDatabase = $databaseList[$usedDatabaseKey];
 					break;
 				}
@@ -104,9 +109,7 @@ class ConfigLocalNeonTask extends BaseTask
 
 			if (strtolower($usedDatabase) === 'new') {
 				while (true) {
-					$usedDatabase = $this->ask('How is the database name?');
-
-					if (preg_match('/^[a-z0-9\_\-]+$/', $usedDatabase)) {
+					if (preg_match('/^[a-z0-9\_\-]+$/', $usedDatabase = $this->ask('How is the database name?'))) {
 						if (!\in_array($usedDatabase, $databaseList, true)) {
 							$this->createDatabase($usedDatabase, $connection);
 							break;
@@ -114,7 +117,8 @@ class ConfigLocalNeonTask extends BaseTask
 
 						echo 'Database "' . $usedDatabase . '" already exist.' . "\n\n";
 					} else {
-						echo 'Invalid database name. You can use only a-z, 0-9, "-" and "_".';
+						Helpers::terminalRenderError('Invalid database name. You can use only a-z, 0-9, "-" and "_".');
+						echo "\n\n";
 					}
 				}
 				break;
@@ -138,9 +142,8 @@ class ConfigLocalNeonTask extends BaseTask
 				}
 
 				echo 'Database "' . $usedDatabase . '" does not exist.' . "\n";
-				$newDatabaseName = strtolower($usedDatabase);
 
-				if ($this->ask('Create database "' . $newDatabaseName . '"?', ['y', 'n']) === 'y') {
+				if ($this->ask('Create database "' . ($newDatabaseName = strtolower($usedDatabase)) . '"?', ['y', 'n']) === 'y') {
 					$this->createDatabase($newDatabaseName, $connection);
 					break;
 				}
@@ -198,9 +201,22 @@ class ConfigLocalNeonTask extends BaseTask
 		}
 
 		while (true) {
-			$connectionServer = $this->ask('Server (hostname):');
-			$connectionUser = $this->ask('User:');
-			$connectionPassword = $this->ask('Password');
+			if (($connectionServer = $this->ask('Server (hostname) [empty for "127.0.0.1"]:')) === null) {
+				echo 'Server "127.0.0.1" has been used.';
+				$connectionServer = '127.0.0.1';
+			}
+			if (($connectionUser = $this->ask('User [empty for "root"]:')) === null) {
+				echo 'User "root" has been used.';
+				$connectionUser = 'root';
+			}
+			while (($connectionPassword = trim($this->ask('Password [can not be empty!]:') ?? '')) === '') {
+				Helpers::terminalRenderError('Password can not be empty!');
+				echo "\n\n\n" . 'Information to resolve this issue:' . "\n\n";
+				echo 'For the best protection of the web server and database,' . "\n";
+				echo 'it is important to always set a passphrase that must not be an empty string.' . "\n";
+				echo 'If you are using a database without a password, set the password first and then install again.';
+			}
+			echo "\n\n";
 
 			try {
 				new \PDO('mysql:host=' . $connectionServer, $connectionUser, $connectionPassword);
@@ -211,7 +227,10 @@ class ConfigLocalNeonTask extends BaseTask
 					'password' => $connectionPassword,
 				];
 			} catch (\PDOException $e) {
-				echo 'Connection does not work.';
+				Helpers::terminalRenderError('Connection does not work!');
+				echo "\n";
+				Helpers::terminalRenderError($e->getMessage());
+				echo "\n\n";
 			}
 		}
 

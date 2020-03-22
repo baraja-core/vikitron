@@ -115,9 +115,15 @@ final class Generator
 			}
 
 			$configPath = null;
-			if (\is_file($path . '/common.neon')) {
+			if (\is_file($path . '/common.neon') === true) {
 				$configPath = $path . '/common.neon';
-			} elseif (\is_file($path . '/config.neon')) {
+			}
+
+			if (\is_file($path . '/config.neon') === true) {
+				if ($configPath !== null) {
+					throw new \RuntimeException('Can not use multiple config files. Please merge "' . $configPath . '" and "config.neon" to "common.neon".');
+				}
+				trigger_error('File "config.neon" is deprecated for Nette 3.0, please use "common.neon" for path: "' . $path . '".');
 				$configPath = $path . '/config.neon';
 			}
 

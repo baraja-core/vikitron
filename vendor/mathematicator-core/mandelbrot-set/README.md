@@ -11,7 +11,7 @@ Install
 By Composer:
 
 ```shell
-mathematicator-core/mandelbrot-set
+composer require mathematicator-core/mandelbrot-set
 ```
 
 Use
