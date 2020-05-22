@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Baraja\Doctrine\ORM\DI;
 
@@ -24,7 +24,6 @@ use Nette\InvalidStateException;
 
 class OrmCacheExtension extends CompilerExtension
 {
-
 	public const DRIVERS = [
 		'apc' => ApcCache::class,
 		'apcu' => ApcuCache::class,
@@ -37,9 +36,7 @@ class OrmCacheExtension extends CompilerExtension
 		'xcache' => XcacheCache::class,
 	];
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $defaults = [
 		'defaultDriver' => 'filesystem',
 		'queryCache' => null,
@@ -48,6 +45,7 @@ class OrmCacheExtension extends CompilerExtension
 		'resultCache' => null,
 		'secondLevelCache' => null,
 	];
+
 
 	public function loadConfiguration(): void
 	{
@@ -65,10 +63,12 @@ class OrmCacheExtension extends CompilerExtension
 		$this->loadSecondLevelCacheConfiguration();
 	}
 
+
 	public function loadQueryCacheConfiguration(): void
 	{
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
+		/** @var \Nette\DI\Definitions\ServiceDefinition $configuration */
 		$configuration = $builder->getDefinitionByType(Configuration::class);
 
 		if ($config['queryCache'] === null && $config['defaultDriver'] !== null) {
@@ -82,10 +82,12 @@ class OrmCacheExtension extends CompilerExtension
 		}
 	}
 
+
 	public function loadResultCacheConfiguration(): void
 	{
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
+		/** @var \Nette\DI\Definitions\ServiceDefinition $configuration */
 		$configuration = $builder->getDefinitionByType(Configuration::class);
 
 		if ($config['resultCache'] === null && $config['defaultDriver'] !== null) {
@@ -99,10 +101,12 @@ class OrmCacheExtension extends CompilerExtension
 		}
 	}
 
+
 	public function loadHydrationCacheConfiguration(): void
 	{
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
+		/** @var \Nette\DI\Definitions\ServiceDefinition $configuration */
 		$configuration = $builder->getDefinitionByType(Configuration::class);
 
 		if ($config['hydrationCache'] === null && $config['defaultDriver'] !== null) {
@@ -116,10 +120,12 @@ class OrmCacheExtension extends CompilerExtension
 		}
 	}
 
+
 	public function loadMetadataCacheConfiguration(): void
 	{
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
+		/** @var \Nette\DI\Definitions\ServiceDefinition $configuration */
 		$configuration = $builder->getDefinitionByType(Configuration::class);
 
 		if ($config['metadataCache'] === null && $config['defaultDriver'] !== null) {
@@ -133,10 +139,12 @@ class OrmCacheExtension extends CompilerExtension
 		}
 	}
 
+
 	public function loadSecondLevelCacheConfiguration(): void
 	{
 		$config = $this->getConfig();
 		$builder = $this->getContainerBuilder();
+		/** @var \Nette\DI\Definitions\ServiceDefinition $configuration */
 		$configuration = $builder->getDefinitionByType(Configuration::class);
 
 		if ($config['secondLevelCache'] === null && $config['defaultDriver'] !== null) {
@@ -159,6 +167,7 @@ class OrmCacheExtension extends CompilerExtension
 		}
 	}
 
+
 	protected function getDefaultDriverCache(string $service): ServiceDefinition
 	{
 		$config = $this->getConfig();
@@ -178,5 +187,4 @@ class OrmCacheExtension extends CompilerExtension
 
 		return $driverCache;
 	}
-
 }

@@ -7,5 +7,4 @@ namespace Mathematicator\Integral\Rule;
 
 interface Rule
 {
-
 }

@@ -24,5 +24,4 @@ class PackageManagerExtension extends CompilerExtension
 			);
 		}
 	}
-
 }

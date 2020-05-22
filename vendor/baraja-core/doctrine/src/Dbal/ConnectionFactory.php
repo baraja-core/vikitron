@@ -17,25 +17,18 @@ use Doctrine\DBAL\Types\Type;
 class ConnectionFactory
 {
 
-	/**
-	 * @var mixed[]
-	 */
-	private $typesConfig = [];
+	/** @var mixed[] */
+	private $typesConfig;
 
-	/**
-	 * @var mixed[]
-	 */
-	private $typesMapping = [];
+	/** @var mixed[] */
+	private $typesMapping;
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $commentedTypes = [];
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $initialized = false;
+
 
 	/**
 	 * @param mixed[] $typesConfig
@@ -47,6 +40,7 @@ class ConnectionFactory
 		$this->typesMapping = $typesMapping;
 	}
 
+
 	/**
 	 * Create a connection by name.
 	 *
@@ -56,11 +50,7 @@ class ConnectionFactory
 	 * @return Connection
 	 * @throws DBALException
 	 */
-	public function createConnection(
-		array $params,
-		?Configuration $config = null,
-		?EventManager $eventManager = null
-	): Connection
+	public function createConnection(array $params, ?Configuration $config = null, ?EventManager $eventManager = null): Connection
 	{
 		if (!$this->initialized) {
 			$this->initializeTypes();
@@ -84,6 +74,7 @@ class ConnectionFactory
 
 		return $connection;
 	}
+
 
 	/**
 	 * Try to get the database platform.
@@ -116,6 +107,7 @@ class ConnectionFactory
 		}
 	}
 
+
 	/**
 	 * @throws DBALException
 	 */
@@ -135,5 +127,4 @@ class ConnectionFactory
 
 		$this->initialized = true;
 	}
-
 }

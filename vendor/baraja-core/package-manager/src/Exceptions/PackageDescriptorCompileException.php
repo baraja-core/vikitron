@@ -17,6 +17,7 @@ final class PackageDescriptorCompileException extends PackageDescriptorException
 		throw new self('Can not load "composer.lock", because path "' . $lockPath . '" does not exist.');
 	}
 
+
 	/**
 	 * @param string $packageName
 	 * @throws PackageDescriptorCompileException
@@ -25,5 +26,4 @@ final class PackageDescriptorCompileException extends PackageDescriptorException
 	{
 		throw new self('File "composer.json" in package "' . $packageName . '" does not exist.');
 	}
-
 }

@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace Baraja\Doctrine\DBAL\DI;
 
 
+use Baraja\Doctrine\DBAL\ConnectionFactory;
+use Baraja\Doctrine\DBAL\Events\ContainerAwareEventManager;
+use Baraja\Doctrine\DBAL\Events\DebugEventManager;
+use Baraja\Doctrine\DBAL\Tracy\BlueScreen\DbalBlueScreen;
+use Baraja\Doctrine\DBAL\Tracy\QueryPanel\QueryPanel;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Configuration;
@@ -13,25 +18,18 @@ use Doctrine\DBAL\Logging\LoggerChain;
 use Doctrine\DBAL\Portability\Connection as PortabilityConnection;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ContainerBuilder;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\PhpGenerator\ClassType;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Validators;
 use PDO;
 use ReflectionClass;
-use Baraja\Doctrine\DBAL\ConnectionFactory;
-use Baraja\Doctrine\DBAL\Events\ContainerAwareEventManager;
-use Baraja\Doctrine\DBAL\Events\DebugEventManager;
-use Baraja\Doctrine\DBAL\Tracy\BlueScreen\DbalBlueScreen;
-use Baraja\Doctrine\DBAL\Tracy\QueryPanel\QueryPanel;
 
 final class DbalExtension extends CompilerExtension
 {
-
 	public const TAG_DOCTRINE_SUBSCRIBER = 'doctrine.subscriber';
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $defaults = [
 		'debug' => false,
 		'configuration' => [
@@ -63,6 +61,7 @@ final class DbalExtension extends CompilerExtension
 		],
 	];
 
+
 	/**
 	 * Register services
 	 */
@@ -80,6 +79,7 @@ final class DbalExtension extends CompilerExtension
 				->setAutowired(false);
 		}
 	}
+
 
 	/**
 	 * Register Doctrine Configuration
@@ -118,6 +118,7 @@ final class DbalExtension extends CompilerExtension
 		$configuration->addSetup('setAutoCommit', [$config['autoCommit']]);
 	}
 
+
 	public function loadConnectionConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
@@ -146,6 +147,7 @@ final class DbalExtension extends CompilerExtension
 			]);
 	}
 
+
 	/**
 	 * Decorate services
 	 */
@@ -156,18 +158,13 @@ final class DbalExtension extends CompilerExtension
 		// Idea by @enumag
 		// https://github.com/Arachne/EventManager/blob/master/src/DI/EventManagerExtension.php
 
+		/** @var ServiceDefinition $eventManager */
 		$eventManager = $builder->getDefinition($this->prefix('eventManager'));
 		foreach ($builder->findByTag(self::TAG_DOCTRINE_SUBSCRIBER) as $serviceName => $tag) {
 			$class = $builder->getDefinition($serviceName)->getType();
 
 			if ($class === null || !is_subclass_of($class, EventSubscriber::class)) {
-				throw new AssertionException(
-					sprintf(
-						'Subscriber "%s" doesn\'t implement "%s".',
-						$serviceName,
-						EventSubscriber::class
-					)
-				);
+				throw new AssertionException('Subscriber "' . $serviceName . '" does not implement "' . EventSubscriber::class . '".');
 			}
 			$eventManager->addSetup(
 				'?->addEventListener(?, ?)', [
@@ -178,6 +175,7 @@ final class DbalExtension extends CompilerExtension
 			);
 		}
 	}
+
 
 	/**
 	 * Update initialize method
@@ -202,5 +200,4 @@ final class DbalExtension extends CompilerExtension
 			);
 		}
 	}
-
 }

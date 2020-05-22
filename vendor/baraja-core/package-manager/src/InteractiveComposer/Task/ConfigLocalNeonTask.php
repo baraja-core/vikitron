@@ -15,7 +15,10 @@ final class ConfigLocalNeonTask extends BaseTask
 {
 
 	/**
-	 * @var string[][]
+	 * This credentials will be automatically used for test connection.
+	 * If connection works it will be used for final Neon configuration.
+	 *
+	 * @var string[][][]
 	 */
 	private static $commonCredentials = [
 		'localhost' => [
@@ -29,6 +32,7 @@ final class ConfigLocalNeonTask extends BaseTask
 			['root', ''],
 		],
 	];
+
 
 	/**
 	 * @return bool
@@ -55,6 +59,7 @@ final class ConfigLocalNeonTask extends BaseTask
 		return true;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -62,6 +67,7 @@ final class ConfigLocalNeonTask extends BaseTask
 	{
 		return 'Local.neon checker';
 	}
+
 
 	/**
 	 * @return mixed[]
@@ -166,6 +172,12 @@ final class ConfigLocalNeonTask extends BaseTask
 		];
 	}
 
+
+	/**
+	 * Get mysql connection credentials and return fully works credentials or in case of error empty array.
+	 *
+	 * @return string[]
+	 */
 	private function mySqlConnect(): array
 	{
 		$dbh = null;
@@ -200,7 +212,7 @@ final class ConfigLocalNeonTask extends BaseTask
 			}
 		}
 
-		while (true) {
+		for ($ttl = 10; $ttl > 0; $ttl--) {
 			if (($connectionServer = $this->ask('Server (hostname) [empty for "127.0.0.1"]:')) === null) {
 				echo 'Server "127.0.0.1" has been used.';
 				$connectionServer = '127.0.0.1';
@@ -237,6 +249,7 @@ final class ConfigLocalNeonTask extends BaseTask
 		return [];
 	}
 
+
 	/**
 	 * @param string $name
 	 * @param \PDO $connection
@@ -270,5 +283,4 @@ final class ConfigLocalNeonTask extends BaseTask
 			die;
 		}
 	}
-
 }

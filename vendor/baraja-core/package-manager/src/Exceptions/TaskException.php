@@ -17,6 +17,7 @@ final class TaskException extends PackageDescriptorException
 		throw new self('Can not copy "' . $path . '".');
 	}
 
+
 	/**
 	 * @param string $path
 	 * @throws TaskException
@@ -25,6 +26,7 @@ final class TaskException extends PackageDescriptorException
 	{
 		throw new self('Can not create directory "' . $path . '".');
 	}
+
 
 	/**
 	 * @param string $from
@@ -45,5 +47,4 @@ final class TaskException extends PackageDescriptorException
 			. ($errorMessage !== null ? ': ' . $errorMessage : '')
 		);
 	}
-
 }

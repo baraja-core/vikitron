@@ -11,7 +11,7 @@ use Baraja\PackageManager\Helpers;
 /**
  * Priority: 5
  */
-class OrmSchemaUpdateTask extends BaseTask
+final class OrmSchemaUpdateTask extends BaseTask
 {
 
 	/**
@@ -53,6 +53,7 @@ class OrmSchemaUpdateTask extends BaseTask
 		return true;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -61,10 +62,11 @@ class OrmSchemaUpdateTask extends BaseTask
 		return 'o:s:u -f --dump-sql';
 	}
 
+
 	/**
 	 * Execute the given command by displaying console output live to the user.
 	 *
-	 * @param string
+	 * @param string $command
 	 * @return string
 	 */
 	private function liveExecuteCommand(string $command): string
@@ -89,5 +91,4 @@ class OrmSchemaUpdateTask extends BaseTask
 			? str_replace('Exit status: ' . ($matches[0] ?? ''), '', $output)
 			: '';
 	}
-
 }

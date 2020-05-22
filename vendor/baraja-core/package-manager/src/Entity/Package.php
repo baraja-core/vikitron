@@ -10,39 +10,29 @@ use Nette\SmartObject;
 
 final class Package
 {
-
 	use SmartObject;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $name;
 
-	/**
-	 * @var null|string
-	 */
+	/** @var string|null */
 	private $version;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $dependency;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[][]|mixed[][][] */
 	private $config;
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $composer;
+
 
 	/**
 	 * @param string $name
 	 * @param string|null $version
 	 * @param string $dependency
-	 * @param string[] $config
+	 * @param string[][]|mixed[][][] $config
 	 * @param mixed[] $composer
 	 */
 	public function __construct(string $name, ?string $version, string $dependency, array $config, array $composer)
@@ -54,6 +44,7 @@ final class Package
 		$this->composer = $composer;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -62,13 +53,15 @@ final class Package
 		return $this->name;
 	}
 
+
 	/**
-	 * @return null|string
+	 * @return string|null
 	 */
 	public function getVersion(): ?string
 	{
 		return $this->version;
 	}
+
 
 	/**
 	 * @return string
@@ -78,13 +71,15 @@ final class Package
 		return $this->dependency;
 	}
 
+
 	/**
-	 * @return string[]
+	 * @return string[][]|bool[][]|mixed[][][]
 	 */
 	public function getConfig(): array
 	{
 		return $this->config;
 	}
+
 
 	/**
 	 * @return mixed[]
@@ -94,14 +89,15 @@ final class Package
 		return $this->composer;
 	}
 
+
 	/**
 	 * @deprecated please use native implementation or DIC.
 	 * @param string $key
-	 * @return string[][]
+	 * @return mixed[]
 	 */
 	public function getConfigProperty(string $key): array
 	{
-		if (isset($this->getConfig()[$key])) {
+		if (isset($this->getConfig()[$key]) === true) {
 			if ($this->getConfig()[$key]['rewrite'] === true) {
 				return $this->getConfig()[$key]['data'];
 			}
@@ -111,5 +107,4 @@ final class Package
 
 		return [];
 	}
-
 }

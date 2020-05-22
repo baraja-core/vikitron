@@ -23,7 +23,6 @@ use Nette\Utils\DateTime;
  */
 class SlowQuery
 {
-
 	use UuidIdentifier;
 	use SmartObject;
 
@@ -51,6 +50,7 @@ class SlowQuery
 	 */
 	private $insertedDate;
 
+
 	/**
 	 * @param string $sql
 	 * @param string $hash
@@ -64,6 +64,7 @@ class SlowQuery
 		$this->insertedDate = DateTime::from('now');
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -71,6 +72,7 @@ class SlowQuery
 	{
 		return $this->query;
 	}
+
 
 	/**
 	 * @return float
@@ -80,6 +82,7 @@ class SlowQuery
 		return $this->duration;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -88,6 +91,7 @@ class SlowQuery
 		return $this->hash;
 	}
 
+
 	/**
 	 * @return \DateTime
 	 */
@@ -95,5 +99,4 @@ class SlowQuery
 	{
 		return $this->insertedDate;
 	}
-
 }

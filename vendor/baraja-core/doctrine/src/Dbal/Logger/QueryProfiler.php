@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Baraja\Doctrine\DBAL\Logger;
 
 
 use Tracy\IBarPanel;
-use function count;
-use function sprintf;
 
 class QueryProfiler extends AbstractLogger implements IBarPanel
 {
@@ -26,6 +24,7 @@ class QueryProfiler extends AbstractLogger implements IBarPanel
 			. '</span>';
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -41,5 +40,4 @@ class QueryProfiler extends AbstractLogger implements IBarPanel
 			($this->totalTime ? ', time: ' . sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : '')
 		);
 	}
-
 }

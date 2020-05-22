@@ -30,7 +30,6 @@ use Nette\Utils\Validators;
 
 class OrmAnnotationsExtension extends CompilerExtension
 {
-
 	public const DRIVERS = [
 		'apc' => ApcCache::class,
 		'apcu' => ApcuCache::class,
@@ -43,17 +42,16 @@ class OrmAnnotationsExtension extends CompilerExtension
 		'xcache' => XcacheCache::class,
 	];
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	public $defaults = [
-		'paths' => [], //'%appDir%'
+		'paths' => [],
 		'excludePaths' => [],
 		'ignore' => [],
 		'defaultCache' => 'filesystem',
 		'cache' => null,
 		'debug' => false,
 	];
+
 
 	/**
 	 * Register services
@@ -103,11 +101,13 @@ class OrmAnnotationsExtension extends CompilerExtension
 			->setFactory(AnnotationDriver::class, [$this->prefix('@reader'), Helpers::expand($config['paths'], $builder->parameters)])
 			->addSetup('addExcludePaths', [Helpers::expand($config['excludePaths'], $builder->parameters)]);
 
-		$builder->getDefinitionByType(Configuration::class)
-			->addSetup('setMetadataDriverImpl', [$this->prefix('@annotationDriver')]);
+		/** @var ServiceDefinition $configurationDefinition */
+		$configurationDefinition = $builder->getDefinitionByType(Configuration::class);
+		$configurationDefinition->addSetup('setMetadataDriverImpl', [$this->prefix('@annotationDriver')]);
 
 		AnnotationRegistry::registerUniqueLoader('class_exists');
 	}
+
 
 	public function afterCompile(ClassType $classType): void
 	{
@@ -116,6 +116,7 @@ class OrmAnnotationsExtension extends CompilerExtension
 		$initialize->setBody('?::registerUniqueLoader(\'class_exists\');' . "\n", [new PhpLiteral(AnnotationRegistry::class)]);
 		$initialize->addBody($original);
 	}
+
 
 	protected function getDefaultCache(): ServiceDefinition
 	{
@@ -136,5 +137,4 @@ class OrmAnnotationsExtension extends CompilerExtension
 
 		return $driverCache;
 	}
-
 }

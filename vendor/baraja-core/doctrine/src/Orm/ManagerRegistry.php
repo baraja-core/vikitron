@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Baraja\Doctrine\ORM;
 
@@ -15,10 +15,9 @@ use Nette\DI\Container;
 class ManagerRegistry extends AbstractManagerRegistry
 {
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $container;
+
 
 	/**
 	 * @param Connection $connection
@@ -37,29 +36,11 @@ class ManagerRegistry extends AbstractManagerRegistry
 		$this->container = $container;
 	}
 
-	/**
-	 * @param string $name
-	 * @return object
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-	 */
-	protected function getService($name)
-	{
-		return $this->container->getService($name);
-	}
-
-	/**
-	 * @param string $name
-	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-	 */
-	protected function resetService($name): void
-	{
-		$this->container->removeService($name);
-	}
 
 	/**
 	 * @param string $alias
 	 * @throws ORMException
+	 * @return string
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
 	public function getAliasNamespace($alias): string
@@ -77,4 +58,25 @@ class ManagerRegistry extends AbstractManagerRegistry
 		throw ORMException::unknownEntityNamespace($alias);
 	}
 
+
+	/**
+	 * @param string $name
+	 * @return object
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+	 */
+	protected function getService($name)
+	{
+		return $this->container->getService($name);
+	}
+
+
+	/**
+	 * @param string $name
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+	 */
+	protected function resetService($name): void
+	{
+		$this->container->removeService($name);
+	}
 }

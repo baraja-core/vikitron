@@ -9,40 +9,30 @@ use Baraja\PackageManager\Exception\PackageDescriptorCompileException;
 use Baraja\PackageManager\Exception\PackageDescriptorException;
 
 /**
+ * @internal
  * @property string[] $customPackagesNamePatterns
  */
 class PackageDescriptorEntity
 {
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	protected $__close = false;
 
-	/**
-	 * @var \stdClass[]
-	 */
+	/** @var \stdClass[] */
 	protected $composer;
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	protected $packagest = [];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	protected $customRouters = [];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	protected $afterInstallScripts = [];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $__customPackagesNamePatterns;
+
 
 	/**
 	 * @param string[] $customPackagesNamePatterns
@@ -52,6 +42,7 @@ class PackageDescriptorEntity
 		$this->__customPackagesNamePatterns = $customPackagesNamePatterns;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -60,10 +51,12 @@ class PackageDescriptorEntity
 		return $this->__close;
 	}
 
+
 	public function setClose(): void
 	{
 		$this->__close = true;
 	}
+
 
 	/**
 	 * @throws PackageDescriptorException
@@ -78,6 +71,7 @@ class PackageDescriptorEntity
 		}
 	}
 
+
 	/**
 	 * @return \stdClass[]
 	 */
@@ -85,6 +79,7 @@ class PackageDescriptorEntity
 	{
 		return $this->composer;
 	}
+
 
 	/**
 	 * @param \stdClass[] $composer
@@ -95,6 +90,7 @@ class PackageDescriptorEntity
 		$this->checkIfClose();
 		$this->composer = $composer;
 	}
+
 
 	/**
 	 * @param bool $customPackagesOnly
@@ -136,8 +132,9 @@ class PackageDescriptorEntity
 		return $return;
 	}
 
+
 	/**
-	 * @param string[] $packagest
+	 * @param mixed[] $packagest
 	 * @throws PackageDescriptorException
 	 */
 	public function setPackages(array $packagest): void
@@ -147,20 +144,26 @@ class PackageDescriptorEntity
 		$return = [];
 
 		foreach ($packagest as $package) {
+			$composer = [];
+			if (isset($package['composer']) === true) {
+				$composer = [
+					'name' => $package['composer']['name'] ?? null,
+					'description' => $package['composer']['description'] ?? null,
+				];
+			}
+
 			$return[] = [
 				'name' => $package['name'] ?? null,
 				'version' => $package['version'] ?? null,
 				'dependency' => $package['dependency'] ?? null,
 				'config' => $package['config'] ?? null,
-				'composer' => [
-					'name' => $package['composer']['name'] ?? null,
-					'description' => $package['composer']['description'] ?? null,
-				],
+				'composer' => $composer,
 			];
 		}
 
 		$this->packagest = $return;
 	}
+
 
 	/**
 	 * @return string
@@ -170,6 +173,7 @@ class PackageDescriptorEntity
 		return date('Y-m-d H:i:s');
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -178,13 +182,15 @@ class PackageDescriptorEntity
 		return time();
 	}
 
+
 	/**
 	 * @return string
 	 */
 	public function getComposerHash(): string
 	{
-		return md5(time());
+		return md5((string) time());
 	}
+
 
 	/**
 	 * @return string[]
@@ -193,6 +199,7 @@ class PackageDescriptorEntity
 	{
 		return $this->customRouters;
 	}
+
 
 	/**
 	 * @param string[] $customRouters
@@ -204,6 +211,7 @@ class PackageDescriptorEntity
 		$this->customRouters = $customRouters;
 	}
 
+
 	/**
 	 * @return string[]
 	 */
@@ -211,6 +219,7 @@ class PackageDescriptorEntity
 	{
 		return $this->afterInstallScripts;
 	}
+
 
 	/**
 	 * @param string[] $afterInstallScript
@@ -221,6 +230,7 @@ class PackageDescriptorEntity
 		$this->checkIfClose();
 		$this->afterInstallScripts = $afterInstallScript;
 	}
+
 
 	/**
 	 * @return string[]
@@ -234,5 +244,4 @@ class PackageDescriptorEntity
 				: []
 		);
 	}
-
 }

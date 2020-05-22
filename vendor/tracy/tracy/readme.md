@@ -41,9 +41,9 @@ Alternatively, you can download the whole package or [tracy.phar](https://github
 
 | Tracy     | compatible with PHP | compatible with browsers
 |-----------|---------------|----------
-| Tracy 2.7 | PHP 7.1 – 7.4 | Chrome 49+, Firefox 45+, MS Edge 14+, Safari 10+ and iOS Safari 10.2+
+| Tracy 2.7 | PHP 7.1 – 7.4 | Chrome 55+, Firefox 53+, MS Edge 16+, Safari 11+ and iOS Safari 11+
 | Tracy 2.6 | PHP 7.1 – 7.4 | Chrome 49+, Firefox 45+, MS Edge 14+, Safari 10+ and iOS Safari 10.2+
-| Tracy 2.5 | PHP 5.4 – 7.3 | Chrome 49+, Firefox 45+, MS Edge 12+, Safari 10+ and iOS Safari 10.2+
+| Tracy 2.5 | PHP 5.4 – 7.4 | Chrome 49+, Firefox 45+, MS Edge 12+, Safari 10+ and iOS Safari 10.2+
 | Tracy 2.4 | PHP 5.4 – 7.2 | Chrome 29+, Firefox 28+, IE 11+ (except AJAX), MS Edge 12+, Safari 9+ and iOS Safari 9.2+
 
 
@@ -381,6 +381,22 @@ If we use the full Nette Framework, we can set it in the NEON configuration file
 ```neon
 services:
 	tracy.logger: SlackLogger
+```
+
+
+nginx
+-----
+
+If Tracy does not work on nginx, it is probably misconfigured. If there is something like
+
+```nginx
+try_files $uri $uri/ /index.php;
+```
+
+change it to
+
+```nginx
+try_files $uri $uri/ /index.php$is_args$args;
 ```
 
 

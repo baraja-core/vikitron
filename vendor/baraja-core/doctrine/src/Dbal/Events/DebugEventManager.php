@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Baraja\Doctrine\DBAL\Events;
 
@@ -12,15 +12,15 @@ use Doctrine\Common\EventManager as DoctrineEventManager;
 class DebugEventManager extends DoctrineEventManager
 {
 
-	/**
-	 * @var EventManager
-	 */
+	/** @var EventManager */
 	private $inner;
+
 
 	public function __construct(EventManager $inner)
 	{
 		$this->inner = $inner;
 	}
+
 
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
@@ -30,6 +30,7 @@ class DebugEventManager extends DoctrineEventManager
 	{
 		$this->inner->dispatchEvent($eventName, $eventArgs);
 	}
+
 
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
@@ -41,6 +42,7 @@ class DebugEventManager extends DoctrineEventManager
 		return $this->inner->getListeners($event);
 	}
 
+
 	/**
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @param string $event
@@ -49,6 +51,7 @@ class DebugEventManager extends DoctrineEventManager
 	{
 		return $this->inner->hasListeners($event);
 	}
+
 
 	/**
 	 * Adds an event listener that listens on the specified events.
@@ -62,6 +65,7 @@ class DebugEventManager extends DoctrineEventManager
 		$this->inner->addEventListener($events, $listener);
 	}
 
+
 	/**
 	 * Removes an event listener from the specified events.
 	 *
@@ -73,5 +77,4 @@ class DebugEventManager extends DoctrineEventManager
 	{
 		$this->inner->removeEventListener($events, $listener);
 	}
-
 }

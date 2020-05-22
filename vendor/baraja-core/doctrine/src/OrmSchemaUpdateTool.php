@@ -13,13 +13,12 @@ use Nette\DI\Container;
 use Nette\Utils\Finder;
 use Tracy\Debugger;
 
-class OrmSchemaUpdateTool
+final class OrmSchemaUpdateTool
 {
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private static $container;
+
 
 	/**
 	 * @internal
@@ -46,12 +45,13 @@ class OrmSchemaUpdateTool
 				Debugger::log($e);
 				echo $e->getMessage();
 
-				$exitCode = $e->getCode() ? : 1;
+				$exitCode = $e->getCode() ?: 1;
 				echo "\n" . 'Exit with code #' . $exitCode;
 				exit($exitCode);
 			}
 		}
 	}
+
 
 	/**
 	 * @param Container $container
@@ -71,6 +71,7 @@ class OrmSchemaUpdateTool
 
 		self::$container = $container;
 	}
+
 
 	/**
 	 * @param Container $container
@@ -93,5 +94,4 @@ class OrmSchemaUpdateTool
 
 		echo "\n\n" . 'All files are OK.' . "\n\n";
 	}
-
 }

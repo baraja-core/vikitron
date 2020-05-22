@@ -18,5 +18,4 @@ interface CompanyIdentity
 	 * @return string
 	 */
 	public function getLogo(): string;
-
 }

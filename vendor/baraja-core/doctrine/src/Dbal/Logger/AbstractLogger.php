@@ -17,29 +17,19 @@ use Tracy\ILogger;
 abstract class AbstractLogger implements SQLLogger
 {
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	protected $queries = [];
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	protected $totalTime = 0;
 
-	/**
-	 * @var EntityManager|null
-	 */
+	/** @var EntityManager|null */
 	private $entityManager;
 
-	/**
-	 * @var float[]
-	 */
+	/** @var float[][] */
 	private $queriesTimer = [];
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $counter = 0;
 
 	/**
@@ -49,6 +39,7 @@ abstract class AbstractLogger implements SQLLogger
 	 */
 	private $maxQueryTime = 150;
 
+
 	/**
 	 * @param EntityManager $entityManager
 	 */
@@ -56,6 +47,7 @@ abstract class AbstractLogger implements SQLLogger
 	{
 		$this->entityManager = $entityManager;
 	}
+
 
 	/**
 	 * @param string $sql
@@ -80,6 +72,7 @@ abstract class AbstractLogger implements SQLLogger
 			'location' => $this->findLocation(),
 		];
 	}
+
 
 	public function stopQuery(): ?stdClass
 	{
@@ -111,6 +104,7 @@ abstract class AbstractLogger implements SQLLogger
 		return $this->queries[$key] ?? null;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -119,6 +113,7 @@ abstract class AbstractLogger implements SQLLogger
 		return $this->counter;
 	}
 
+
 	/**
 	 * @return float
 	 */
@@ -126,6 +121,7 @@ abstract class AbstractLogger implements SQLLogger
 	{
 		return (float) $this->totalTime;
 	}
+
 
 	/**
 	 * Set max query time to log in interval (0 - 30 sec).
@@ -144,8 +140,11 @@ abstract class AbstractLogger implements SQLLogger
 		$this->maxQueryTime = $maxQueryTime;
 	}
 
+
 	/**
 	 * Finds the location where dump was called. Returns [file, line, code]
+	 *
+	 * @return string[]|null
 	 */
 	private function findLocation(): ?array
 	{
@@ -175,5 +174,4 @@ abstract class AbstractLogger implements SQLLogger
 
 		return null;
 	}
-
 }

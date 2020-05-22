@@ -4,27 +4,23 @@ declare(strict_types=1);
 
 namespace Baraja\Doctrine;
 
+
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Configuration;
 
-class EntityManagerDependencies
+final class EntityManagerDependencies
 {
 
-	/**
-	 * @var Connection
-	 */
+	/** @var Connection */
 	private $connection;
 
-	/**
-	 * @var Configuration
-	 */
+	/** @var Configuration */
 	private $configuration;
 
-	/**
-	 * @var EventManager
-	 */
+	/** @var EventManager */
 	private $eventManager;
+
 
 	/**
 	 * @param Connection $connection
@@ -38,6 +34,7 @@ class EntityManagerDependencies
 		$this->eventManager = $eventManager;
 	}
 
+
 	/**
 	 * @return Connection
 	 */
@@ -45,6 +42,7 @@ class EntityManagerDependencies
 	{
 		return $this->connection;
 	}
+
 
 	/**
 	 * @return Configuration
@@ -54,6 +52,7 @@ class EntityManagerDependencies
 		return $this->configuration;
 	}
 
+
 	/**
 	 * @return EventManager
 	 */
@@ -61,5 +60,4 @@ class EntityManagerDependencies
 	{
 		return $this->eventManager;
 	}
-
 }

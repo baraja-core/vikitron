@@ -15,10 +15,9 @@ use Tracy\Debugger;
 final class Console
 {
 
-	/**
-	 * @var Container|null
-	 */
+	/** @var Container|null */
 	private static $container;
+
 
 	/**
 	 * @internal called by DIC.
@@ -59,12 +58,13 @@ final class Console
 					Helpers::terminalRenderCode($e->getFile(), $e->getLine());
 				}
 
-				$exitCode = $e->getCode() ? : 1;
+				$exitCode = $e->getCode() ?: 1;
 				echo "\n" . 'Exit with code #' . $exitCode;
 				exit($exitCode);
 			}
 		}
 	}
+
 
 	/**
 	 * @internal
@@ -85,5 +85,4 @@ final class Console
 
 		self::$container = $container;
 	}
-
 }

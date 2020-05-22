@@ -11,35 +11,24 @@ use Mathematicator\Tokenizer\Token\IToken;
 final class IntegralResult
 {
 
-	/**
-	 * @var IToken[]
-	 */
+	/** @var IToken[] */
 	private $queryTokens;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $queryLaTeX;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $result;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $differential;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $singleToken;
 
-	/**
-	 * @var Step[]
-	 */
+	/** @var Step[] */
 	private $steps = [];
+
 
 	/**
 	 * @param IToken[] $queryTokens
@@ -55,6 +44,7 @@ final class IntegralResult
 		$this->singleToken = $singleToken;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -63,6 +53,7 @@ final class IntegralResult
 		return strpos($this->getResult(), '?') === false;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -70,6 +61,7 @@ final class IntegralResult
 	{
 		return $this->result ?? '';
 	}
+
 
 	/**
 	 * @internal
@@ -80,6 +72,7 @@ final class IntegralResult
 		$this->result = $result;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -87,6 +80,7 @@ final class IntegralResult
 	{
 		return $this->differential;
 	}
+
 
 	/**
 	 * @return bool
@@ -96,6 +90,7 @@ final class IntegralResult
 		return $this->singleToken;
 	}
 
+
 	/**
 	 * @return IToken[]
 	 */
@@ -103,6 +98,7 @@ final class IntegralResult
 	{
 		return $this->queryTokens;
 	}
+
 
 	/**
 	 * @return string
@@ -114,6 +110,7 @@ final class IntegralResult
 			. ' \ d' . $this->getDifferential();
 	}
 
+
 	/**
 	 * @return Step[]
 	 */
@@ -121,6 +118,7 @@ final class IntegralResult
 	{
 		return $this->steps;
 	}
+
 
 	/**
 	 * @param Step $step
@@ -132,5 +130,4 @@ final class IntegralResult
 
 		return $this;
 	}
-
 }

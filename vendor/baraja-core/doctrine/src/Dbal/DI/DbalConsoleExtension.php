@@ -18,10 +18,9 @@ use Symfony\Component\Console\Application;
 class DbalConsoleExtension extends CompilerExtension
 {
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $cliMode;
+
 
 	/**
 	 * @param bool|null $cliMode
@@ -30,6 +29,7 @@ class DbalConsoleExtension extends CompilerExtension
 	{
 		$this->cliMode = $cliMode ?? PHP_SAPI === 'cli';
 	}
+
 
 	/**
 	 * Register services
@@ -68,6 +68,7 @@ class DbalConsoleExtension extends CompilerExtension
 			->setAutowired(false);
 	}
 
+
 	/**
 	 * Decorate services
 	 */
@@ -86,5 +87,4 @@ class DbalConsoleExtension extends CompilerExtension
 		$connectionHelper = $this->prefix('@connectionHelper');
 		$application->addSetup(new Statement('$service->getHelperSet()->set(?, ?)', [$connectionHelper, 'db']));
 	}
-
 }

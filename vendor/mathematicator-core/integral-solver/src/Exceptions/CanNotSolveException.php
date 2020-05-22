@@ -39,6 +39,7 @@ class CanNotSolveException extends MathematicatorException
 		throw new self('Can not solve "' . $buffer . '".');
 	}
 
+
 	/**
 	 * @param string $function
 	 * @throws CanNotSolveException
@@ -47,5 +48,4 @@ class CanNotSolveException extends MathematicatorException
 	{
 		throw new self('This function does not implemented "' . $function . '".');
 	}
-
 }

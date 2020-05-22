@@ -13,20 +13,15 @@ use Nette\Neon\Neon;
 final class Generator
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $projectRoot;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $customPackagesNamePatterns;
 
-	/**
-	 * @var Storage
-	 */
+	/** @var Storage */
 	private $storage;
+
 
 	/**
 	 * @param string $projectRoot
@@ -39,6 +34,7 @@ final class Generator
 		$this->customPackagesNamePatterns = $customPackagesNamePatterns;
 		$this->storage = $storage;
 	}
+
 
 	/**
 	 * @internal
@@ -78,6 +74,7 @@ final class Generator
 
 		return $packageDescriptor;
 	}
+
 
 	/**
 	 * @param string[][] $composer
@@ -145,9 +142,10 @@ final class Generator
 		return $packages;
 	}
 
+
 	/**
 	 * @param string $path
-	 * @return string[]
+	 * @return string[]|string[][]|mixed[][]
 	 */
 	private function formatConfigSections(string $path): array
 	{
@@ -175,6 +173,7 @@ final class Generator
 
 		return $return;
 	}
+
 
 	/**
 	 * @return string[]
@@ -210,5 +209,4 @@ final class Generator
 
 		return $return;
 	}
-
 }

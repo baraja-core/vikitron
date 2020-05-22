@@ -13,40 +13,36 @@ use Nette\Utils\Finder;
 final class Storage
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $basePath;
+
 
 	public function __construct(string $basePath)
 	{
 		$this->basePath = $basePath;
 	}
 
+
 	/**
 	 * @internal
 	 * @return PackageDescriptorEntity
-	 * @throws PackageEntityDoesNotExistsException
-	 * @throws PackageDescriptorException
+	 * @throws PackageEntityDoesNotExistsException|PackageDescriptorException
 	 */
 	public function load(): PackageDescriptorEntity
 	{
-		static $cache;
-
-		if ($cache !== null) {
-			return $cache;
+		if (trim($path = $this->getPath()) === '' || filesize($path) < 10) {
+			PackageEntityDoesNotExistsException::packageDescriptionEntityDoesNotExist();
 		}
 
-		if (trim($this->getPath()) !== '' && filesize($this->getPath()) > 1) {
-			require_once $this->getPath();
+		require_once $path;
 
-			$cache = new \PackageDescriptorEntity();
-
-			return $cache;
+		if (\class_exists('\PackageDescriptorEntity') === false) {
+			PackageEntityDoesNotExistsException::packageDescriptionEntityDoesNotExist();
 		}
 
-		PackageEntityDoesNotExistsException::packageDescriptionEntityDoesNotExist();
+		return new \PackageDescriptorEntity();
 	}
+
 
 	/**
 	 * @internal
@@ -107,6 +103,7 @@ final class Storage
 		}
 	}
 
+
 	/**
 	 * @internal
 	 * Convert Nette SmartObject with private methods to Nette ArrayHash structure.
@@ -148,6 +145,7 @@ final class Storage
 		return $return;
 	}
 
+
 	/**
 	 * @param int $ttl
 	 * @return string
@@ -158,12 +156,15 @@ final class Storage
 		static $cache;
 
 		if ($cache === null) {
+			$dir = $this->basePath . '/cache/baraja/packageDescriptor';
+			$cache = $dir . '/PackageDescriptorEntity.php';
+
 			try {
-				if (!is_dir($dir = $this->basePath . '/cache/baraja/packageDescriptor') && !@mkdir($dir, 0777, true) && !is_dir($dir)) {
+				if (is_dir($dir) === false && !mkdir($dir, 0777, true) && !is_dir($dir)) {
 					PackageDescriptorException::canNotCreateTempDir($dir);
 				}
 
-				if (!is_file($cache = $dir . '/PackageDescriptorEntity.php') && !@file_put_contents($cache, '') && !is_file($cache)) {
+				if (is_file($cache) === false && !file_put_contents($cache, '') && !is_file($cache)) {
 					PackageDescriptorException::canNotCreateTempFile($cache);
 				}
 			} catch (PackageDescriptorException $e) {
@@ -180,6 +181,7 @@ final class Storage
 		return $cache;
 	}
 
+
 	/**
 	 * @param string $basePath
 	 * @return bool
@@ -192,6 +194,7 @@ final class Storage
 
 		return @rmdir($basePath);
 	}
+
 
 	/**
 	 * @param mixed|mixed[] $data
@@ -215,5 +218,4 @@ final class Storage
 
 		return $data;
 	}
-
 }

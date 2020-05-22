@@ -17,6 +17,7 @@ class DatabaseException extends \RuntimeException
 		throw new self($e->getMessage(), $e->getCode(), $e);
 	}
 
+
 	/**
 	 * @param string|null $id
 	 * @throws DatabaseException
@@ -25,6 +26,7 @@ class DatabaseException extends \RuntimeException
 	{
 		throw new self('Can not set identifier "' . $id . '", please use trait UuidIdentifier.');
 	}
+
 
 	/**
 	 * @param string $fromTable
@@ -36,6 +38,7 @@ class DatabaseException extends \RuntimeException
 		throw new self('Entities for remap must be same table type, "' . $fromTable . '" and "' . $to . '" given.');
 	}
 
+
 	/**
 	 * @param string $className
 	 * @throws DatabaseException
@@ -44,5 +47,4 @@ class DatabaseException extends \RuntimeException
 	{
 		throw new self('Entity "' . $className . '" must implement getParent(), setParent() and getPosition().');
 	}
-
 }

@@ -1,0 +1,9 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+
+parameters:
+	ignoreErrors:
+		- '#Instantiated class PackageDescriptorEntity not found\.#'
+		- '#Method Baraja\\PackageManager\\Storage::load\(\) should return Baraja\\PackageManager\\PackageDescriptorEntity but returns PackageDescriptorEntity\.#'
+		- '#Negated boolean expression is always true\.#'

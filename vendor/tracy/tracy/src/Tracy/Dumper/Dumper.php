@@ -227,11 +227,10 @@ class Dumper
 	 */
 	private function dumpVar(&$var, array $options, int $level = 0): string
 	{
-		if (method_exists(__CLASS__, $m = 'dump' . gettype($var))) {
-			return $this->$m($var, $options, $level);
-		} else {
-			return "<span>unknown type</span>\n";
+		if (!method_exists(__CLASS__, $m = 'dump' . explode(' ', gettype($var))[0])) {
+			$m = 'dumpResource'; // closed resource is 'unknown type' in PHP 7.1
 		}
+		return $this->$m($var, $options, $level);
 	}
 
 
@@ -272,12 +271,17 @@ class Dumper
 
 	private function dumpArray(&$var, array $options, int $level): string
 	{
+		static $marker;
+		if ($marker === null) {
+			$marker = uniqid("\x00", true);
+		}
+
 		$out = '<span class="tracy-dump-array">array</span> (';
 
 		if (empty($var)) {
 			return $out . ")\n";
 
-		} elseif (in_array($var, $options['parents'] ?? [], true)) {
+		} elseif (isset($var[$marker])) {
 			return $out . (count($var) - 1) . ") [ <i>RECURSION</i> ]\n";
 
 		} elseif (!$this->maxDepth || $level < $this->maxDepth) {
@@ -295,17 +299,23 @@ class Dumper
 
 			} else {
 				$out = $span . '>' . $out . count($var) . ")</span>\n" . '<div' . ($collapsed ? ' class="tracy-collapsed"' : '') . '>';
-				$options['parents'][] = $var;
-				foreach ($var as $k => &$v) {
-					$hide = is_string($k) && isset($this->keysToHide[strtolower($k)]);
-					$out .= '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $level) . '</span>'
+				try {
+					$var[$marker] = true;
+					foreach ($var as $k => &$v) {
+						if ($k === $marker) {
+							continue;
+						}
+						$hide = is_string($k) && isset($this->keysToHide[strtolower($k)]);
+						$out .= '<span class="tracy-dump-indent">   ' . str_repeat('|  ', $level) . '</span>'
 						. '<span class="tracy-dump-key">' . Helpers::escapeHtml($this->encodeKey($k)) . '</span> => '
 						. ($hide
 							? Helpers::escapeHtml(self::hideValue($v)) . "\n"
 							: $this->dumpVar($v, $options, $level + 1)
 						);
+					}
+				} finally {
+					unset($var[$marker]);
 				}
-				array_pop($options['parents']);
 
 				return $out . '</div>';
 			}
@@ -386,7 +396,7 @@ class Dumper
 
 	private function dumpResource(&$var, array $options, int $level): string
 	{
-		$type = get_resource_type($var);
+		$type = is_resource($var) ? get_resource_type($var) : 'closed';
 		$out = '<span class="tracy-dump-resource">' . Helpers::escapeHtml($type) . ' resource</span> '
 			. '<span class="tracy-dump-hash">#' . (int) $var . '</span>';
 		if (isset($this->resourceDumpers[$type])) {
@@ -418,16 +428,26 @@ class Dumper
 			return $this->encodeString($var, $this->maxLength);
 
 		} elseif (is_array($var)) {
-			if (count($var) && (($rec = in_array($var, $options['parents'] ?? [], true)) || $level >= $this->maxDepth)) {
-				return ['stop' => [count($var), $rec]];
+			static $marker;
+			if ($marker === null) {
+				$marker = uniqid("\x00", true);
+			}
+			if (count($var) && (isset($var[$marker]) || $level >= $this->maxDepth)) {
+				return ['stop' => [count($var) - isset($var[$marker]), isset($var[$marker])]];
 			}
 			$res = [];
-			$options['parents'][] = $var;
-			foreach ($var as $k => &$v) {
-				$hide = is_string($k) && isset($this->keysToHide[strtolower($k)]);
-				$res[] = [$this->encodeKey($k), $hide ? ['type' => self::hideValue($v)] : $this->toJson($v, $options, $level + 1)];
+			try {
+				$var[$marker] = true;
+				foreach ($var as $k => &$v) {
+					if ($k === $marker) {
+						continue;
+					}
+					$hide = is_string($k) && isset($this->keysToHide[strtolower($k)]);
+					$res[] = [$this->encodeKey($k), $hide ? ['type' => self::hideValue($v)] : $this->toJson($v, $options, $level + 1)];
+				}
+			} finally {
+				unset($var[$marker]);
 			}
-			array_pop($options['parents']);
 			return $res;
 
 		} elseif (is_object($var)) {
@@ -467,11 +487,11 @@ class Dumper
 			}
 			return ['object' => $obj['id']];
 
-		} elseif (is_resource($var)) {
+		} else {
 			$obj = &$options[self::SNAPSHOT][(string) $var];
 			if (!$obj) {
-				$type = get_resource_type($var);
-				$obj = ['id' => count($options[self::SNAPSHOT]), 'name' => $type . ' resource', 'hash' => (int) $var];
+				$type = is_resource($var) ? get_resource_type($var) : 'closed';
+				$obj = ['id' => count($options[self::SNAPSHOT]), 'name' => $type . ' resource', 'hash' => (int) $var, 'items' => []];
 				if (isset($this->resourceDumpers[$type])) {
 					foreach (($this->resourceDumpers[$type])($var) as $k => $v) {
 						$obj['items'][] = [$k, $this->toJson($v, $options, $level + 1)];
@@ -479,9 +499,6 @@ class Dumper
 				}
 			}
 			return ['resource' => $obj['id']];
-
-		} else {
-			return ['type' => 'unknown type'];
 		}
 	}
 
@@ -557,7 +574,7 @@ class Dumper
 	 */
 	private function encodeKey($key)
 	{
-		return is_int($key) || preg_match('#^[!\#$%&()*+,./0-9:;<=>?@A-Z[\]^_`a-z{|}~-]{1,50}$#D', $key)
+		return is_int($key) || (preg_match('#^[!\#$%&()*+,./0-9:;<=>?@A-Z[\]^_`a-z{|}~-]{1,50}$#D', $key) && !preg_match('#^true|false|null$#iD', $key))
 			? $key
 			: '"' . $this->encodeString($key, $this->maxLength) . '"';
 	}

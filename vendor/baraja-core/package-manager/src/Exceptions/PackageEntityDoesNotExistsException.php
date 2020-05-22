@@ -15,5 +15,4 @@ final class PackageEntityDoesNotExistsException extends PackageDescriptorExcepti
 	{
 		throw new self('Package description entity does not exist.');
 	}
-
 }

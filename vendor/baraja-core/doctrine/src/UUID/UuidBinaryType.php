@@ -13,11 +13,8 @@ use Ramsey\Uuid\UuidInterface;
 
 class UuidBinaryType extends Type
 {
-
-	/**
-	 * @var string
-	 */
 	public const NAME = 'uuid-binary';
+
 
 	/**
 	 * @param mixed[] $fieldDeclaration
@@ -31,6 +28,7 @@ class UuidBinaryType extends Type
 			'fixed' => true,
 		]);
 	}
+
 
 	/**
 	 * @param string|UuidInterface|null $value
@@ -55,15 +53,16 @@ class UuidBinaryType extends Type
 		}
 	}
 
+
 	/**
-	 * @param UuidInterface|string|null $value
+	 * @param UuidInterface|string|mixed|null $value
 	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
 	 * @return string|null
 	 * @throws ConversionException
 	 */
 	public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
 	{
-		if (empty($value)) {
+		if ($value === null) {
 			return null;
 		}
 
@@ -79,8 +78,9 @@ class UuidBinaryType extends Type
 			// Ignore the exception and pass through.
 		}
 
-		throw ConversionException::conversionFailed($value, static::NAME);
+		throw ConversionException::conversionFailed((string) $value, static::NAME);
 	}
+
 
 	/**
 	 * @return string
@@ -90,6 +90,7 @@ class UuidBinaryType extends Type
 		return static::NAME;
 	}
 
+
 	/**
 	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
 	 * @return bool
@@ -98,5 +99,4 @@ class UuidBinaryType extends Type
 	{
 		return true;
 	}
-
 }

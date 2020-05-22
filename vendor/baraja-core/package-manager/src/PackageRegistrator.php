@@ -17,55 +17,38 @@ use Tracy\Debugger;
 class PackageRegistrator
 {
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private static $created = false;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private static $projectRoot;
 
-	/**
-	 * @var string[]|null
-	 */
+	/** @var string[]|null */
 	private static $parameters;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private static $configPath;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private static $configPackagePath;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private static $configLocalPath;
 
-	/**
-	 * @var PackageDescriptorEntity
-	 */
+	/** @var PackageDescriptorEntity */
 	private static $packageDescriptorEntity;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private static $runAfterScripts = false;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var true[] */
 	private static $neonNoUseParams = [
 		'includes' => true,
 		'application' => true,
 		'routers' => true,
 		'afterInstall' => true,
 	];
+
 
 	/**
 	 * @param string|null $projectRoot
@@ -105,6 +88,7 @@ class PackageRegistrator
 		}
 	}
 
+
 	public static function composerPostAutoloadDump(): void
 	{
 		try {
@@ -117,6 +101,7 @@ class PackageRegistrator
 		}
 	}
 
+
 	/**
 	 * @return PackageDescriptorEntity
 	 */
@@ -125,8 +110,10 @@ class PackageRegistrator
 		return self::$packageDescriptorEntity;
 	}
 
+
 	/**
-	 * @return string[]
+	 * @internal
+	 * @return mixed[]
 	 */
 	public function getParameters(): array
 	{
@@ -137,20 +124,27 @@ class PackageRegistrator
 		return self::$parameters ?? [];
 	}
 
+
 	/**
 	 * @return string[]
 	 */
 	public function getPackageNamePatterns(): array
 	{
-		$return = ['^baraja-'];
-
+		$return = [];
 		$packageRegistrator = $this->getParameters()['packageRegistrator'] ?? null;
-		if (isset($packageRegistrator[$key = 'customPackagesNamePatterns']) && \is_array($packageRegistrator[$key])) {
-			return \array_merge($return, $packageRegistrator[$key]);
+		$key = 'customPackagesNamePatterns';
+
+		if (isset($packageRegistrator[$key]) === true && \is_array($packageRegistrator[$key]) === true) {
+			foreach (\array_merge($return, $packageRegistrator[$key]) as $item) {
+				if (\is_string($item) === true) {
+					$return[] = $item;
+				}
+			}
 		}
 
-		return $return;
+		return array_unique(array_merge(['^baraja-'], $return));
 	}
+
 
 	/**
 	 * @return string
@@ -160,6 +154,7 @@ class PackageRegistrator
 		return self::$projectRoot;
 	}
 
+
 	/**
 	 * @return PackageDescriptorEntity
 	 */
@@ -167,6 +162,7 @@ class PackageRegistrator
 	{
 		return self::$packageDescriptorEntity;
 	}
+
 
 	/**
 	 * @return string
@@ -180,6 +176,7 @@ class PackageRegistrator
 
 		return (string) file_get_contents(self::$configPackagePath);
 	}
+
 
 	/**
 	 * @param string $packageName
@@ -196,6 +193,7 @@ class PackageRegistrator
 
 		return false;
 	}
+
 
 	/**
 	 * @param Configurator $configurator
@@ -221,6 +219,7 @@ class PackageRegistrator
 			}
 		}
 	}
+
 
 	/**
 	 * @param PackageDescriptorEntity $packageDescriptorEntity
@@ -250,7 +249,7 @@ class PackageRegistrator
 			$tree = [];
 
 			if ($param === 'services') {
-				foreach (\is_array($values) ? $values : [] as $value) {
+				foreach ($values as $value) {
 					foreach ($neonData = Neon::decode($value['data']['data']) as $treeKey => $treeValue) {
 						if (is_int($treeKey) || (is_string($treeKey) && preg_match('/^-?\d+\z/', $treeKey))) {
 							unset($neonData[$treeKey]);
@@ -309,13 +308,13 @@ class PackageRegistrator
 				$return .= str_replace("\n", "\n\t", Neon::encode($treeNumbers, Neon::BLOCK));
 				$tree = [];
 			} else {
-				foreach (\is_array($values) ? $values : [] as $value) {
-					if ($value['data']['rewrite'] === false) {
+				foreach ($values as $value) {
+					if ((bool) $value['data']['rewrite'] === false) {
 						$return .= '# ' . $value['name'] . ($value['version'] ? ' (' . $value['version'] . ')' : '')
 							. "\n\t" . str_replace("\n", "\n\t", $value['data']['data']);
 					}
 
-					if ($value['data']['rewrite'] === true) {
+					if ((bool) $value['data']['rewrite'] === true) {
 						$tree = Helpers::recursiveMerge($tree, $value['data']['data']);
 					}
 				}
@@ -335,6 +334,7 @@ class PackageRegistrator
 		}
 	}
 
+
 	/**
 	 * @param PackageDescriptorEntity $packageDescriptorEntity
 	 * @return bool
@@ -352,6 +352,7 @@ class PackageRegistrator
 		return false;
 	}
 
+
 	/**
 	 * Return hash of installed.json, if composer does not used, return empty string
 	 *
@@ -362,10 +363,9 @@ class PackageRegistrator
 		static $cache;
 
 		if ($cache === null) {
-			$cache = (@md5_file(self::$projectRoot . '/vendor/composer/installed.json')) ? : md5((string) time());
+			$cache = (@md5_file(self::$projectRoot . '/vendor/composer/installed.json')) ?: md5((string) time());
 		}
 
 		return $cache;
 	}
-
 }

@@ -30,5 +30,4 @@ interface ITask
 	 * @return string
 	 */
 	public function getName(): string;
-
 }

@@ -15,10 +15,9 @@ require __DIR__ . '/../../../autoload.php';
 class IntegralSolverTest extends TestCase
 {
 
-	/**
-	 * @var IntegralSolver
-	 */
+	/** @var IntegralSolver */
 	private $integralSolver;
+
 
 	/**
 	 * @param IntegralSolver $integralSolver
@@ -27,6 +26,7 @@ class IntegralSolverTest extends TestCase
 	{
 		$this->integralSolver = $integralSolver;
 	}
+
 
 	/**
 	 * @dataProvider getQueries
@@ -37,6 +37,7 @@ class IntegralSolverTest extends TestCase
 	{
 		Assert::same($result, $this->integralSolver->process($query)->getResult());
 	}
+
 
 	/**
 	 * @return string[][]
@@ -51,7 +52,6 @@ class IntegralSolverTest extends TestCase
 			['1+x', 'x+(x^2)/2+c'],
 		];
 	}
-
 }
 
 if (isset($_SERVER['NETTE_TESTER_RUNNER'])) {

@@ -30,6 +30,7 @@ class Solver
 		return '';
 	}
 
+
 	/**
 	 * @param IToken $token
 	 * @return string
@@ -57,6 +58,4 @@ class Solver
 
 		return '?';
 	}
-
-
 }

@@ -25,5 +25,4 @@ interface IAfterInstall
 	 * @return bool
 	 */
 	public function run(): bool;
-
 }

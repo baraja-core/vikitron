@@ -16,6 +16,7 @@ final class Helpers
 		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
 	}
 
+
 	/**
 	 * Merge right set to left set recursively.
 	 *
@@ -40,6 +41,7 @@ final class Helpers
 		return $return;
 	}
 
+
 	/**
 	 * @param string $functionName
 	 * @return bool
@@ -50,7 +52,7 @@ final class Helpers
 
 		if (\function_exists($functionName)) {
 			if ($disabled === null && \is_string($disableFunctions = ini_get('disable_functions'))) {
-				$disabled = explode(',', $disableFunctions) ? : [];
+				$disabled = explode(',', $disableFunctions) ?: [];
 			}
 
 			return \in_array($functionName, $disabled, true) === false;
@@ -58,6 +60,7 @@ final class Helpers
 
 		return false;
 	}
+
 
 	/**
 	 * Render code snippet to Terminal.
@@ -90,6 +93,7 @@ final class Helpers
 			echo '----- file -----' . "\n\n";
 		}
 	}
+
 
 	/**
 	 * Ask question in Terminal and return user answer (string or null if empty).
@@ -156,6 +160,7 @@ final class Helpers
 		return $input;
 	}
 
+
 	/**
 	 * Render red block with error message.
 	 *
@@ -180,6 +185,7 @@ final class Helpers
 		echo str_repeat(' ', 100) . "\033[0m";
 	}
 
+
 	/**
 	 * Returns number of characters (not bytes) in UTF-8 string.
 	 * That is the number of Unicode code points which may differ from the number of graphemes.
@@ -192,6 +198,7 @@ final class Helpers
 		return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen(utf8_decode($s));
 	}
 
+
 	/**
 	 * @param string $line
 	 * @return string
@@ -200,5 +207,4 @@ final class Helpers
 	{
 		return '      ' . $line . (($repeat = 88 - self::length($line)) > 0 ? str_repeat(' ', $repeat) : '') . '      ' . "\n";
 	}
-
 }

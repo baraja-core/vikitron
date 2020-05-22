@@ -12,15 +12,15 @@ use Baraja\PackageManager\Exception\TaskException;
 final class InteractiveComposer
 {
 
-	/**
-	 * @var PackageRegistrator
-	 */
+	/** @var PackageRegistrator */
 	private $packageRegistrator;
+
 
 	public function __construct(PackageRegistrator $packageRegistrator)
 	{
 		$this->packageRegistrator = $packageRegistrator;
 	}
+
 
 	public function run(): void
 	{
@@ -41,7 +41,7 @@ final class InteractiveComposer
 					echo "\n\n";
 					die;
 				}
-			} catch (TaskException|\RuntimeException $e) {
+			} catch (TaskException | \RuntimeException $e) {
 				echo "\n\n";
 				Helpers::terminalRenderError('Task "' . $taskClass . '" failed!' . "\n\n" . $e->getMessage());
 				echo "\n\n";
@@ -52,6 +52,7 @@ final class InteractiveComposer
 		echo "\n" . str_repeat('-', 100) . "\n\n\n" . 'All tasks was OK.' . "\n\n\n";
 	}
 
+
 	/**
 	 * @return string[]
 	 */
@@ -60,13 +61,17 @@ final class InteractiveComposer
 		$return = [];
 		echo 'Indexing classes...' . "\n";
 
-		foreach (ClassMapGenerator::createMap($this->packageRegistrator->getProjectRoot()) as $class => $path) {
-			if (preg_match('/^[A-Z0-9].*Task$/', $class)) {
+		foreach (array_keys(ClassMapGenerator::createMap($this->packageRegistrator->getProjectRoot())) as $className) {
+			if (\is_string($className) === false) {
+				throw new \RuntimeException('Class name must be type of string, but type "' . \gettype($className) . '" given.');
+			}
+
+			if (preg_match('/^[A-Z0-9].*Task$/', $className)) {
 				try {
-					$ref = new \ReflectionClass($class);
+					$ref = new \ReflectionClass($className);
 					if ($ref->isInterface() === false && $ref->isAbstract() === false && $ref->implementsInterface(ITask::class) === true) {
-						$return[$class] = [
-							$class,
+						$return[$className] = [
+							$className,
 							($doc = $ref->getDocComment()) !== false && preg_match('/Priority:\s*(\d+)/', $doc, $docParser) ? (int) $docParser[1] : 10,
 						];
 					}
@@ -74,9 +79,9 @@ final class InteractiveComposer
 				}
 			}
 
-			if (preg_match('/^[A-Z0-9].*Identity/', $class)) {
+			if (preg_match('/^[A-Z0-9].*Identity/', $className)) {
 				try {
-					$ref = new \ReflectionClass($class);
+					$ref = new \ReflectionClass($className);
 					if ($ref->isInterface() === false && $ref->isAbstract() === false && $ref->implementsInterface(CompanyIdentity::class) === true) {
 						/** @var CompanyIdentity $identity */
 						$identity = $ref->newInstance();
@@ -97,5 +102,4 @@ final class InteractiveComposer
 			return $haystack[0];
 		}, $return);
 	}
-
 }

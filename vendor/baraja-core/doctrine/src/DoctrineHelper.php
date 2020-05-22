@@ -14,10 +14,9 @@ use Tracy\Debugger;
 class DoctrineHelper
 {
 
-	/**
-	 * @var EntityManager
-	 */
+	/** @var EntityManager */
 	private $entityManager;
+
 
 	/**
 	 * @param EntityManager $entityManager
@@ -26,6 +25,7 @@ class DoctrineHelper
 	{
 		$this->entityManager = $entityManager;
 	}
+
 
 	/**
 	 * Return list of class names which is variant of given entity.
@@ -62,6 +62,7 @@ class DoctrineHelper
 		return $return;
 	}
 
+
 	/**
 	 * Return most embedded entity.
 	 * In case of `CustomProduct` extends `Product` extends `BaseProduct`, return `CustomProduct`.
@@ -91,6 +92,7 @@ class DoctrineHelper
 		return $topType;
 	}
 
+
 	/**
 	 * Return real table name by entity Class name.
 	 *
@@ -102,6 +104,7 @@ class DoctrineHelper
 		return $this->entityManager->getClassMetadata($entity)->table['name'];
 	}
 
+
 	/**
 	 * If extends lot's of entities, return root entity class name.
 	 *
@@ -112,6 +115,7 @@ class DoctrineHelper
 	{
 		return $this->entityManager->getClassMetadata($entity)->rootEntityName;
 	}
+
 
 	/**
 	 * In case of chain inheritance Doctrine store lot's of entities in one table
@@ -139,6 +143,7 @@ class DoctrineHelper
 		return '';
 	}
 
+
 	/**
 	 * Elevate the type of entity to the best possible and return as new type.
 	 * This method can fail if you are tried save missing required columns.
@@ -156,6 +161,7 @@ class DoctrineHelper
 
 		return $this->remapEntity($from, $bestType);
 	}
+
 
 	/**
 	 * Remap one type of entity to new type in database.
@@ -206,6 +212,7 @@ class DoctrineHelper
 		return $this->entityManager->getRepository($toType)->find($from->getId());
 	}
 
+
 	/**
 	 * Count position of entity in list and save integer back by setPosition().
 	 *
@@ -215,11 +222,7 @@ class DoctrineHelper
 	 * @throws DatabaseException
 	 * @throws EntityManagerException
 	 */
-	public function sortEntities(
-		$itemEntity,
-		?string $previousId = null,
-		?string $parentId = null
-	): void
+	public function sortEntities($itemEntity, ?string $previousId = null, ?string $parentId = null): void
 	{
 		if (method_exists($itemEntity, 'getId')
 			&& method_exists($itemEntity, 'getParent')
@@ -235,7 +238,7 @@ class DoctrineHelper
 						->orderBy('e.position', 'ASC')
 						->getQuery()
 						->getSingleResult();
-				} catch (NoResultException|NonUniqueResultException $e) {
+				} catch (NoResultException | NonUniqueResultException $e) {
 					DatabaseException::e($e);
 				}
 
@@ -291,6 +294,7 @@ class DoctrineHelper
 		}
 	}
 
+
 	/**
 	 * Return relative direction between given entity and root entity by exploring parents.
 	 *
@@ -313,5 +317,4 @@ class DoctrineHelper
 
 		return $length + ($bind > 0 ? $bind : 0);
 	}
-
 }

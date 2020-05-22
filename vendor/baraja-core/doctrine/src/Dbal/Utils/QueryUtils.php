@@ -2,11 +2,17 @@
 
 declare(strict_types=1);
 
-
 namespace Baraja\Doctrine\DBAL\Utils;
 
 final class QueryUtils
 {
+
+	/** @throws \Error */
+	public function __construct()
+	{
+		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
+	}
+
 
 	/**
 	 * @param string $sql
@@ -59,6 +65,7 @@ final class QueryUtils
 			. '</span>' . "\n";
 	}
 
+
 	/**
 	 * @param bool $reset
 	 * @return int
@@ -75,5 +82,4 @@ final class QueryUtils
 
 		return $counter;
 	}
-
 }

@@ -28,25 +28,18 @@ use Nette\Tokenizer\Exception;
 class IntegralSolver
 {
 
-	/**
-	 * @var Rule[]
-	 */
+	/** @var Rule[] */
 	public $rules = [];
 
-	/**
-	 * @var Tokenizer
-	 */
+	/** @var Tokenizer */
 	private $tokenizer;
 
-	/**
-	 * @var QueryNormalizer
-	 */
+	/** @var QueryNormalizer */
 	private $queryNormalizer;
 
-	/**
-	 * @var Solver
-	 */
+	/** @var Solver */
 	private $solver;
+
 
 	/**
 	 * @param Tokenizer $tokenizer
@@ -59,6 +52,7 @@ class IntegralSolver
 		$this->queryNormalizer = $queryNormalizer;
 		$this->solver = $solver;
 	}
+
 
 	/**
 	 * @param string $query
@@ -76,6 +70,7 @@ class IntegralSolver
 
 		return $this->processByTokens($tokens, $differential);
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -138,6 +133,7 @@ class IntegralSolver
 		return $result;
 	}
 
+
 	/**
 	 * @param Rule $rule
 	 * @return IntegralSolver
@@ -148,6 +144,7 @@ class IntegralSolver
 
 		return $this;
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -186,6 +183,7 @@ class IntegralSolver
 		];
 	}
 
+
 	/**
 	 * @param IToken[] $tokens
 	 * @param string|null $preferenceDifferential
@@ -212,5 +210,4 @@ class IntegralSolver
 
 		return $variables === [] ? 'x' : array_keys($variables)[0];
 	}
-
 }
