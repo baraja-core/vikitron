@@ -6,8 +6,8 @@ namespace Mathematicator\Calculator;
 
 
 use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\Query;
 use Mathematicator\Engine\QueryNormalizer;
-use Mathematicator\Search\Query;
 use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
@@ -15,29 +15,23 @@ use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Token\SubToken;
 use Mathematicator\Tokenizer\Tokenizer;
+use Nette\Tokenizer\Exception;
 
 class Calculator
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var Tokenizer
-	 */
+	/** @var Tokenizer */
 	private $tokenizer;
 
-	/**
-	 * @var TokensCalculator
-	 */
+	/** @var TokensCalculator */
 	private $tokensCalculator;
 
-	/**
-	 * @var QueryNormalizer
-	 */
+	/** @var QueryNormalizer */
 	private $queryNormalizer;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -45,18 +39,14 @@ class Calculator
 	 * @param TokensCalculator $tokensCalculator
 	 * @param QueryNormalizer $queryNormalizer
 	 */
-	public function __construct(
-		StepFactory $stepFactory,
-		Tokenizer $tokenizer,
-		TokensCalculator $tokensCalculator,
-		QueryNormalizer $queryNormalizer
-	)
+	public function __construct(StepFactory $stepFactory, Tokenizer $tokenizer, TokensCalculator $tokensCalculator, QueryNormalizer $queryNormalizer)
 	{
 		$this->stepFactory = $stepFactory;
 		$this->tokenizer = $tokenizer;
 		$this->tokensCalculator = $tokensCalculator;
 		$this->queryNormalizer = $queryNormalizer;
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -123,36 +113,49 @@ class Calculator
 		return $result;
 	}
 
+
 	/**
 	 * Human input and token output.
 	 *
-	 * @param string $query
+	 * @param Query $query
 	 * @return CalculatorResult
 	 * @throws MathematicatorException
 	 */
 	public function calculateString(Query $query): CalculatorResult
 	{
+		try {
+			$tokens = $this->tokenizer->tokenize(
+				$this->queryNormalizer->normalize($query->getQuery())
+			);
+		} catch (Exception $e) {
+			throw new MathematicatorException($e->getMessage(), $e->getCode(), $e);
+		}
+
 		return $this->calculate(
-			$this->tokenizer->tokensToObject(
-				$this->tokenizer->tokenize(
-					$this->queryNormalizer->normalize($query->getQuery())
-				)
-			),
+			$this->tokenizer->tokensToObject($tokens),
 			$query
 		);
 	}
 
+
 	/**
-	 * @param string $query
+	 * @param Query $query
 	 * @return IToken[]
+	 * @throws MathematicatorException
 	 */
-	public function getTokensByString(string $query): array
+	public function getTokensByString(Query $query): array
 	{
-		$query = $this->queryNormalizer->normalize($query);
-		$tokens = $this->tokenizer->tokenize($query);
+		try {
+			$tokens = $this->tokenizer->tokenize(
+				$this->queryNormalizer->normalize($query->getQuery())
+			);
+		} catch (Exception $e) {
+			throw new MathematicatorException($e->getMessage(), $e->getCode(), $e);
+		}
 
 		return $this->tokenizer->tokensToObject($tokens);
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -178,5 +181,4 @@ class Calculator
 
 		return '[' . $tokensToSerialize . ']';
 	}
-
 }

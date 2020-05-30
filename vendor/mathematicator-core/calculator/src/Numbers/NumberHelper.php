@@ -14,9 +14,7 @@ use Nette\Utils\Validators;
 class NumberHelper
 {
 
-	/**
-	 * @var int[]
-	 */
+	/** @var int[] */
 	private static $romanNumber = [
 		'm' => 1000000,
 		'd' => 500000,
@@ -39,15 +37,12 @@ class NumberHelper
 		'I' => 1,
 	];
 
-	/**
-	 * @var LinkGenerator
-	 */
+	/** @var LinkGenerator */
 	private $linkGenerator;
 
-	/**
-	 * @var Cache
-	 */
+	/** @var Cache */
 	private $cache;
+
 
 	/**
 	 * @param LinkGenerator $linkGenerator
@@ -59,6 +54,7 @@ class NumberHelper
 		$this->cache = new Cache($IStorage, 'number-helper');
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -67,6 +63,7 @@ class NumberHelper
 		return 'π';
 	}
 
+
 	/**
 	 * @param string $haystack
 	 * @return string
@@ -74,7 +71,9 @@ class NumberHelper
 	public static function intToRoman(string $haystack): string
 	{
 		$return = '';
-		$int = (int) $haystack;
+		if (($int = (int) $haystack) <= 0) {
+			return '\text{Nemá řešení}';
+		}
 		foreach (self::$romanNumber as $key => $val) {
 			if (($repeat = (int) floor($int / $val)) > 0) {
 				$return .= '\\' . ($val >= 5000
@@ -89,6 +88,7 @@ class NumberHelper
 
 		return $return;
 	}
+
 
 	/**
 	 * @param string $roman
@@ -112,6 +112,7 @@ class NumberHelper
 		return $return;
 	}
 
+
 	/**
 	 * @param int $len
 	 * @return string
@@ -132,6 +133,7 @@ class NumberHelper
 		return '3' . ($len > 0 ? '.' . preg_replace('/(\d{8})/', '$1 ', Strings::substring($pi, 0, $len)) : '');
 	}
 
+
 	/**
 	 * @param string $number
 	 * @return bool
@@ -141,10 +143,11 @@ class NumberHelper
 		return (bool) preg_match('/[IVXLCDMivxlcdm]{2,}/', $number);
 	}
 
+
 	/**
 	 * @param float $n
 	 * @param float $tolerance
-	 * @return array
+	 * @return int[]
 	 */
 	public function floatToFraction(float $n, $tolerance = 1.e-8): array
 	{
@@ -166,8 +169,9 @@ class NumberHelper
 			$b -= $a;
 		} while (abs($n - $h1 / $k1) > $n * $tolerance);
 
-		return [$h1, $k1];
+		return [(int) $h1, (int) $k1];
 	}
+
 
 	/**
 	 * @param string $n
@@ -192,9 +196,10 @@ class NumberHelper
 		return $a;
 	}
 
+
 	/**
 	 * @param string $n
-	 * @return int[]
+	 * @return int[]|string[]
 	 */
 	public function pfactor(string $n): array
 	{
@@ -202,14 +207,12 @@ class NumberHelper
 			return [$n];
 		}
 
-		$cache = $this->cache->load($n);
-
-		if ($cache !== null) {
+		if (($cache = $this->cache->load($n)) !== null) {
 			return $cache;
 		}
 
 		$num = 0;
-		$sqrtN = bcsqrt($n);
+		$sqrtN = bcsqrt(ltrim($n, '-'));
 
 		for ($i = 2; $i <= $sqrtN; $i++) {
 			if ($n % $i === 0) {
@@ -218,11 +221,14 @@ class NumberHelper
 			}
 		}
 
-		$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor((string) ($n / $num)));
-		$this->cache->save($n, $return);
+		$this->cache->save(
+			$n,
+			$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor((string) ($n / $num)))
+		);
 
 		return $return;
 	}
+
 
 	/**
 	 * @param string $x
@@ -290,5 +296,4 @@ class NumberHelper
 		return '<div style="width:' . (max([$lenX, $lenY, $lenResult]) * 10) . 'px">'
 			. '<div style="font-family:monospace;font-size:12pt;text-align:right">' . $return . '</div></div>';
 	}
-
 }

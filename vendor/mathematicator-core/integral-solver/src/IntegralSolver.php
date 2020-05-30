@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Mathematicator\Integral;
 
 
-use Mathematicator\Calculator\Step;
 use Mathematicator\Engine\MathematicatorException;
 use Mathematicator\Engine\QueryNormalizer;
+use Mathematicator\Engine\Step;
 use Mathematicator\Integral\Exception\CanNotSolveException;
 use Mathematicator\Integral\Rule\Rule;
 use Mathematicator\Integral\Solver\Solver;
@@ -158,7 +158,7 @@ class IntegralSolver
 		$buffering = false;
 
 		foreach ($tokens as $token) {
-			if ($buffer === [] || $buffering === true) { // Start recording
+			if ($buffer === [] || $buffering === true) { // Start buffering
 				$buffering = true;
 			}
 

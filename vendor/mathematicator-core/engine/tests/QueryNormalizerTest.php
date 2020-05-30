@@ -15,21 +15,19 @@ require __DIR__ . '/../../../autoload.php';
 class QueryNormalizerTest extends TestCase
 {
 
-	/**
-	 * @var QueryNormalizer
-	 */
+	/** @var QueryNormalizer */
 	private $queryNormalizer;
 
-	/**
-	 * @var NumberRewriter
-	 */
+	/** @var NumberRewriter */
 	private $numberRewriter;
+
 
 	public function __construct()
 	{
 		$this->numberRewriter = new NumberRewriter;
 		$this->queryNormalizer = new QueryNormalizer($this->numberRewriter);
 	}
+
 
 	/**
 	 * @dataprovider getQueries
@@ -41,6 +39,7 @@ class QueryNormalizerTest extends TestCase
 		Assert::same($expected, $this->queryNormalizer->normalize($query));
 	}
 
+
 	/**
 	 * @dataprovider getNumberRewriterToNumber
 	 * @param string $expected
@@ -50,6 +49,7 @@ class QueryNormalizerTest extends TestCase
 	{
 		Assert::same($expected, $this->numberRewriter->toNumber($query));
 	}
+
 
 	/**
 	 * @return string[]
@@ -101,6 +101,7 @@ class QueryNormalizerTest extends TestCase
 		];
 	}
 
+
 	/**
 	 * @return string[]
 	 */
@@ -111,7 +112,6 @@ class QueryNormalizerTest extends TestCase
 			['2 a 3', 'dva a tři'],
 		];
 	}
-
 }
 
 if (isset($_SERVER['NETTE_TESTER_RUNNER'])) {

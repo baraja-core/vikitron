@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Mathematicator\Step;
 
 
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Step;
 use Nette\Application\LinkGenerator;
 use Nette\Utils\Json;
 
-class StepFactory
+final class StepFactory
 {
 
-	/**
-	 * @var LinkGenerator
-	 */
+	/** @var LinkGenerator */
 	private $linkGenerator;
+
 
 	public function __construct(LinkGenerator $linkGenerator)
 	{
 		$this->linkGenerator = $linkGenerator;
 	}
+
 
 	/**
 	 * @param string|null $title
@@ -33,9 +33,10 @@ class StepFactory
 		return new Step($title, $latex, $description);
 	}
 
+
 	/**
 	 * @param string $type
-	 * @param $data
+	 * @param mixed $data
 	 * @return string
 	 */
 	public function getAjaxEndpoint(string $type, $data): string
@@ -45,5 +46,4 @@ class StepFactory
 			'data' => Json::encode($data),
 		]);
 	}
-
 }

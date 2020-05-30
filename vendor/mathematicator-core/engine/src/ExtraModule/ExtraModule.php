@@ -21,5 +21,4 @@ interface ExtraModule
 	public function match(string $query): bool;
 
 	public function actionDefault(): void;
-
 }

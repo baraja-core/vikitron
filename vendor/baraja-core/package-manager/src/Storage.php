@@ -105,48 +105,6 @@ final class Storage
 
 
 	/**
-	 * @internal
-	 * Convert Nette SmartObject with private methods to Nette ArrayHash structure.
-	 * While converting call getters, so you get only properties which you can get.
-	 * Function supports recursive objects structure. Public properties will be included.
-	 *
-	 * @param mixed $input
-	 * @return mixed
-	 */
-	public function haystackToArray($input)
-	{
-		if (\is_object($input)) {
-			try {
-				$reflection = new \ReflectionClass($input);
-			} catch (\ReflectionException $e) {
-				return null;
-			}
-
-			$return = [];
-
-			foreach ($input as $k => $v) {
-				$return[$k] = $this->haystackToArray($v);
-			}
-
-			foreach ($reflection->getMethods() as $method) {
-				if ($method->name !== 'getReflection' && preg_match('/^(get|is)(.+)$/', $method->name, $_method)) {
-					$return[lcfirst($_method[2])] = $this->haystackToArray($input->{$method->name}());
-				}
-			}
-		} elseif (\is_array($input)) {
-			$return = [];
-			foreach ($input as $k => $v) {
-				$return[$k] = $this->haystackToArray($v);
-			}
-		} else {
-			$return = $input;
-		}
-
-		return $return;
-	}
-
-
-	/**
 	 * @param int $ttl
 	 * @return string
 	 * @throws PackageDescriptorException

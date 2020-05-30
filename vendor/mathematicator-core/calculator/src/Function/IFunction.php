@@ -9,7 +9,6 @@ use Mathematicator\Tokenizer\Token\IToken;
 
 interface IFunction
 {
-
 	/**
 	 * @param IToken $token
 	 * @return FunctionResult
@@ -21,5 +20,4 @@ interface IFunction
 	 * @return bool
 	 */
 	public function isValidInput(IToken $token): bool;
-
 }

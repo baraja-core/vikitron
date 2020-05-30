@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Mathematicator\Engine;
 
 
-use Mathematicator\Search\Box;
-
 final class SampleModule extends BaseModule
 {
 
@@ -19,6 +17,7 @@ final class SampleModule extends BaseModule
 		return $query === 'help';
 	}
 
+
 	public function actionDefault(): void
 	{
 		$this->result->addBox(
@@ -27,5 +26,4 @@ final class SampleModule extends BaseModule
 				->setText('What can I help you with?')
 		);
 	}
-
 }

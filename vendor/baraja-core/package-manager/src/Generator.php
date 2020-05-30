@@ -16,23 +16,13 @@ final class Generator
 	/** @var string */
 	private $projectRoot;
 
-	/** @var string[] */
-	private $customPackagesNamePatterns;
-
-	/** @var Storage */
-	private $storage;
-
 
 	/**
 	 * @param string $projectRoot
-	 * @param string[] $customPackagesNamePatterns
-	 * @param Storage $storage
 	 */
-	public function __construct(string $projectRoot, array $customPackagesNamePatterns, Storage $storage)
+	public function __construct(string $projectRoot)
 	{
 		$this->projectRoot = $projectRoot;
-		$this->customPackagesNamePatterns = $customPackagesNamePatterns;
-		$this->storage = $storage;
 	}
 
 
@@ -43,34 +33,14 @@ final class Generator
 	 */
 	public function run(): PackageDescriptorEntity
 	{
-		$packageDescriptor = new PackageDescriptorEntity($this->customPackagesNamePatterns);
+		$packageDescriptor = new PackageDescriptorEntity;
 
-		$composerJson = $this->storage->haystackToArray(
+		$composerJson = Helpers::haystackToArray(
 			json_decode((string) file_get_contents($this->projectRoot . '/composer.json'))
 		);
 
 		$packageDescriptor->setComposer($composerJson);
 		$packageDescriptor->setPackages($packages = $this->getPackages($composerJson));
-
-		$customRouters = [];
-		$afterInstallScripts = [];
-
-		foreach ($packages as $package) {
-			if ($package['config'] !== null && isset($package['config']['routers'])) {
-				foreach ($package['config']['routers']['data'] as $customRouter) {
-					$customRouters[] = $customRouter;
-				}
-			}
-
-			if ($package['config'] !== null && isset($package['config']['afterInstall'])) {
-				foreach ($package['config']['afterInstall']['data'] as $afterInstallScript) {
-					$afterInstallScripts[] = $afterInstallScript;
-				}
-			}
-		}
-
-		$packageDescriptor->setCustomRouters($customRouters);
-		$packageDescriptor->setAfterInstallScripts($afterInstallScripts);
 
 		return $packageDescriptor;
 	}
@@ -134,7 +104,7 @@ final class Generator
 				'dependency' => $dependency,
 				'config' => $configPath !== null ? $this->formatConfigSections($configPath) : null,
 				'composer' => is_file($composerPath)
-					? $this->storage->haystackToArray(json_decode(file_get_contents($composerPath)))
+					? Helpers::haystackToArray(json_decode(file_get_contents($composerPath)))
 					: null,
 			];
 		}

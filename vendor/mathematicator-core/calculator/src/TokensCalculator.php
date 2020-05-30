@@ -7,10 +7,10 @@ namespace Mathematicator\Calculator;
 
 use Mathematicator\Calculator\Operation\BaseOperation;
 use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\Query;
 use Mathematicator\Engine\UndefinedOperationException;
 use Mathematicator\MathFunction\FunctionManager;
 use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Search\Query;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
@@ -23,39 +23,31 @@ use Mathematicator\Tokenizer\Token\VariableToken;
 use Mathematicator\Tokenizer\TokenIterator;
 use Mathematicator\Tokenizer\Tokens;
 
-class TokensCalculator
+final class TokensCalculator
 {
 
-	/**
-	 * @var BaseOperation
-	 */
+	/** @var BaseOperation */
 	private $baseOperation;
 
-	/**
-	 * @var Number
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
 
-	/**
-	 * @var FunctionManager
-	 */
+	/** @var FunctionManager */
 	private $functionManager;
+
 
 	/**
 	 * @param BaseOperation $baseOperation
 	 * @param NumberFactory $numberFactory
 	 * @param FunctionManager $functionManager
 	 */
-	public function __construct(
-		BaseOperation $baseOperation,
-		NumberFactory $numberFactory,
-		FunctionManager $functionManager
-	)
+	public function __construct(BaseOperation $baseOperation, NumberFactory $numberFactory, FunctionManager $functionManager)
 	{
 		$this->baseOperation = $baseOperation;
 		$this->numberFactory = $numberFactory;
 		$this->functionManager = $functionManager;
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -67,6 +59,7 @@ class TokensCalculator
 	{
 		return $this->iterator($tokens, $query);
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -189,6 +182,7 @@ class TokensCalculator
 		return $resultEntity->setResult($result);
 	}
 
+
 	/**
 	 * @param TokenIterator $iterator
 	 * @param Query $query
@@ -225,7 +219,9 @@ class TokensCalculator
 			) && $operator instanceof OperatorToken && $operator->getToken() === '*'
 			&& ($nextOperator instanceof OperatorToken && $nextOperator->getToken() === '^') === false
 		) {
+			/** @var VariableToken|null $variable */
 			$variable = $leftNumber instanceof VariableToken ? $leftNumber : $rightNumber;
+			/** @var NumberToken|null $number */
 			$number = $leftNumber instanceof NumberToken ? $leftNumber : $rightNumber;
 
 			if ($variable !== null && $number !== null) {
@@ -290,6 +286,7 @@ class TokensCalculator
 		return null;
 	}
 
+
 	/**
 	 * @param TokenIterator $iterator
 	 * @param IToken|OperatorToken|null $operator
@@ -314,6 +311,7 @@ class TokensCalculator
 		return null;
 	}
 
+
 	/**
 	 * @param TokenIterator $iterator
 	 * @return TokenIterator
@@ -322,5 +320,4 @@ class TokensCalculator
 	{
 		return $iterator;
 	}
-
 }

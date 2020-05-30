@@ -10,7 +10,6 @@ use Nette\StaticClass;
 
 class DateTime
 {
-
 	use StaticClass;
 
 	/**
@@ -98,5 +97,4 @@ class DateTime
 
 		return trim($result);
 	}
-
 }

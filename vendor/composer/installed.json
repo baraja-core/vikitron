@@ -1,39 +1,38 @@
 [
     {
         "name": "baraja-core/doctrine",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "v2.1.1",
+        "version_normalized": "2.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/doctrine.git",
-            "reference": "b33a7c3541b4a4e4f55f273f0479e34ec3e2ff2c"
+            "reference": "7793d25bee34d92017879b5e855775f9aa2e124f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/b33a7c3541b4a4e4f55f273f0479e34ec3e2ff2c",
-            "reference": "b33a7c3541b4a4e4f55f273f0479e34ec3e2ff2c",
+            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/7793d25bee34d92017879b5e855775f9aa2e124f",
+            "reference": "7793d25bee34d92017879b5e855775f9aa2e124f",
             "shasum": ""
         },
         "require": {
-            "baraja-core/package-manager": "~1.0",
-            "contributte/console": "^0.6.0",
+            "baraja-core/package-manager": "^2.1",
+            "contributte/console": "^0.8.0",
             "ext-json": "*",
             "ext-pdo": "*",
             "ext-tokenizer": "*",
-            "janbarasek/doctrine-pro": "~1.0",
+            "janbarasek/doctrine-pro": "^2.0",
             "nette/di": "^3.0",
             "nette/finder": "^2.5",
             "nette/utils": "^3.0",
             "php": ">=7.1.0",
-            "ramsey/uuid": "^3.0",
-            "symfony/console": "^4.2.3"
+            "ramsey/uuid": "^3.0"
         },
         "require-dev": {
             "phpstan/phpstan": "^0.12.18",
             "phpstan/phpstan-nette": "^0.12.6",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-03-24T20:41:24+00:00",
+        "time": "2020-05-14T13:16:34+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -52,21 +51,69 @@
         "homepage": "https://github.com/baraja-core/doctrine"
     },
     {
-        "name": "baraja-core/package-manager",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
+        "name": "baraja-core/localization",
+        "version": "v1.0.10",
+        "version_normalized": "1.0.10.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/baraja-core/package-manager.git",
-            "reference": "9ba4bc34481660f1aeba1c77479177377ed5b0a6"
+            "url": "https://github.com/baraja-core/localization.git",
+            "reference": "a3336b3f2272a1eb27605818f0cc27858073488a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/9ba4bc34481660f1aeba1c77479177377ed5b0a6",
-            "reference": "9ba4bc34481660f1aeba1c77479177377ed5b0a6",
+            "url": "https://api.github.com/repos/baraja-core/localization/zipball/a3336b3f2272a1eb27605818f0cc27858073488a",
+            "reference": "a3336b3f2272a1eb27605818f0cc27858073488a",
             "shasum": ""
         },
         "require": {
+            "baraja-core/doctrine": "~2.0",
+            "baraja-core/package-manager": "~2.0",
+            "nette/caching": "^3.0",
+            "nette/di": "^3.0",
+            "nette/http": "^3.0",
+            "nette/utils": "^3.0",
+            "php": ">=7.1.0"
+        },
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-05-22T15:25:11+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Jan Barášek",
+                "homepage": "https://baraja.cz"
+            }
+        ],
+        "description": "Common package for language manipulation.",
+        "homepage": "https://github.com/baraja-core/localization"
+    },
+    {
+        "name": "baraja-core/package-manager",
+        "version": "v2.1.2",
+        "version_normalized": "2.1.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/baraja-core/package-manager.git",
+            "reference": "8f8d864d63b7c5898d187a9c1cda7b72e961185a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/8f8d864d63b7c5898d187a9c1cda7b72e961185a",
+            "reference": "8f8d864d63b7c5898d187a9c1cda7b72e961185a",
+            "shasum": ""
+        },
+        "require": {
+            "contributte/console": "^0.8.0",
             "ext-json": "*",
             "ext-pdo": "*",
             "nette/application": "^3.0",
@@ -77,12 +124,12 @@
             "php": ">=7.1.0"
         },
         "require-dev": {
-            "contributte/console": "^0.6.0",
+            "nette/bootstrap": "^3.0",
             "phpstan/phpstan": "^0.12.18",
             "phpstan/phpstan-nette": "^0.12.6",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-03-24T11:58:56+00:00",
+        "time": "2020-05-25T11:58:50+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -102,37 +149,36 @@
     },
     {
         "name": "contributte/console",
-        "version": "v0.6",
-        "version_normalized": "0.6.0.0",
+        "version": "v0.8.0",
+        "version_normalized": "0.8.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/contributte/console.git",
-            "reference": "8e7b912f07a174fe6e215e6e96bc85c687af701e"
+            "reference": "5bf019e2df77683a2473129f8aa6af32c8ab7c3e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/contributte/console/zipball/8e7b912f07a174fe6e215e6e96bc85c687af701e",
-            "reference": "8e7b912f07a174fe6e215e6e96bc85c687af701e",
+            "url": "https://api.github.com/repos/contributte/console/zipball/5bf019e2df77683a2473129f8aa6af32c8ab7c3e",
+            "reference": "5bf019e2df77683a2473129f8aa6af32c8ab7c3e",
             "shasum": ""
         },
         "require": {
+            "contributte/di": "^0.4.0",
             "php": "^7.2",
-            "symfony/console": "^4.2.9"
+            "symfony/console": "^4.2.9|^5.0.0"
         },
         "require-dev": {
-            "nette/di": "~3.0.0",
             "nette/http": "~3.0.1",
             "ninjify/nunjuck": "^0.3.0",
-            "ninjify/qa": "^0.9.0",
+            "ninjify/qa": "^0.10.0",
+            "phpstan/extension-installer": "^1.0",
             "phpstan/phpstan-deprecation-rules": "^0.11.2",
             "phpstan/phpstan-nette": "^0.11.1",
             "phpstan/phpstan-shim": "^0.11.8",
-            "phpstan/phpstan-strict-rules": "^0.11.1"
+            "phpstan/phpstan-strict-rules": "^0.11.1",
+            "symfony/event-dispatcher": "^4.0.0"
         },
-        "suggest": {
-            "nette/di": "to use ConsoleExtension[CompilerExtension]"
-        },
-        "time": "2019-05-30T05:02:05+00:00",
+        "time": "2020-01-03T18:18:33+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -164,27 +210,221 @@
         ]
     },
     {
-        "name": "janbarasek/doctrine-pro",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "name": "contributte/di",
+        "version": "v0.4.2",
+        "version_normalized": "0.4.2.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/janbarasek/doctrine-pro.git",
-            "reference": "ab78aeb59658ec5aacf810881dbf37054fae9340"
+            "url": "https://github.com/contributte/di.git",
+            "reference": "9ec21373c037838a61bac5a1b1833b84b9d1e7d3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/janbarasek/doctrine-pro/zipball/ab78aeb59658ec5aacf810881dbf37054fae9340",
-            "reference": "ab78aeb59658ec5aacf810881dbf37054fae9340",
+            "url": "https://api.github.com/repos/contributte/di/zipball/9ec21373c037838a61bac5a1b1833b84b9d1e7d3",
+            "reference": "9ec21373c037838a61bac5a1b1833b84b9d1e7d3",
+            "shasum": ""
+        },
+        "require": {
+            "nette/di": "~3.0.2",
+            "nette/utils": "~3.0.3|~3.1.0",
+            "php": "^7.2"
+        },
+        "conflict": {
+            "nette/di": "<3.0.0"
+        },
+        "require-dev": {
+            "nette/bootstrap": "~3.0.0",
+            "nette/robot-loader": "~3.0.4|~3.1.0|~3.2.1",
+            "ninjify/nunjuck": "^0.3.0",
+            "ninjify/qa": "^0.10.0",
+            "phpstan/extension-installer": "^1.0",
+            "phpstan/phpstan-deprecation-rules": "^0.11",
+            "phpstan/phpstan-nette": "^0.11",
+            "phpstan/phpstan-shim": "^0.11",
+            "phpstan/phpstan-strict-rules": "^0.11"
+        },
+        "suggest": {
+            "nette/reflection": "to use AutoloadExtension[CompilerExtension]",
+            "nette/robot-loader": "to use AutoloadExtension[CompilerExtension]"
+        },
+        "time": "2020-01-05T18:11:45+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.5.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Contributte\\DI\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Milan Felix Šulc",
+                "homepage": "https://f3l1x.io"
+            }
+        ],
+        "description": "Extra contrib to nette/di",
+        "homepage": "https://github.com/contributte/di",
+        "keywords": [
+            "dependency",
+            "inject",
+            "nette"
+        ]
+    },
+    {
+        "name": "contributte/psr11-container-interface",
+        "version": "v0.4.1",
+        "version_normalized": "0.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/contributte/psr11-container-interface.git",
+            "reference": "451ca010afa56189ed13184d77a1b53b7c906fbb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/contributte/psr11-container-interface/zipball/451ca010afa56189ed13184d77a1b53b7c906fbb",
+            "reference": "451ca010afa56189ed13184d77a1b53b7c906fbb",
+            "shasum": ""
+        },
+        "require": {
+            "nette/di": "~2.4.13 || ~3.0.0",
+            "php": ">= 7.1",
+            "psr/container": "^1.0.0"
+        },
+        "provide": {
+            "psr/container-implementation": "1.0"
+        },
+        "require-dev": {
+            "ninjify/nunjuck": "^0.2.0",
+            "ninjify/qa": "^0.8.0",
+            "phpstan/phpstan-deprecation-rules": "^0.11",
+            "phpstan/phpstan-nette": "^0.11",
+            "phpstan/phpstan-shim": "^0.11",
+            "phpstan/phpstan-strict-rules": "^0.11"
+        },
+        "time": "2020-01-08T16:54:09+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Contributte\\Psr11\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Marek Bartoš",
+                "homepage": "https://marek-bartos.cz"
+            }
+        ],
+        "description": "Wraps nette/di container into PSR-11 implementation.",
+        "homepage": "https://github.com/contributte/psr11-container-interface",
+        "keywords": [
+            "PSR-11",
+            "dependency",
+            "inject",
+            "nette"
+        ]
+    },
+    {
+        "name": "contributte/psr6-caching",
+        "version": "v0.1.0",
+        "version_normalized": "0.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/contributte/psr6-caching.git",
+            "reference": "e205dbda18e7415bbac84445106ece7358030d38"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/contributte/psr6-caching/zipball/e205dbda18e7415bbac84445106ece7358030d38",
+            "reference": "e205dbda18e7415bbac84445106ece7358030d38",
+            "shasum": ""
+        },
+        "require": {
+            "nette/caching": "~3.0.0",
+            "php": "^7.2.0",
+            "psr/cache": "^1.0.0"
+        },
+        "require-dev": {
+            "nette/di": "~3.0.0",
+            "ninjify/qa": "^0.9.0",
+            "phpstan/extension-installer": "^1.0.0",
+            "phpstan/phpstan-deprecation-rules": "^0.11.0",
+            "phpstan/phpstan-nette": "^0.11.0",
+            "phpstan/phpstan-shim": "^0.11.0",
+            "phpstan/phpstan-strict-rules": "^0.11.0",
+            "phpunit/phpunit": "^8.0.0"
+        },
+        "time": "2019-08-12T10:53:54+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Contributte\\Psr6\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Filip Šuška",
+                "homepage": "https://github.com/vody105"
+            }
+        ],
+        "description": "PSR-6 (Caching Interface) adapter for Nette Caching",
+        "homepage": "https://github.com/contributte/psr6-caching",
+        "keywords": [
+            "adapter",
+            "caching",
+            "nette",
+            "psr6"
+        ]
+    },
+    {
+        "name": "janbarasek/doctrine-pro",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/janbarasek/doctrine-pro.git",
+            "reference": "cc9ac33180e352cc3b927175460cfe1f1a317b42"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/janbarasek/doctrine-pro/zipball/cc9ac33180e352cc3b927175460cfe1f1a317b42",
+            "reference": "cc9ac33180e352cc3b927175460cfe1f1a317b42",
             "shasum": ""
         },
         "require": {
             "ext-pdo": "*",
             "ext-tokenizer": "*",
             "php": ">=7.1.0",
-            "symfony/console": "~3.0|~4.0"
+            "symfony/console": "~3.0|~4.0|~5.0"
         },
-        "time": "2020-02-26T13:42:50+00:00",
+        "time": "2020-05-12T09:00:43+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -253,67 +493,6 @@
             "moon",
             "phase",
             "php"
-        ]
-    },
-    {
-        "name": "kylekatarnls/update-helper",
-        "version": "1.2.1",
-        "version_normalized": "1.2.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/kylekatarnls/update-helper.git",
-            "reference": "429be50660ed8a196e0798e5939760f168ec8ce9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/kylekatarnls/update-helper/zipball/429be50660ed8a196e0798e5939760f168ec8ce9",
-            "reference": "429be50660ed8a196e0798e5939760f168ec8ce9",
-            "shasum": ""
-        },
-        "require": {
-            "composer-plugin-api": "^1.1.0 || ^2.0.0",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "codeclimate/php-test-reporter": "dev-master",
-            "composer/composer": "2.0.x-dev || ^2.0.0-dev",
-            "phpunit/phpunit": ">=4.8.35 <6.0"
-        },
-        "time": "2020-04-07T20:44:10+00:00",
-        "type": "composer-plugin",
-        "extra": {
-            "class": "UpdateHelper\\ComposerPlugin"
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "UpdateHelper\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Kyle",
-                "email": "kylekatarnls@gmail.com"
-            }
-        ],
-        "description": "Update helper",
-        "funding": [
-            {
-                "url": "https://github.com/kylekatarnls",
-                "type": "github"
-            },
-            {
-                "url": "https://opencollective.com/Carbon",
-                "type": "open_collective"
-            },
-            {
-                "url": "https://tidelift.com/funding/github/packagist/nesbot/carbon",
-                "type": "tidelift"
-            }
         ]
     },
     {
@@ -397,24 +576,24 @@
     },
     {
         "name": "martindilling/sunny",
-        "version": "0.5.3",
-        "version_normalized": "0.5.3.0",
+        "version": "0.5.4",
+        "version_normalized": "0.5.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/martindilling/Sunny.git",
-            "reference": "dfa98b5ded0c2e434c57d16900961b3f840bd529"
+            "reference": "6b301894d0a4fcf00dfa08cf7b89e7abc8154720"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/martindilling/Sunny/zipball/dfa98b5ded0c2e434c57d16900961b3f840bd529",
-            "reference": "dfa98b5ded0c2e434c57d16900961b3f840bd529",
+            "url": "https://api.github.com/repos/martindilling/Sunny/zipball/6b301894d0a4fcf00dfa08cf7b89e7abc8154720",
+            "reference": "6b301894d0a4fcf00dfa08cf7b89e7abc8154720",
             "shasum": ""
         },
         "require": {
-            "nesbot/carbon": "~1.8",
-            "php": ">=5.3.0"
+            "nesbot/carbon": "^2.34.2",
+            "php": "^7.1.8 || ^8.0"
         },
-        "time": "2016-02-03T09:26:22+00:00",
+        "time": "2020-05-22T17:51:04+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -444,28 +623,34 @@
     },
     {
         "name": "mathematicator-core/calculator",
-        "version": "v1.0.8",
-        "version_normalized": "1.0.8.0",
+        "version": "v2.0.4",
+        "version_normalized": "2.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/calculator.git",
-            "reference": "8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee"
+            "reference": "0ad14f510112286a5794faf2ac2d01a81fa851d5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee",
-            "reference": "8fb0bb3eb95be3e6af1d692e0a3beb24f5d630ee",
+            "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/0ad14f510112286a5794faf2ac2d01a81fa851d5",
+            "reference": "0ad14f510112286a5794faf2ac2d01a81fa851d5",
             "shasum": ""
         },
         "require": {
-            "mathematicator-core/engine": "~1.0",
-            "mathematicator-core/numbers": "~1.0",
-            "mathematicator-core/tokenizer": "~1.0",
+            "mathematicator-core/engine": "^2.0",
+            "mathematicator-core/numbers": "^2.0",
+            "mathematicator-core/tokenizer": "^2.0",
             "nette/application": "^3.0",
+            "nette/caching": "^3.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-03-16T20:21:39+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T14:53:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -477,7 +662,7 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Advance PHP math calculator with complex operations.",
@@ -485,27 +670,35 @@
     },
     {
         "name": "mathematicator-core/engine",
-        "version": "v1.0.10",
-        "version_normalized": "1.0.10.0",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/engine.git",
-            "reference": "3249fbf67604f8c6e791bb6d2457547a00b5debb"
+            "reference": "89c9bdea754030846b6b5030fb09c248427725c0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/3249fbf67604f8c6e791bb6d2457547a00b5debb",
-            "reference": "3249fbf67604f8c6e791bb6d2457547a00b5debb",
+            "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/89c9bdea754030846b6b5030fb09c248427725c0",
+            "reference": "89c9bdea754030846b6b5030fb09c248427725c0",
             "shasum": ""
         },
         "require": {
+            "latte/latte": "^2.5",
+            "mathematicator-core/tokenizer": "^2.0",
+            "nette/application": "^3.0",
             "nette/di": "^3.0",
             "nette/tester": "^2.0",
             "nette/utils": "^3.0",
             "php": ">=7.1",
             "tracy/tracy": "^2.6"
         },
-        "time": "2020-03-16T20:22:24+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T14:51:57+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -525,23 +718,23 @@
     },
     {
         "name": "mathematicator-core/integral-solver",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/integral-solver.git",
-            "reference": "349d9594c74df5d85ff52eb3bf1cc0eaed9197a4"
+            "reference": "45daf42d6871fa9871803b5821cfbe8ed5d0851d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/integral-solver/zipball/349d9594c74df5d85ff52eb3bf1cc0eaed9197a4",
-            "reference": "349d9594c74df5d85ff52eb3bf1cc0eaed9197a4",
+            "url": "https://api.github.com/repos/mathematicator-core/integral-solver/zipball/45daf42d6871fa9871803b5821cfbe8ed5d0851d",
+            "reference": "45daf42d6871fa9871803b5821cfbe8ed5d0851d",
             "shasum": ""
         },
         "require": {
-            "mathematicator-core/engine": "~1.0",
-            "mathematicator-core/numbers": "~1.0",
-            "mathematicator-core/tokenizer": "~1.0",
+            "mathematicator-core/engine": "^2.0",
+            "mathematicator-core/numbers": "^2.0",
+            "mathematicator-core/tokenizer": "^2.0",
             "php": ">=7.1"
         },
         "require-dev": {
@@ -549,7 +742,7 @@
             "phpstan/phpstan-nette": "^0.12.6",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-03-25T11:12:24+00:00",
+        "time": "2020-04-14T13:38:01+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -569,24 +762,29 @@
     },
     {
         "name": "mathematicator-core/mandelbrot-set",
-        "version": "v1.0.1",
-        "version_normalized": "1.0.1.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/mandelbrot-set.git",
-            "reference": "319ae6611a9c4df2247a85ae93e620ce7dfec9cb"
+            "reference": "e402c38698a3ef4ff3fb7b1edffdbb57d4a52019"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/319ae6611a9c4df2247a85ae93e620ce7dfec9cb",
-            "reference": "319ae6611a9c4df2247a85ae93e620ce7dfec9cb",
+            "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/e402c38698a3ef4ff3fb7b1edffdbb57d4a52019",
+            "reference": "e402c38698a3ef4ff3fb7b1edffdbb57d4a52019",
             "shasum": ""
         },
         "require": {
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-03-16T20:23:17+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T08:01:13+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -610,27 +808,30 @@
     },
     {
         "name": "mathematicator-core/numbers",
-        "version": "v1.0.6",
-        "version_normalized": "1.0.6.0",
+        "version": "v2.0.1",
+        "version_normalized": "2.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/numbers.git",
-            "reference": "54370407d8b7ff5792d68693d16a6329ae2e26be"
+            "reference": "b600f358fe3a5ab57bbf2667d3790c12270218dd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/54370407d8b7ff5792d68693d16a6329ae2e26be",
-            "reference": "54370407d8b7ff5792d68693d16a6329ae2e26be",
+            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/b600f358fe3a5ab57bbf2667d3790c12270218dd",
+            "reference": "b600f358fe3a5ab57bbf2667d3790c12270218dd",
             "shasum": ""
         },
         "require": {
             "ext-bcmath": "*",
-            "mathematicator-core/engine": "~1.0",
-            "mathematicator-core/search": "~1.0",
             "nette/utils": "^3.0",
             "php": ">=7.1.0"
         },
-        "time": "2020-03-16T20:22:01+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T12:23:36+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -642,79 +843,46 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Safety operations with numbers.",
         "homepage": "https://github.com/mathematicator-core/numbers"
     },
     {
-        "name": "mathematicator-core/router",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mathematicator-core/router.git",
-            "reference": "421c19521b3b6365cafe6f0d814239ef50cfa5c3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/router/zipball/421c19521b3b6365cafe6f0d814239ef50cfa5c3",
-            "reference": "421c19521b3b6365cafe6f0d814239ef50cfa5c3",
-            "shasum": ""
-        },
-        "require": {
-            "mathematicator-core/search": "~1.0",
-            "nette/utils": "^3.0",
-            "php": ">=7.1.0"
-        },
-        "time": "2020-03-16T20:20:49+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "authors": [
-            {
-                "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
-            }
-        ],
-        "description": "router",
-        "homepage": "https://github.com/mathematicator-core/router"
-    },
-    {
         "name": "mathematicator-core/search",
-        "version": "v1.0.15",
-        "version_normalized": "1.0.15.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/search.git",
-            "reference": "086274ab4440909f9e7c5a61d73f5b592156a042"
+            "reference": "ccc7af5fca25dff89b3935e579151869d743d1ac"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/086274ab4440909f9e7c5a61d73f5b592156a042",
-            "reference": "086274ab4440909f9e7c5a61d73f5b592156a042",
+            "url": "https://api.github.com/repos/mathematicator-core/search/zipball/ccc7af5fca25dff89b3935e579151869d743d1ac",
+            "reference": "ccc7af5fca25dff89b3935e579151869d743d1ac",
             "shasum": ""
         },
         "require": {
-            "mathematicator-core/calculator": "~1.0",
-            "mathematicator-core/engine": "~1.0",
-            "mathematicator-core/integral-solver": "~1.0",
-            "mathematicator-core/mandelbrot-set": "~1.0",
-            "mathematicator-core/numbers": "~1.0",
-            "mathematicator-core/router": "~1.0",
-            "mathematicator-core/statistic": "~1.0",
-            "mathematicator-core/tokenizer": "~1.0",
-            "mathematicator-core/vizualizator": "~1.0",
+            "janbarasek/php-moon-phase": "^2.0",
+            "martindilling/sunny": "^0.5.3",
+            "mathematicator-core/calculator": "^2.0",
+            "mathematicator-core/integral-solver": "^2.0",
+            "mathematicator-core/mandelbrot-set": "^2.0",
+            "mathematicator-core/numbers": "^2.0",
+            "mathematicator-core/statistic": "^2.0",
+            "mathematicator-core/tokenizer": "^2.0",
+            "mathematicator-core/vizualizator": "^2.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-03-16T20:20:26+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T14:49:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -734,25 +902,30 @@
     },
     {
         "name": "mathematicator-core/statistic",
-        "version": "v1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/statistic.git",
-            "reference": "88b88adc70de0004a0b282b9f3d8e2e03fd4fe20"
+            "reference": "4eb9d27063aa90fcfbfb29f2ed087915d19faa22"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/88b88adc70de0004a0b282b9f3d8e2e03fd4fe20",
-            "reference": "88b88adc70de0004a0b282b9f3d8e2e03fd4fe20",
+            "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/4eb9d27063aa90fcfbfb29f2ed087915d19faa22",
+            "reference": "4eb9d27063aa90fcfbfb29f2ed087915d19faa22",
             "shasum": ""
         },
         "require": {
-            "baraja-core/doctrine": "~1.0",
+            "baraja-core/doctrine": "^2.0",
             "nette/tester": "^2.0",
             "php": ">=7.1.0"
         },
-        "time": "2020-03-16T20:23:38+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T07:50:56+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -764,7 +937,7 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Smart statistic algorithms.",
@@ -772,29 +945,33 @@
     },
     {
         "name": "mathematicator-core/tokenizer",
-        "version": "v1.0.6",
-        "version_normalized": "1.0.6.0",
+        "version": "v2.0.1",
+        "version_normalized": "2.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/tokenizer.git",
-            "reference": "0478f1173d20a4e31606b0961efcd0135ea619c9"
+            "reference": "b99c9351b210866d389a0d74d3e9577735bc9af5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/0478f1173d20a4e31606b0961efcd0135ea619c9",
-            "reference": "0478f1173d20a4e31606b0961efcd0135ea619c9",
+            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b99c9351b210866d389a0d74d3e9577735bc9af5",
+            "reference": "b99c9351b210866d389a0d74d3e9577735bc9af5",
             "shasum": ""
         },
         "require": {
-            "mathematicator-core/engine": "~1.0",
-            "mathematicator-core/numbers": "~1.0",
+            "mathematicator-core/numbers": "^2.0",
             "nette/di": "^3.0",
             "nette/tester": "^2.0",
             "nette/tokenizer": "^3.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2020-03-16T20:21:17+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T12:13:10+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -806,7 +983,7 @@
         "authors": [
             {
                 "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "homepage": "https://baraja.cz"
             }
         ],
         "description": "Math Tokenizer",
@@ -814,24 +991,30 @@
     },
     {
         "name": "mathematicator-core/vizualizator",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/vizualizator.git",
-            "reference": "f5e02add3321b7c17f091e226d4b03d3d5e8f2a0"
+            "reference": "66f1179550170cdcc552e31b7be66bb9519be264"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/vizualizator/zipball/f5e02add3321b7c17f091e226d4b03d3d5e8f2a0",
-            "reference": "f5e02add3321b7c17f091e226d4b03d3d5e8f2a0",
+            "url": "https://api.github.com/repos/mathematicator-core/vizualizator/zipball/66f1179550170cdcc552e31b7be66bb9519be264",
+            "reference": "66f1179550170cdcc552e31b7be66bb9519be264",
             "shasum": ""
         },
         "require": {
+            "mathematicator-core/tokenizer": "^2.0",
             "nette/utils": "^3.0",
             "php": ">=7.1"
         },
-        "time": "2019-11-01T16:24:46+00:00",
+        "require-dev": {
+            "phpstan/phpstan": "^0.12.18",
+            "phpstan/phpstan-nette": "^0.12.6",
+            "tracy/tracy": "^2.7"
+        },
+        "time": "2020-04-14T13:44:16+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -851,36 +1034,44 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "1.39.1",
-        "version_normalized": "1.39.1.0",
+        "version": "2.35.0",
+        "version_normalized": "2.35.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33"
+            "reference": "4b9bd835261ef23d36397a46a76b496a458305e5"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4be0c005164249208ce1b5ca633cd57bdd42ff33",
-            "reference": "4be0c005164249208ce1b5ca633cd57bdd42ff33",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4b9bd835261ef23d36397a46a76b496a458305e5",
+            "reference": "4b9bd835261ef23d36397a46a76b496a458305e5",
             "shasum": ""
         },
         "require": {
-            "kylekatarnls/update-helper": "^1.1",
-            "php": ">=5.3.9",
-            "symfony/translation": "~2.6 || ~3.0 || ~4.0"
+            "ext-json": "*",
+            "php": "^7.1.8 || ^8.0",
+            "symfony/polyfill-mbstring": "^1.0",
+            "symfony/translation": "^3.4 || ^4.0 || ^5.0"
         },
         "require-dev": {
-            "composer/composer": "^1.2",
-            "friendsofphp/php-cs-fixer": "~2",
-            "phpunit/phpunit": "^4.8.35 || ^5.7"
+            "doctrine/orm": "^2.7",
+            "friendsofphp/php-cs-fixer": "^2.14 || ^3.0",
+            "kylekatarnls/multi-tester": "^1.1",
+            "phpmd/phpmd": "^2.8",
+            "phpstan/phpstan": "^0.11",
+            "phpunit/phpunit": "^7.5 || ^8.0",
+            "squizlabs/php_codesniffer": "^3.4"
         },
-        "time": "2019-10-14T05:51:36+00:00",
+        "time": "2020-05-24T18:27:52+00:00",
         "bin": [
-            "bin/upgrade-carbon"
+            "bin/carbon"
         ],
         "type": "library",
         "extra": {
-            "update-helper": "Carbon\\Upgrade",
+            "branch-alias": {
+                "dev-master": "2.x-dev",
+                "dev-3.x": "3.x-dev"
+            },
             "laravel": {
                 "providers": [
                     "Carbon\\Laravel\\ServiceProvider"
@@ -890,7 +1081,7 @@
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "": "src/"
+                "Carbon\\": "src/Carbon/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -902,14 +1093,28 @@
                 "name": "Brian Nesbitt",
                 "email": "brian@nesbot.com",
                 "homepage": "http://nesbot.com"
+            },
+            {
+                "name": "kylekatarnls",
+                "homepage": "http://github.com/kylekatarnls"
             }
         ],
-        "description": "A simple API extension for DateTime.",
+        "description": "An API extension for DateTime that supports 281 different languages.",
         "homepage": "http://carbon.nesbot.com",
         "keywords": [
             "date",
             "datetime",
             "time"
+        ],
+        "funding": [
+            {
+                "url": "https://opencollective.com/Carbon",
+                "type": "open_collective"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/nesbot/carbon",
+                "type": "tidelift"
+            }
         ]
     },
     {
@@ -1001,17 +1206,17 @@
     },
     {
         "name": "nette/bootstrap",
-        "version": "v3.0.1",
-        "version_normalized": "3.0.1.0",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/bootstrap.git",
-            "reference": "b45a1e33b6a44beb307756522396551e5a9ff249"
+            "reference": "67830a65b42abfb906f8e371512d336ebfb5da93"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/bootstrap/zipball/b45a1e33b6a44beb307756522396551e5a9ff249",
-            "reference": "b45a1e33b6a44beb307756522396551e5a9ff249",
+            "url": "https://api.github.com/repos/nette/bootstrap/zipball/67830a65b42abfb906f8e371512d336ebfb5da93",
+            "reference": "67830a65b42abfb906f8e371512d336ebfb5da93",
             "shasum": ""
         },
         "require": {
@@ -1034,13 +1239,14 @@
             "nette/safe-stream": "^2.2",
             "nette/security": "^3.0",
             "nette/tester": "^2.0",
+            "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.6"
         },
         "suggest": {
             "nette/robot-loader": "to use Configurator::createRobotLoader()",
             "tracy/tracy": "to use Configurator::enableTracy()"
         },
-        "time": "2019-09-30T08:19:38+00:00",
+        "time": "2020-05-26T08:46:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1056,8 +1262,8 @@
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "BSD-3-Clause",
-            "GPL-2.0",
-            "GPL-3.0"
+            "GPL-2.0-only",
+            "GPL-3.0-only"
         ],
         "authors": [
             {
@@ -1703,33 +1909,38 @@
     },
     {
         "name": "nette/php-generator",
-        "version": "v3.3.4",
-        "version_normalized": "3.3.4.0",
+        "version": "v3.4.0",
+        "version_normalized": "3.4.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/php-generator.git",
-            "reference": "8fe7e699dca7db186f56d75800cb1ec32e39c856"
+            "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/php-generator/zipball/8fe7e699dca7db186f56d75800cb1ec32e39c856",
-            "reference": "8fe7e699dca7db186f56d75800cb1ec32e39c856",
+            "url": "https://api.github.com/repos/nette/php-generator/zipball/ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
+            "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
             "shasum": ""
         },
         "require": {
+            "ext-tokenizer": "*",
             "nette/utils": "^2.4.2 || ^3.0",
             "php": ">=7.1"
         },
         "require-dev": {
             "nette/tester": "^2.0",
+            "nikic/php-parser": "^4.4",
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-02-09T14:39:09+00:00",
+        "suggest": {
+            "nikic/php-parser": "to use ClassType::withBodiesFrom() & GlobalFunction::withBodyFrom()"
+        },
+        "time": "2020-05-26T16:32:45+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.3-dev"
+                "dev-master": "3.4-dev"
             }
         },
         "installation-source": "dist",
@@ -1947,17 +2158,17 @@
     },
     {
         "name": "nette/security",
-        "version": "v3.0.3",
-        "version_normalized": "3.0.3.0",
+        "version": "v3.0.4",
+        "version_normalized": "3.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/security.git",
-            "reference": "f53dcb32d1103669e9a639ebb1500ce8fc642c53"
+            "reference": "2eacedebfbeb9d9587ef1e59c18d170879474c61"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/security/zipball/f53dcb32d1103669e9a639ebb1500ce8fc642c53",
-            "reference": "f53dcb32d1103669e9a639ebb1500ce8fc642c53",
+            "url": "https://api.github.com/repos/nette/security/zipball/2eacedebfbeb9d9587ef1e59c18d170879474c61",
+            "reference": "2eacedebfbeb9d9587ef1e59c18d170879474c61",
             "shasum": ""
         },
         "require": {
@@ -1974,7 +2185,7 @@
             "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2020-01-13T14:58:04+00:00",
+        "time": "2020-05-27T10:36:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2140,17 +2351,17 @@
     },
     {
         "name": "nette/utils",
-        "version": "v3.1.1",
-        "version_normalized": "3.1.1.0",
+        "version": "v3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/utils.git",
-            "reference": "2c17d16d8887579ae1c0898ff94a3668997fd3eb"
+            "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/utils/zipball/2c17d16d8887579ae1c0898ff94a3668997fd3eb",
-            "reference": "2c17d16d8887579ae1c0898ff94a3668997fd3eb",
+            "url": "https://api.github.com/repos/nette/utils/zipball/488f58378bba71767e7831c83f9e0fa808bf83b9",
+            "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9",
             "shasum": ""
         },
         "require": {
@@ -2163,14 +2374,14 @@
         },
         "suggest": {
             "ext-gd": "to use Image",
-            "ext-iconv": "to use Strings::webalize() and toAscii()",
+            "ext-iconv": "to use Strings::webalize(), toAscii(), chr() and reverse()",
             "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
             "ext-json": "to use Nette\\Utils\\Json",
             "ext-mbstring": "to use Strings::lower() etc...",
             "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
             "ext-xml": "to use Strings::length() etc. when mbstring is not available"
         },
-        "time": "2020-02-09T14:10:55+00:00",
+        "time": "2020-05-27T09:58:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2263,6 +2474,54 @@
             "polyfill",
             "pseudorandom",
             "random"
+        ]
+    },
+    {
+        "name": "psr/cache",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/cache.git",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T20:24:11+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Cache\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for caching libraries",
+        "keywords": [
+            "cache",
+            "psr",
+            "psr-6"
         ]
     },
     {
@@ -2722,31 +2981,31 @@
     },
     {
         "name": "symfony/service-contracts",
-        "version": "v2.0.1",
-        "version_normalized": "2.0.1.0",
+        "version": "v2.1.2",
+        "version_normalized": "2.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/service-contracts.git",
-            "reference": "144c5e51266b281231e947b51223ba14acf1a749"
+            "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/144c5e51266b281231e947b51223ba14acf1a749",
-            "reference": "144c5e51266b281231e947b51223ba14acf1a749",
+            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/66a8f0957a3ca54e4f724e49028ab19d75a8918b",
+            "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b",
             "shasum": ""
         },
         "require": {
-            "php": "^7.2.5",
+            "php": ">=7.2.5",
             "psr/container": "^1.0"
         },
         "suggest": {
             "symfony/service-implementation": ""
         },
-        "time": "2019-11-18T17:27:11+00:00",
+        "time": "2020-05-20T17:43:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.0-dev"
+                "dev-master": "2.1-dev"
             }
         },
         "installation-source": "dist",
@@ -2778,58 +3037,73 @@
             "interfaces",
             "interoperability",
             "standards"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {
         "name": "symfony/translation",
-        "version": "v4.4.8",
-        "version_normalized": "4.4.8.0",
+        "version": "v5.0.8",
+        "version_normalized": "5.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "8272bbd2b7e220ef812eba2a2b30068a5c64b191"
+            "reference": "c3879db7a68fe3e12b41263b05879412c87b27fd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/8272bbd2b7e220ef812eba2a2b30068a5c64b191",
-            "reference": "8272bbd2b7e220ef812eba2a2b30068a5c64b191",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/c3879db7a68fe3e12b41263b05879412c87b27fd",
+            "reference": "c3879db7a68fe3e12b41263b05879412c87b27fd",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": "^7.2.5",
             "symfony/polyfill-mbstring": "~1.0",
-            "symfony/translation-contracts": "^1.1.6|^2"
+            "symfony/translation-contracts": "^2"
         },
         "conflict": {
-            "symfony/config": "<3.4",
-            "symfony/dependency-injection": "<3.4",
-            "symfony/http-kernel": "<4.4",
-            "symfony/yaml": "<3.4"
+            "symfony/config": "<4.4",
+            "symfony/dependency-injection": "<5.0",
+            "symfony/http-kernel": "<5.0",
+            "symfony/twig-bundle": "<5.0",
+            "symfony/yaml": "<4.4"
         },
         "provide": {
-            "symfony/translation-implementation": "1.0"
+            "symfony/translation-implementation": "2.0"
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/config": "^3.4|^4.0|^5.0",
-            "symfony/console": "^3.4|^4.0|^5.0",
-            "symfony/dependency-injection": "^3.4|^4.0|^5.0",
-            "symfony/finder": "~2.8|~3.0|~4.0|^5.0",
-            "symfony/http-kernel": "^4.4",
-            "symfony/intl": "^3.4|^4.0|^5.0",
+            "symfony/config": "^4.4|^5.0",
+            "symfony/console": "^4.4|^5.0",
+            "symfony/dependency-injection": "^5.0",
+            "symfony/finder": "^4.4|^5.0",
+            "symfony/http-kernel": "^5.0",
+            "symfony/intl": "^4.4|^5.0",
             "symfony/service-contracts": "^1.1.2|^2",
-            "symfony/yaml": "^3.4|^4.0|^5.0"
+            "symfony/yaml": "^4.4|^5.0"
         },
         "suggest": {
             "psr/log-implementation": "To use logging capability in translator",
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2020-04-12T16:45:36+00:00",
+        "time": "2020-04-12T16:45:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "4.4-dev"
+                "dev-master": "5.0-dev"
             }
         },
         "installation-source": "dist",
@@ -2874,30 +3148,30 @@
     },
     {
         "name": "symfony/translation-contracts",
-        "version": "v2.0.1",
-        "version_normalized": "2.0.1.0",
+        "version": "v2.1.2",
+        "version_normalized": "2.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation-contracts.git",
-            "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed"
+            "reference": "e5ca07c8f817f865f618aa072c2fe8e0e637340e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/8cc682ac458d75557203b2f2f14b0b92e1c744ed",
-            "reference": "8cc682ac458d75557203b2f2f14b0b92e1c744ed",
+            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/e5ca07c8f817f865f618aa072c2fe8e0e637340e",
+            "reference": "e5ca07c8f817f865f618aa072c2fe8e0e637340e",
             "shasum": ""
         },
         "require": {
-            "php": "^7.2.5"
+            "php": ">=7.2.5"
         },
         "suggest": {
             "symfony/translation-implementation": ""
         },
-        "time": "2019-11-18T17:27:11+00:00",
+        "time": "2020-05-20T17:43:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.0-dev"
+                "dev-master": "2.1-dev"
             }
         },
         "installation-source": "dist",
@@ -2929,6 +3203,20 @@
             "interfaces",
             "interoperability",
             "standards"
+        ],
+        "funding": [
+            {
+                "url": "https://symfony.com/sponsor",
+                "type": "custom"
+            },
+            {
+                "url": "https://github.com/fabpot",
+                "type": "github"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                "type": "tidelift"
+            }
         ]
     },
     {

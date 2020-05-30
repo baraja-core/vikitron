@@ -6,6 +6,7 @@ namespace Baraja\PackageManager\Composer;
 
 
 use Baraja\PackageManager\Helpers;
+use Baraja\PackageManager\PackageRegistrator;
 use Nette\Neon\Neon;
 
 /**
@@ -35,6 +36,12 @@ final class ConfigLocalNeonTask extends BaseTask
 
 
 	/**
+	 * Create configuration local.neon file with minimal default settings.
+	 *
+	 * 1. Check if local.neon exist
+	 * 2. In case of CI environment generate default content
+	 * 3. In other cases as user for configuration data
+	 *
 	 * @return bool
 	 */
 	public function run(): bool
@@ -44,6 +51,17 @@ final class ConfigLocalNeonTask extends BaseTask
 			echo 'Path: ' . $path;
 
 			return true;
+		}
+
+		try {
+			if (PackageRegistrator::getCiDetect() !== null) {
+				echo 'CI environment detected: Use default configuration.' . "\n";
+				echo 'Path: ' . $path;
+				file_put_contents($path, Neon::encode($this->getDefaultTestConfiguration(), Neon::BLOCK));
+
+				return true;
+			}
+		} catch (\Exception $e) {
 		}
 
 		echo 'local.neon does not exist.' . "\n";
@@ -282,5 +300,27 @@ final class ConfigLocalNeonTask extends BaseTask
 			echo "\n\n";
 			die;
 		}
+	}
+
+
+	/**
+	 * Default configuration for CI and test environment.
+	 *
+	 * @return mixed[]
+	 */
+	private function getDefaultTestConfiguration(): array
+	{
+		return [
+			'parameters' => [
+				'database' => [
+					'primary' => [
+						'host' => 'localhost',
+						'dbname' => 'test',
+						'user' => 'root',
+						'password' => 'root',
+					],
+				],
+			],
+		];
 	}
 }

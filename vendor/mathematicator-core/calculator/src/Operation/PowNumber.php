@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
+use Mathematicator\Engine\Query;
 use Mathematicator\Engine\UndefinedOperationException;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Numbers\SmartNumber;
-use Mathematicator\Search\Query;
 use Mathematicator\Step\Controller\StepPowController;
 use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
@@ -16,15 +16,12 @@ use Mathematicator\Tokenizer\Token\NumberToken;
 class PowNumber
 {
 
-	/**
-	 * @var NumberFactory
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	public function __construct(NumberFactory $numberFactory, StepFactory $stepFactory)
 	{
@@ -32,11 +29,12 @@ class PowNumber
 		$this->stepFactory = $stepFactory;
 	}
 
+
 	/**
 	 * @param NumberToken $left
 	 * @param NumberToken $right
 	 * @param Query $query
-	 * @return NumberOperationResult|string|null
+	 * @return NumberOperationResult
 	 * @throws UndefinedOperationException
 	 */
 	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
@@ -63,13 +61,13 @@ class PowNumber
 			}
 
 			$result = pow(
-					bcpow($leftFraction[0], $rightFraction[0], $query->getDecimals()),
-					bcdiv('1', $rightFraction[1], $query->getDecimals())
+					(float) bcpow($leftFraction[0], $rightFraction[0], $query->getDecimals()),
+					(float) bcdiv('1', $rightFraction[1], $query->getDecimals())
 				)
 				. '/'
 				. pow(
-					bcpow($leftFraction[1], $rightFraction[0], $query->getDecimals()),
-					bcdiv('1', $rightFraction[1], $query->getDecimals())
+					(float) bcpow($leftFraction[1], $rightFraction[0], $query->getDecimals()),
+					(float) bcdiv('1', $rightFraction[1], $query->getDecimals())
 				);
 		}
 
@@ -91,6 +89,7 @@ class PowNumber
 			);
 	}
 
+
 	/**
 	 * @param SmartNumber $left
 	 * @param SmartNumber $right
@@ -111,5 +110,4 @@ class PowNumber
 
 		return '\({' . $left->getHumanString() . '}^{' . $right->getHumanString() . '}\ =\ ' . $result->getString() . '\)';
 	}
-
 }

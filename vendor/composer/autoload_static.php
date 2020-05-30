@@ -32,10 +32,15 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'P' => 
         array (
             'Psr\\Container\\' => 14,
+            'Psr\\Cache\\' => 10,
         ),
         'C' => 
         array (
+            'Contributte\\Psr6\\' => 17,
+            'Contributte\\Psr11\\' => 18,
+            'Contributte\\DI\\' => 15,
             'Contributte\\Console\\' => 20,
+            'Carbon\\' => 7,
         ),
     );
 
@@ -76,24 +81,33 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Contributte\\Psr6\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/psr6-caching/src',
+        ),
+        'Contributte\\Psr11\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/psr11-container-interface/src',
+        ),
+        'Contributte\\DI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/contributte/di/src',
+        ),
         'Contributte\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/contributte/console/src',
         ),
-    );
-
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/nesbot/carbon/src',
+        'Carbon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
     );
 
     public static $prefixesPsr0 = array (
-        'U' => 
-        array (
-            'UpdateHelper\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/kylekatarnls/update-helper/src',
-            ),
-        ),
         'S' => 
         array (
             'Solaris' => 
@@ -149,9 +163,9 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Baraja\\Doctrine\\ORM\\Mapping\\AnnotationDriver' => __DIR__ . '/..' . '/baraja-core/doctrine/src/Orm/Mapping/AnnotationDriver.php',
         'Baraja\\Doctrine\\ORM\\Mapping\\ContainerEntityListenerResolver' => __DIR__ . '/..' . '/baraja-core/doctrine/src/Orm/Mapping/ContainerEntityListenerResolver.php',
         'Baraja\\Doctrine\\OrmSchemaUpdateTask' => __DIR__ . '/..' . '/baraja-core/doctrine/src/OrmSchemaUpdateTask.php',
-        'Baraja\\Doctrine\\OrmSchemaUpdateTool' => __DIR__ . '/..' . '/baraja-core/doctrine/src/OrmSchemaUpdateTool.php',
         'Baraja\\Doctrine\\Rand' => __DIR__ . '/..' . '/baraja-core/doctrine/src/Functions/Rand.php',
         'Baraja\\Doctrine\\Repository' => __DIR__ . '/..' . '/baraja-core/doctrine/src/Repository.php',
+        'Baraja\\Doctrine\\TracyBlueScreenDebugger' => __DIR__ . '/..' . '/baraja-core/doctrine/src/TracyBlueScreenDebugger.php',
         'Baraja\\Doctrine\\UUID\\UuidBinaryGenerator' => __DIR__ . '/..' . '/baraja-core/doctrine/src/UUID/UuidBinaryGenerator.php',
         'Baraja\\Doctrine\\UUID\\UuidBinaryIdentifier' => __DIR__ . '/..' . '/baraja-core/doctrine/src/UUID/UuidBinaryIdentifier.php',
         'Baraja\\Doctrine\\UUID\\UuidBinaryType' => __DIR__ . '/..' . '/baraja-core/doctrine/src/UUID/UuidBinaryType.php',
@@ -159,7 +173,26 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Baraja\\Doctrine\\UUID\\UuidIdentifier' => __DIR__ . '/..' . '/baraja-core/doctrine/src/UUID/UuidIdentifier.php',
         'Baraja\\Doctrine\\UUID\\UuidType' => __DIR__ . '/..' . '/baraja-core/doctrine/src/UUID/UuidType.php',
         'Baraja\\Doctrine\\Utils' => __DIR__ . '/..' . '/baraja-core/doctrine/src/Utils.php',
+        'Baraja\\Localization\\Domain' => __DIR__ . '/..' . '/baraja-core/localization/src/Entity/Domain.php',
+        'Baraja\\Localization\\DomainAndLocaleTask' => __DIR__ . '/..' . '/baraja-core/localization/src/DomainAndLocaleTask.php',
+        'Baraja\\Localization\\Locale' => __DIR__ . '/..' . '/baraja-core/localization/src/Entity/Locale.php',
+        'Baraja\\Localization\\Localization' => __DIR__ . '/..' . '/baraja-core/localization/src/Localization.php',
+        'Baraja\\Localization\\LocalizationException' => __DIR__ . '/..' . '/baraja-core/localization/src/LocalizationException.php',
+        'Baraja\\Localization\\LocalizationExtension' => __DIR__ . '/..' . '/baraja-core/localization/src/LocalizationExtension.php',
+        'Baraja\\Localization\\LocalizationHelper' => __DIR__ . '/..' . '/baraja-core/localization/src/LocalizationHelper.php',
+        'Baraja\\Localization\\LocalizationStatus' => __DIR__ . '/..' . '/baraja-core/localization/src/Entity/LocalizationStatus.php',
+        'Baraja\\Localization\\TranslateObject' => __DIR__ . '/..' . '/baraja-core/localization/src/Type/TranslateObject.php',
+        'Baraja\\Localization\\TranslateType' => __DIR__ . '/..' . '/baraja-core/localization/src/Type/TranslateType.php',
+        'Baraja\\Localization\\Translation' => __DIR__ . '/..' . '/baraja-core/localization/src/Type/Translation.php',
+        'Baraja\\PackageManager\\AbstractCi' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/AbstractCi.php',
+        'Baraja\\PackageManager\\AppVeyor' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/AppVeyor.php',
+        'Baraja\\PackageManager\\Bamboo' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Bamboo.php',
+        'Baraja\\PackageManager\\Buddy' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Buddy.php',
+        'Baraja\\PackageManager\\CiDetector' => __DIR__ . '/..' . '/baraja-core/package-manager/src/CiDetector.php',
+        'Baraja\\PackageManager\\CiInterface' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/CiInterface.php',
+        'Baraja\\PackageManager\\Circle' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Circle.php',
         'Baraja\\PackageManager\\ClassMapGenerator' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/ClassMapGenerator.php',
+        'Baraja\\PackageManager\\Codeship' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Codeship.php',
         'Baraja\\PackageManager\\Composer\\AssetsFromPackageTask' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/Task/AssetsFromPackageTask.php',
         'Baraja\\PackageManager\\Composer\\BaseTask' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/BaseTask.php',
         'Baraja\\PackageManager\\Composer\\ClearCacheTask' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/Task/ClearCacheTask.php',
@@ -168,19 +201,28 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Baraja\\PackageManager\\Composer\\ConfigLocalNeonTask' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/Task/ConfigLocalNeonTask.php',
         'Baraja\\PackageManager\\Composer\\ITask' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/ITask.php',
         'Baraja\\PackageManager\\Console' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Console.php',
+        'Baraja\\PackageManager\\Continuousphp' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Continuousphp.php',
+        'Baraja\\PackageManager\\Drone' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Drone.php',
+        'Baraja\\PackageManager\\Env' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Env.php',
         'Baraja\\PackageManager\\Exception\\PackageDescriptorCompileException' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Exceptions/PackageDescriptorCompileException.php',
         'Baraja\\PackageManager\\Exception\\PackageDescriptorException' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Exceptions/PackageDescriptorException.php',
         'Baraja\\PackageManager\\Exception\\PackageEntityDoesNotExistsException' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Exceptions/PackageEntityDoesNotExistsException.php',
         'Baraja\\PackageManager\\Exception\\TaskException' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Exceptions/TaskException.php',
         'Baraja\\PackageManager\\Generator' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Generator.php',
+        'Baraja\\PackageManager\\GitHubActions' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/GitHubActions.php',
+        'Baraja\\PackageManager\\GitLab' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/GitLab.php',
         'Baraja\\PackageManager\\Helpers' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Helpers.php',
         'Baraja\\PackageManager\\IAfterInstall' => __DIR__ . '/..' . '/baraja-core/package-manager/src/IAfterInstall.php',
         'Baraja\\PackageManager\\InteractiveComposer' => __DIR__ . '/..' . '/baraja-core/package-manager/src/InteractiveComposer/InteractiveComposer.php',
+        'Baraja\\PackageManager\\Jenkins' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Jenkins.php',
         'Baraja\\PackageManager\\Package' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Entity/Package.php',
         'Baraja\\PackageManager\\PackageDescriptorEntity' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Entity/PackageDescriptorEntity.php',
         'Baraja\\PackageManager\\PackageManagerExtension' => __DIR__ . '/..' . '/baraja-core/package-manager/src/PackageManagerExtension.php',
         'Baraja\\PackageManager\\PackageRegistrator' => __DIR__ . '/..' . '/baraja-core/package-manager/src/PackageRegistrator.php',
         'Baraja\\PackageManager\\Storage' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Storage.php',
+        'Baraja\\PackageManager\\TeamCity' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/TeamCity.php',
+        'Baraja\\PackageManager\\Travis' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/Travis.php',
+        'Baraja\\PackageManager\\TrinaryLogic' => __DIR__ . '/..' . '/baraja-core/package-manager/src/Ci/TrinaryLogic.php',
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/janbarasek/doctrine-pro/src/Annotations/Annotation.php',
         'Doctrine\\Common\\Annotations\\AnnotationException' => __DIR__ . '/..' . '/janbarasek/doctrine-pro/src/Annotations/AnnotationException.php',
         'Doctrine\\Common\\Annotations\\AnnotationReader' => __DIR__ . '/..' . '/janbarasek/doctrine-pro/src/Annotations/AnnotationReader.php',
@@ -982,11 +1024,17 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\Calculator\\Operation\\NumberOperationResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/NumberOperationResult.php',
         'Mathematicator\\Calculator\\Operation\\PowNumber' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/PowNumber.php',
         'Mathematicator\\Calculator\\Operation\\SubtractNumbers' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/SubtractNumbers.php',
-        'Mathematicator\\Calculator\\Step' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/Step.php',
         'Mathematicator\\Calculator\\TokensCalculator' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/TokensCalculator.php',
         'Mathematicator\\Calculator\\TokensCalculatorResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/TokensCalculatorResult.php',
         'Mathematicator\\Engine\\BaseModule' => __DIR__ . '/..' . '/mathematicator-core/engine/src/ExtraModule/BaseModule.php',
+        'Mathematicator\\Engine\\Box' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Box.php',
+        'Mathematicator\\Engine\\Context' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Context.php',
+        'Mathematicator\\Engine\\Controller\\BaseController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/BaseController.php',
+        'Mathematicator\\Engine\\Controller\\ErrorTooLongController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/ErrorTooLongController.php',
+        'Mathematicator\\Engine\\Controller\\IController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/IController.php',
+        'Mathematicator\\Engine\\Controller\\OtherController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/OtherController.php',
         'Mathematicator\\Engine\\DivisionByZero' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/DivisionByZero.php',
+        'Mathematicator\\Engine\\DynamicConfiguration' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/DynamicConfiguration.php',
         'Mathematicator\\Engine\\Engine' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Engine.php',
         'Mathematicator\\Engine\\EngineMultiResult' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/EngineMultiResult.php',
         'Mathematicator\\Engine\\EngineResult' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/EngineResult.php',
@@ -1001,10 +1049,13 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\Engine\\MathErrorException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/MathErrorException.php',
         'Mathematicator\\Engine\\MathematicatorException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/MathematicatorException.php',
         'Mathematicator\\Engine\\NoResultsException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/NoResultsException.php',
+        'Mathematicator\\Engine\\Query' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Query.php',
         'Mathematicator\\Engine\\QueryNormalizer' => __DIR__ . '/..' . '/mathematicator-core/engine/src/QueryNormalizer.php',
         'Mathematicator\\Engine\\SampleModule' => __DIR__ . '/..' . '/mathematicator-core/engine/src/ExtraModule/SampleModule.php',
         'Mathematicator\\Engine\\Source' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Source.php',
+        'Mathematicator\\Engine\\Step' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Step/Step.php',
         'Mathematicator\\Engine\\TerminateException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/TerminateException.php',
+        'Mathematicator\\Engine\\TextRenderer' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Renderer/TextRenderer.php',
         'Mathematicator\\Engine\\Translator' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Translator.php',
         'Mathematicator\\Engine\\UndefinedOperationException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/UndefinedOperationException.php',
         'Mathematicator\\FixSpaces' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Formatter/FixSpaces.php',
@@ -1030,27 +1081,19 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\Numbers\\NumberException' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/NumberException.php',
         'Mathematicator\\Numbers\\NumberFactory' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/NumberFactory.php',
         'Mathematicator\\Numbers\\SmartNumber' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Entity/SmartNumber.php',
-        'Mathematicator\\Pi' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Numbers/Pi.php',
-        'Mathematicator\\Router\\Router' => __DIR__ . '/..' . '/mathematicator-core/router/src/Router.php',
-        'Mathematicator\\SearchController\\BaseController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/BaseController.php',
+        'Mathematicator\\Router\\DynamicRoute' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/DynamicRoute.php',
+        'Mathematicator\\Router\\Router' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/Router.php',
         'Mathematicator\\SearchController\\CrossMultiplicationController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/CrossMultiplicationController.php',
         'Mathematicator\\SearchController\\DateController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/DateController.php',
-        'Mathematicator\\SearchController\\ErrorTooLongController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/ErrorTooLongController.php',
-        'Mathematicator\\SearchController\\IController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/IController.php',
         'Mathematicator\\SearchController\\IntegralController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/IntegralController.php',
         'Mathematicator\\SearchController\\MandelbrotSetController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/MandelbrotSetController.php',
         'Mathematicator\\SearchController\\NumberController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/NumberController.php',
         'Mathematicator\\SearchController\\NumberCounterController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/NumberCounterController.php',
         'Mathematicator\\SearchController\\OEISController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/OEISController.php',
-        'Mathematicator\\SearchController\\OtherController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/OtherController.php',
         'Mathematicator\\SearchController\\SequenceController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/SequenceController.php',
         'Mathematicator\\SearchController\\TreeController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/TreeController.php',
         'Mathematicator\\Search\\AutoCompleteResult' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/AutoCompleteResult.php',
-        'Mathematicator\\Search\\Box' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/Box.php',
         'Mathematicator\\Search\\Console' => __DIR__ . '/..' . '/mathematicator-core/search/src/Console.php',
-        'Mathematicator\\Search\\Context' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/Context.php',
-        'Mathematicator\\Search\\DynamicConfiguration' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/DynamicConfiguration.php',
-        'Mathematicator\\Search\\Query' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/Query.php',
         'Mathematicator\\Search\\Renderer' => __DIR__ . '/..' . '/mathematicator-core/search/src/Renderer.php',
         'Mathematicator\\Search\\Result' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/Result.php',
         'Mathematicator\\Search\\Search' => __DIR__ . '/..' . '/mathematicator-core/search/src/Search.php',
@@ -1069,6 +1112,7 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\Step\\RomanIntSteps' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepModel/RomanIntSteps.php',
         'Mathematicator\\Step\\StepEndpoint' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepEndpoint.php',
         'Mathematicator\\Step\\StepFactory' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepFactory.php',
+        'Mathematicator\\Tokenizer\\Helper' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Helper.php',
         'Mathematicator\\Tokenizer\\TokenIterator' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/TokenIterator.php',
         'Mathematicator\\Tokenizer\\Token\\BaseToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/BaseToken.php',
         'Mathematicator\\Tokenizer\\Token\\ComparatorToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/ComparatorToken.php',
@@ -1512,7 +1556,6 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db::$classMap;
 

@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
+use Mathematicator\Engine\Query;
 use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Search\Query;
 use Mathematicator\Tokenizer\Token\NumberToken;
 
 class SubtractNumbers
 {
 
-	/**
-	 * @var NumberFactory
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
+
 
 	public function __construct(NumberFactory $numberFactory)
 	{
 		$this->numberFactory = $numberFactory;
 	}
+
 
 	/**
 	 * @param NumberToken $left
@@ -58,5 +58,4 @@ class SubtractNumbers
 				. ' - ' . $right->getNumber()->getHumanString()
 			);
 	}
-
 }

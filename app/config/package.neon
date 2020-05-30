@@ -1,18 +1,54 @@
+baraja.database:
+	propertyIgnoreAnnotations:
+		- sample
+		- endpointName
+	
+	types:
+		uuid: Baraja\Doctrine\UUID\UuidType
+		uuid-binary: Baraja\Doctrine\UUID\UuidBinaryType
+		translate: Baraja\Localization\TranslateType
+
+console:
+	autoExit: true
+	catchExceptions: true
+	lazy: false
+	name: Baraja sandbox
+	url: https://baraja.cz
+	version: "3.0"
+
+dbal:
+	connection:
+		host: %database.primary.host%
+		driver: %database.primary.driver%
+		dbname: %database.primary.dbname%
+		user: %database.primary.user%
+		password: %database.primary.password%
+	
+	debug: %debugMode%
+
 extensions:
-	packageManagerExtension: Baraja\PackageManager\PackageManagerExtension
+	baraja.database: Baraja\Doctrine\DatabaseExtension
 	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	dbal: Baraja\Doctrine\DBAL\DI\DbalExtension
 	dbal.console: Baraja\Doctrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
+	localization: Baraja\Localization\LocalizationExtension
 	orm: Baraja\Doctrine\ORM\DI\OrmExtension
-	orm.console: Baraja\Doctrine\ORM\DI\OrmConsoleExtension
 	orm.annotations: Baraja\Doctrine\ORM\DI\OrmAnnotationsExtension
-	baraja.database: Baraja\Doctrine\DatabaseExtension
+	orm.console: Baraja\Doctrine\ORM\DI\OrmConsoleExtension
+	packageManagerExtension: Baraja\PackageManager\PackageManagerExtension
+
+orm:
+	entityManagerClass: Baraja\Doctrine\EntityManager
+
+orm.annotations:
+	ignore: []
+	paths:
+		App: %appDir%
+		Model: %appDir%
+		Baraja: %appDir%/../vendor/baraja-core
+		Mathematicator: %appDir%/../vendor/mathematicator-core
 
 parameters:
-	packageRegistrator:
-		customPackagesNamePatterns:
-			- ^baraja-
-	
 	database:
 		primary:
 			host: "127.0.0.1"
@@ -20,9 +56,6 @@ parameters:
 			user: root
 			password: root
 			driver: mysqli
-	
-	search:
-		controllerNamespace: "Mathematicator\\SearchController\\{{name}}Controller"
 	
 	math:
 		functions:
@@ -34,43 +67,9 @@ parameters:
 			- log\d*
 			- ln
 			- sqrt
-
-dbal:
-	debug: %debugMode%
-	connection:
-		host: %database.primary.host%
-		driver: %database.primary.driver%
-		dbname: %database.primary.dbname%
-		user: %database.primary.user%
-		password: %database.primary.password%
-
-orm:
-	entityManagerClass: Baraja\Doctrine\EntityManager
-
-baraja.database:
-	types:
-		uuid: Baraja\Doctrine\UUID\UuidType
-		uuid-binary: Baraja\Doctrine\UUID\UuidBinaryType
 	
-	propertyIgnoreAnnotations:
-		- sample
-
-orm.annotations:
-	paths:
-		App: %appDir%
-		Model: %appDir%
-		Baraja: %appDir%/../vendor/baraja-core
-		Mathematicator: %appDir%/../vendor/mathematicator-core
-	
-	ignore: []
-
-console:
-	name: Baraja sandbox
-	version: "3.0"
-	catchExceptions: true
-	autoExit: true
-	url: https://baraja.cz
-	lazy: false
+	search:
+		controllerNamespace: "Mathematicator\\SearchController\\{{name}}Controller"
 
 services:
 	baseOperation: Mathematicator\Calculator\Operation\BaseOperation
@@ -90,55 +89,44 @@ services:
 	
 	search: Mathematicator\Search\SearchAccessor
 	searchConsole: Mathematicator\Search\Console
-	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
-	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
-	- Mathematicator\Tokenizer\TokensToLatex(%math.functions%)
 	- Mathematicator\Tokenizer\Tokenizer(%math%)
+	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
 	- Mathematicator\Router\Router(%math.functions%)
-	- Baraja\Doctrine\EntityManagerDependencies
-	- Mathematicator\MathFunction\FunctionManager
-	- Mathematicator\Step\RomanIntSteps
-	- Mathematicator\Step\Controller\StepPlusController
-	- Mathematicator\Step\Controller\StepMultiplicationController
-	- Mathematicator\Step\Controller\StepSqrtController
+	- Mathematicator\Tokenizer\TokensToLatex(%math.functions%)
+	- Mathematicator\MathFunction\SinFunction
 	- Mathematicator\Step\Controller\StepSqrtHelper
 	- Mathematicator\Step\Controller\StepPowController
 	- Mathematicator\Step\Controller\StepSinController
-	- Mathematicator\MathFunction\SinFunction
+	- Mathematicator\MathFunction\FunctionManager
 	- Mathematicator\MathFunction\AbsFunction
 	- Mathematicator\MathFunction\SqrtFunction
-	- Mathematicator\Calculator\Operation\Factorial
+	- Baraja\Doctrine\EntityManagerDependencies
 	- Mathematicator\NewtonMethod
-	- Mathematicator\Pi
+	- Mathematicator\Step\Controller\StepMultiplicationController
 	- Mathematicator\Tokenizer\TokensToObject
 	- Mathematicator\Statistics\StatisticsManager
 	- Mathematicator\Numbers\NumberFactory
 	- Mathematicator\Vizualizator\MathFunctionRenderer
 	- Mathematicator\Vizualizator\Renderer
-	- Mathematicator\Step\StepEndpoint
-	- Mathematicator\Calculator\Operation\DivisionNumbers
-	- Mathematicator\Calculator\Operation\PowNumber
-	- Mathematicator\SearchController\TreeController
+	- Mathematicator\Step\Controller\StepSqrtController
+	- Mathematicator\Step\RomanIntSteps
+	- Mathematicator\Step\Controller\StepPlusController
+	- Mathematicator\Calculator\TokensCalculator
 	- Baraja\Doctrine\DoctrineHelper
 	- Baraja\Doctrine\DoctrineHelperAccessor
+	- Baraja\Localization\Localization
 	- Mathematicator\Search\Search
-	- Mathematicator\SearchController\NumberController
-	- Mathematicator\SearchController\DateController
-	- Mathematicator\SearchController\IntegralController
-	- Mathematicator\SearchController\SequenceController
-	- Mathematicator\SearchController\OEISController
-	- Mathematicator\SearchController\CrossMultiplicationController
-	- Mathematicator\SearchController\MandelbrotSetController
-	- Mathematicator\SearchController\OtherController
-	- Baraja\Doctrine\EntityManagerDependenciesAccessor
-	- Mathematicator\SearchController\ErrorTooLongController
 	- Mathematicator\NumberRewriter
 	- Mathematicator\NaturalTextFormatter
 	- Mathematicator\Engine\SampleModule
-	- Mathematicator\Calculator\TokensCalculator
 	- Mathematicator\NumberHelper
+	- Baraja\Doctrine\EntityManagerDependenciesAccessor
 	- Mathematicator\Step\StepFactory
 	- Mathematicator\Calculator\Operation\AddNumbers
 	- Mathematicator\Calculator\Operation\SubtractNumbers
 	- Mathematicator\Calculator\Operation\MultiplicationNumber
+	- Mathematicator\Calculator\Operation\DivisionNumbers
+	- Mathematicator\Calculator\Operation\PowNumber
+	- Mathematicator\Calculator\Operation\Factorial
+	- Mathematicator\Step\StepEndpoint
 	- Mathematicator\Integral\Solver\Solver

@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Engine;
 
 
+use Mathematicator\Engine\Controller\IController;
 use Mathematicator\Router\Router;
-use Mathematicator\Search\Query;
-use Mathematicator\SearchController\IController;
 use Nette\DI\Container;
 use Nette\DI\Extensions\InjectExtension;
 use Tracy\Debugger;
@@ -15,25 +14,18 @@ use Tracy\Debugger;
 final class Engine
 {
 
-	/**
-	 * @var Router
-	 */
+	/** @var Router */
 	private $router;
 
-	/**
-	 * @var QueryNormalizer
-	 */
+	/** @var QueryNormalizer */
 	private $queryNormalizer;
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $serviceFactory;
 
-	/**
-	 * @var ExtraModule[]
-	 */
+	/** @var ExtraModule[] */
 	private $extraModules = [];
+
 
 	/**
 	 * @param Router $router
@@ -46,6 +38,7 @@ final class Engine
 		$this->queryNormalizer = $queryNormalizer;
 		$this->serviceFactory = $container;
 	}
+
 
 	/**
 	 * @param string $query
@@ -72,7 +65,7 @@ final class Engine
 				$result->getContext()->getInterpret(),
 				$result->getContext()->getBoxes(),
 				$result->getContext()->getSources(),
-				array_keys($queryEntity->getFilteredTags())
+				$queryEntity->getFilteredTags()
 			);
 		} else {
 			$return = new EngineSingleResult($queryEntity->getQuery(), $matchedRoute);
@@ -94,6 +87,7 @@ final class Engine
 		return $return->setTime((int) (Debugger::timer('search_request') * 1000));
 	}
 
+
 	/**
 	 * @param ExtraModule $extraModule
 	 */
@@ -101,6 +95,7 @@ final class Engine
 	{
 		$this->extraModules[] = $extraModule;
 	}
+
 
 	/**
 	 * @param Query $query
@@ -131,6 +126,7 @@ final class Engine
 		return $controller ?? null;
 	}
 
+
 	/**
 	 * @param string $query
 	 * @return Query
@@ -142,5 +138,4 @@ final class Engine
 			$this->queryNormalizer->normalize($query)
 		);
 	}
-
 }

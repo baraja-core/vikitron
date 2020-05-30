@@ -1,0 +1,7 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+
+parameters:
+	ignoreErrors:
+		- '#Comparison operation ">=" between 1 and 16 is always false\.#'

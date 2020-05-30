@@ -9,41 +9,29 @@ use Nette\SmartObject;
 
 final class RenderRequest
 {
-
 	use SmartObject;
 
-	/**
-	 * @var Renderer
-	 */
+	/** @var Renderer */
 	private $renderer;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $width;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $height;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $title;
 
-	/**
-	 * @var mixed[]
-	 */
+	/** @var mixed[] */
 	private $border = [
 		'size' => 0,
 		'color' => 'black',
 	];
 
-	/**
-	 * @var int[]
-	 */
+	/** @var int[]|int[][]|int[][][]|null[] */
 	private $lines = [];
+
 
 	/**
 	 * @param Renderer $renderer
@@ -65,6 +53,7 @@ final class RenderRequest
 		$this->height = $height;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -72,6 +61,7 @@ final class RenderRequest
 	{
 		return $this->render();
 	}
+
 
 	/**
 	 * Smart shortcut.
@@ -83,6 +73,7 @@ final class RenderRequest
 	{
 		return $this->renderer->render($this, $format);
 	}
+
 
 	/**
 	 * @return string
@@ -97,6 +88,7 @@ final class RenderRequest
 		]);
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -104,6 +96,7 @@ final class RenderRequest
 	{
 		return $this->width;
 	}
+
 
 	/**
 	 * @return int
@@ -113,6 +106,7 @@ final class RenderRequest
 		return $this->height;
 	}
 
+
 	/**
 	 * @return string|null
 	 */
@@ -121,16 +115,18 @@ final class RenderRequest
 		return $this->title;
 	}
 
+
 	/**
 	 * @param string|null $title
 	 * @return RenderRequest
 	 */
 	public function setTitle(?string $title): self
 	{
-		$this->title = $title ? : null;
+		$this->title = $title ?: null;
 
 		return $this;
 	}
+
 
 	/**
 	 * @return mixed[]
@@ -139,6 +135,7 @@ final class RenderRequest
 	{
 		return $this->border;
 	}
+
 
 	/**
 	 * @param int|null $size
@@ -159,8 +156,9 @@ final class RenderRequest
 		return $this;
 	}
 
+
 	/**
-	 * @return int[]
+	 * @return int[][]|null[][]|int[][][]
 	 */
 	public function getLines(): array
 	{
@@ -201,6 +199,7 @@ final class RenderRequest
 		return $lines;
 	}
 
+
 	public function addLine(int $x, int $y, int $a, int $b, ?string $color = null): self
 	{
 		$this->lines[] = [
@@ -213,6 +212,7 @@ final class RenderRequest
 
 		return $this;
 	}
+
 
 	/**
 	 * @param string|null $color
@@ -252,5 +252,4 @@ final class RenderRequest
 
 		return null;
 	}
-
 }

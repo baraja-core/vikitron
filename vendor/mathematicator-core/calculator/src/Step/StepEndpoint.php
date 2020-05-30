@@ -9,25 +9,19 @@ use Mathematicator\Engine\TerminateException;
 use Mathematicator\Step\Controller\IStepController;
 use Nette\DI\Container;
 use Nette\Utils\ArrayHash;
-use Nette\Utils\Json;
 
-class StepEndpoint
+final class StepEndpoint
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $serviceFactory;
 
-	/**
-	 * @var IStepController
-	 */
+	/** @var IStepController */
 	private $callback;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -39,17 +33,18 @@ class StepEndpoint
 		$this->serviceFactory = $container;
 	}
 
+
 	/**
 	 * @param string $type
 	 * @param string $data
-	 * @return ArrayHash[]
+	 * @return mixed[]
 	 */
 	public function getStep(string $type, string $data): array
 	{
 		$this->callback = $this->serviceFactory->getByType($type);
 
 		try {
-			$data = Json::decode($data);
+			$data = json_decode($data);
 			$arrayHash = new ArrayHash();
 			foreach ($data as $k => $v) {
 				$arrayHash->{$k} = $v;
@@ -74,5 +69,4 @@ class StepEndpoint
 
 		return $return;
 	}
-
 }

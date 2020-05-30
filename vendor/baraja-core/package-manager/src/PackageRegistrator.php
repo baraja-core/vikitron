@@ -8,23 +8,17 @@ namespace Baraja\PackageManager;
 use Baraja\PackageManager\Exception\PackageDescriptorCompileException;
 use Baraja\PackageManager\Exception\PackageDescriptorException;
 use Baraja\PackageManager\Exception\PackageEntityDoesNotExistsException;
-use Nette\Configurator;
-use Nette\DI\Container;
+use Composer\Autoload\ClassLoader;
 use Nette\Neon\Entity;
 use Nette\Neon\Neon;
+use Nette\Utils\FileSystem;
 use Tracy\Debugger;
 
 class PackageRegistrator
 {
 
-	/** @var bool */
-	private static $created = false;
-
 	/** @var string */
 	private static $projectRoot;
-
-	/** @var string[]|null */
-	private static $parameters;
 
 	/** @var string */
 	private static $configPath;
@@ -39,15 +33,7 @@ class PackageRegistrator
 	private static $packageDescriptorEntity;
 
 	/** @var bool */
-	private static $runAfterScripts = false;
-
-	/** @var true[] */
-	private static $neonNoUseParams = [
-		'includes' => true,
-		'application' => true,
-		'routers' => true,
-		'afterInstall' => true,
-	];
+	private static $configurationMode = false;
 
 
 	/**
@@ -56,11 +42,36 @@ class PackageRegistrator
 	 */
 	public function __construct(?string $projectRoot = null, ?string $tempPath = null)
 	{
-		if (self::$created === true || $projectRoot === null || $tempPath === null) {
+		static $created = false;
+
+		if ($created === true) {
 			return;
 		}
 
-		self::$created = true;
+		if ($projectRoot === null || $tempPath === null) {
+			try {
+				$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
+				$vendorDir = $loaderRc ? dirname($loaderRc->getFileName(), 2) : null;
+			} catch (\ReflectionException $e) {
+				$vendorDir = null;
+			}
+			if ($vendorDir !== null && PHP_SAPI === 'cli' && strncmp($vendorDir, 'phar://', 7) === 0) {
+				$vendorDir = (string) preg_replace('/^(.+?[\\\\|\/]vendor)(.*)$/', '$1', debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[0]['file']);
+			}
+			if ($projectRoot === null) {
+				$projectRoot = dirname($vendorDir);
+			}
+			if ($tempPath === null) {
+				$tempPath = rtrim($projectRoot, '/') . '/temp';
+			}
+		}
+
+		if (Debugger::$logDirectory === null) {
+			FileSystem::createDir($projectRoot . '/log');
+			Debugger::enable(false, $projectRoot . '/log');
+		}
+
+		$created = true;
 		self::$projectRoot = rtrim($projectRoot, '/');
 		self::$configPath = self::$projectRoot . '/app/config/common.neon';
 		self::$configPackagePath = self::$projectRoot . '/app/config/package.neon';
@@ -76,11 +87,10 @@ class PackageRegistrator
 				}
 			} catch (PackageEntityDoesNotExistsException $e) {
 				$storage->save(
-					self::$packageDescriptorEntity = (new Generator($projectRoot, $this->getPackageNamePatterns(), $storage))->run(),
+					self::$packageDescriptorEntity = (new Generator($projectRoot))->run(),
 					$this->getComposerHash()
 				);
 				$this->createPackageConfig(self::$packageDescriptorEntity);
-				self::$runAfterScripts = true;
 			}
 		} catch (PackageDescriptorException $e) {
 			Debugger::log($e);
@@ -89,10 +99,47 @@ class PackageRegistrator
 	}
 
 
+	/**
+	 * @return bool
+	 */
+	final public static function isConfigurationMode(): bool
+	{
+		return self::$configurationMode;
+	}
+
+
+	/**
+	 * Smart helper for automated Composer actions. This method will be called automatically.
+	 *
+	 * For register please add "scripts" section to your composer.json in project root:
+	 *
+	 * "scripts": {
+	 *    "post-autoload-dump": "Baraja\\PackageManager\\PackageRegistrator::composerPostAutoloadDump"
+	 * }
+	 */
 	public static function composerPostAutoloadDump(): void
 	{
+		if (PHP_SAPI !== 'cli') {
+			throw new \RuntimeException('PackageRegistrator: Composer action can be called only in CLI environment.');
+		}
+
+		self::composerRenderCiDetectorInfo();
+
+		if (isset($_SERVER['argv'][2]) === true && $_SERVER['argv'][2] === '--') {
+			self::$configurationMode = true;
+		}
+
+		if (self::isConfigurationMode() === true) {
+			echo '️⚙️️  This is a advance configuration mode.' . "\n";
+			echo '---------------------------------' . "\n\n";
+		} else {
+			echo '️⚔️  This is a regular mode.' . "\n";
+			echo '   If you want use advance configuration, please use command "composer dump --".' . "\n";
+			echo '---------------------------------' . "\n\n";
+		}
+
 		try {
-			(new InteractiveComposer(new self(__DIR__ . '/../../../../', __DIR__ . '/../../../../temp/')))->run();
+			(new InteractiveComposer(new self))->run();
 		} catch (\Exception $e) {
 			Helpers::terminalRenderError($e->getMessage());
 			Helpers::terminalRenderCode($e->getFile(), $e->getLine());
@@ -103,46 +150,58 @@ class PackageRegistrator
 
 
 	/**
+	 * Render all information about current runner (CLI, CI or other).
+	 */
+	public static function composerRenderCiDetectorInfo(): void
+	{
+		try {
+			$ci = self::getCiDetect();
+		} catch (\Exception $e) {
+			Helpers::terminalRenderError($e->getMessage());
+			Helpers::terminalRenderCode($e->getFile(), $e->getLine());
+			Debugger::log($e);
+			echo 'Error was logged to file.' . "\n\n";
+			$ci = null;
+		}
+
+		echo 'CI status: ' . ($ci === null ? 'No detected' : 'detected 👍') . "\n\n";
+		if ($ci !== null) {
+			echo 'CI name: ' . $ci->getCiName() . "\n";
+			echo 'is Pull request? ' . $ci->isPullRequest()->describe() . "\n";
+			echo 'Build number: ' . $ci->getBuildNumber() . "\n";
+			echo 'Build URL: ' . $ci->getBuildUrl() . "\n";
+			echo 'Git commit: ' . $ci->getGitCommit() . "\n";
+			echo 'Git branch: ' . $ci->getGitBranch() . "\n";
+			echo 'Repository name: ' . $ci->getRepositoryName() . "\n";
+			echo 'Repository URL: ' . $ci->getRepositoryUrl() . "\n";
+			echo '---------------------------------' . "\n\n";
+		}
+	}
+
+
+	/**
+	 * @return CiInterface|null
+	 * @throws PackageDescriptorException
+	 */
+	public static function getCiDetect(): ?CiInterface
+	{
+		/** @var CiInterface|null $cache */
+		static $cache;
+
+		if ($cache === null && ($ciDetector = new CiDetector)->isCiDetected()) {
+			$cache = $ciDetector->detect();
+		}
+
+		return $cache;
+	}
+
+
+	/**
 	 * @return PackageDescriptorEntity
 	 */
 	public static function getPackageDescriptorEntityStatic(): PackageDescriptorEntity
 	{
 		return self::$packageDescriptorEntity;
-	}
-
-
-	/**
-	 * @internal
-	 * @return mixed[]
-	 */
-	public function getParameters(): array
-	{
-		if (self::$parameters === null && isset(($configNeon = Neon::decode(file_get_contents(self::$configPath)))['parameters'])) {
-			self::$parameters = $configNeon['parameters'];
-		}
-
-		return self::$parameters ?? [];
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getPackageNamePatterns(): array
-	{
-		$return = [];
-		$packageRegistrator = $this->getParameters()['packageRegistrator'] ?? null;
-		$key = 'customPackagesNamePatterns';
-
-		if (isset($packageRegistrator[$key]) === true && \is_array($packageRegistrator[$key]) === true) {
-			foreach (\array_merge($return, $packageRegistrator[$key]) as $item) {
-				if (\is_string($item) === true) {
-					$return[] = $item;
-				}
-			}
-		}
-
-		return array_unique(array_merge(['^baraja-'], $return));
 	}
 
 
@@ -179,13 +238,14 @@ class PackageRegistrator
 
 
 	/**
+	 * @internal please use DIC, this is for legacy support only!
 	 * @param string $packageName
 	 * @return bool
 	 * @throws PackageDescriptorCompileException
 	 */
 	public function isPackageInstalled(string $packageName): bool
 	{
-		foreach (self::$packageDescriptorEntity->getPackagest(false) as $package) {
+		foreach (self::$packageDescriptorEntity->getPackagest() as $package) {
 			if ($package->getName() === $packageName) {
 				return true;
 			}
@@ -196,28 +256,11 @@ class PackageRegistrator
 
 
 	/**
-	 * @param Configurator $configurator
+	 * @deprecated since 2020-03-29
 	 */
-	public function runAfterActions(Configurator $configurator): void
+	public function runAfterActions(): void
 	{
-		static $created = false;
-
-		if ($created === false) {
-			$created = true;
-			if (self::$runAfterScripts === true) {
-				$containerClass = $configurator->loadContainer();
-				/** @var Container $container */
-				$container = new $containerClass;
-
-				foreach (self::$packageDescriptorEntity->getAfterInstallScripts() as $script) {
-					if (\class_exists($script) === true) {
-						/** @var IAfterInstall $instance */
-						$instance = new $script($container, $this);
-						$instance->run();
-					}
-				}
-			}
-		}
+		throw new \RuntimeException('Method "' . __METHOD__ . '" is deprecated. Please use DIC extension.');
 	}
 
 
@@ -229,9 +272,9 @@ class PackageRegistrator
 	{
 		$neon = [];
 
-		foreach ($packageDescriptorEntity->getPackagest(true) as $package) {
+		foreach ($packageDescriptorEntity->getPackagest() as $package) {
 			foreach ($package->getConfig() as $param => $value) {
-				if (isset(self::$neonNoUseParams[$param]) === false) {
+				if ($param !== 'includes') {
 					$neon[$param][] = [
 						'name' => $package->getName(),
 						'version' => $package->getVersion(),
@@ -243,93 +286,77 @@ class PackageRegistrator
 
 		$return = '';
 		$anonymousServiceCounter = 0;
-
-		foreach ($neon as $param => $values) {
-			$return .= "\n" . $param . ':' . "\n\t";
+		$neonKeys = array_keys($neon);
+		sort($neonKeys);
+		foreach ($neonKeys as $neonKey) {
+			$packageInfos = $neon[$neonKey];
+			$return .= "\n" . $neonKey . ':' . "\n\t";
 			$tree = [];
-
-			if ($param === 'services') {
-				foreach ($values as $value) {
-					foreach ($neonData = Neon::decode($value['data']['data']) as $treeKey => $treeValue) {
-						if (is_int($treeKey) || (is_string($treeKey) && preg_match('/^-?\d+\z/', $treeKey))) {
-							unset($neonData[$treeKey]);
-							$neonData['helperKey_' . $anonymousServiceCounter] = $treeValue;
-							$anonymousServiceCounter++;
-						}
-					}
-
-					$tree = Helpers::recursiveMerge($tree, $neonData);
-				}
-
-				$treeNumbers = [];
-				$treeOthers = [];
-				foreach ($tree as $treeKey => $treeValue) {
-					if (preg_match('/^helperKey_\d+$/', $treeKey)) {
-						$treeNumbers[] = $treeValue;
-					} else {
-						$treeOthers[$treeKey] = $treeValue;
+			foreach ($packageInfos as $packageInfo) {
+				$neonData = \is_array($packageData = $packageInfo['data']['data'] ?? $packageInfo['data']) ? $packageData : Neon::decode($packageData);
+				foreach ($neonData as $treeKey => $treeValue) {
+					if (is_int($treeKey) || (is_string($treeKey) && preg_match('/^-?\d+\z/', $treeKey))) {
+						unset($neonData[$treeKey]);
+						$neonData['helperKey_' . $anonymousServiceCounter] = $treeValue;
+						$anonymousServiceCounter++;
 					}
 				}
+				$tree = Helpers::recursiveMerge($tree, $neonData);
+			}
 
-				ksort($treeOthers);
+			$treeNumbers = [];
+			$treeOthers = [];
+			foreach ($tree as $treeKey => $treeValue) {
+				if (preg_match('/^helperKey_\d+$/', $treeKey)) {
+					$treeNumbers[] = $treeValue;
+				} else {
+					$treeOthers[$treeKey] = $treeValue;
+				}
+			}
 
-				usort($treeNumbers, function ($left, $right): int {
-					$score = static function ($item): int {
-						if (\is_string($item)) {
-							return 1;
-						}
+			ksort($treeOthers);
 
-						$array = [];
-						$score = 0;
-						if (\is_iterable($item)) {
-							$score = 2;
-						}
-
-						if ($item instanceof Entity) {
-							$array = (array) $item->value;
-							$score += 3;
-						}
-
-						if (isset($array['factory'])) {
-							return $score + 1;
-						}
-
-						return $score;
-					};
-
-					if (($a = $score($left)) > ($b = $score($right))) {
-						return -1;
+			usort($treeNumbers, function ($left, $right): int {
+				$score = static function ($item): int {
+					if (\is_string($item)) {
+						return 1;
 					}
 
-					return $a === $b ? 0 : 1;
-				});
+					$array = [];
+					$score = 0;
+					if (\is_iterable($item)) {
+						$score = 2;
+					}
 
+					if ($item instanceof Entity) {
+						$array = (array) $item->value;
+						$score += 3;
+					}
+
+					if (isset($array['factory']) === true) {
+						return $score + 1;
+					}
+
+					return $score;
+				};
+
+				if (($a = $score($left)) > ($b = $score($right))) {
+					return -1;
+				}
+
+				return $a === $b ? 0 : 1;
+			});
+
+			if ($treeOthers !== []) {
 				$return .= str_replace("\n", "\n\t", Neon::encode($treeOthers, Neon::BLOCK));
+			}
+			if ($treeNumbers !== []) {
 				$return .= str_replace("\n", "\n\t", Neon::encode($treeNumbers, Neon::BLOCK));
-				$tree = [];
-			} else {
-				foreach ($values as $value) {
-					if ((bool) $value['data']['rewrite'] === false) {
-						$return .= '# ' . $value['name'] . ($value['version'] ? ' (' . $value['version'] . ')' : '')
-							. "\n\t" . str_replace("\n", "\n\t", $value['data']['data']);
-					}
-
-					if ((bool) $value['data']['rewrite'] === true) {
-						$tree = Helpers::recursiveMerge($tree, $value['data']['data']);
-					}
-				}
 			}
-
-			if ($tree !== []) {
-				$return .= str_replace("\n", "\n\t", Neon::encode($tree, Neon::BLOCK));
-			}
-
 			$return = trim($return) . "\n";
 		}
 
-		$return = (string) preg_replace('/(\s)\[\]\-(\s)/', '$1-$2', $return);
-
-		if (!@file_put_contents(self::$configPackagePath, trim($return) . "\n")) {
+		if (!@file_put_contents(self::$configPackagePath, trim((string) preg_replace('/(\s)\[\]\-(\s)/', '$1-$2', $return)) . "\n")) {
 			PackageDescriptorException::canNotRewritePackageNeon(self::$configPackagePath);
 		}
 	}

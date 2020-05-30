@@ -13,29 +13,22 @@ use Mathematicator\Tokenizer\Tokens;
 class PolynomialToken extends BaseToken
 {
 
-	/**
-	 * @var NumberToken
-	 */
+	/** @var NumberToken */
 	private $times;
 
-	/**
-	 * @var NumberToken
-	 */
+	/** @var NumberToken */
 	private $power;
 
-	/**
-	 * @var VariableToken
-	 */
+	/** @var VariableToken */
 	private $variable;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $autoPower = false;
+
 
 	/**
 	 * @param NumberToken $times
-	 * @param NumberToken|int $power
+	 * @param NumberToken|null $power (in integer format)
 	 * @param VariableToken $variable
 	 * @throws NumberException|MathematicatorException
 	 */
@@ -58,6 +51,7 @@ class PolynomialToken extends BaseToken
 		$this->setPosition($times->getPosition());
 	}
 
+
 	/**
 	 * @return NumberToken
 	 */
@@ -65,6 +59,7 @@ class PolynomialToken extends BaseToken
 	{
 		return $this->times;
 	}
+
 
 	/**
 	 * @return NumberToken
@@ -74,6 +69,7 @@ class PolynomialToken extends BaseToken
 		return $this->power;
 	}
 
+
 	/**
 	 * @return VariableToken
 	 */
@@ -82,6 +78,7 @@ class PolynomialToken extends BaseToken
 		return $this->variable;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -89,5 +86,4 @@ class PolynomialToken extends BaseToken
 	{
 		return $this->autoPower;
 	}
-
 }

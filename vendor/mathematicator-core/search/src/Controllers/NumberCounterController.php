@@ -7,17 +7,18 @@ namespace Mathematicator\SearchController;
 
 use Mathematicator\Calculator\Calculator;
 use Mathematicator\Calculator\CalculatorResult;
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Controller\BaseController;
 use Mathematicator\Engine\DivisionByZero;
 use Mathematicator\Engine\Helper\Czech;
 use Mathematicator\Engine\MathematicatorException;
 use Mathematicator\Engine\MathErrorException;
+use Mathematicator\Engine\Query;
+use Mathematicator\Engine\Step;
 use Mathematicator\Engine\Translator;
 use Mathematicator\Engine\UndefinedOperationException;
 use Mathematicator\MathFunction\FunctionDoesNotExistsException;
 use Mathematicator\NumberHelper;
-use Mathematicator\Search\Box;
-use Mathematicator\Search\Query;
 use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\EquationToken;
@@ -31,7 +32,7 @@ use Nette\Application\LinkGenerator;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 
-class NumberCounterController extends BaseController
+final class NumberCounterController extends BaseController
 {
 
 	/**
@@ -70,15 +71,12 @@ class NumberCounterController extends BaseController
 	 */
 	public $mathFunctionRenderer;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $functions;
 
-	/**
-	 * @var bool
-	 */
+	/** @var bool */
 	private $haveResult = false;
+
 
 	/**
 	 * @param string[] $functions
@@ -89,6 +87,7 @@ class NumberCounterController extends BaseController
 		parent::__construct($linkGenerator);
 		$this->functions = $functions;
 	}
+
 
 	public function actionDefault(): void
 	{
@@ -144,7 +143,7 @@ class NumberCounterController extends BaseController
 					. $supportedFunctions);
 
 			$this->haveResult = true;
-		} catch (MathErrorException|MathematicatorException $e) {
+		} catch (MathErrorException | MathematicatorException $e) {
 			$this->addBox(Box::TYPE_TEXT)
 				->setTitle('Řešení')
 				->setText(
@@ -190,6 +189,7 @@ class NumberCounterController extends BaseController
 		}
 	}
 
+
 	/**
 	 * Bridge for define types of possible exceptions.
 	 *
@@ -203,6 +203,10 @@ class NumberCounterController extends BaseController
 		return $this->calculator->calculate($tokens, $this->getQueryEntity(), $basicTtl);
 	}
 
+
+	/**
+	 * @param Step[] $steps
+	 */
 	private function actionError(array $steps): void
 	{
 		$this->addBox(Box::TYPE_TEXT)
@@ -210,6 +214,7 @@ class NumberCounterController extends BaseController
 			->setText('Tento vstup bohužel neumíme upravit.')
 			->setSteps($steps);
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -248,23 +253,28 @@ class NumberCounterController extends BaseController
 		$this->haveResult = true;
 	}
 
+
 	/**
 	 * @param IToken[]|NumberToken[] $tokens
 	 */
 	private function actionAddNumbers(array $tokens): void
 	{
+		/** @var NumberToken $numberToken */
+		$numberToken = $tokens[0];
+
 		$this->addBox(Box::TYPE_HTML)
 			->setTitle('Sčítání pod sebou')
 			->setText(
 				$this->number->getAddStepAsHtml(
-					$tokens[0]->getNumber()->getInput(),
-					$tokens[2]->getNumber()->getInput(),
+					$numberToken->getNumber()->getInput(),
+					$numberToken->getNumber()->getInput(),
 					true
 				)
 			);
 
 		$this->haveResult = true;
 	}
+
 
 	private function actionUndefinedSolution(): void
 	{
@@ -298,6 +308,7 @@ class NumberCounterController extends BaseController
 			]));
 	}
 
+
 	/**
 	 * @param IToken $tokenA
 	 * @param IToken $tokenB
@@ -320,10 +331,10 @@ class NumberCounterController extends BaseController
 
 			switch ($comparator->getToken()) {
 				case '<<':
-					return $numberA << $numberB;
+					return (float) $numberA < (float) $numberB;
 
 				case '>>':
-					return $numberA >> $numberB;
+					return (float) $numberA > (float) $numberB;
 
 				case '<=>':
 				case '<>':
@@ -332,16 +343,16 @@ class NumberCounterController extends BaseController
 					return $numberA !== $numberB;
 
 				case '<=':
-					return $numberA <= $numberB;
+					return (float) $numberA <= (float) $numberB;
 
 				case '>=':
-					return $numberA >= $numberB;
+					return (float) $numberA >= (float) $numberB;
 
 				case '<':
-					return $numberA < $numberB;
+					return (float) $numberA < (float) $numberB;
 
 				case '>':
-					return $numberA > $numberB;
+					return (float) $numberA > (float) $numberB;
 			}
 
 			return false;
@@ -418,6 +429,7 @@ class NumberCounterController extends BaseController
 		return true;
 	}
 
+
 	/**
 	 * @param IToken $token
 	 * @param Step[] $steps
@@ -432,7 +444,7 @@ class NumberCounterController extends BaseController
 				$result = '\(' . ($fraction[0] < 0 ? '-' : '')
 					. '\frac{' . abs($fraction[0]) . '}'
 					. '{' . $fraction[1] . '} ≈ '
-					. preg_replace('/^(.+)[eE](.+)$/', '$1\ \cdot\ {10}^{$2}', $token->getNumber()->getFloat()) . '\)'
+					. preg_replace('/^(.+)[eE](.+)$/', '$1\ \cdot\ {10}^{$2}', $token->getNumber()->getFloatString()) . '\)'
 					. '<br><br><span class="text-secondary">Upozornění: Řešení může být zobrazeno jen přibližně.</span>';
 			}
 
@@ -493,6 +505,7 @@ class NumberCounterController extends BaseController
 		}
 	}
 
+
 	/**
 	 * @param IToken[] $tokens
 	 * @return bool
@@ -506,24 +519,23 @@ class NumberCounterController extends BaseController
 		}
 
 		foreach ($tokens as $token) {
-			if (!
-			(
+			if (!(
 				(
 					$token instanceof OperatorToken
-					&& \in_array($token->getToken(), ['+', '-'])
+					&& \in_array($token->getToken(), ['+', '-'], true)
 				) || (
 					$token instanceof NumberToken
 					&& $token->getNumber()->isInteger()
 					&& $token->getNumber()->getInteger() <= 20
 				)
-			)
-			) {
+			)) {
 				return false;
 			}
 		}
 
 		return true;
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -538,6 +550,7 @@ class NumberCounterController extends BaseController
 			&& $tokens[2] instanceof NumberToken;
 	}
 
+
 	/**
 	 * @param string $int
 	 * @return string
@@ -551,6 +564,7 @@ class NumberCounterController extends BaseController
 
 		return '<div style="max-width:70px">' . $render . '</div>';
 	}
+
 
 	/**
 	 * @param int $factorial
@@ -591,6 +605,7 @@ class NumberCounterController extends BaseController
 		return $return;
 	}
 
+
 	/**
 	 * @param IToken[] $tokens
 	 */
@@ -602,5 +617,4 @@ class NumberCounterController extends BaseController
 			->setTitle('Graf funkce')
 			->setText($image);
 	}
-
 }

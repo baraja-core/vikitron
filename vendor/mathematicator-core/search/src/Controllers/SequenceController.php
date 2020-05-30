@@ -6,8 +6,9 @@ namespace Mathematicator\SearchController;
 
 
 use Mathematicator\Calculator\Operation\AddNumbers;
+use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Controller\BaseController;
 use Mathematicator\Engine\Source;
-use Mathematicator\Search\Box;
 use Mathematicator\Statistics\Entity\Sequence;
 use Mathematicator\Statistics\StatisticsManager;
 use Mathematicator\Step\StepFactory;
@@ -20,25 +21,18 @@ use Nette\Utils\Strings;
 class SequenceController extends BaseController
 {
 
-	/**
-	 * @var StatisticsManager
-	 */
+	/** @var StatisticsManager */
 	private $statisticManager;
 
-	/**
-	 * @var Tokenizer
-	 */
+	/** @var Tokenizer */
 	private $tokenizer;
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var AddNumbers
-	 */
+	/** @var AddNumbers */
 	private $addNumbers;
+
 
 	/**
 	 * @param LinkGenerator $linkGenerator
@@ -47,13 +41,7 @@ class SequenceController extends BaseController
 	 * @param StepFactory $stepFactory
 	 * @param AddNumbers $addNumbers
 	 */
-	public function __construct(
-		LinkGenerator $linkGenerator,
-		StatisticsManager $statisticManager,
-		Tokenizer $tokenizer,
-		StepFactory $stepFactory,
-		AddNumbers $addNumbers
-	)
+	public function __construct(LinkGenerator $linkGenerator, StatisticsManager $statisticManager, Tokenizer $tokenizer, StepFactory $stepFactory, AddNumbers $addNumbers)
 	{
 		parent::__construct($linkGenerator);
 		$this->statisticManager = $statisticManager;
@@ -61,6 +49,7 @@ class SequenceController extends BaseController
 		$this->stepFactory = $stepFactory;
 		$this->addNumbers = $addNumbers;
 	}
+
 
 	public function actionDefault(): void
 	{
@@ -96,17 +85,8 @@ class SequenceController extends BaseController
 		if ($allIntegers === true) {
 			$this->integers($integers);
 		}
-
-		/*
-		$this->addBox(Box::TYPE_LATEX)
-			->setTitle('Průměr')
-			->setText($this->statisticManager->getAverage($entities));
-
-		$this->addBox(Box::TYPE_LATEX)
-			->setTitle('Medián')
-			->setText($this->statisticManager->getMedian($entities));
-		*/
 	}
+
 
 	/**
 	 * @param IToken[] $numberTokens
@@ -118,14 +98,16 @@ class SequenceController extends BaseController
 		$numberLatexSum = '';
 
 		foreach ($numberTokens as $numberToken) {
+			/** @var NumberToken $numberToken */
 			$numberLatexSum .= ($numberLatexSum ? ' + ' : '') . $numberToken->getNumber();
 		}
 
 		foreach ($numberTokens as $numberToken) {
+			/** @var NumberToken $numberToken */
 			if ($sum === null) {
 				$sum = $numberToken;
 			} else {
-				$calculate = $this->addNumbers->process($sum, $numberToken, $this->queryEntity);
+				$calculate = $this->addNumbers->process($sum, $numberToken, $this->getQueryEntity());
 
 				$step = $this->stepFactory->create();
 				$step->setLatex((string) $sum);
@@ -161,6 +143,10 @@ class SequenceController extends BaseController
 		}
 	}
 
+
+	/**
+	 * @param string[] $integers
+	 */
 	private function integers(array $integers): void
 	{
 		$sequencesBuffer = '';
@@ -224,6 +210,7 @@ class SequenceController extends BaseController
 		}
 	}
 
+
 	/**
 	 * @param Sequence $sequence
 	 * @param string $data
@@ -258,6 +245,7 @@ class SequenceController extends BaseController
 		return $return;
 	}
 
+
 	/**
 	 * @param string $data
 	 * @return string
@@ -268,5 +256,4 @@ class SequenceController extends BaseController
 			return ' <a href="' . $this->linkToSearch($row[1]) . '">' . $row[1] . '</a> ';
 		}, $data);
 	}
-
 }

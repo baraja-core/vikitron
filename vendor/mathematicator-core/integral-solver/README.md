@@ -1,6 +1,8 @@
 Robust PHP math integral solver
 ===============================
 
+![Integrity check](https://github.com/mathematicator-core/integral-solver/workflows/Integrity%20check/badge.svg)
+
 Get instance of `IntegralSolver` and compute:
 
 ```php

@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers;
 
 
-class NumberFactory
+final class NumberFactory
 {
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $accuracy;
+
 
 	/**
 	 * @param int $accuracy
@@ -21,13 +20,14 @@ class NumberFactory
 		$this->accuracy = $accuracy;
 	}
 
+
 	/**
-	 * @param string $number
+	 * @param mixed $number
 	 * @return SmartNumber
+	 * @throws NumberException
 	 */
 	public function create($number): SmartNumber
 	{
 		return new SmartNumber($this->accuracy, (string) $number);
 	}
-
 }

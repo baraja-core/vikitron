@@ -12,12 +12,11 @@ class Translator implements ITranslator
 
 	/**
 	 * @param mixed $message
-	 * @param mixed[] $parameters
+	 * @param mixed ...$parameters
 	 * @return string
 	 */
 	public function translate($message, ...$parameters): string
 	{
 		return (string) $message;
 	}
-
 }

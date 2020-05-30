@@ -5,57 +5,44 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers;
 
 
-use Mathematicator\Engine\DivisionByZero;
-use Mathematicator\Engine\MathematicatorException;
 use Nette\SmartObject;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 
-class SmartNumber
+final class SmartNumber
 {
-
 	use SmartObject;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $accuracy;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $input;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $string;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $integer;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $float;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $fraction = [];
+
 
 	/**
 	 * @param int|null $accuracy
 	 * @param string $number
-	 * @throws NumberException|MathematicatorException
+	 * @throws NumberException
 	 */
 	public function __construct(?int $accuracy, string $number)
 	{
 		$this->accuracy = $accuracy ?? 100;
 		$this->setValue($number);
 	}
+
 
 	/**
 	 * @return string
@@ -65,6 +52,7 @@ class SmartNumber
 		return $this->input;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -72,6 +60,7 @@ class SmartNumber
 	{
 		return $this->integer;
 	}
+
 
 	/**
 	 * @return int
@@ -81,13 +70,15 @@ class SmartNumber
 		return \abs($this->integer);
 	}
 
+
 	/**
 	 * @return float
 	 */
 	public function getFloat(): float
 	{
-		return (float) $this->float;
+		return $this->float;
 	}
+
 
 	/**
 	 * @return string
@@ -97,6 +88,7 @@ class SmartNumber
 		return (string) $this->float;
 	}
 
+
 	/**
 	 * @return string[]|int[]
 	 */
@@ -104,6 +96,7 @@ class SmartNumber
 	{
 		return $this->fraction;
 	}
+
 
 	/**
 	 * @return bool
@@ -113,6 +106,7 @@ class SmartNumber
 		return $this->integer !== null && ($this->input === $this->integer || $this->getFraction()[1] === 1);
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -120,6 +114,7 @@ class SmartNumber
 	{
 		return $this->isInteger() === false && $this->integer !== null;
 	}
+
 
 	/**
 	 * @return bool
@@ -129,6 +124,7 @@ class SmartNumber
 		return $this->float > 0;
 	}
 
+
 	/**
 	 * @return bool
 	 */
@@ -137,13 +133,15 @@ class SmartNumber
 		return $this->float < 0;
 	}
 
+
 	/**
 	 * @return bool
 	 */
 	public function isZero(): bool
 	{
-		return $this->float === 0 || $this->float === 0.0;
+		return $this->float === 0.0 || abs($this->float) < 0.000000001;
 	}
+
 
 	/**
 	 * @return string
@@ -152,6 +150,7 @@ class SmartNumber
 	{
 		return $this->getString();
 	}
+
 
 	/**
 	 * @return string
@@ -167,6 +166,7 @@ class SmartNumber
 		return '\frac{' . $fraction[0] . '}{' . $fraction[1] . '}';
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -181,27 +181,28 @@ class SmartNumber
 		return $fraction[0] . '/' . $fraction[1];
 	}
 
+
 	/**
 	 * @internal
 	 * @param string $value
-	 * @throws NumberException|DivisionByZero|MathematicatorException
+	 * @throws NumberException
 	 */
 	public function setValue(string $value): void
 	{
-		$value = preg_replace('/(\d)\s+(\d)/', '$1$2', $value);
-		$value = rtrim(preg_replace('/^(\d*\.\d*?)0+$/', '$1', $value), '.');
+		$value = (string) preg_replace('/(\d)\s+(\d)/', '$1$2', $value);
+		$value = rtrim((string) preg_replace('/^(\d*\.\d*?)0+$/', '$1', $value), '.');
 		$this->input = $value;
 
 		if (Validators::isNumeric($value)) {
-			$toInteger = preg_replace('/\..*$/', '', $value);
+			$toInteger = (string) preg_replace('/\..*$/', '', $value);
 			if (Validators::isNumericInt($value)) {
 				$this->integer = $toInteger;
-				$this->float = $toInteger * 1;
+				$this->float = (float) $toInteger;
 				$this->setStringHelper($toInteger);
 				$this->fraction = [$toInteger, '1'];
 			} else {
 				$this->integer = $toInteger;
-				$this->float = $value * 1;
+				$this->float = (float) $value;
 				$this->setStringHelper($value);
 				$this->setFractionHelper($value);
 			}
@@ -215,7 +216,7 @@ class SmartNumber
 				$this->setFractionHelper((string) $floatPow);
 			} else {
 				$this->integer = $toString;
-				$this->float = $toString;
+				$this->float = (float) $toString;
 				$this->fraction = [$toString, '1'];
 			}
 		} elseif (preg_match('/^(?<x>-?\d*[.]?\d+)\s*\/\s*(?<y>-?\d*[.]?\d+)$/', $value, $parseFraction)) {
@@ -231,6 +232,7 @@ class SmartNumber
 		}
 	}
 
+
 	/**
 	 * @param string $string
 	 */
@@ -243,11 +245,12 @@ class SmartNumber
 		}
 	}
 
+
 	/**
 	 * @param string $float
 	 * @param float $tolerance
-	 * @return int[]
-	 * @throws NumberException|MathematicatorException
+	 * @return string[] (representation of integers)
+	 * @throws NumberException
 	 */
 	private function setFractionHelper(string $float, float $tolerance = 1.e-8): array
 	{
@@ -289,37 +292,27 @@ class SmartNumber
 
 		$short = $this->shortFractionHelper(number_format($numerator, 0, '.', ''), number_format($denominator, 0, '.', ''));
 
-		if ((\is_int($short) || \is_float($short)) && $short[1] === null) {
-			return $this->fraction = [(string) (int) $short, '1'];
-		}
-
-		if ($short[1] === null) {
-			throw new NumberException('Part of fraction is NULL');
-		}
-
 		return $this->fraction = [
 			($floatOriginal < 0 ? '-' : '') . $short[0],
 			(string) $short[1],
 		];
 	}
 
+
 	/**
 	 * @param string $x
 	 * @param string $y
 	 * @param int $level
-	 * @return int[]|string[]
-	 * @throws DivisionByZero|MathematicatorException
+	 * @return string[]
+	 * @throws NumberException
 	 */
 	private function shortFractionHelper(string $x, string $y, int $level = 0): array
 	{
-		if ($y === 0 || preg_match('/^0+(\.0+)?$/', $y)) {
-			throw new DivisionByZero(
-				'Can not division fraction [' . $x . ' / ' . $y . '] by zero.',
-				500, null, [$x, $y]
-			);
+		if ($y === '0' || preg_match('/^0+(\.0+)?$/', $y)) {
+			throw new NumberException('Can not division fraction [' . $x . ' / ' . $y . '] by zero.');
 		}
 
-		if (!Validators::isNumericInt($x) || !Validators::isNumericInt($y)) {
+		if (Validators::isNumericInt($x) === false || Validators::isNumericInt($y) === false) {
 			return $this->setFractionHelper((string) ($x / $y));
 		}
 
@@ -332,7 +325,7 @@ class SmartNumber
 		}
 
 		if ($x % $y === 0) {
-			return [$x / $y, 1];
+			return [(string) (int) ($x / $y), '1'];
 		}
 
 		foreach (Cache::primaries() as $primary) {
@@ -351,5 +344,4 @@ class SmartNumber
 
 		return [($originalX < 0 ? '-' : '') . number_format((float) $x, 0, '.', ''), number_format((float) $y, 0, '.', '')];
 	}
-
 }

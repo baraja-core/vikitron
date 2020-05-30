@@ -5,22 +5,19 @@ declare(strict_types=1);
 namespace Mathematicator\Step\Controller;
 
 
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Step;
 use Mathematicator\Step\StepFactory;
 use Nette\Utils\ArrayHash;
 
-class StepSqrtController implements IStepController
+final class StepSqrtController implements IStepController
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var Step[]
-	 */
+	/** @var Step[] */
 	private $steps = [];
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -29,6 +26,7 @@ class StepSqrtController implements IStepController
 	{
 		$this->stepFactory = $stepFactory;
 	}
+
 
 	/**
 	 * @param ArrayHash $data
@@ -43,7 +41,7 @@ class StepSqrtController implements IStepController
 
 		if (abs($sqrt - $sqrtInt) < 0.000001) {
 			if ($sqrtInt <= 100) {
-				$this->solveAsInteger($n, $sqrtInt);
+				$this->solveAsInteger((int) $n, $sqrtInt);
 			} else {
 				$this->steps[] = $this->stepFactory->create(
 					'Řešení',
@@ -58,6 +56,7 @@ class StepSqrtController implements IStepController
 
 		return $this->steps;
 	}
+
 
 	private function solveAsInteger(int $n, int $result): void
 	{
@@ -85,10 +84,10 @@ class StepSqrtController implements IStepController
 		$this->steps[] = $step;
 	}
 
+
 	private function solveAsCells(float $n): void
 	{
-		$cells = $this->makeCells($n);
-		bdump($cells);
+		$cells = $this->makeCells((string) $n);
 
 		$step = $this->stepFactory->create();
 		$step->setTitle('Rozdělení do buněk');
@@ -105,39 +104,16 @@ class StepSqrtController implements IStepController
 				'whatBaseOfPower' => $cells[0],
 			])
 		);
-		$step->setLatex($squareRooted = floor(sqrt($cells[0])));
+		$step->setLatex((string) $squareRooted = floor(sqrt((float) $cells[0])));
 		$this->steps[] = $step;
 
 		$step = $this->stepFactory->create();
-		/*$subtractionDiv = Html::el('div');
-		$subtractionDiv->create('style')
-			->setHtml('
-			#sqrt-subtraction-table {
-				text-align: right;
-				width: auto;
-			}
-
-			#sqrt-subtraction-table tr td {
-				border: transparent;
-			}
-			');
-		$subtractionDiv->create('span', 'Toto číslo odečteme od čísla z buňky.');
-		$subtractionTable = $subtractionDiv->create('table', [
-			'id' => 'sqrt-subtraction-table'
-		]);
-		$subtractionTable->create('tr')
-			->create('td')
-			->setHtml("\({$cells[0]}\)");
-		$subtractionTable->create('tr')
-			->create('td')
-			->setHtml('\(-' . $squareRooted ** 2 . '\)');
-		$subtractionTable->create('tr')
-			->create('td')*/
 		$step->setDescription('Druhou mocninu odečteme od čísla z první buňky.');
 		$step->setLatex($cells[0] . ' - ' . ($squareRooted ** 2) . ' = ' . ($cells[0] - ($squareRooted ** 2)));
 
 		$this->steps[] = $step;
 	}
+
 
 	/**
 	 * @param string $n
@@ -180,5 +156,4 @@ class StepSqrtController implements IStepController
 
 		return $cells;
 	}
-
 }

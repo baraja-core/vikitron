@@ -6,7 +6,7 @@ services:
 	mathematicator.queryNormalizer:
 		factory: Mathematicator\Engine\QueryNormalizer
 	mathematicator.translator:
-	 	factory: Mathematicator\Engine\Translator
+		factory: Mathematicator\Engine\Translator
 	- Mathematicator\NumberRewriter
 	- Mathematicator\NaturalTextFormatter
 	- Mathematicator\Engine\SampleModule

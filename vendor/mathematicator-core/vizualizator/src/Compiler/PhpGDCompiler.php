@@ -2,17 +2,15 @@
 
 declare(strict_types=1);
 
-
 namespace Mathematicator\Vizualizator;
 
 
 abstract class PhpGDCompiler implements Compiler
 {
 
-	/**
-	 * @var resource
-	 */
+	/** @var resource */
 	protected $image;
+
 
 	/**
 	 * @param int $r
@@ -33,6 +31,7 @@ abstract class PhpGDCompiler implements Compiler
 		return $cache[$key];
 	}
 
+
 	/**
 	 * @param int[]|null $params
 	 * @return int
@@ -46,6 +45,7 @@ abstract class PhpGDCompiler implements Compiler
 		return $this->getColor($params[0], $params[1], $params[2]);
 	}
 
+
 	/**
 	 * @param RenderRequest $request
 	 */
@@ -56,9 +56,12 @@ abstract class PhpGDCompiler implements Compiler
 		}
 	}
 
+
+	/**
+	 * @param int[]|null[]|int[][] $line
+	 */
 	protected function renderLine(array $line): void
 	{
 		imageline($this->image, $line['x'], $line['y'], $line['a'], $line['b'], $this->getParameterColor($line['color'] ?? null));
 	}
-
 }

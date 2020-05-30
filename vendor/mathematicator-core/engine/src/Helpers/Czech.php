@@ -10,7 +10,6 @@ use Nette\StaticClass;
 
 class Czech
 {
-
 	use StaticClass;
 
 	/**
@@ -49,6 +48,7 @@ class Czech
 		return $result;
 	}
 
+
 	/**
 	 * Return "6. září 2018"
 	 *
@@ -85,5 +85,4 @@ class Czech
 				: $months[(int) $month - 1]
 			) . ' ' . $year;
 	}
-
 }

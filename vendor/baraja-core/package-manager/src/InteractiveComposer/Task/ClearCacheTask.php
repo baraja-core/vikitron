@@ -24,7 +24,7 @@ final class ClearCacheTask extends BaseTask
 	public function run(): bool
 	{
 		if (Helpers::functionIsAvailable('opcache_reset')) {
-			opcache_reset();
+			@opcache_reset();
 		}
 
 		$cachePath = ($tempPath = \dirname(__DIR__, 6) . '/temp') . '/cache';

@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Mathematicator\SearchController;
 
 
-use Mathematicator\Search\Box;
+use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Controller\BaseController;
 
-class CrossMultiplicationController extends BaseController
+final class CrossMultiplicationController extends BaseController
 {
-
 	public function actionDefault(): void
 	{
 		$this->setInterpret(Box::TYPE_HTML)
 			->setText('Trojčlenka');
-
 
 		$this->addBox(Box::TYPE_HTML)
 			->setTitle('Definice')
@@ -69,5 +68,4 @@ class CrossMultiplicationController extends BaseController
 				'
 			);
 	}
-
 }

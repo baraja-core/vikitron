@@ -7,10 +7,12 @@ namespace Mathematicator\Vizualizator;
 
 final class Renderer
 {
-
 	public const FORMAT_SVG = 'svg';
+
 	public const FORMAT_PNG = 'png';
+
 	public const FORMAT_JPG = 'jpg';
+
 
 	/**
 	 * @param int $width
@@ -21,6 +23,7 @@ final class Renderer
 	{
 		return new RenderRequest($this, $width, $height);
 	}
+
 
 	/**
 	 * @param RenderRequest $request
@@ -64,6 +67,7 @@ final class Renderer
 		return '<div class="vizualizator" style="' . implode(';', $styles) . '">' . $return . '</div>';
 	}
 
+
 	/**
 	 * @param RenderRequest $request
 	 * @return string
@@ -72,6 +76,7 @@ final class Renderer
 	{
 		return $this->render($request, self::FORMAT_SVG);
 	}
+
 
 	/**
 	 * @param RenderRequest $request
@@ -82,6 +87,7 @@ final class Renderer
 		return $this->render($request, self::FORMAT_JPG);
 	}
 
+
 	/**
 	 * @param RenderRequest $request
 	 * @return string
@@ -90,5 +96,4 @@ final class Renderer
 	{
 		return $this->render($request, self::FORMAT_PNG);
 	}
-
 }

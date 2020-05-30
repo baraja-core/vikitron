@@ -16,33 +16,23 @@ use Nette\SmartObject;
  */
 class VideoResult
 {
-
 	use SmartObject;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $name;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $link;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $thumbnail;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $description;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $score = 0;
+
 
 	/**
 	 * @return string
@@ -52,13 +42,18 @@ class VideoResult
 		return $this->link;
 	}
 
+
 	/**
 	 * @param string $link
+	 * @return VideoResult
 	 */
-	public function setLink(string $link)
+	public function setLink(string $link): self
 	{
 		$this->link = $link;
+
+		return $this;
 	}
+
 
 	/**
 	 * @return string
@@ -68,13 +63,18 @@ class VideoResult
 		return $this->thumbnail;
 	}
 
+
 	/**
 	 * @param string $thumbnail
+	 * @return VideoResult
 	 */
-	public function setThumbnail(string $thumbnail)
+	public function setThumbnail(string $thumbnail): self
 	{
 		$this->thumbnail = $thumbnail;
+
+		return $this;
 	}
+
 
 	/**
 	 * @return string
@@ -84,13 +84,18 @@ class VideoResult
 		return $this->description;
 	}
 
+
 	/**
 	 * @param string|null $description
+	 * @return VideoResult
 	 */
-	public function setDescription(string $description = null)
+	public function setDescription(string $description = null): self
 	{
-		$this->description = $description === null ? '' : $description;
+		$this->description = $description ?? '';
+
+		return $this;
 	}
+
 
 	/**
 	 * @return string
@@ -100,13 +105,18 @@ class VideoResult
 		return $this->name;
 	}
 
+
 	/**
 	 * @param string|null $name
+	 * @return VideoResult
 	 */
-	public function setName(string $name = null)
+	public function setName(string $name = null): self
 	{
-		$this->name = $name === null ? '' : $name;
+		$this->name = $name ?? '';
+
+		return $this;
 	}
+
 
 	/**
 	 * @return float
@@ -116,12 +126,15 @@ class VideoResult
 		return $this->score;
 	}
 
+
 	/**
 	 * @param float $score
+	 * @return VideoResult
 	 */
-	public function setScore(float $score)
+	public function setScore(float $score): self
 	{
 		$this->score = $score;
-	}
 
+		return $this;
+	}
 }

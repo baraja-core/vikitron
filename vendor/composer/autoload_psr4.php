@@ -15,6 +15,10 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
+    'Contributte\\Psr6\\' => array($vendorDir . '/contributte/psr6-caching/src'),
+    'Contributte\\Psr11\\' => array($vendorDir . '/contributte/psr11-container-interface/src'),
+    'Contributte\\DI\\' => array($vendorDir . '/contributte/di/src'),
     'Contributte\\Console\\' => array($vendorDir . '/contributte/console/src'),
-    '' => array($vendorDir . '/nesbot/carbon/src'),
+    'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
 );

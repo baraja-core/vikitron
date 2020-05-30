@@ -1,6 +1,8 @@
 Robust PHP math calculator
 ==========================
 
+![Integrity check](https://github.com/mathematicator-core/calculator/workflows/Integrity%20check/badge.svg)
+
 Simple to use robust math library for symbolic-work with numbers, operations and patterns.
 
 > Please help improve this documentation by sending a Pull request.

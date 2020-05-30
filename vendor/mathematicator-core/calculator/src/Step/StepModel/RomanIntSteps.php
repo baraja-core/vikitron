@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Mathematicator\Step;
 
 
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Step;
 use Nette\Utils\Strings;
 
-class RomanIntSteps
+final class RomanIntSteps
 {
 
-	/**
-	 * @var int[]
-	 */
+	/** @var int[] */
 	private static $romanNumber = [
 		'm' => 1000000,
 		'd' => 500000,
@@ -36,9 +34,7 @@ class RomanIntSteps
 		'I' => 1,
 	];
 
-	/**
-	 * @var int[]
-	 */
+	/** @var int[] */
 	private static $translateTable = [
 		'I' => 1,
 		'V' => 5,
@@ -49,9 +45,7 @@ class RomanIntSteps
 		'M' => 1000,
 	];
 
-	/**
-	 * @var int[]
-	 */
+	/** @var string[] */
 	private static $translateTableCzechHelp = [
 		'I' => 'Ivan',
 		'V' => 'Vedl',
@@ -62,9 +56,7 @@ class RomanIntSteps
 		'M' => 'Města',
 	];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private static $translateTableInverse = [
 		1 => 'I',
 		5 => 'V',
@@ -75,10 +67,9 @@ class RomanIntSteps
 		1000 => 'M',
 	];
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -87,6 +78,7 @@ class RomanIntSteps
 	{
 		$this->stepFactory = $stepFactory;
 	}
+
 
 	/**
 	 * @param string $roman
@@ -157,8 +149,9 @@ class RomanIntSteps
 		return $steps;
 	}
 
+
 	/**
-	 * @param string|int $int
+	 * @param string $int (as integer)
 	 * @return Step[]
 	 */
 	public function getIntToRomanSteps(string $int): array
@@ -166,6 +159,16 @@ class RomanIntSteps
 		$input = $int;
 
 		$steps = [];
+
+		if ($int < 0) {
+			$step = $this->stepFactory->create();
+			$step->setTitle('Pravidlo pro záporná čísla');
+			$step->setDescription('Pouze kladná čísla lze převádět na Římská čísla. Výpočet byl proto zastaven.');
+
+			$steps[] = $step;
+
+			return $steps;
+		}
 
 		$step = $this->stepFactory->create();
 		$step->setTitle('Převodní tabulka');
@@ -246,6 +249,7 @@ class RomanIntSteps
 		return $steps;
 	}
 
+
 	/**
 	 * @param int $lastPosition
 	 * @param int $currentPosition
@@ -266,6 +270,7 @@ class RomanIntSteps
 
 		return '<span style="color:black">' . $return . '</span> | ';
 	}
+
 
 	/**
 	 * @param string|null $roman
@@ -294,5 +299,4 @@ class RomanIntSteps
 			. $return
 			. '</table>';
 	}
-
 }

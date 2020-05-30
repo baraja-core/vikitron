@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Vizualizator;
 
 
-class JpgCompiler extends PhpGDCompiler
+final class JpgCompiler extends PhpGDCompiler
 {
 
 	/**
@@ -29,5 +29,4 @@ class JpgCompiler extends PhpGDCompiler
 
 		return $bin;
 	}
-
 }

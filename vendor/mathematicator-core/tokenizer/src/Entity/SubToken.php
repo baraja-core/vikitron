@@ -13,18 +13,14 @@ use Nette\Tokenizer\Token;
 
 class SubToken extends BaseToken
 {
-
 	use SmartObject;
 
-	/**
-	 * @var IToken[]
-	 */
+	/** @var IToken[] */
 	private $tokens = [];
 
-	/**
-	 * @var TokensToObject
-	 */
+	/** @var TokensToObject */
 	private $tokensToObject;
+
 
 	/**
 	 * @param TokensToObject $tokensToObject
@@ -34,8 +30,9 @@ class SubToken extends BaseToken
 		$this->tokensToObject = $tokensToObject;
 	}
 
+
 	/**
-	 * @param IToken[]|null $tokens
+	 * @param IToken[]|mixed[]|null $tokens
 	 * @throws MathematicatorException
 	 */
 	public function setObjectTokens(?array $tokens): void
@@ -43,14 +40,15 @@ class SubToken extends BaseToken
 		foreach ($tokens ?? [] as $token) {
 			if (!$token instanceof IToken && $token !== null) {
 				throw new MathematicatorException(
-					'All tokens must be instance of "' . IToken::class . '". '
-					. json_encode($token) . ' given.'
+					'Token must be instance of "' . IToken::class . '", but type "'
+					. (is_object($token) ? get_class($token) : json_encode($token)) . '" given.'
 				);
 			}
 		}
 
 		$this->tokens = $tokens ?? [];
 	}
+
 
 	/**
 	 * Set token array and convert to object array.
@@ -90,6 +88,7 @@ class SubToken extends BaseToken
 		return $iterator;
 	}
 
+
 	/**
 	 * @return IToken[]
 	 */
@@ -97,5 +96,4 @@ class SubToken extends BaseToken
 	{
 		return $this->tokens;
 	}
-
 }

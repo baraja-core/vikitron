@@ -11,19 +11,29 @@
 	"require": {
 		"php": ">=7.1",
 		"nette/utils": "^3.0",
-		"mathematicator-core/engine": "~1.0",
-		"mathematicator-core/router": "~1.0",
-		"mathematicator-core/calculator": "~1.0",
-		"mathematicator-core/tokenizer": "~1.0",
-		"mathematicator-core/statistic": "~1.0",
-		"mathematicator-core/numbers": "~1.0",
-		"mathematicator-core/mandelbrot-set": "~1.0",
-		"mathematicator-core/integral-solver": "~1.0",
-		"mathematicator-core/vizualizator": "~1.0"
+		"janbarasek/php-moon-phase": "^2.0",
+		"martindilling/sunny": "^0.5.3",
+		"mathematicator-core/numbers": "^2.0",
+		"mathematicator-core/calculator": "^2.0",
+		"mathematicator-core/tokenizer": "^2.0",
+		"mathematicator-core/mandelbrot-set": "^2.0",
+		"mathematicator-core/statistic": "^2.0",
+		"mathematicator-core/integral-solver": "^2.0",
+		"mathematicator-core/vizualizator": "^2.0"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^0.12.18",
+		"tracy/tracy": "^2.7",
+		"phpstan/phpstan-nette": "^0.12.6"
 	},
 	"autoload": {
 		"classmap": [
 			"src/"
+		]
+	},
+	"scripts": {
+		"phpstan": [
+			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
 		]
 	},
 	"minimum-stability": "stable"

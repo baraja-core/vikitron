@@ -17,6 +17,7 @@ class AbsFunction implements IFunction
 	 */
 	public function process(IToken $token): FunctionResult
 	{
+		assert($token instanceof NumberToken);
 		$result = new FunctionResult();
 
 		$abs = preg_replace('/^-/', '', $token->getNumber()->getInput());
@@ -27,6 +28,7 @@ class AbsFunction implements IFunction
 		return $result;
 	}
 
+
 	/**
 	 * @param IToken $token
 	 * @return bool
@@ -35,5 +37,4 @@ class AbsFunction implements IFunction
 	{
 		return $token instanceof NumberToken;
 	}
-
 }

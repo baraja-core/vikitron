@@ -8,15 +8,12 @@ namespace Mathematicator\Engine;
 abstract class BaseModule implements ExtraModule
 {
 
-	/**
-	 * @var EngineSingleResult
-	 */
+	/** @var EngineSingleResult */
 	protected $result;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $query;
+
 
 	/**
 	 * @internal
@@ -27,6 +24,7 @@ abstract class BaseModule implements ExtraModule
 		$this->result = $result;
 	}
 
+
 	/**
 	 * @internal
 	 * @param string $query
@@ -35,5 +33,4 @@ abstract class BaseModule implements ExtraModule
 	{
 		$this->query = $query;
 	}
-
 }

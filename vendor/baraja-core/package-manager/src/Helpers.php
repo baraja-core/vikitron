@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Baraja\PackageManager;
 
 
+/**
+ * @internal
+ */
 final class Helpers
 {
 
-	/**
-	 * @throws \Error
-	 */
+	/** @throws \Error */
 	public function __construct()
 	{
 		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
@@ -59,6 +60,47 @@ final class Helpers
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * Convert Nette SmartObject with private methods to Nette ArrayHash structure.
+	 * While converting call getters, so you get only properties which you can get.
+	 * Function supports recursive objects structure. Public properties will be included.
+	 *
+	 * @param mixed $input
+	 * @return mixed
+	 */
+	public static function haystackToArray($input)
+	{
+		if (\is_object($input)) {
+			try {
+				$reflection = new \ReflectionClass($input);
+			} catch (\ReflectionException $e) {
+				return null;
+			}
+
+			$return = [];
+
+			foreach ($input as $k => $v) {
+				$return[$k] = self::haystackToArray($v);
+			}
+
+			foreach ($reflection->getMethods() as $method) {
+				if ($method->name !== 'getReflection' && preg_match('/^(get|is)(.+)$/', $method->name, $_method)) {
+					$return[lcfirst($_method[2])] = self::haystackToArray($input->{$method->name}());
+				}
+			}
+		} elseif (\is_array($input)) {
+			$return = [];
+			foreach ($input as $k => $v) {
+				$return[$k] = self::haystackToArray($v);
+			}
+		} else {
+			$return = $input;
+		}
+
+		return $return;
 	}
 
 

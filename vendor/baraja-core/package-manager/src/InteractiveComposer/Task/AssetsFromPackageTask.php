@@ -31,21 +31,8 @@ final class AssetsFromPackageTask extends BaseTask
 		echo 'BasePath:    ' . ($basePath = \dirname(__DIR__, 5) . '/') . "\n";
 		echo 'ProjectRoot: ' . \rtrim(\dirname($basePath), '/') . '/' . "\n\n";
 
-		$namePatterns = $this->packageRegistrator->getPackageDescriptorEntity()->getCustomPackagesNamePatterns();
 		foreach (glob($basePath . '*') ?? [] as $namespace) {
 			if (\is_dir($namespace)) {
-				$isCustom = false;
-				foreach ($namePatterns as $pattern) {
-					if (preg_match('/' . $pattern . '/', (string) preg_replace('/^.+\/([^\/]+)$/', '$1', $namespace))) {
-						$isCustom = true;
-						break;
-					}
-				}
-
-				if ($isCustom === false) {
-					continue;
-				}
-
 				foreach (glob($namespace . '/*') ?? [] as $package) {
 					if (\is_dir($package)) {
 						$this->processPackage(rtrim($package) . '/', $basePath);

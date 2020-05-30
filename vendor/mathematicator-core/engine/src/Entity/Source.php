@@ -10,28 +10,20 @@ use Nette\Utils\Validators;
 
 class Source
 {
-
 	use SmartObject;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $title;
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $authors = [];
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $description;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $url;
+
 
 	/**
 	 * @param string|null $title
@@ -44,6 +36,7 @@ class Source
 		$this->url = $url;
 		$this->description = $description;
 	}
+
 
 	/**
 	 * @return string
@@ -77,6 +70,7 @@ class Source
 			: '<b>' . $title . '</b><br>' . $description;
 	}
 
+
 	/**
 	 * @param string $author
 	 */
@@ -84,6 +78,7 @@ class Source
 	{
 		$this->authors[] = $author;
 	}
+
 
 	/**
 	 * @param string[] $authors
@@ -97,6 +92,7 @@ class Source
 		}
 	}
 
+
 	/**
 	 * @param string $url
 	 */
@@ -104,6 +100,7 @@ class Source
 	{
 		$this->url = $url;
 	}
+
 
 	/**
 	 * @param string $title
@@ -113,6 +110,7 @@ class Source
 		$this->title = $title;
 	}
 
+
 	/**
 	 * @param string $description
 	 */
@@ -120,5 +118,4 @@ class Source
 	{
 		$this->description = $description;
 	}
-
 }

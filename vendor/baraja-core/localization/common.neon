@@ -1,0 +1,9 @@
+services:
+	- Baraja\Localization\Localization
+
+extensions:
+	localization: Baraja\Localization\LocalizationExtension
+
+baraja.database:
+	types:
+		translate: Baraja\Localization\TranslateType

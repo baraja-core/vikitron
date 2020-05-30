@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers;
 
 
-class Cache
+final class Cache
 {
 
 	/**
-	 * @return \Generator
+	 * @return \Generator<int>
 	 */
 	public static function primaries(): \Generator
 	{
@@ -19,5 +19,4 @@ class Cache
 			yield $number;
 		}
 	}
-
 }

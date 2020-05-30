@@ -13,13 +13,11 @@ use Nette\SmartObject;
  */
 class AutoCompleteResult
 {
-
 	use SmartObject;
 
-	/**
-	 * @var Result
-	 */
+	/** @var Result */
 	private $result;
+
 
 	/**
 	 * @return Result
@@ -28,6 +26,7 @@ class AutoCompleteResult
 	{
 		return $this->result;
 	}
+
 
 	/**
 	 * @param Result $result
@@ -40,6 +39,7 @@ class AutoCompleteResult
 		return $this;
 	}
 
+
 	/**
 	 * @return VideoResult[]
 	 */
@@ -47,6 +47,7 @@ class AutoCompleteResult
 	{
 		return $this->videos;
 	}
+
 
 	/**
 	 * @param VideoResult[] $videos
@@ -58,5 +59,4 @@ class AutoCompleteResult
 
 		return $this;
 	}
-
 }

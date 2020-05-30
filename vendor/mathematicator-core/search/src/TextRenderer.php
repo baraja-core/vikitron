@@ -7,9 +7,8 @@ namespace Mathematicator\Search;
 
 use Nette\StaticClass;
 
-class TextRenderer
+final class TextRenderer
 {
-
 	use StaticClass;
 
 	/**
@@ -22,5 +21,4 @@ class TextRenderer
 	{
 		return htmlspecialchars($haystack);
 	}
-
 }

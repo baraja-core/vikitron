@@ -16,33 +16,23 @@ use Nette\SmartObject;
  */
 class NumberOperationResult
 {
-
 	use SmartObject;
 
-	/**
-	 * @var NumberToken
-	 */
+	/** @var NumberToken */
 	private $number;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $title;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $description;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $ajaxEndpoint;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $iteratorStep = 2;
+
 
 	/**
 	 * @return NumberToken
@@ -51,6 +41,7 @@ class NumberOperationResult
 	{
 		return $this->number;
 	}
+
 
 	/**
 	 * @param NumberToken $number
@@ -63,6 +54,7 @@ class NumberOperationResult
 		return $this;
 	}
 
+
 	/**
 	 * @return string|null
 	 */
@@ -70,6 +62,7 @@ class NumberOperationResult
 	{
 		return $this->description;
 	}
+
 
 	/**
 	 * @param string $description
@@ -82,6 +75,7 @@ class NumberOperationResult
 		return $this;
 	}
 
+
 	/**
 	 * @return string|null
 	 */
@@ -89,6 +83,7 @@ class NumberOperationResult
 	{
 		return $this->title;
 	}
+
 
 	/**
 	 * @param string|null $title
@@ -101,6 +96,7 @@ class NumberOperationResult
 		return $this;
 	}
 
+
 	/**
 	 * @return string|null
 	 */
@@ -108,6 +104,7 @@ class NumberOperationResult
 	{
 		return $this->ajaxEndpoint;
 	}
+
 
 	/**
 	 * @param string|null $ajaxEndpoint
@@ -120,6 +117,7 @@ class NumberOperationResult
 		return $this;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -127,6 +125,7 @@ class NumberOperationResult
 	{
 		return $this->iteratorStep;
 	}
+
 
 	/**
 	 * @param int $iteratorStep
@@ -138,5 +137,4 @@ class NumberOperationResult
 
 		return $this;
 	}
-
 }

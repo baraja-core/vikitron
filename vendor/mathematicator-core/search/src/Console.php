@@ -17,10 +17,9 @@ use Tracy\Dumper;
 class Console extends Command
 {
 
-	/**
-	 * @var Search
-	 */
+	/** @var Search */
 	private $search;
+
 
 	/**
 	 * @param Search $search
@@ -31,11 +30,13 @@ class Console extends Command
 		$this->search = $search;
 	}
 
+
 	protected function configure(): void
 	{
 		$this->setName('app:search')
 			->setDescription('Search by computational knowledge engine.');
 	}
+
 
 	/**
 	 * @param InputInterface $input
@@ -60,7 +61,9 @@ class Console extends Command
 
 					if (\is_array($result)) {
 						foreach ($result as $resultItem) {
-							$this->render($resultItem);
+							if ($resultItem instanceof EngineSingleResult) {
+								$this->render($resultItem);
+							}
 							echo "\n\n\n---------------------\n\n\n";
 						}
 					} elseif ($result instanceof EngineSingleResult) {
@@ -68,9 +71,7 @@ class Console extends Command
 					}
 				}
 			}
-
-			return 0;
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$output->writeLn('<error>' . $e->getMessage() . '</error>');
 			echo "\n\n";
 			Terminal::code($e->getFile(), $e->getLine());
@@ -79,6 +80,7 @@ class Console extends Command
 			return 1;
 		}
 	}
+
 
 	/**
 	 * @param EngineSingleResult $result
@@ -96,5 +98,4 @@ class Console extends Command
 			echo $box->getText();
 		}
 	}
-
 }

@@ -1,3 +1,7 @@
+# IDEs
+.idea/
+.vscode/
+
 /vendor
 composer.phar
 composer.lock

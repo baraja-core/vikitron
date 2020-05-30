@@ -1,4 +1,6 @@
-<?php namespace Martindilling\Sunny;
+<?php
+
+namespace Martindilling\Sunny;
 
 use Carbon\Carbon;
 
@@ -19,14 +21,14 @@ class Sunny extends Carbon {
 
     /**
      * Latitude used for finding sunrise and sunset
-     * 
+     *
      * @var float
      */
     protected $latitude;
 
     /**
      * Longitude used for finding sunrise and sunset
-     * 
+     *
      * @var float
      */
     protected $longitude;
@@ -34,19 +36,19 @@ class Sunny extends Carbon {
     /**
      * Zenith used for finding sunrise and sunset
      * Note: Being set correctly in constructor, as the php default is wrong
-     * 
+     *
      * @var float
      */
     protected $zenith;
 
     /**
      * The format to return sunrise and sunset in
-     * 
+     *
      * From php.net docs:
      * SUNFUNCS_RET_STRING     returns the result as string               '16:46'
      * SUNFUNCS_RET_DOUBLE     returns the result as float                16.78243132
      * SUNFUNCS_RET_TIMESTAMP  returns the result as integer (timestamp)  1095034606
-     * 
+     *
      * @var SUNFUNCS_RET_STRING|SUNFUNCS_RET_DOUBLE|SUNFUNCS_RET_TIMESTAMP
      */
     protected $sunfuncFormat = SUNFUNCS_RET_STRING;
@@ -104,13 +106,13 @@ class Sunny extends Carbon {
 
             case 'zenith':
                 return (float) $this->zenith;
-            
+
             case 'sunrise':
                 return $this->getSunrise();
 
             case 'sunset':
                 return $this->getSunset();
-            
+
             case 'sunnyMinutes':
                 return $this->getSunnyMinutes();
 
@@ -168,8 +170,8 @@ class Sunny extends Carbon {
      */
     public function getSunnyMinutes()
     {
-        $sunrise = self::createFromTimestamp($this->getSunrise(SUNFUNCS_RET_TIMESTAMP));
-        $sunset = self::createFromTimestamp($this->getSunset(SUNFUNCS_RET_TIMESTAMP));
+        $sunrise = Sunny::createFromTimestamp($this->getSunrise(SUNFUNCS_RET_TIMESTAMP));
+        $sunset = Sunny::createFromTimestamp($this->getSunset(SUNFUNCS_RET_TIMESTAMP));
 
         return $sunrise->diffInMinutes($sunset);
     }

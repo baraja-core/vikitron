@@ -1,6 +1,8 @@
 Vizualizator
 ============
 
+![Integrity check](https://github.com/mathematicator-core/vizualizator/workflows/Integrity%20check/badge.svg)
+
 Smart engine for elegant creating images and graphic visualizations.
 
 Render to SVG, PNG and JPG. All output is in base64 format valid in HTML document.

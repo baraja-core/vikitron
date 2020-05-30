@@ -5,29 +5,24 @@ declare(strict_types=1);
 namespace Mathematicator\Step\Controller;
 
 
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Step;
 use Mathematicator\NumberHelper;
 use Mathematicator\Step\StepFactory;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Validators;
 
-class StepPlusController implements IStepController
+final class StepPlusController implements IStepController
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var Number
-	 */
+	/** @var NumberHelper */
 	private $number;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $tolerance = 0;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -38,6 +33,7 @@ class StepPlusController implements IStepController
 		$this->stepFactory = $stepFactory;
 		$this->number = $number;
 	}
+
 
 	/**
 	 * @param ArrayHash $data
@@ -91,6 +87,7 @@ class StepPlusController implements IStepController
 		return $steps;
 	}
 
+
 	/**
 	 * @param string $number
 	 * @return string[]
@@ -104,17 +101,17 @@ class StepPlusController implements IStepController
 		return explode('/', $number);
 	}
 
+
 	/**
-	 * @param int[] $number
+	 * @param string[] $number
 	 * @return string
 	 */
 	private function numberToLatex(array $number): string
 	{
-		if ($number[1] === '1') {
+		if (($number[1] ?? null) === '1') {
 			return (string) $number[0];
 		}
 
 		return '\frac{' . $number[0] . '}{' . $number[1] . '}';
 	}
-
 }

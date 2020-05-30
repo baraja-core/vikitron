@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
+use Mathematicator\Engine\Query;
 use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Search\Query;
 use Mathematicator\Step\Controller\StepPlusController;
 use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
@@ -14,15 +14,12 @@ use Mathematicator\Tokenizer\Token\NumberToken;
 class AddNumbers
 {
 
-	/**
-	 * @var NumberFactory
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param NumberFactory $numberFactory
@@ -33,6 +30,7 @@ class AddNumbers
 		$this->numberFactory = $numberFactory;
 		$this->stepFactory = $stepFactory;
 	}
+
 
 	/**
 	 * @param NumberToken $left
@@ -54,7 +52,6 @@ class AddNumbers
 					$query->getDecimals()
 				) . '/' .
 				bcmul($leftFraction[1], $rightFraction[1], $query->getDecimals());
-
 		}
 
 		$newNumber = new NumberToken($this->numberFactory->create($result));
@@ -80,5 +77,4 @@ class AddNumbers
 				])
 			);
 	}
-
 }

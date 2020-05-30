@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator;
 
 
+use Mathematicator\Engine\Step;
 use Mathematicator\Tokenizer\Token\IToken;
 use Nette\SmartObject;
 
@@ -15,23 +16,17 @@ use Nette\SmartObject;
  */
 class CalculatorResult
 {
-
 	use SmartObject;
 
-	/**
-	 * @var IToken[]
-	 */
+	/** @var IToken[] */
 	private $tokens;
 
-	/**
-	 * @var IToken[]
-	 */
+	/** @var IToken[] */
 	private $resultTokens = [];
 
-	/**
-	 * @var Step[]
-	 */
+	/** @var Step[] */
 	private $steps = [];
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -40,6 +35,7 @@ class CalculatorResult
 	{
 		$this->tokens = $tokens;
 	}
+
 
 	/**
 	 * @return string
@@ -53,6 +49,7 @@ class CalculatorResult
 		return '';
 	}
 
+
 	/**
 	 * @return IToken[]
 	 */
@@ -60,6 +57,7 @@ class CalculatorResult
 	{
 		return $this->tokens;
 	}
+
 
 	/**
 	 * @param IToken[] $tokens
@@ -69,6 +67,7 @@ class CalculatorResult
 		$this->tokens = $tokens;
 	}
 
+
 	/**
 	 * @return IToken[]
 	 */
@@ -76,6 +75,7 @@ class CalculatorResult
 	{
 		return $this->resultTokens;
 	}
+
 
 	/**
 	 * @param IToken[] $resultTokens
@@ -85,6 +85,7 @@ class CalculatorResult
 		$this->resultTokens = $resultTokens;
 	}
 
+
 	/**
 	 * @return Step[]
 	 */
@@ -92,6 +93,7 @@ class CalculatorResult
 	{
 		return $this->steps;
 	}
+
 
 	/**
 	 * @param Step[] $steps
@@ -116,5 +118,4 @@ class CalculatorResult
 
 		$this->steps = $return;
 	}
-
 }

@@ -7,17 +7,14 @@ namespace Mathematicator\MathFunction;
 
 use Mathematicator\Engine\MathematicatorException;
 
-class FunctionDoesNotExistsException extends MathematicatorException
+final class FunctionDoesNotExistsException extends MathematicatorException
 {
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $function;
 
+
 	/**
-	 * FunctionDoesNotExistsException constructor.
-	 *
 	 * @param string $message
 	 * @param int $code
 	 * @param \Throwable|null $previous
@@ -29,6 +26,7 @@ class FunctionDoesNotExistsException extends MathematicatorException
 		$this->function = $function;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -36,5 +34,4 @@ class FunctionDoesNotExistsException extends MathematicatorException
 	{
 		return $this->function;
 	}
-
 }

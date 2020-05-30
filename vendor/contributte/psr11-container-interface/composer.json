@@ -1,0 +1,67 @@
+{
+  "name": "contributte/psr11-container-interface",
+  "description": "Wraps nette/di container into PSR-11 implementation.",
+  "keywords": [
+    "nette",
+    "dependency",
+    "inject",
+    "psr-11"
+  ],
+  "type": "library",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/contributte/psr11-container-interface",
+  "authors": [
+    {
+      "name": "Marek Bartoš",
+      "homepage": "https://marek-bartos.cz"
+    }
+  ],
+  "require": {
+    "php": ">= 7.1",
+    "nette/di": "~2.4.13 || ~3.0.0",
+    "psr/container": "^1.0.0"
+  },
+  "require-dev": {
+    "ninjify/qa": "^0.8.0",
+    "ninjify/nunjuck": "^0.2.0",
+    "phpstan/phpstan-shim": "^0.11",
+    "phpstan/phpstan-deprecation-rules": "^0.11",
+    "phpstan/phpstan-nette": "^0.11",
+    "phpstan/phpstan-strict-rules": "^0.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\Psr11\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Fixtures\\": "tests/fixtures"
+    }
+  },
+  "provide": {
+    "psr/container-implementation": "1.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "qa": [
+      "linter src tests",
+      "codesniffer src tests"
+    ],
+    "tests": [
+      "tester -s -p php --colors 1 -C tests/cases"
+    ],
+    "coverage": [
+      "tester -s -p phpdbg --colors 1 -C --coverage ./coverage.xml --coverage-src ./src tests/cases"
+    ],
+    "phpstan": [
+      "vendor/bin/phpstan analyse -l max -c phpstan.neon src"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.4.x-dev"
+    }
+  }
+}

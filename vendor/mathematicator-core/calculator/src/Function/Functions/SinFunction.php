@@ -15,11 +15,9 @@ use Mathematicator\Tokenizer\Token\PiToken;
 class SinFunction implements IFunction
 {
 
-
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -29,12 +27,14 @@ class SinFunction implements IFunction
 		$this->stepFactory = $stepFactory;
 	}
 
+
 	/**
 	 * @param NumberToken|IToken $token
 	 * @return FunctionResult
 	 */
 	public function process(IToken $token): FunctionResult
 	{
+		assert($token instanceof NumberToken);
 		$result = new FunctionResult();
 
 		$x = $token->getNumber()->getFloat();
@@ -45,8 +45,8 @@ class SinFunction implements IFunction
 			$sin = sin($x);
 		}
 
-		$token->getNumber()->setValue($sin);
-		$token->setToken($sin);
+		$token->getNumber()->setValue((string) $sin);
+		$token->setToken((string) $sin);
 
 		$step = $this->stepFactory->create();
 		$step->setAjaxEndpoint(
@@ -61,6 +61,7 @@ class SinFunction implements IFunction
 		return $result;
 	}
 
+
 	/**
 	 * @param IToken $token
 	 * @return bool
@@ -69,5 +70,4 @@ class SinFunction implements IFunction
 	{
 		return $token instanceof NumberToken || $token instanceof InfinityToken;
 	}
-
 }

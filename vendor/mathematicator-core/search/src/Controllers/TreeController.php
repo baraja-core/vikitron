@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Mathematicator\SearchController;
 
 
-use Mathematicator\Search\Box;
+use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Controller\BaseController;
 use Mathematicator\Tokenizer\Tokenizer;
 
-class TreeController extends BaseController
+final class TreeController extends BaseController
 {
 
 	/**
@@ -16,6 +17,7 @@ class TreeController extends BaseController
 	 * @inject
 	 */
 	public $tokenizer;
+
 
 	public function actionDefault(): void
 	{
@@ -30,5 +32,4 @@ class TreeController extends BaseController
 			->setTitle('Interní interpretace dotazu ve stromu')
 			->setText($this->tokenizer->renderTokensTree($objects));
 	}
-
 }

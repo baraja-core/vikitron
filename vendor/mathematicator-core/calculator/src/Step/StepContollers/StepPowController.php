@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Mathematicator\Step\Controller;
 
 
-use Mathematicator\Calculator\Step;
+use Mathematicator\Engine\Step;
 use Mathematicator\Step\StepFactory;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Validators;
 
-class StepPowController implements IStepController
+final class StepPowController implements IStepController
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -25,6 +24,7 @@ class StepPowController implements IStepController
 	{
 		$this->stepFactory = $stepFactory;
 	}
+
 
 	/**
 	 * @param ArrayHash $data
@@ -54,6 +54,7 @@ class StepPowController implements IStepController
 
 		return $steps;
 	}
+
 
 	/**
 	 * @param string $x
@@ -104,6 +105,7 @@ class StepPowController implements IStepController
 		return $steps;
 	}
 
+
 	/**
 	 * @param string $x
 	 * @param string $y
@@ -127,5 +129,4 @@ class StepPowController implements IStepController
 
 		return $steps;
 	}
-
 }

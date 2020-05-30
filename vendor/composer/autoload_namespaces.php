@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'UpdateHelper\\' => array($vendorDir . '/kylekatarnls/update-helper/src'),
     'Solaris' => array($vendorDir . '/janbarasek/php-moon-phase'),
     'Martindilling\\Sunny' => array($vendorDir . '/martindilling/sunny/src'),
 );

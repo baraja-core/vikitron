@@ -12,9 +12,7 @@ use Nette\Utils\Validators;
 class NumberRewriter
 {
 
-	/**
-	 * @var string[]
-	 */
+	/** @var int[] */
 	private $basic = [
 		'nula' => 0,
 		'jedna' => 1,
@@ -40,23 +38,17 @@ class NumberRewriter
 		'dvacet' => 20,
 	];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $teens = [
 		1 => 'deset', 'dvacet', 'třicet', 'čtyřicet', 'padesát', 'šedesát', 'sedmdesát', 'osmdesát', 'devadesát', 'sto',
 	];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $hundreds = [
 		1 => 'sto', 'dvě stě', 'tři sta', 'čtyři sta', 'pět set', 'šest set', 'sedm set', 'osm set', 'devět set', 'tisíc',
 	];
 
-	/**
-	 * @var string[][]
-	 */
+	/** @var string[][] */
 	private $levels = [
 		0 => ['', '', ''],
 		3 => ['tisíc', 'tisíce', 'tisíc'],
@@ -87,9 +79,7 @@ class NumberRewriter
 		600 => ['centilion', 'centiliony', 'centilionů'],
 	];
 
-	/**
-	 * @var string[][]
-	 */
+	/** @var string[][] */
 	private $fractions = [
 		1 => ['jednina'],
 		2 => ['polovina', 'poloviny', 'polovin'],
@@ -103,16 +93,13 @@ class NumberRewriter
 		10 => ['desetina', 'desetiny', 'desetin'],
 	];
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $regex = [
 		'^(m[ií]nus)\s*(.+)$' => '-$2',
 		'(^|[^\d])(\d+)-ti(\s|$)' => '$1$2$3',
 		'\s*(celé|celých|celá)\s*' => '|',
 	];
 
-	// --------------------------------------------------- To number ---------------------------------------------------
 
 	/**
 	 * @param string $haystack
@@ -134,7 +121,6 @@ class NumberRewriter
 		return trim($return);
 	}
 
-	// ---------------------------------------------------- To word ----------------------------------------------------
 
 	/**
 	 * @param string $number
@@ -153,7 +139,7 @@ class NumberRewriter
 		}
 
 		foreach ($this->basic as $w => $n) {
-			if ($n === $number) {
+			if ((string) $n === $number) {
 				return (string) $w;
 			}
 		}
@@ -192,6 +178,7 @@ class NumberRewriter
 		return trim(preg_replace('/\s+/', ' ', $return));
 	}
 
+
 	/**
 	 * @param string $float
 	 * @return string
@@ -200,6 +187,7 @@ class NumberRewriter
 	{
 		return $float;
 	}
+
 
 	/**
 	 * @param string $number
@@ -231,15 +219,16 @@ class NumberRewriter
 
 				// ones
 				if (isset($number[0]) && $number[0] !== '0') {
-					$return .= $this->formatOnes($number[0]);
+					$return .= $this->formatOnes((int) $number[0]);
 				}
 			}
 		} elseif (isset($number[0]) && $number[0] !== '0') {
-			$return .= $this->formatOnes($number[0]);
+			$return .= $this->formatOnes((int) $number[0]);
 		}
 
 		return trim($return);
 	}
+
 
 	/**
 	 * @param int $number
@@ -249,6 +238,7 @@ class NumberRewriter
 	{
 		return [1 => 'jedna', 'dva', 'tři', 'čtyři', 'pět', 'šest', 'sedm', 'osm', 'devět'][$number];
 	}
+
 
 	/**
 	 * @param int $number
@@ -270,6 +260,7 @@ class NumberRewriter
 		return $forOther;
 	}
 
+
 	/**
 	 * @param string $word
 	 * @return string
@@ -284,5 +275,4 @@ class NumberRewriter
 
 		return $word;
 	}
-
 }

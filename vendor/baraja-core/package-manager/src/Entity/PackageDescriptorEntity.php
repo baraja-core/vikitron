@@ -10,7 +10,6 @@ use Baraja\PackageManager\Exception\PackageDescriptorException;
 
 /**
  * @internal
- * @property string[] $customPackagesNamePatterns
  */
 class PackageDescriptorEntity
 {
@@ -23,24 +22,6 @@ class PackageDescriptorEntity
 
 	/** @var mixed[] */
 	protected $packagest = [];
-
-	/** @var string[] */
-	protected $customRouters = [];
-
-	/** @var string[] */
-	protected $afterInstallScripts = [];
-
-	/** @var string[] */
-	private $__customPackagesNamePatterns;
-
-
-	/**
-	 * @param string[] $customPackagesNamePatterns
-	 */
-	public function __construct(array $customPackagesNamePatterns = [])
-	{
-		$this->__customPackagesNamePatterns = $customPackagesNamePatterns;
-	}
 
 
 	/**
@@ -93,29 +74,15 @@ class PackageDescriptorEntity
 
 
 	/**
-	 * @param bool $customPackagesOnly
+	 * @param bool|null $customPackagesOnly
 	 * @return Package[]
 	 * @throws PackageDescriptorCompileException
 	 */
-	public function getPackagest(bool $customPackagesOnly = true): array
+	public function getPackagest(?bool $customPackagesOnly = null): array
 	{
 		$return = [];
 
 		foreach ($this->packagest as $package) {
-			if ($customPackagesOnly === true) {
-				$isCustom = false;
-				foreach ($this->getCustomPackagesNamePatterns() as $pattern) {
-					if (preg_match('/' . $pattern . '/', $package['name'])) {
-						$isCustom = true;
-						break;
-					}
-				}
-
-				if ($isCustom === false) {
-					continue;
-				}
-			}
-
 			if ($package['composer'] === null) {
 				PackageDescriptorCompileException::composerJsonIsBroken($package['name']);
 			}
@@ -189,59 +156,5 @@ class PackageDescriptorEntity
 	public function getComposerHash(): string
 	{
 		return md5((string) time());
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getCustomRouters(): array
-	{
-		return $this->customRouters;
-	}
-
-
-	/**
-	 * @param string[] $customRouters
-	 * @throws PackageDescriptorException
-	 */
-	public function setCustomRouters(array $customRouters = []): void
-	{
-		$this->checkIfClose();
-		$this->customRouters = $customRouters;
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getAfterInstallScripts(): array
-	{
-		return $this->afterInstallScripts;
-	}
-
-
-	/**
-	 * @param string[] $afterInstallScript
-	 * @throws PackageDescriptorException
-	 */
-	public function setAfterInstallScripts(array $afterInstallScript = []): void
-	{
-		$this->checkIfClose();
-		$this->afterInstallScripts = $afterInstallScript;
-	}
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getCustomPackagesNamePatterns(): array
-	{
-		return array_merge(
-			$this->__customPackagesNamePatterns,
-			property_exists($this, 'customPackagesNamePatterns')
-				? $this->customPackagesNamePatterns
-				: []
-		);
 	}
 }

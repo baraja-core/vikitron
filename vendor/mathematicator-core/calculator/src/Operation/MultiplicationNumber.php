@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
+use Mathematicator\Engine\Query;
 use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Search\Query;
 use Mathematicator\Step\Controller\StepMultiplicationController;
 use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
@@ -14,15 +14,12 @@ use Mathematicator\Tokenizer\Token\NumberToken;
 class MultiplicationNumber
 {
 
-	/**
-	 * @var NumberFactory
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param NumberFactory $numberFactory
@@ -33,6 +30,7 @@ class MultiplicationNumber
 		$this->numberFactory = $numberFactory;
 		$this->stepFactory = $stepFactory;
 	}
+
 
 	/**
 	 * @param NumberToken $left
@@ -68,5 +66,4 @@ class MultiplicationNumber
 				])
 			);
 	}
-
 }

@@ -138,8 +138,8 @@ class Printer
 
 		$members = array_filter([
 			implode('', $traits),
-			implode('', $consts),
-			implode("\n", $properties),
+			preg_replace('#^(\w.*\n)\n(?=\w.*;)#m', '$1', implode("\n", $consts)),
+			preg_replace('#^(\w.*\n)\n(?=\w.*;)#m', '$1', implode("\n", $properties)),
 			($methods && $properties ? str_repeat("\n", $this->linesBetweenMethods - 1) : '')
 			. implode(str_repeat("\n", $this->linesBetweenMethods), $methods),
 		]);
@@ -211,7 +211,7 @@ class Printer
 	protected function indent(string $s): string
 	{
 		$s = str_replace("\t", $this->indentation, $s);
-		return Strings::indent($s, 1, $this->indentation);
+		return Helpers::indentPhp($s, 1, $this->indentation);
 	}
 
 

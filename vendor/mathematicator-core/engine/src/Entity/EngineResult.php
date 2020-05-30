@@ -8,25 +8,19 @@ namespace Mathematicator\Engine;
 use Nette\SmartObject;
 use Nette\Utils\Strings;
 
-class EngineResult
+abstract class EngineResult
 {
-
 	use SmartObject;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $query;
 
-	/**
-	 * @var string|null
-	 */
+	/** @var string|null */
 	private $matchedRoute;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $time;
+
 
 	/**
 	 * @param string $query
@@ -38,6 +32,7 @@ class EngineResult
 		$this->matchedRoute = $matchedRoute;
 	}
 
+
 	/**
 	 * @return string
 	 */
@@ -45,6 +40,7 @@ class EngineResult
 	{
 		return $this->query;
 	}
+
 
 	/**
 	 * @return int
@@ -54,6 +50,7 @@ class EngineResult
 		return Strings::length($this->getQuery());
 	}
 
+
 	/**
 	 * @return string|null
 	 */
@@ -62,6 +59,7 @@ class EngineResult
 		return $this->matchedRoute;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -69,6 +67,7 @@ class EngineResult
 	{
 		return $this->time ?? 0;
 	}
+
 
 	/**
 	 * @param int $time
@@ -80,5 +79,4 @@ class EngineResult
 
 		return $this;
 	}
-
 }

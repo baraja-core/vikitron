@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
-use Mathematicator\NumberHelper;
 use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Tokenizer\Token\BaseToken;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\EquationToken;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
+use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Token\OperatorToken;
 use Mathematicator\Tokenizer\Token\OtherToken;
@@ -24,29 +23,22 @@ use Nette\Tokenizer\Token;
 class TokensToObject
 {
 
-	/**
-	 * @var NumberFactory
-	 */
+	/** @var NumberFactory */
 	private $numberFactory;
 
-	/**
-	 * @var NumberHelper
-	 */
-	private $numberHelper;
 
 	/**
 	 * @param NumberFactory $numberFactory
-	 * @param NumberHelper $numberHelper
 	 */
-	public function __construct(NumberFactory $numberFactory, NumberHelper $numberHelper)
+	public function __construct(NumberFactory $numberFactory)
 	{
 		$this->numberFactory = $numberFactory;
-		$this->numberHelper = $numberHelper;
 	}
+
 
 	/**
 	 * @param Token[] $tokens
-	 * @return BaseToken[]
+	 * @return IToken[]
 	 */
 	public function toObject(array $tokens): array
 	{
@@ -63,7 +55,7 @@ class TokensToObject
 				case Tokens::M_ROMAN_NUMBER:
 					$tokenFactory = new RomanNumberToken(
 						$this->numberFactory->create(
-							(string) NumberHelper::romanToInt($token->value)
+							(string) Helper::romanToInt($token->value)
 						)
 					);
 					break;
@@ -71,7 +63,7 @@ class TokensToObject
 				case Tokens::M_VARIABLE:
 					$tokenFactory = new VariableToken(
 						$token->value,
-						$this->numberFactory->create(1)
+						$this->numberFactory->create('1')
 					);
 					break;
 
@@ -99,23 +91,23 @@ class TokensToObject
 					break;
 
 				case Tokens::M_LEFT_BRACKET:
-					$tokenFactory = new SubToken(new TokensToObject($this->numberFactory, $this->numberHelper));
+					$tokenFactory = new SubToken($this);
 					$iterator = $tokenFactory->setArrayTokens($tokens, $iterator);
 					break;
 
 				case Tokens::M_FUNCTION:
-					$tokenFactory = new FunctionToken(new TokensToObject($this->numberFactory, $this->numberHelper));
+					$tokenFactory = new FunctionToken($this);
 					$iterator = $tokenFactory->setArrayTokens($tokens, $iterator);
 					$tokenFactory->setName($token->value);
 					break;
 
 				// TODO: Fix in future
-				//case Tokens::M_PI:
-				//	$tokenFactory = new PiToken($this->numberFactory->create(M_PI), $this->numberHelper);
-				//	break;
+				// case Tokens::M_PI:
+				// $tokenFactory = new PiToken($this->numberFactory->create(M_PI), $this->numberHelper);
+				// break;
 
 				default:
-					$tokenFactory = new OtherToken();
+					$tokenFactory = new OtherToken;
 			}
 
 			$objects[] = $tokenFactory->setToken($token->value)
@@ -125,5 +117,4 @@ class TokensToObject
 
 		return $objects;
 	}
-
 }

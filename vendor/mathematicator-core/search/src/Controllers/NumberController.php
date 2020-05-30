@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\SearchController;
 
 
+use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Controller\BaseController;
 use Mathematicator\Engine\DivisionByZero;
 use Mathematicator\Engine\Helper\Czech;
 use Mathematicator\Engine\Helper\DateTime;
@@ -12,13 +14,12 @@ use Mathematicator\Engine\Translator;
 use Mathematicator\NumberHelper;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Numbers\SmartNumber;
-use Mathematicator\Search\Box;
 use Mathematicator\Step\RomanIntSteps;
 use Mathematicator\Step\StepFactory;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 
-class NumberController extends BaseController
+final class NumberController extends BaseController
 {
 
 	/**
@@ -51,10 +52,9 @@ class NumberController extends BaseController
 	 */
 	public $stepFactory;
 
-	/**
-	 * @var SmartNumber
-	 */
+	/** @var SmartNumber */
 	private $number;
+
 
 	public function actionDefault(): void
 	{
@@ -115,6 +115,7 @@ class NumberController extends BaseController
 		}
 	}
 
+
 	private function actionInteger(): void
 	{
 		$int = $this->number->getInteger();
@@ -140,16 +141,19 @@ class NumberController extends BaseController
 			$this->bigNumber($int);
 		}
 
-		$this->primeFactorization();
+		if ($int > 0) {
+			$this->primeFactorization();
+		}
 
-		if ($int <= 1000000) {
+		if ($int > 0 && $int <= 1000000) {
 			$this->divisors();
 		}
 
-		if ($int <= 50 && $int > 0) {
+		if ($int > 0 && $int <= 50) {
 			$this->graphicInt();
 		}
 	}
+
 
 	private function actionDivisionByZero(string $number): void
 	{
@@ -172,12 +176,14 @@ class NumberController extends BaseController
 			->setSteps([$step]);
 	}
 
+
 	private function actionFloat(): void
 	{
 		if ($this->number->getFraction()[1] !== 1) {
 			$this->convertToFraction();
 		}
 	}
+
 
 	/**
 	 * @param SmartNumber $number
@@ -224,6 +230,10 @@ class NumberController extends BaseController
 			if ($number->getInteger() > 0) {
 				$text = 'Přirozené celé reálné číslo';
 				$stepDescription[] = 'Je větší než nula.';
+			} elseif ($number->getInteger() < 0) {
+				$stepDescription[] = 'Je záporné číslo.';
+			} else {
+				$stepDescription[] = 'Je nula.';
 			}
 		} else {
 			$text = 'Reálné číslo';
@@ -236,18 +246,15 @@ class NumberController extends BaseController
 		}
 
 		$step->setTitle('Splněné předpoklady');
-		$step->setDescription($stepDescription === []
-			? ''
-			: '<ul><li>' . implode('</li><li>', $stepDescription) . '</li></ul>',
-			true
-		);
+		$step->setDescription('<ul><li>' . implode('</li><li>', $stepDescription) . '</li></ul>', true);
 		$steps[] = $step;
 
 		$this->addBox(Box::TYPE_TEXT)
 			->setTitle('Číselný obor')
-			->setText($text)
+			->setText($text . ($number->getInteger() < 0 ? ' (záporné číslo)' : ''))
 			->setSteps($steps);
 	}
+
 
 	/**
 	 * @param int $currentYear
@@ -283,20 +290,26 @@ class NumberController extends BaseController
 			->setSteps([$step]);
 	}
 
+
 	/**
 	 * @param string $int
 	 */
 	private function numberSystem(string $int): void
 	{
-		$bin[] = Strings::upper(decbin($int)) . '_{2}';
-		$bin[] = Strings::upper(decoct($int)) . '_{8}';
+		if ($int < 0) {
+			return;
+		}
+
+		$bin[] = Strings::upper(decbin((int) $int)) . '_{2}';
+		$bin[] = Strings::upper(decoct((int) $int)) . '_{8}';
 		$bin[] = Strings::upper($int) . '_{10}';
-		$bin[] = '\\text{' . Strings::upper(dechex($int)) . '}_{16}';
+		$bin[] = '\\text{' . Strings::upper(dechex((int) $int)) . '}_{16}';
 
 		$this->addBox(Box::TYPE_LATEX)
 			->setTitle('Převod číselných soustav')
 			->setText(implode("\n", $bin));
 	}
+
 
 	private function alternativeRewrite(): void
 	{
@@ -306,13 +319,14 @@ class NumberController extends BaseController
 			->setSteps($this->romanToIntSteps->getIntToRomanSteps($this->number->getInteger()));
 	}
 
+
 	/**
 	 * @param string $int
 	 */
 	private function timestamp(string $int): void
 	{
 		$currentTimestamp = \time();
-		$dateDiff = abs($currentTimestamp - $int);
+		$dateDiff = abs($currentTimestamp - (int) $int);
 
 		$timestamp = '<p><b>' . DateTime::getDateTimeIso((int) $int) . '</b></p>'
 			. '<p>'
@@ -329,6 +343,7 @@ class NumberController extends BaseController
 			->setTitle('Unix Timestamp | Čas serveru: ' . date('d. m. Y H:i:s'))
 			->setText($timestamp);
 	}
+
 
 	private function primeFactorization(): void
 	{
@@ -369,6 +384,7 @@ class NumberController extends BaseController
 		}
 	}
 
+
 	private function divisors(): void
 	{
 		$int = $this->number->getInteger();
@@ -396,6 +412,7 @@ class NumberController extends BaseController
 		// TODO: 'hiddenContent' => 'Vlastnosti dělitelnosti'
 	}
 
+
 	/**
 	 * @param int[]|string[] $array
 	 * @return int[]|string[]
@@ -413,6 +430,7 @@ class NumberController extends BaseController
 		return $toStr;
 	}
 
+
 	private function graphicInt(): void
 	{
 		$int = $this->number->getInteger();
@@ -426,6 +444,7 @@ class NumberController extends BaseController
 			->setText('<div style="overflow: auto;">' . $render . '</div>');
 	}
 
+
 	private function aboutPi(): void
 	{
 		$this->setInterpret(Box::TYPE_LATEX, '\pi');
@@ -434,6 +453,7 @@ class NumberController extends BaseController
 			->setTitle('Přibližná hodnota π | Ludolfovo číslo | Přesnost: ' . $this->queryEntity->getDecimals())
 			->setText('π ≈ ' . $this->numberHelper->getPi($this->queryEntity->getDecimals()) . ' …');
 	}
+
 
 	private function convertToFraction(): void
 	{
@@ -456,6 +476,7 @@ class NumberController extends BaseController
 		}
 	}
 
+
 	private function bigNumber(string $int): void
 	{
 		$countNumbers = \strlen($int);
@@ -473,6 +494,7 @@ class NumberController extends BaseController
 			}
 		}
 	}
+
 
 	/**
 	 * @param string $data
@@ -498,5 +520,4 @@ class NumberController extends BaseController
 
 		return $return;
 	}
-
 }

@@ -1,0 +1,36 @@
+{
+	"name": "baraja-core/localization",
+	"description": "Common package for language manipulation.",
+	"homepage": "https://github.com/baraja-core/localization",
+	"authors": [
+		{
+			"name": "Jan Barášek",
+			"homepage": "https://baraja.cz"
+		}
+	],
+	"require": {
+		"php": ">=7.1.0",
+		"nette/di": "^3.0",
+		"nette/utils": "^3.0",
+		"nette/caching": "^3.0",
+		"nette/http": "^3.0",
+		"baraja-core/doctrine": "~2.0",
+		"baraja-core/package-manager": "~2.0"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^0.12.18",
+		"tracy/tracy": "^2.7",
+		"phpstan/phpstan-nette": "^0.12.6"
+	},
+	"autoload": {
+		"classmap": [
+			"src/"
+		]
+	},
+	"scripts": {
+		"phpstan": [
+			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
+		]
+	},
+	"minimum-stability": "stable"
+}

@@ -12,9 +12,7 @@ use Nette\DI\Container;
 class FunctionManager
 {
 
-	/**
-	 * @var string[][]
-	 */
+	/** @var string[][] */
 	private static $functions = [
 		'sqrt' => [
 			SqrtFunction::class,
@@ -27,15 +25,12 @@ class FunctionManager
 		],
 	];
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $serviceFactory;
 
-	/**
-	 * @var IFunction
-	 */
+	/** @var IFunction */
 	private $callback;
+
 
 	/**
 	 * @param Container $container
@@ -44,6 +39,7 @@ class FunctionManager
 	{
 		$this->serviceFactory = $container;
 	}
+
 
 	/**
 	 * @param string $function
@@ -68,6 +64,7 @@ class FunctionManager
 		return null; // If token can't solve
 	}
 
+
 	/**
 	 * @param string $callback
 	 */
@@ -75,5 +72,4 @@ class FunctionManager
 	{
 		$this->callback = $this->serviceFactory->getByType($callback);
 	}
-
 }

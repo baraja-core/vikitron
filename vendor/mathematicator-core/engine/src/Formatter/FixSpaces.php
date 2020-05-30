@@ -8,9 +8,7 @@ namespace Mathematicator;
 class FixSpaces
 {
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private static $rules = [
 		'(\s|;|^)(\w)\s' => '$1$2&nbsp;',
 		'(\d)\s(let|rok.*?|g|kg|m|mm|h|hod|hodi.+?|m|min|minu.+?|s|sekun.+?|sec|second|milio.+?|miliar.+?|kč|Kč|°)([^\w])' => '$1&nbsp;$2$3',
@@ -21,6 +19,7 @@ class FixSpaces
 		'\s([-–])' => '&nbsp;$1',
 		'([§\*†©])\s' => '$1&nbsp;',
 	];
+
 
 	/**
 	 * @param string $content
@@ -45,5 +44,4 @@ class FixSpaces
 
 		return $content;
 	}
-
 }

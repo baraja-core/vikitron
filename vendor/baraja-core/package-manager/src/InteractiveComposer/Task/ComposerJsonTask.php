@@ -82,7 +82,7 @@ final class ComposerJsonTask extends BaseTask
 	{
 		$return = [];
 
-		foreach ($this->packageRegistrator->getPackageDescriptorEntity()->getPackagest(false) as $package) {
+		foreach ($this->packageRegistrator->getPackageDescriptorEntity()->getPackagest() as $package) {
 			$path = $this->packageRegistrator->getProjectRoot() . '/vendor/' . $package->getName() . '/composer.json';
 			$composer = is_file($path) ? Json::decode(FileSystem::read($path), Json::FORCE_ARRAY) : [];
 			if (isset($composer['require'])) {

@@ -9,7 +9,6 @@ use Nette\StaticClass;
 
 class Safe
 {
-
 	use StaticClass;
 
 	/**
@@ -45,6 +44,4 @@ class Safe
 
 		return $haystack;
 	}
-
-
 }

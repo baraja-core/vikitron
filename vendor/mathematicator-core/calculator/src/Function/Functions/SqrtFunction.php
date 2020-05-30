@@ -14,10 +14,9 @@ use Mathematicator\Tokenizer\Token\NumberToken;
 class SqrtFunction implements IFunction
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
+
 
 	/**
 	 * @param StepFactory $stepFactory
@@ -27,6 +26,7 @@ class SqrtFunction implements IFunction
 		$this->stepFactory = $stepFactory;
 	}
 
+
 	/**
 	 * @param NumberToken|IToken $token
 	 * @return FunctionResult
@@ -34,15 +34,15 @@ class SqrtFunction implements IFunction
 	 */
 	public function process(IToken $token): FunctionResult
 	{
+		assert($token instanceof NumberToken);
 		$result = new FunctionResult();
+		$number = $token->getNumber();
 
-		$n = $token->getNumber()->getFloat();
-
-		if ($n < 0) {
-			throw new MathErrorException('Sqrt is smaller than 0, ' . \json_encode($n) . ' given.');
+		if ($number->isNegative() === true) {
+			throw new MathErrorException('Sqrt is smaller than 0, but number "' . $number->getHumanString() . '" given.');
 		}
 
-		$sqrt = bcsqrt($n, 100);
+		$sqrt = bcsqrt($number->getFloatString(), 100);
 
 		$token->getNumber()->setValue($sqrt);
 		$token->setToken($sqrt);
@@ -50,7 +50,7 @@ class SqrtFunction implements IFunction
 		$step = $this->stepFactory->create();
 		$step->setAjaxEndpoint(
 			$this->stepFactory->getAjaxEndpoint(StepSqrtController::class, [
-				'n' => $n,
+				'n' => $number->getFloat(),
 			])
 		);
 
@@ -60,6 +60,7 @@ class SqrtFunction implements IFunction
 		return $result;
 	}
 
+
 	/**
 	 * @param IToken $token
 	 * @return bool
@@ -68,5 +69,4 @@ class SqrtFunction implements IFunction
 	{
 		return $token instanceof NumberToken;
 	}
-
 }

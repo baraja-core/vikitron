@@ -16,12 +16,17 @@
 	],
 	"require": {
 		"php": ">=7.1",
+		"ext-tokenizer": "*",
 		"nette/utils": "^2.4.2 || ^3.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0",
+		"nikic/php-parser": "^4.4",
 		"tracy/tracy": "^2.3",
 		"phpstan/phpstan": "^0.12"
+	},
+	"suggest": {
+		"nikic/php-parser": "to use ClassType::withBodiesFrom() & GlobalFunction::withBodyFrom()"
 	},
 	"autoload": {
 		"classmap": ["src/"]
@@ -33,7 +38,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "3.3-dev"
+			"dev-master": "3.4-dev"
 		}
 	}
 }

@@ -7,55 +7,37 @@ namespace Mathematicator\MandelbrotSet;
 
 use Nette\SmartObject;
 
-class MandelbrotSetRequest
+final class MandelbrotSetRequest
 {
-
 	use SmartObject;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $width;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $height;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $iterations;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $minX;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $maxX;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $minY;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	private $maxY;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $deltaA;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	private $deltaB;
+
 
 	/**
 	 * @param int $deltaA
@@ -68,10 +50,7 @@ class MandelbrotSetRequest
 	 * @param float $minY
 	 * @param float $maxY
 	 */
-	public function __construct(
-		int $deltaA, int $deltaB, int $width = 300, $height = 300, int $iterations = 18,
-		float $minX = -2, float $maxX = 1, float $minY = -1, float $maxY = 1
-	)
+	public function __construct(int $deltaA, int $deltaB, int $width = 300, $height = 300, int $iterations = 18, float $minX = -2.0, float $maxX = 1.0, float $minY = -1.0, float $maxY = 1.0)
 	{
 		$this->width = $width;
 		$this->height = $height;
@@ -84,8 +63,9 @@ class MandelbrotSetRequest
 		$this->deltaB = $deltaB;
 	}
 
+
 	/**
-	 * @return int[]
+	 * @return int[]|float[]
 	 */
 	public function getParams(): array
 	{
@@ -96,10 +76,12 @@ class MandelbrotSetRequest
 		];
 	}
 
+
 	public function getFileName(): string
 	{
 		return implode('_', $this->getParams()) . '.png';
 	}
+
 
 	/**
 	 * @return int
@@ -109,6 +91,7 @@ class MandelbrotSetRequest
 		return $this->width;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -116,6 +99,7 @@ class MandelbrotSetRequest
 	{
 		return $this->height;
 	}
+
 
 	/**
 	 * @return int
@@ -125,6 +109,7 @@ class MandelbrotSetRequest
 		return $this->iterations;
 	}
 
+
 	/**
 	 * @return float
 	 */
@@ -132,6 +117,7 @@ class MandelbrotSetRequest
 	{
 		return $this->minX;
 	}
+
 
 	/**
 	 * @return float
@@ -141,6 +127,7 @@ class MandelbrotSetRequest
 		return $this->maxX;
 	}
 
+
 	/**
 	 * @return float
 	 */
@@ -148,6 +135,7 @@ class MandelbrotSetRequest
 	{
 		return $this->minY;
 	}
+
 
 	/**
 	 * @return float
@@ -157,6 +145,7 @@ class MandelbrotSetRequest
 		return $this->maxY;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -165,6 +154,7 @@ class MandelbrotSetRequest
 		return $this->deltaA;
 	}
 
+
 	/**
 	 * @return int
 	 */
@@ -172,5 +162,4 @@ class MandelbrotSetRequest
 	{
 		return $this->deltaB;
 	}
-
 }

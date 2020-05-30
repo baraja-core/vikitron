@@ -1,6 +1,8 @@
 Smart PHP math number
 =====================
 
+![Integrity check](https://github.com/mathematicator-core/numbers/workflows/Integrity%20check/badge.svg)
+
 Robust library for representation of "number".
 
 > Please help improve this documentation by sending a Pull request.

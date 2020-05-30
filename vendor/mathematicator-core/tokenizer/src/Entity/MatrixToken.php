@@ -11,40 +11,42 @@ use Mathematicator\Numbers\SmartNumber;
 class MatrixToken extends BaseToken
 {
 
-	/**
-	 * @var Number[][]
-	 */
+	/** @var SmartNumber[][] */
 	private $matrix;
 
+
 	/**
-	 * MatrixToken constructor.
-	 *
-	 * @param Number[][] $matrix
+	 * @param SmartNumber[][] $matrix
+	 * @throws MathErrorException
 	 */
 	public function __construct(array $matrix)
 	{
 		$this->matrix = $this->validator($matrix);
 	}
 
+
 	/**
-	 * @return Number[][]
+	 * @return SmartNumber[][]
 	 */
 	public function getMatrix(): array
 	{
 		return $this->matrix;
 	}
 
+
 	/**
-	 * @param Number[][] $matrix
+	 * @param SmartNumber[][] $matrix
+	 * @throws MathErrorException
 	 */
 	public function setMatrix(array $matrix): void
 	{
 		$this->matrix = $this->validator($matrix);
 	}
 
+
 	/**
-	 * @param Number[][] $matrix
-	 * @return Number[][]
+	 * @param SmartNumber[][] $matrix
+	 * @return SmartNumber[][]
 	 * @throws MathErrorException
 	 */
 	private function validator(array $matrix): array
@@ -57,17 +59,16 @@ class MatrixToken extends BaseToken
 			if ($lastCols === null) {
 				$lastCols = $cols;
 			} elseif ($cols !== $lastCols) {
-				throw new MathErrorException('Matrix is invaliid structure. Can\'t have spaces in array.');
+				throw new MathErrorException('Matrix structure is invalid: Array can not contain empty space.');
 			}
 
 			foreach ($row as $col) {
 				if (!$col instanceof SmartNumber) {
-					throw new MathErrorException('All matrix items must be number.');
+					throw new MathErrorException('All matrix items must be a number.');
 				}
 			}
 		}
 
 		return $matrix;
 	}
-
 }

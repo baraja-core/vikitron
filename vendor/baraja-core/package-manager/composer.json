@@ -16,10 +16,11 @@
 		"nette/bootstrap": "^3.0",
 		"nette/application": "^3.0",
 		"nette/neon": "^3.0",
-		"nette/finder": "^2.5"
+		"nette/finder": "^2.5",
+		"contributte/console": "^0.8.0"
 	},
 	"require-dev": {
-		"contributte/console": "^0.6.0",
+		"nette/bootstrap": "^3.0",
 		"phpstan/phpstan": "^0.12.18",
 		"tracy/tracy": "^2.7",
 		"phpstan/phpstan-nette": "^0.12.6"
@@ -30,6 +31,7 @@
 		]
 	},
 	"scripts": {
+		"post-autoload-dump": "Baraja\\PackageManager\\PackageRegistrator::composerRenderCiDetectorInfo",
 		"phpstan": [
 			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
 		]

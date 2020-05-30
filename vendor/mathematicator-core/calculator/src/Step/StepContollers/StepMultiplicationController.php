@@ -5,39 +5,26 @@ declare(strict_types=1);
 namespace Mathematicator\Step\Controller;
 
 
-use Mathematicator\Calculator\Step;
-use Mathematicator\NumberHelper;
+use Mathematicator\Engine\Step;
 use Mathematicator\Step\StepFactory;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Validators;
 
-class StepMultiplicationController implements IStepController
+final class StepMultiplicationController implements IStepController
 {
 
-	/**
-	 * @var StepFactory
-	 */
+	/** @var StepFactory */
 	private $stepFactory;
 
-	/**
-	 * @var Number
-	 */
-	private $number;
-
-	/**
-	 * @var int
-	 */
-	private $tolerance = 0;
 
 	/**
 	 * @param StepFactory $stepFactory
-	 * @param NumberHelper $number
 	 */
-	public function __construct(StepFactory $stepFactory, NumberHelper $number)
+	public function __construct(StepFactory $stepFactory)
 	{
 		$this->stepFactory = $stepFactory;
-		$this->number = $number;
 	}
+
 
 	/**
 	 * @param ArrayHash $data
@@ -61,6 +48,7 @@ class StepMultiplicationController implements IStepController
 		return $steps;
 	}
 
+
 	/**
 	 * @param string $number
 	 * @return string[]
@@ -73,5 +61,4 @@ class StepMultiplicationController implements IStepController
 
 		return explode('/', $number);
 	}
-
 }

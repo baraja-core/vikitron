@@ -11,9 +11,7 @@ use Nette\Utils\Strings;
 class QueryNormalizer
 {
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private static $regexMap = [
 		'\s*(\#|\/\/).*$' => '',
 		'(\d)([,;])\s+(\d)' => '$1$2$3',
@@ -46,10 +44,9 @@ class QueryNormalizer
 		'\?$' => '',
 	];
 
-	/**
-	 * @var NumberRewriter
-	 */
+	/** @var NumberRewriter */
 	private $numberRewriter;
+
 
 	/**
 	 * @param NumberRewriter $numberRewriter
@@ -59,6 +56,7 @@ class QueryNormalizer
 		$this->numberRewriter = $numberRewriter;
 	}
 
+
 	/**
 	 * Magic convertor of user input to normalized machine-readable form.
 	 *
@@ -67,7 +65,7 @@ class QueryNormalizer
 	 */
 	public function normalize(string $query): string
 	{
-		$query = trim(Strings::normalize($query), " \t\n\r\"'");
+		$query = trim(Strings::normalize(Strings::fixEncoding($query)), " \t\n\r\"'");
 		$query = $this->removeEmoji($query);
 		$query = (string) preg_replace('/=\??$/', '', $query);
 
@@ -86,6 +84,7 @@ class QueryNormalizer
 
 		return trim($queryNew);
 	}
+
 
 	/**
 	 * @param string $query
@@ -120,6 +119,7 @@ class QueryNormalizer
 		return $redundantBrackets($return);
 	}
 
+
 	/**
 	 * @param string $query
 	 * @return string
@@ -141,6 +141,7 @@ class QueryNormalizer
 		return $query;
 	}
 
+
 	/**
 	 * @param string $query
 	 * @return string
@@ -152,6 +153,7 @@ class QueryNormalizer
 		}, $query);
 	}
 
+
 	/**
 	 * @param string $query
 	 * @return string
@@ -160,6 +162,7 @@ class QueryNormalizer
 	{
 		return $this->numberRewriter->toNumber($query);
 	}
+
 
 	/**
 	 * @param string $query
@@ -185,6 +188,7 @@ class QueryNormalizer
 		return $query;
 	}
 
+
 	/**
 	 * @param string $query
 	 * @return string
@@ -195,5 +199,4 @@ class QueryNormalizer
 
 		return $query;
 	}
-
 }

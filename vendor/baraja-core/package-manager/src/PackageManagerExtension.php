@@ -19,8 +19,12 @@ class PackageManagerExtension extends CompilerExtension
 	{
 		if (PHP_SAPI === 'cli' && class_exists(Application::class) === true) {
 			$class->getMethod('initialize')->addBody(
-				Console::class . '::setContainer($this);'
-				. "\n" . 'register_shutdown_function([' . Console::class . '::class, \'run\']);'
+				'// Package manager.' . "\n"
+				. '(function () {' . "\n"
+				. "\t" . 'if (isset($_SERVER[\'NETTE_TESTER_RUNNER\']) === true) { return; }' . "\n"
+				. "\t" . 'new ' . Console::class . '($this->getByType(?), $this->getByType(?));' . "\n"
+				. '})();' . "\n",
+				[Application::class, \Nette\Application\Application::class]
 			);
 		}
 	}
