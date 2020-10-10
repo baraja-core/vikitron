@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
 
+use function count;
+use Mathematicator\Engine\Exception\TerminateException;
+use Mathematicator\Engine\Helpers;
 use Nette\SmartObject;
 
-class Context
+final class Context
 {
 	use SmartObject;
+
+	public const BOXES_LIMIT = 100;
 
 	/** @var string */
 	private $query;
@@ -65,7 +70,7 @@ class Context
 	 */
 	public function addBox(string $type): Box
 	{
-		if (\count($this->boxes) >= 100) {
+		if (count($this->boxes) >= self::BOXES_LIMIT) {
 			throw new TerminateException(__METHOD__);
 		}
 
@@ -152,5 +157,18 @@ class Context
 	public function getDynamicConfigurations(): array
 	{
 		return $this->dynamicConfigurations;
+	}
+
+
+	/**
+	 * Generate absolute URL to result page by given query.
+	 * Route is defined by internal convention, in future it can be changed.
+	 *
+	 * @param string $query
+	 * @return string
+	 */
+	public function link(string $query): string
+	{
+		return Helpers::getBaseUrl() . '/search' . (($query = trim($query)) !== '' ? '?q=' . urlencode($query) : '');
 	}
 }

@@ -2,44 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Router;
+namespace Mathematicator\Engine\Router;
 
 
 use Mathematicator\Engine\Controller\ErrorTooLongController;
 use Mathematicator\Engine\Controller\OtherController;
-use Mathematicator\Engine\TerminateException;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Engine\Exception\TerminateException;
+use Mathematicator\Engine\MathFunction\FunctionManager;
 use Nette\Utils\Strings;
 
-class Router
+final class Router
 {
 
 	/** @var string */
 	private $query;
 
-	/** @var string[] */
-	private $functions;
-
 	/** @var DynamicRoute[] */
 	private $dynamicRoutes = [];
 
 
-	/**
-	 * @param string[] $functions
-	 */
-	public function __construct(array $functions)
-	{
-		$this->functions = $functions;
-	}
-
-
-	/**
-	 * @param string $query
-	 * @return string
-	 */
 	public function routeQuery(string $query): string
 	{
 		$this->query = $query;
-		$route = OtherController::class;
+		$route = null;
 
 		try {
 			$this->process();
@@ -47,14 +33,10 @@ class Router
 			$route = $e->getMessage();
 		}
 
-		return $route;
+		return $route ?? OtherController::class;
 	}
 
 
-	/**
-	 * @param DynamicRoute $dynamicRoute
-	 * @return Router
-	 */
 	public function addDynamicRoute(DynamicRoute $dynamicRoute): self
 	{
 		$this->dynamicRoutes[] = $dynamicRoute;
@@ -83,20 +65,17 @@ class Router
 
 
 	/**
-	 * @param string $entity
 	 * @throws TerminateException
 	 */
 	private function tooLongQueryRoute(string $entity): void
 	{
-		if (Strings::length($this->query) > 1024) {
+		if (Strings::length($this->query) > Query::LENGTH_LIMIT) {
 			throw new TerminateException($entity);
 		}
 	}
 
 
 	/**
-	 * @param string $regex
-	 * @param string $entity
 	 * @throws TerminateException
 	 */
 	private function regexRoute(string $regex, string $entity): void
@@ -109,7 +88,6 @@ class Router
 
 	/**
 	 * @param string[] $queries
-	 * @param string $entity
 	 * @throws TerminateException
 	 */
 	private function staticRoute(array $queries, string $entity): void
@@ -119,7 +97,6 @@ class Router
 		if (isset($queryCache[$this->query]) === false) {
 			$queryCache[$this->query] = strtolower(trim(Strings::toAscii($this->query)));
 		}
-
 		if (\in_array($queryCache[$this->query], $queries, true) === true) {
 			throw new TerminateException($entity);
 		}
@@ -127,12 +104,11 @@ class Router
 
 
 	/**
-	 * @param string $entity
 	 * @throws TerminateException
 	 */
 	private function tokenizeRoute(string $entity): void
 	{
-		if (preg_match('/([\+\-\*\/\^\!])|INF[^a-zA-Z]|PI[^a-zA-Z]|<=>|<=+|>=+|!=+|=+|<>|>+|<+|(' . implode('\(|', $this->functions) . '\()/', $this->query, $match)) {
+		if (preg_match('/([\+\-\*\/\^\!])|INF[^a-zA-Z]|PI[^a-zA-Z]|<=>|<=+|>=+|!=+|=+|<>|>+|<+|(' . implode('\(|', FunctionManager::getFunctionNames()) . '\()/', $this->query, $match)) {
 			throw new TerminateException($entity);
 		}
 	}

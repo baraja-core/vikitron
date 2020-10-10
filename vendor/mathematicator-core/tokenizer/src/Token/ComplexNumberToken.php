@@ -18,10 +18,6 @@ class ComplexNumberToken extends BaseToken
 	private $complexNumber;
 
 
-	/**
-	 * @param SmartNumber $realNumber
-	 * @param SmartNumber $complexNumber
-	 */
 	public function __construct(SmartNumber $realNumber, SmartNumber $complexNumber)
 	{
 		$this->realNumber = $realNumber;
@@ -29,9 +25,6 @@ class ComplexNumberToken extends BaseToken
 	}
 
 
-	/**
-	 * @return SmartNumber
-	 */
 	public function getRealNumber(): SmartNumber
 	{
 		return $this->realNumber;
@@ -39,18 +32,14 @@ class ComplexNumberToken extends BaseToken
 
 
 	/**
-	 * @param string $value
 	 * @throws NumberException
 	 */
 	public function setRealNumber(string $value): void
 	{
-		$this->realNumber->setValue($value);
+		$this->realNumber = SmartNumber::of($value);
 	}
 
 
-	/**
-	 * @return SmartNumber
-	 */
 	public function getComplexNumber(): SmartNumber
 	{
 		return $this->complexNumber;
@@ -58,11 +47,10 @@ class ComplexNumberToken extends BaseToken
 
 
 	/**
-	 * @param string $value
 	 * @throws NumberException
 	 */
 	public function setComplexNumber(string $value): void
 	{
-		$this->complexNumber->setValue($value);
+		$this->complexNumber = SmartNumber::of($value);
 	}
 }

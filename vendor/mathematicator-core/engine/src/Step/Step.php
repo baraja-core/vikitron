@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Step;
 
 
 use Nette\SmartObject;
@@ -30,12 +30,7 @@ final class Step
 	private $ajaxEndpoint;
 
 
-	/**
-	 * @param string|null $title
-	 * @param string|null $latex
-	 * @param string|null $description
-	 */
-	public function __construct(?string $title, ?string $latex, ?string $description = null)
+	public function __construct(?string $title = null, ?string $latex = null, ?string $description = null)
 	{
 		$this->title = $title;
 		$this->latex = $latex;
@@ -43,19 +38,12 @@ final class Step
 	}
 
 
-	/**
-	 * @return null|string
-	 */
 	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
 
-	/**
-	 * @param string|null $title
-	 * @param bool $html
-	 */
 	public function setTitle(string $title = null, bool $html = false): void
 	{
 		$this->title = $title;
@@ -63,46 +51,30 @@ final class Step
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isHtmlTitle(): bool
 	{
 		return $this->htmlTitle;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getLatex(): ?string
 	{
 		return $this->latex;
 	}
 
 
-	/**
-	 * @param string|null $latex
-	 */
 	public function setLatex(?string $latex = null): void
 	{
 		$this->latex = $latex ?: null;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getDescription(): ?string
 	{
 		return $this->description;
 	}
 
 
-	/**
-	 * @param string|null $description
-	 * @param bool $html
-	 */
 	public function setDescription(?string $description = null, bool $html = false): void
 	{
 		$this->description = $description;
@@ -110,27 +82,18 @@ final class Step
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isHtmlDescription(): bool
 	{
 		return $this->htmlDescription;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getAjaxEndpoint(): ?string
 	{
 		return $this->ajaxEndpoint;
 	}
 
 
-	/**
-	 * @param string|null $ajaxEndpoint
-	 */
 	public function setAjaxEndpoint(string $ajaxEndpoint = null): void
 	{
 		$this->ajaxEndpoint = $ajaxEndpoint;

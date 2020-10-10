@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
 
 use Nette\SmartObject;
 
-class DynamicConfiguration
+final class DynamicConfiguration
 {
 	use SmartObject;
 

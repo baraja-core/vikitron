@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
 
 use Nette\SmartObject;
@@ -21,62 +21,41 @@ abstract class EngineResult
 	/** @var int */
 	private $time;
 
+	/** @var float */
+	private $startTime;
 
-	/**
-	 * @param string $query
-	 * @param string|null $matchedRoute
-	 */
+
 	public function __construct(string $query, ?string $matchedRoute)
 	{
 		$this->query = $query;
 		$this->matchedRoute = $matchedRoute;
+		$this->startTime = (float) microtime(true);
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function getQuery(): string
+	final public function getQuery(): string
 	{
 		return $this->query;
 	}
 
 
-	/**
-	 * @return int
-	 */
-	public function getLength(): int
+	final public function getLength(): int
 	{
 		return Strings::length($this->getQuery());
 	}
 
 
-	/**
-	 * @return string|null
-	 */
-	public function getMatchedRoute(): ?string
+	final public function getMatchedRoute(): ?string
 	{
 		return $this->matchedRoute;
 	}
 
 
 	/**
-	 * @return int
+	 * Return processing time in milliseconds.
 	 */
-	public function getTime(): int
+	final public function getTime(): float
 	{
-		return $this->time ?? 0;
-	}
-
-
-	/**
-	 * @param int $time
-	 * @return EngineResult
-	 */
-	public function setTime(int $time): self
-	{
-		$this->time = $time;
-
-		return $this;
+		return (microtime(true) - $this->startTime) * 1000;
 	}
 }

@@ -2,11 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\ExtraModule;
 
 
-abstract class BaseModule implements ExtraModule
+use Mathematicator\Engine\Entity\EngineSingleResult;
+use Mathematicator\Engine\Translator;
+
+abstract class BaseModule implements IExtraModuleWithQuery
 {
+
+	/**
+	 * @var Translator
+	 * @inject
+	 */
+	public $translator;
 
 	/** @var EngineSingleResult */
 	protected $result;
@@ -17,17 +26,17 @@ abstract class BaseModule implements ExtraModule
 
 	/**
 	 * @internal
-	 * @param EngineSingleResult $result
 	 */
-	final public function setEngineSingleResult(EngineSingleResult $result): void
+	final public function setEngineSingleResult(EngineSingleResult $result): IExtraModule
 	{
 		$this->result = $result;
+
+		return $this;
 	}
 
 
 	/**
 	 * @internal
-	 * @param string $query
 	 */
 	final public function setQuery(string $query): void
 	{

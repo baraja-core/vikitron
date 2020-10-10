@@ -1661,39 +1661,66 @@
         },
         {
             "name": "mathematicator-core/calculator",
-            "version": "v2.0.4",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/calculator.git",
-                "reference": "0ad14f510112286a5794faf2ac2d01a81fa851d5"
+                "reference": "1374da08e0dc89c3fd80f7f441991d7c7270a714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/0ad14f510112286a5794faf2ac2d01a81fa851d5",
-                "reference": "0ad14f510112286a5794faf2ac2d01a81fa851d5",
+                "url": "https://api.github.com/repos/mathematicator-core/calculator/zipball/1374da08e0dc89c3fd80f7f441991d7c7270a714",
+                "reference": "1374da08e0dc89c3fd80f7f441991d7c7270a714",
                 "shasum": ""
             },
             "require": {
+                "brick/math": "^0.8.15",
                 "mathematicator-core/engine": "^2.0",
-                "mathematicator-core/numbers": "^2.0",
-                "mathematicator-core/tokenizer": "^2.0",
+                "mathematicator-core/numbers": "^2.1",
+                "mathematicator-core/tokenizer": "^2.1",
                 "nette/application": "^3.0",
                 "nette/caching": "^3.0",
+                "nette/di": "^3.0",
                 "nette/utils": "^3.0",
-                "php": ">=7.1"
+                "php": ">=7.2",
+                "symfony/polyfill-php80": "^1.17"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "nette/bootstrap": "^3.0",
+                "nette/tester": "~2.3.2",
                 "phpstan/phpstan": "^0.12.18",
-                "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "phpstan/phpstan-nette": "^0.12.6"
+            },
+            "suggest": {
+                "ext-bcmath": "For faster math operations",
+                "ext-gmp": "Alternative for faster math operations",
+                "nette/caching": "(^3.0) To use package in Nette Framework",
+                "nette/di": "(^3.0) To use package in Nette Framework"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Calculator\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
@@ -1702,86 +1729,136 @@
             ],
             "description": "Advance PHP math calculator with complex operations.",
             "homepage": "https://github.com/mathematicator-core/calculator",
-            "time": "2020-04-14T14:53:33+00:00"
+            "keywords": [
+                "math",
+                "mathematicator",
+                "php"
+            ],
+            "time": "2020-10-10T19:25:23+00:00"
         },
         {
             "name": "mathematicator-core/engine",
-            "version": "v2.0.2",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/engine.git",
-                "reference": "89c9bdea754030846b6b5030fb09c248427725c0"
+                "reference": "3692e837fce4d3df177010010953c9ee9ff99aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/89c9bdea754030846b6b5030fb09c248427725c0",
-                "reference": "89c9bdea754030846b6b5030fb09c248427725c0",
+                "url": "https://api.github.com/repos/mathematicator-core/engine/zipball/3692e837fce4d3df177010010953c9ee9ff99aa8",
+                "reference": "3692e837fce4d3df177010010953c9ee9ff99aa8",
                 "shasum": ""
             },
             "require": {
-                "latte/latte": "^2.5",
-                "mathematicator-core/tokenizer": "^2.0",
-                "nette/application": "^3.0",
+                "contributte/psr11-container-interface": "^0.4.1",
+                "mathematicator-core/numbers": "^2.1",
+                "mathematicator-core/tokenizer": "^2.1",
                 "nette/di": "^3.0",
-                "nette/tester": "^2.0",
                 "nette/utils": "^3.0",
-                "php": ">=7.1",
-                "tracy/tracy": "^2.6"
+                "php": ">=7.2",
+                "symfony/translation": "^5.0",
+                "symfony/yaml": "^5.0"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "nette/bootstrap": "^3.0.1",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
-                "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "phpstan/phpstan-nette": "^0.12.6"
+            },
+            "suggest": {
+                "nette/di": "(^3.0) To use package in Nette Framework",
+                "tracy/tracy": "(^3.0) For advance debugging"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Engine\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
-                    "homepage": "http://baraja.cz"
+                    "homepage": "https://baraja.cz"
                 }
             ],
             "description": "Math computational Engine",
             "homepage": "https://github.com/mathematicator-core/engine",
-            "time": "2020-04-14T14:51:57+00:00"
+            "keywords": [
+                "math",
+                "mathematicator",
+                "php"
+            ],
+            "time": "2020-10-10T17:59:08+00:00"
         },
         {
             "name": "mathematicator-core/integral-solver",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/integral-solver.git",
-                "reference": "45daf42d6871fa9871803b5821cfbe8ed5d0851d"
+                "reference": "33049cf96ce1ff3eba2c34e651c0101b5ab830d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/integral-solver/zipball/45daf42d6871fa9871803b5821cfbe8ed5d0851d",
-                "reference": "45daf42d6871fa9871803b5821cfbe8ed5d0851d",
+                "url": "https://api.github.com/repos/mathematicator-core/integral-solver/zipball/33049cf96ce1ff3eba2c34e651c0101b5ab830d1",
+                "reference": "33049cf96ce1ff3eba2c34e651c0101b5ab830d1",
                 "shasum": ""
             },
             "require": {
                 "mathematicator-core/engine": "^2.0",
-                "mathematicator-core/numbers": "^2.0",
-                "mathematicator-core/tokenizer": "^2.0",
-                "php": ">=7.1"
+                "mathematicator-core/numbers": "^2.1",
+                "mathematicator-core/tokenizer": "^2.1",
+                "php": ">=7.2"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "nette/bootstrap": "^3.0",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
-                "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "phpstan/phpstan-nette": "^0.12.6"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Integral\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
@@ -1790,38 +1867,63 @@
             ],
             "description": "Simple package for solving integrals.",
             "homepage": "https://github.com/mathematicator-core/integral-solver",
-            "time": "2020-04-14T13:38:01+00:00"
+            "keywords": [
+                "integral",
+                "math",
+                "mathematicator",
+                "php"
+            ],
+            "time": "2020-10-10T18:11:26+00:00"
         },
         {
             "name": "mathematicator-core/mandelbrot-set",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/mandelbrot-set.git",
-                "reference": "e402c38698a3ef4ff3fb7b1edffdbb57d4a52019"
+                "reference": "59b6e63971940d5fa8f0ac9de0b5a643246ae718"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/e402c38698a3ef4ff3fb7b1edffdbb57d4a52019",
-                "reference": "e402c38698a3ef4ff3fb7b1edffdbb57d4a52019",
+                "url": "https://api.github.com/repos/mathematicator-core/mandelbrot-set/zipball/59b6e63971940d5fa8f0ac9de0b5a643246ae718",
+                "reference": "59b6e63971940d5fa8f0ac9de0b5a643246ae718",
                 "shasum": ""
             },
             "require": {
+                "mathematicator-core/vizualizator": "^2.0",
                 "nette/utils": "^3.0",
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "nette/bootstrap": "^3.0",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
-                "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "phpstan/phpstan-nette": "^0.12.6"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\MandelbrotSet\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
@@ -1834,43 +1936,49 @@
             ],
             "description": "Mandelbrot set simple PHP Generator.",
             "homepage": "https://github.com/mathematicator-core/mandelbrot-set",
-            "time": "2020-04-14T08:01:13+00:00"
+            "keywords": [
+                "mandelbrot",
+                "math",
+                "mathematicator",
+                "php"
+            ],
+            "time": "2020-10-10T17:23:41+00:00"
         },
         {
             "name": "mathematicator-core/numbers",
-            "version": "v2.1.0",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/numbers.git",
-                "reference": "6f2f5a8da205bedfb108271dc3e9cd2b548a427f"
+                "reference": "f44c2003741b28c81b98ad7be594b0738c76cfd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/6f2f5a8da205bedfb108271dc3e9cd2b548a427f",
-                "reference": "6f2f5a8da205bedfb108271dc3e9cd2b548a427f",
+                "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/f44c2003741b28c81b98ad7be594b0738c76cfd4",
+                "reference": "f44c2003741b28c81b98ad7be594b0738c76cfd4",
                 "shasum": ""
             },
             "require": {
-                "brick/math": "^0.8.15",
-                "ext-bcmath": "*",
-                "nette/tester": "^2.3",
+                "brick/math": "^0.8.15 || ^0.9.0",
+                "ext-json": "*",
                 "nette/utils": "^3.0",
                 "php": ">=7.2",
                 "symfony/polyfill-php80": "^1.17"
             },
             "require-dev": {
                 "brainmaestro/composer-git-hooks": "dev-master",
-                "nette/bootstrap": "^3.0",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
                 "phpstan/phpstan-nette": "^0.12.6"
             },
             "suggest": {
-                "brick/math": "(^0.8.15) For better basic math computing."
+                "ext-bcmath": "For faster math operations",
+                "ext-gmp": "Alternative for faster math operations"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.2.x-dev"
                 },
                 "hooks": {
                     "post-merge": "composer install",
@@ -1904,47 +2012,71 @@
                 "numbers",
                 "php"
             ],
-            "time": "2020-05-30T08:38:59+00:00"
+            "time": "2020-10-10T16:54:56+00:00"
         },
         {
             "name": "mathematicator-core/search",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/search.git",
-                "reference": "ccc7af5fca25dff89b3935e579151869d743d1ac"
+                "reference": "646755b2414ada7fd265224352abc5c6c4c4199d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/search/zipball/ccc7af5fca25dff89b3935e579151869d743d1ac",
-                "reference": "ccc7af5fca25dff89b3935e579151869d743d1ac",
+                "url": "https://api.github.com/repos/mathematicator-core/search/zipball/646755b2414ada7fd265224352abc5c6c4c4199d",
+                "reference": "646755b2414ada7fd265224352abc5c6c4c4199d",
                 "shasum": ""
             },
             "require": {
                 "janbarasek/php-moon-phase": "^2.0",
-                "martindilling/sunny": "^0.5.3",
+                "martindilling/sunny": "^0.5.4",
                 "mathematicator-core/calculator": "^2.0",
+                "mathematicator-core/engine": "^2.0",
                 "mathematicator-core/integral-solver": "^2.0",
                 "mathematicator-core/mandelbrot-set": "^2.0",
-                "mathematicator-core/numbers": "^2.0",
+                "mathematicator-core/numbers": "^2.1",
                 "mathematicator-core/statistic": "^2.0",
-                "mathematicator-core/tokenizer": "^2.0",
+                "mathematicator-core/tokenizer": "^2.1",
                 "mathematicator-core/vizualizator": "^2.0",
                 "nette/utils": "^3.0",
-                "php": ">=7.1"
+                "php": ">=7.2",
+                "symfony/translation": "^4.0 || ^5.0",
+                "symfony/yaml": "^5.0"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
                 "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "symplify/easy-coding-standard": "^7.2"
+            },
+            "suggest": {
+                "tracy/tracy": "(^2.7) For advance debugging"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Search\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
@@ -1953,37 +2085,58 @@
             ],
             "description": "Mathematicator advance search engine.",
             "homepage": "https://github.com/mathematicator-core/search",
-            "time": "2020-04-14T14:49:06+00:00"
+            "keywords": [
+                "math",
+                "mathematicator",
+                "php",
+                "search"
+            ],
+            "time": "2020-10-10T19:30:16+00:00"
         },
         {
             "name": "mathematicator-core/statistic",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/statistic.git",
-                "reference": "4eb9d27063aa90fcfbfb29f2ed087915d19faa22"
+                "reference": "7ca14059074dafedc5ddb5e0adbd746c0022d835"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/4eb9d27063aa90fcfbfb29f2ed087915d19faa22",
-                "reference": "4eb9d27063aa90fcfbfb29f2ed087915d19faa22",
+                "url": "https://api.github.com/repos/mathematicator-core/statistic/zipball/7ca14059074dafedc5ddb5e0adbd746c0022d835",
+                "reference": "7ca14059074dafedc5ddb5e0adbd746c0022d835",
                 "shasum": ""
             },
             "require": {
                 "baraja-core/doctrine": "^2.0",
-                "nette/tester": "^2.0",
-                "php": ">=7.1.0"
+                "php": ">=7.2"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "^2.8",
+                "nette/bootstrap": "^3.0.1",
+                "nette/tester": "^2.0",
                 "phpstan/phpstan": "^0.12.18",
                 "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "symplify/easy-coding-standard": "^7.2"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Statistics\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
@@ -1992,26 +2145,26 @@
                     "homepage": "https://baraja.cz"
                 }
             ],
-            "description": "Smart statistic algorithms.",
+            "description": "PHP Statistic Algorithms",
             "homepage": "https://github.com/mathematicator-core/statistic",
-            "time": "2020-04-14T07:50:56+00:00"
+            "time": "2020-10-10T17:17:18+00:00"
         },
         {
             "name": "mathematicator-core/tokenizer",
-            "version": "v2.1.0",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/tokenizer.git",
-                "reference": "b666fef6371fab8bb606fe84f0f1acf9d603c9e2"
+                "reference": "b566ede2c7000829387db487676bb36ebace636c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b666fef6371fab8bb606fe84f0f1acf9d603c9e2",
-                "reference": "b666fef6371fab8bb606fe84f0f1acf9d603c9e2",
+                "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b566ede2c7000829387db487676bb36ebace636c",
+                "reference": "b566ede2c7000829387db487676bb36ebace636c",
                 "shasum": ""
             },
             "require": {
-                "mathematicator-core/numbers": "^2.1@dev",
+                "mathematicator-core/numbers": "^2.1",
                 "nette/tokenizer": "^3.0",
                 "nette/utils": "^3.0",
                 "php": ">=7.2"
@@ -2029,7 +2182,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.2.x-dev"
                 },
                 "hooks": {
                     "post-merge": "composer install",
@@ -2063,39 +2216,58 @@
                 "php",
                 "tokenizer"
             ],
-            "time": "2020-05-30T18:01:15+00:00"
+            "time": "2020-10-10T17:52:47+00:00"
         },
         {
             "name": "mathematicator-core/vizualizator",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mathematicator-core/vizualizator.git",
-                "reference": "66f1179550170cdcc552e31b7be66bb9519be264"
+                "reference": "88e786eeaa589de6440082ef67d33f370cd1c5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mathematicator-core/vizualizator/zipball/66f1179550170cdcc552e31b7be66bb9519be264",
-                "reference": "66f1179550170cdcc552e31b7be66bb9519be264",
+                "url": "https://api.github.com/repos/mathematicator-core/vizualizator/zipball/88e786eeaa589de6440082ef67d33f370cd1c5c1",
+                "reference": "88e786eeaa589de6440082ef67d33f370cd1c5c1",
                 "shasum": ""
             },
             "require": {
-                "mathematicator-core/tokenizer": "^2.0",
+                "mathematicator-core/numbers": "^2.1",
+                "mathematicator-core/tokenizer": "^2.1",
                 "nette/utils": "^3.0",
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "require-dev": {
+                "brainmaestro/composer-git-hooks": "dev-master",
+                "nette/bootstrap": "^3.0",
+                "nette/tester": "^2.3",
                 "phpstan/phpstan": "^0.12.18",
-                "phpstan/phpstan-nette": "^0.12.6",
-                "tracy/tracy": "^2.7"
+                "phpstan/phpstan-nette": "^0.12.6"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2.x-dev"
+                },
+                "hooks": {
+                    "post-merge": "composer install",
+                    "pre-commit": [
+                        "composer cs:check",
+                        "composer phpstan",
+                        "composer test"
+                    ]
+                }
+            },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ]
+                "psr-4": {
+                    "Mathematicator\\Vizualizator\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Jan Barášek",
@@ -2104,7 +2276,13 @@
             ],
             "description": "Core logic for elegant graphic visualization. Render to SVG, PNG, JPG and Base64.",
             "homepage": "https://github.com/mathematicator-core/vizualizator",
-            "time": "2020-04-14T13:44:16+00:00"
+            "keywords": [
+                "math",
+                "mathematicator",
+                "php",
+                "vizualizator"
+            ],
+            "time": "2020-10-10T18:09:52+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -3838,6 +4016,70 @@
             "time": "2020-09-15T07:58:55+00:00"
         },
         {
+            "name": "symfony/deprecation-contracts",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/deprecation-contracts.git",
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "reference": "5fa56b4074d1ae755beb55617ddafe6f5d78f665",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "A generic function and convention to trigger deprecation notices",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-09-07T11:33:47+00:00"
+        },
+        {
             "name": "symfony/polyfill-ctype",
             "version": "v1.18.1",
             "source": {
@@ -4388,6 +4630,83 @@
                 }
             ],
             "time": "2020-09-28T13:05:58+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v5.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "e147a68cb66a8b510f4b7481fe4da5b2ab65ec6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e147a68cb66a8b510f4b7481fe4da5b2ab65ec6a",
+                "reference": "e147a68cb66a8b510f4b7481fe4da5b2ab65ec6a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<4.4"
+            },
+            "require-dev": {
+                "symfony/console": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-09-27T03:44:28+00:00"
         },
         {
             "name": "texy/texy",

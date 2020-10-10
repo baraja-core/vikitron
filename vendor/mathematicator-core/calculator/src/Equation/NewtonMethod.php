@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator;
+namespace Mathematicator\Calculator\Equation;
 
 
-use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\Exception\MathematicatorException;
 
-class NewtonMethod
+final class NewtonMethod
 {
 
 	/** @var int */
@@ -18,8 +18,6 @@ class NewtonMethod
 
 
 	/**
-	 * @param float $intervalLeft
-	 * @param float $intervalRight
 	 * @return float[]
 	 * @throws MathematicatorException
 	 */
@@ -34,8 +32,6 @@ class NewtonMethod
 
 
 	/**
-	 * @param float $intervalLeft
-	 * @param float $intervalRight
 	 * @return float[]
 	 * @throws MathematicatorException
 	 */
@@ -65,7 +61,6 @@ class NewtonMethod
 				? [$intervalAverage]
 				: $this->iterator($intervalLeft, $intervalAverage);
 		}
-
 		if (!$exploreLeft && $exploreRight) {
 			return $this->isInTolerance($valueCenter, $valueRight)
 				? [$intervalAverage]
@@ -79,31 +74,18 @@ class NewtonMethod
 	}
 
 
-	/**
-	 * @param float $x
-	 * @return float
-	 */
 	private function calculator(float $x): float
 	{
 		return ($x - 10) * ($x - 5) * $x * ($x + 5) * ($x + 10);
 	}
 
 
-	/**
-	 * @param float $x
-	 * @return bool
-	 */
 	private function isPositive(float $x): bool
 	{
 		return $x >= 0;
 	}
 
 
-	/**
-	 * @param float $x
-	 * @param float $y
-	 * @return bool
-	 */
 	private function isInTolerance(float $x, float $y): bool
 	{
 		return abs($x - $y) < 0.00001;

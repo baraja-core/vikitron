@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Exception;
 
 
-class InvalidDataException extends MathematicatorException
+final class InvalidDataException extends MathematicatorException
 {
 }

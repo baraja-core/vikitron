@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
+use Mathematicator\Numbers\Converter\RomanToInt;
 use Mathematicator\Numbers\Exception\NumberException;
-use Mathematicator\Numbers\NumberFactory;
+use Mathematicator\Numbers\SmartNumber;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\EquationToken;
 use Mathematicator\Tokenizer\Token\FactorialToken;
@@ -22,21 +23,8 @@ use Mathematicator\Tokenizer\Token\SubToken;
 use Mathematicator\Tokenizer\Token\VariableToken;
 use Nette\Tokenizer\Token;
 
-class TokensToObject
+final class TokensToObject
 {
-
-	/** @var NumberFactory */
-	private $numberFactory;
-
-
-	/**
-	 * @param NumberFactory $numberFactory
-	 */
-	public function __construct(NumberFactory $numberFactory)
-	{
-		$this->numberFactory = $numberFactory;
-	}
-
 
 	/**
 	 * @param Token[] $tokens
@@ -51,27 +39,25 @@ class TokensToObject
 			$token = $tokens[$iterator];
 			switch ($token->type) {
 				case Tokens::M_NUMBER:
-					$tokenFactory = new NumberToken($this->numberFactory->create($token->value));
+					$tokenFactory = new NumberToken(SmartNumber::of($token->value));
 					break;
 
 				case Tokens::M_ROMAN_NUMBER:
 					$tokenFactory = new RomanNumberToken(
-						$this->numberFactory->create(
-							(string) Helper::romanToInt($token->value)
-						)
+						SmartNumber::of(RomanToInt::convert($token->value))
 					);
 					break;
 
 				case Tokens::M_VARIABLE:
 					$tokenFactory = new VariableToken(
 						$token->value,
-						$this->numberFactory->create('1')
+						SmartNumber::of(1)
 					);
 					break;
 
 				case Tokens::M_FACTORIAL:
 					$tokenFactory = new FactorialToken(
-						$this->numberFactory->create(str_replace('!', '', $token->value))
+						SmartNumber::of(str_replace('!', '', $token->value))
 					);
 					break;
 
@@ -104,7 +90,7 @@ class TokensToObject
 					break;
 
 				case Tokens::M_PI:
-					$tokenFactory = new PiToken($this->numberFactory->create(M_PI));
+					$tokenFactory = new PiToken(SmartNumber::of(M_PI));
 					break;
 
 				default:

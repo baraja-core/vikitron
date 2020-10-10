@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator;
 
 
-use Mathematicator\Engine\MathematicatorException;
-use Mathematicator\Engine\Query;
+use function count;
+use Mathematicator\Calculator\Entity\CalculatorResult;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Engine\Exception\MathematicatorException;
 use Mathematicator\Engine\QueryNormalizer;
-use Mathematicator\Step\StepFactory;
+use Mathematicator\Engine\Step\Step;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
 use Mathematicator\Tokenizer\Token\IToken;
@@ -19,9 +21,6 @@ use Nette\Tokenizer\Exception;
 
 class Calculator
 {
-
-	/** @var StepFactory */
-	private $stepFactory;
 
 	/** @var Tokenizer */
 	private $tokenizer;
@@ -34,14 +33,12 @@ class Calculator
 
 
 	/**
-	 * @param StepFactory $stepFactory
 	 * @param Tokenizer $tokenizer
 	 * @param TokensCalculator $tokensCalculator
 	 * @param QueryNormalizer $queryNormalizer
 	 */
-	public function __construct(StepFactory $stepFactory, Tokenizer $tokenizer, TokensCalculator $tokensCalculator, QueryNormalizer $queryNormalizer)
+	public function __construct(Tokenizer $tokenizer, TokensCalculator $tokensCalculator, QueryNormalizer $queryNormalizer)
 	{
-		$this->stepFactory = $stepFactory;
 		$this->tokenizer = $tokenizer;
 		$this->tokensCalculator = $tokensCalculator;
 		$this->queryNormalizer = $queryNormalizer;
@@ -59,7 +56,7 @@ class Calculator
 	{
 		$result = new CalculatorResult($tokens);
 
-		if (\count($tokens) === 1 && !($tokens[0] instanceof FunctionToken || $tokens[0] instanceof FactorialToken)) {
+		if (count($tokens) === 1 && !($tokens[0] instanceof FunctionToken || $tokens[0] instanceof FactorialToken)) {
 			$result->setResultTokens($tokens);
 			$result->setSteps([]);
 
@@ -69,7 +66,7 @@ class Calculator
 		$iterator = 0;
 		$steps = [];
 
-		$interpretStep = $this->stepFactory->create();
+		$interpretStep = new Step();
 		$interpretStep->setTitle('Zadání úlohy');
 		$interpretStep->setLatex($this->tokenizer->tokensToLatex($tokens));
 
@@ -88,7 +85,7 @@ class Calculator
 
 			$stepLatexCurrent = $this->tokenizer->tokensToLatex($tokens);
 
-			$step = $this->stepFactory->create();
+			$step = new Step();
 			$step->setLatex($stepLatexCurrent);
 			$step->setTitle($process->getStepTitle());
 			$step->setDescription($process->getStepDescription());
@@ -171,7 +168,7 @@ class Calculator
 			if ($token instanceof SubToken) {
 				$tokensToSerialize .= 'SUB:' . $this->tokensSerialize($token->getTokens());
 			} elseif ($token instanceof NumberToken) {
-				$tokensToSerialize .= $token->getNumber()->getString();
+				$tokensToSerialize .= (string) $token->getNumber();
 			} else {
 				$tokensToSerialize .= $token->getType();
 			}

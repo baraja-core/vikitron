@@ -5,87 +5,81 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
-use Mathematicator\Engine\Query;
-use Mathematicator\Numbers\NumberFactory;
+use Brick\Math\BigRational;
+use Brick\Math\Exception\RoundingNecessaryException;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Numbers\Calculation;
+use Mathematicator\Numbers\Latex\MathLatexBuilder;
+use Mathematicator\Numbers\Latex\MathLatexToolkit;
 use Mathematicator\Numbers\SmartNumber;
 use Mathematicator\Tokenizer\Token\NumberToken;
-use Nette\Utils\Validators;
 
 final class DivisionNumbers
 {
-
-	/** @var NumberFactory */
-	private $numberFactory;
-
-
-	public function __construct(NumberFactory $numberFactory)
-	{
-		$this->numberFactory = $numberFactory;
-	}
-
-
-	/**
-	 * @param NumberToken $left
-	 * @param NumberToken $right
-	 * @param Query $query
-	 * @return NumberOperationResult
-	 */
 	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
-		$leftFraction = $left->getNumber()->getFraction();
-		$rightFraction = $right->getNumber()->getFraction();
+		$leftNumber = $left->getNumber();
+		$rightNumber = $right->getNumber();
 
-		if ($left->getNumber()->isInteger() && $right->getNumber()->isInteger()) {
-			$bcDiv = preg_replace('/\.0+$/', '',
-				bcdiv($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $query->getDecimals())
-			);
-			if (Validators::isNumericInt($bcDiv)) {
-				$result = $bcDiv;
-			} else {
-				$result = $left->getNumber()->getInteger() . '/' . $right->getNumber()->getInteger();
+		if ($leftNumber->isInteger() && $rightNumber->isInteger()) {
+			$result = Calculation::of($leftNumber)
+				->dividedBy($rightNumber->toBigInteger())
+				->getResult()
+				->toBigRational()
+				->simplified();
+
+			try {
+				$result = $result->toBigInteger();
+			} catch (RoundingNecessaryException $e) {
 			}
 		} else {
-			$result = bcmul($leftFraction[0], $rightFraction[1], $query->getDecimals()) . '/' . bcmul($leftFraction[1], $rightFraction[0], $query->getDecimals());
+			$leftFraction = $leftNumber->toBigRational();
+			$rightFraction = $rightNumber->toBigRational();
+
+			$result = BigRational::nd(
+				$leftFraction->getNumerator()->multipliedBy($rightFraction->getDenominator()),
+				$leftFraction->getDenominator()->multipliedBy($rightFraction->getNumerator())
+			)->simplified();
 		}
 
-		$newNumber = new NumberToken($this->numberFactory->create($result));
-		$newNumber->setToken($newNumber->getNumber()->getString());
-		$newNumber->setPosition($left->getPosition());
-		$newNumber->setType('number');
+		$newNumber = new NumberToken(SmartNumber::of($result));
+		$newNumber->setToken((string) $newNumber->getNumber())
+			->setPosition($left->getPosition())
+			->setType('number');
 
-		return (new NumberOperationResult)
+		return (new NumberOperationResult())
 			->setNumber($newNumber)
 			->setTitle('Dělení čísel')
 			->setDescription(
 				'Na dělení dvou čísel se můžeme dívat také jako na zlomek. '
 				. 'Čísla převedeme na zlomek, který se následně pokusíme zkrátit (pokud to bude možné).'
 				. "\n\n"
-				. $this->renderDescription($left->getNumber(), $right->getNumber(), $newNumber->getNumber())
+				. $this->renderDescription($leftNumber, $rightNumber, $newNumber->getNumber())
 				. "\n"
 			);
 	}
 
 
-	/**
-	 * @param SmartNumber $left
-	 * @param SmartNumber $right
-	 * @param SmartNumber $result
-	 * @return string
-	 */
 	private function renderDescription(SmartNumber $left, SmartNumber $right, SmartNumber $result): string
 	{
-		$isEqual = ($left->getHumanString() . '/' . $right->getHumanString()) === $result->getHumanString();
+		$isEqual = ((string) $left . '/' . (string) $right) === (string) $result;
 
-		$fraction = '\frac{' . $left->getString() . '}{' . $right->getString() . '}';
+		$fraction = MathLatexToolkit::frac((string) $left, (string) $right);
 
-		$return = !$isEqual
-			? 'Zlomek \(' . $fraction . '\) lze zkrátit na \(' . $result->getString() . '\).'
-			: 'Zlomek \(' . $fraction . '\) je v základním tvaru a nelze dále zkrátit.';
+		$return = $isEqual
+			? 'Zlomek \(' . $fraction . '\) je v základním tvaru a nelze dále zkrátit.'
+			: 'Zlomek \(' . $fraction . '\) lze zkrátit na \(' . $result . '\).';
 
-		$return .= "\n\n" . '\(' . $left->getString() . '\ \div\ ' . $right->getString() . '\ =\ '
-			. (!$isEqual ? $fraction . '\ =\ ' : '')
-			. $result->getString() . '\)' . "\n";
+		$returnLatex = (new MathLatexBuilder($left->toLatex()))
+			->dividedBy($right->toLatex());
 
-		return $return;
+		if (!$isEqual) {
+			$returnLatex->equals($fraction);
+		}
+
+		$returnLatex->equals($result->toLatex())
+			->wrap("\n\n\\(", "\\)\n");
+
+		return $return . $returnLatex;
 	}
 }

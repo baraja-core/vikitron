@@ -5,64 +5,48 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
-use Mathematicator\Engine\Query;
-use Mathematicator\Numbers\NumberFactory;
-use Mathematicator\Step\Controller\StepMultiplicationController;
-use Mathematicator\Step\StepFactory;
+use Brick\Math\BigRational;
+use Mathematicator\Calculator\Step\Controller\StepMultiplicationController;
+use Mathematicator\Calculator\Step\StepFactory;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Numbers\Calculation;
+use Mathematicator\Numbers\SmartNumber;
 use Mathematicator\Tokenizer\Token\NumberToken;
 
 class MultiplicationNumber
 {
-
-	/** @var NumberFactory */
-	private $numberFactory;
-
-	/** @var StepFactory */
-	private $stepFactory;
-
-
-	/**
-	 * @param NumberFactory $numberFactory
-	 * @param StepFactory $stepFactory
-	 */
-	public function __construct(NumberFactory $numberFactory, StepFactory $stepFactory)
-	{
-		$this->numberFactory = $numberFactory;
-		$this->stepFactory = $stepFactory;
-	}
-
-
-	/**
-	 * @param NumberToken $left
-	 * @param NumberToken $right
-	 * @param Query $query
-	 * @return NumberOperationResult
-	 */
 	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
 		if ($left->getNumber()->isInteger() && $right->getNumber()->isInteger()) {
-			$result = bcmul($left->getNumber()->getInteger(), $right->getNumber()->getInteger(), $query->getDecimals());
+			$result = Calculation::of($left->getNumber()->getNumber())
+				->multipliedBy($right->getNumber()->getNumber())
+				->getResult();
 		} else {
-			$leftFraction = $left->getNumber()->getFraction();
-			$rightFraction = $right->getNumber()->getFraction();
+			$leftFraction = $left->getNumber()->toBigRational();
+			$rightFraction = $right->getNumber()->toBigRational();
 
-			$result = bcmul($leftFraction[0], $rightFraction[0], $query->getDecimals()) . '/' . bcmul($leftFraction[1], $rightFraction[1], $query->getDecimals());
+			$result = SmartNumber::of(
+				BigRational::nd(
+					$leftFraction->getNumerator()->multipliedBy($rightFraction->getNumerator()),
+					$leftFraction->getDenominator()->multipliedBy($rightFraction->getDenominator())
+				)
+			);
 		}
 
-		$newNumber = new NumberToken($this->numberFactory->create($result));
-		$newNumber->setToken($newNumber->getNumber()->getString());
-		$newNumber->setPosition($left->getPosition());
-		$newNumber->setType('number');
+		$newNumber = new NumberToken($result);
+		$newNumber->setToken((string) $newNumber->getNumber())
+			->setPosition($left->getPosition())
+			->setType('number');
 
-		return (new NumberOperationResult)
+		return (new NumberOperationResult())
 			->setNumber($newNumber)
 			->setDescription(
-				'Násobení čísel ' . $left->getNumber()->getHumanString() . ' * ' . $right->getNumber()->getHumanString()
+				'Násobení čísel ' . $left->getNumber()->toHumanString() . ' * ' . $right->getNumber()->toHumanString()
 			)
 			->setAjaxEndpoint(
-				$this->stepFactory->getAjaxEndpoint(StepMultiplicationController::class, [
-					'x' => $left->getNumber()->getHumanString(),
-					'y' => $right->getNumber()->getHumanString(),
+				StepFactory::getAjaxEndpoint(StepMultiplicationController::class, [
+					'x' => $left->getNumber()->toHumanString(),
+					'y' => $right->getNumber()->toHumanString(),
 				])
 			);
 	}

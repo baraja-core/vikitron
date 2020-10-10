@@ -1,0 +1,12 @@
+contentSearchFailed: Content does not found…
+ohNo: Oh no!
+help: Help
+helpQuestion: What can I help you with?
+button:
+  apply: Apply
+error:
+  tooLongQuery:
+    title: Too long query
+    p1: The maximum length of an input query is currently limited to %lengthLimit% characters (%inputLength% characters inserted) in UTF-8 encoding.
+    p2: We implement this limitation for performance reasons.
+    p3: If you need to perform more demanding calculations, contact us.

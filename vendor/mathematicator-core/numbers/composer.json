@@ -18,20 +18,20 @@
 	],
 	"require": {
 		"php": ">=7.2",
-		"ext-bcmath": "*",
-		"nette/tester": "^2.3",
+		"ext-json": "*",
 		"nette/utils": "^3.0",
-		"brick/math": "^0.8.15",
+		"brick/math": "^0.8.15 || ^0.9.0",
 		"symfony/polyfill-php80": "^1.17"
 	},
 	"require-dev": {
 		"brainmaestro/composer-git-hooks": "dev-master",
-		"nette/bootstrap": "^3.0",
+		"nette/tester": "^2.3",
 		"phpstan/phpstan": "^0.12.18",
 		"phpstan/phpstan-nette": "^0.12.6"
 	},
 	"suggest": {
-		"brick/math": "(^0.8.15) For better basic math computing."
+		"ext-bcmath": "For faster math operations",
+		"ext-gmp": "Alternative for faster math operations"
 	},
 	"autoload": {
 		"psr-4": {
@@ -51,12 +51,12 @@
 			"composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress"
 		],
 		"cs:check": [
-			"php temp/code-checker/code-checker -d src -d tests --short-arrays --strict-types --no-progress",
-			"php temp/coding-standard/ecs check src tests --config temp/coding-standard/coding-standard-php71.yml"
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml"
 		],
 		"cs:fix": [
-			"php temp/code-checker/code-checker -d src -d tests --short-arrays --strict-types --fix --no-progress",
-			"php temp/coding-standard/ecs check src tests --config temp/coding-standard/coding-standard-php71.yml --fix"
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --fix --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml --fix"
 		],
 		"phpstan": "vendor/bin/phpstan analyse src -c phpstan.neon --level 8 --no-progress",
 		"fix": [
@@ -74,7 +74,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "2.0.x-dev"
+			"dev-master": "2.2.x-dev"
 		},
 		"hooks": {
 			"post-merge": "composer install",

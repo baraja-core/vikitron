@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers\Latex;
 
 
+use Mathematicator\Numbers\IMathToolkit;
+use Nette\StaticClass;
 use Stringable;
 
-final class MathLatexToolkit
+/**
+ * @implements IMathToolkit<MathLatexBuilder>
+ */
+final class MathLatexToolkit implements IMathToolkit
 {
+	use StaticClass;
+
 	public const PI = '\pi';
 
 	public const INFINITY = '\infty';
@@ -17,11 +24,21 @@ final class MathLatexToolkit
 
 	public const PER_MILLE = '\permil';
 
+	public const PLUS = '+';
+
+	public const MINUS = '-';
+
+	public const MULTIPLY = '\cdot';
+
+	public const DIVIDE = '\div';
+
+	public const EQUALS = '=';
+
 	public const PERCENT = '\%';
 
 
 	/**
-	 * @param string|Stringable $latex
+	 * @param int|string|Stringable $latex
 	 * @param string|null $delimiterLeft
 	 * @param string|null $delimiterRight
 	 * @return MathLatexBuilder
@@ -33,8 +50,8 @@ final class MathLatexToolkit
 
 
 	/**
-	 * @param string|Stringable $numerator
-	 * @param string|Stringable $denominator
+	 * @param int|string|Stringable $numerator
+	 * @param int|string|Stringable $denominator
 	 * @return MathLatexBuilder
 	 */
 	public static function frac($numerator, $denominator): MathLatexBuilder
@@ -44,8 +61,8 @@ final class MathLatexToolkit
 
 
 	/**
-	 * @param string|Stringable $x
-	 * @param string|Stringable $pow
+	 * @param int|string|Stringable $x
+	 * @param int|string|Stringable $pow
 	 * @return MathLatexBuilder
 	 */
 	public static function pow($x, $pow): MathLatexBuilder
@@ -66,7 +83,7 @@ final class MathLatexToolkit
 
 
 	/**
-	 * @param string|Stringable $content
+	 * @param int|string|Stringable $content
 	 * @param string $left
 	 * @param string|null $right
 	 * @return MathLatexBuilder
@@ -100,8 +117,8 @@ final class MathLatexToolkit
 
 
 	/**
-	 * @param string|Stringable $left
-	 * @param string|Stringable $right
+	 * @param int|string|Stringable $left
+	 * @param int|string|Stringable $right
 	 * @param string $operator
 	 * @return MathLatexBuilder
 	 */

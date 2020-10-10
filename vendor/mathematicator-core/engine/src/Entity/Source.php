@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
 
 use Nette\SmartObject;
 use Nette\Utils\Validators;
 
-class Source
+final class Source
 {
 	use SmartObject;
 
@@ -25,11 +25,6 @@ class Source
 	private $url;
 
 
-	/**
-	 * @param string|null $title
-	 * @param string|null $url
-	 * @param string|null $description
-	 */
 	public function __construct(?string $title = null, ?string $url = null, ?string $description = null)
 	{
 		$this->title = $title;
@@ -38,84 +33,88 @@ class Source
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public function __toString(): string
+	public function render(): string
 	{
-		$title = null;
-		$description = null;
+		$return = [];
 
 		if ($this->title) {
-			$title = '<b>' . $this->title . '</b><br>';
-		}
+			$title = htmlspecialchars($this->title, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
+			if ($this->url !== null && Validators::isUrl($this->url)) {
+				$return[] = '<a href="' . $this->url . '" target="_blank">' . $title . '</a>';
+			} else {
+				$return[] = '<b>' . $title . '</b>';
+			}
+		}
 		if ($this->description) {
-			$description = $this->description
-				. ($this->authors !== []
-					? '<br><br><span class="text-secondary">- ' . implode('<br>- ', $this->authors) . '</span>'
-					: ''
-				);
+			$return[] = htmlspecialchars($this->description, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+		}
+		if ($this->authors !== []) {
+			$authors = [];
+
+			foreach ($this->authors as $author) {
+				$authors[] = htmlspecialchars($author, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+			}
+
+			$return[] = 'Authors:<br><span class="text-secondary">- ' . implode('<br>- ', $authors) . '</span>';
 		}
 
-		if ($this->url !== null && Validators::isUrl($this->url)) {
-			return '<a href="' . $this->url . '" target="_blank">'
-				. ($title ?? $this->url)
-				. '</a>'
-				. ($description ?? '');
-		}
-
-		return $title === null && $description === null
-			? ''
-			: '<b>' . $title . '</b><br>' . $description;
+		return implode('<br>', $return);
 	}
 
 
-	/**
-	 * @param string $author
-	 */
-	public function setAuthor(string $author): void
+	public function __toString(): string
+	{
+		return $this->render();
+	}
+
+
+	public function addAuthor(string $author): self
 	{
 		$this->authors[] = $author;
+
+		return $this;
 	}
 
 
 	/**
 	 * @param string[] $authors
+	 * @return Source
 	 */
-	public function setAuthors(array $authors): void
+	public function setAuthors(array $authors): self
 	{
-		if ($authors !== []) {
-			foreach ($authors as $author) {
-				$this->authors[] = $author;
-			}
+		foreach ($authors as $author) {
+			$this->addAuthor($author);
 		}
+
+		return $this;
 	}
 
 
 	/**
 	 * @param string $url
+	 * @return Source
 	 */
-	public function setUrl(string $url): void
+	public function setUrl(string $url): self
 	{
 		$this->url = $url;
+
+		return $this;
 	}
 
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle(string $title): void
+	public function setTitle(string $title): self
 	{
 		$this->title = $title;
+
+		return $this;
 	}
 
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription(string $description): void
+	public function setDescription(string $description): self
 	{
 		$this->description = $description;
+
+		return $this;
 	}
 }

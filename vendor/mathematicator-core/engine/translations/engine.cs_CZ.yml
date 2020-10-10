@@ -1,0 +1,12 @@
+contentSearchFailed: Obsah se nepodařilo vyhledat…
+ohNo: Ale ne!
+help: Pomoc
+helpQuestion: S čím Vám mohu pomoci?
+button:
+  apply: Použít
+error:
+  tooLongQuery:
+    title: Příliš dlouhý dotaz
+    p1: Maximální délka vstupního dotazu je momentálně omezena na %lengthLimit% znaků (vloženo %inputLength% znaků) v kódování UTF-8.
+    p2: Toto omezení nasazujeme z výkonnostních důvodů.
+    p3: Pokud potřebujete vykonávat náročnější výpočty, kontaktujte nás.

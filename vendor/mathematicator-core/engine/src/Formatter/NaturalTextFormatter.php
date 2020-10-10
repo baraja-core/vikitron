@@ -2,27 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator;
+namespace Mathematicator\Engine\Formatter;
 
 
+use Mathematicator\Engine\MathFunction\FunctionManager;
 use Mathematicator\Engine\QueryNormalizer;
-use Mathematicator\Engine\TextRenderer;
 use Mathematicator\Tokenizer\Tokenizer;
 use Nette\Utils\Strings;
 
-class NaturalTextFormatter
+final class NaturalTextFormatter
 {
-
-	/** @var string[] */
-	private static $allowedFunctions = [
-		'sin',
-		'cos',
-		'tan',
-		'cotan',
-		'tg',
-		'log\d*',
-		'sqrt',
-	];
 
 	/** @var QueryNormalizer */
 	private $queryNormalizer;
@@ -31,10 +20,6 @@ class NaturalTextFormatter
 	private $tokenizer;
 
 
-	/**
-	 * @param QueryNormalizer $queryNormalizer
-	 * @param Tokenizer $tokenizer
-	 */
 	public function __construct(QueryNormalizer $queryNormalizer, Tokenizer $tokenizer)
 	{
 		$this->queryNormalizer = $queryNormalizer;
@@ -42,17 +27,12 @@ class NaturalTextFormatter
 	}
 
 
-	/**
-	 * @param string $text
-	 * @return string
-	 */
 	public function formatNaturalText(string $text): string
 	{
 		$return = '';
 
 		foreach (explode("\n", Strings::normalize($text)) as $line) {
-			$line = trim($line);
-			if ($line) {
+			if (($line = trim($line)) !== '') {
 				if (!preg_match('/^\s*https?:\/\//', $line) && !$this->containsWords($line)) {
 					$rewrite = $this->queryNormalizer->normalize($line);
 					$tokens = $this->tokenizer->tokenize($rewrite);
@@ -60,7 +40,7 @@ class NaturalTextFormatter
 
 					$return .= '<div class="latex"><p>\(' . $latex . '\)</p><code>' . $line . '</code></div>';
 				} else {
-					$return .= TextRenderer::process($line) . "\n\n";
+					$return .= htmlspecialchars($line, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
 				}
 			}
 		}
@@ -69,28 +49,20 @@ class NaturalTextFormatter
 	}
 
 
-	/**
-	 * @param string $text
-	 * @return bool
-	 */
-	private function containsWords(string $text): bool
+	private function containsWords(string $haystack): bool
 	{
 		$words = 0;
+		$haystack = (string) preg_replace('/\s+/', ' ', Strings::toAscii(Strings::lower($haystack)));
 
-		$text = (string) preg_replace('/\s+/', ' ', Strings::toAscii(Strings::lower($text)));
+		do {
+			$oldHaystack = $haystack;
+			$haystack = (string) preg_replace('/([a-z0-9]{2,})\s+([a-z0-9]{1,})(\s+|[:.!?,]|$)/', '$1$2', $haystack);
+		} while ($haystack !== $oldHaystack);
 
-		while (true) {
-			$newText = (string) preg_replace('/([a-z0-9]{2,})\s+([a-z0-9]{1,})(\s+|[:.!?,]|$)/', '$1$2', $text);
-			if ($newText === $text) {
-				break;
-			}
-			$text = $newText;
-		}
-
-		foreach (explode(' ', $text) as $word) {
+		foreach (explode(' ', $haystack) as $word) {
 			if (preg_match('/(?<word>[a-z0-9]{3,32})/', $word, $wordParser)) {
 				if ($this->wordInAllowedFunctions($wordParser['word'])) {
-					continue;
+					continue; // never count function name as word
 				}
 				if (strlen($wordParser['word']) >= 5) {
 					return true;
@@ -103,13 +75,9 @@ class NaturalTextFormatter
 	}
 
 
-	/**
-	 * @param string $word
-	 * @return bool
-	 */
 	private function wordInAllowedFunctions(string $word): bool
 	{
-		foreach (self::$allowedFunctions as $allowedFunction) {
+		foreach (FunctionManager::getFunctionNames() as $allowedFunction) {
 			if (preg_match('/^' . $allowedFunction . '$/', $word)) {
 				return true;
 			}

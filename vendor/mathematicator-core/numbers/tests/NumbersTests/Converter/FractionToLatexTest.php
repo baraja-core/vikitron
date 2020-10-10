@@ -10,7 +10,7 @@ use Mathematicator\Numbers\Entity\Fraction;
 use Tester\Assert;
 use Tester\TestCase;
 
-require __DIR__ . '/../../Bootstrap.php';
+require_once __DIR__ . '/../../Bootstrap.php';
 
 class FractionToLatexTest extends TestCase
 {

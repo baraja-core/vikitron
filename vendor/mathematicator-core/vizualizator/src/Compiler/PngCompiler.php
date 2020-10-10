@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Vizualizator;
+namespace Mathematicator\Vizualizator\Compiler;
 
 
-final class PngCompiler extends PhpGDCompiler
+use Mathematicator\Vizualizator\RenderRequest;
+
+final class PngCompiler extends PhpGDICompiler implements ICompiler
 {
 
 	/**
@@ -14,7 +16,14 @@ final class PngCompiler extends PhpGDCompiler
 	 */
 	public function compile(RenderRequest $request): string
 	{
-		$this->image = imagecreatetruecolor($request->getWidth(), $request->getHeight());
+		$image = imagecreatetruecolor($request->getWidth(), $request->getHeight());
+
+		if ($image === false) {
+			throw new \Exception('Image cannot be created!');
+		}
+
+		$this->image = $image;
+
 		imagealphablending($this->image, false);
 		imagesavealpha($this->image, true);
 		$alphaColor = imagecolorallocatealpha($this->image, 0, 0, 0, 127);
@@ -30,6 +39,6 @@ final class PngCompiler extends PhpGDCompiler
 
 		imagedestroy($this->image);
 
-		return $bin;
+		return (string) $bin;
 	}
 }

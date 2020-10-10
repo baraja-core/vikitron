@@ -6,22 +6,27 @@ namespace Mathematicator\Search;
 
 
 use Mathematicator\Engine\Engine;
-use Mathematicator\Engine\EngineMultiResult;
-use Mathematicator\Engine\EngineResult;
-use Mathematicator\Engine\EngineSingleResult;
-use Mathematicator\Engine\InvalidDataException;
-use Mathematicator\Engine\NoResultsException;
-use Mathematicator\Router\DynamicRoute;
-use Mathematicator\Router\Router;
-use Mathematicator\SearchController\CrossMultiplicationController;
-use Mathematicator\SearchController\DateController;
-use Mathematicator\SearchController\IntegralController;
-use Mathematicator\SearchController\MandelbrotSetController;
-use Mathematicator\SearchController\NumberController;
-use Mathematicator\SearchController\NumberCounterController;
-use Mathematicator\SearchController\OEISController;
-use Mathematicator\SearchController\SequenceController;
-use Mathematicator\SearchController\TreeController;
+use Mathematicator\Engine\Entity\EngineMultiResult;
+use Mathematicator\Engine\Entity\EngineResult;
+use Mathematicator\Engine\Entity\EngineSingleResult;
+use Mathematicator\Engine\Exception\InvalidDataException;
+use Mathematicator\Engine\Exception\NoResultsException;
+use Mathematicator\Engine\Router\DynamicRoute;
+use Mathematicator\Engine\Router\Router;
+use Mathematicator\Engine\Translation\TranslatorHelper;
+use Mathematicator\Engine\Translator;
+use Mathematicator\Search\Controller\CrossMultiplicationController;
+use Mathematicator\Search\Controller\DateController;
+use Mathematicator\Search\Controller\IntegralController;
+use Mathematicator\Search\Controller\MandelbrotSetController;
+use Mathematicator\Search\Controller\NumberController;
+use Mathematicator\Search\Controller\NumberCounterController;
+use Mathematicator\Search\Controller\OEISController;
+use Mathematicator\Search\Controller\SequenceController;
+use Mathematicator\Search\Controller\TreeController;
+use Mathematicator\Search\Entity\AutoCompleteResult;
+use Mathematicator\Search\Entity\Result;
+use Nette\Localization\ITranslator;
 use Tracy\Debugger;
 
 class Search
@@ -30,14 +35,20 @@ class Search
 	/** @var Engine */
 	private $engine;
 
+	/** @var ITranslator */
+	private $translator;
 
-	/**
-	 * @param Engine $engine
-	 * @param Router $router
-	 */
-	public function __construct(Engine $engine, Router $router)
+	/** @var TranslatorHelper */
+	private $translatorHelper;
+
+
+	public function __construct(Engine $engine, Router $router, TranslatorHelper $translatorHelper, Translator $translator)
 	{
 		$this->engine = $engine;
+		$this->translatorHelper = $translatorHelper;
+		$this->translator = $translator;
+
+		$translatorHelper->addResource(__DIR__ . '/../translations', 'search');
 
 		$router->addDynamicRoute(new DynamicRoute(DynamicRoute::TYPE_REGEX, '(?:strom|tree)\s+.+', TreeController::class));
 		$router->addDynamicRoute(new DynamicRoute(DynamicRoute::TYPE_REGEX, 'integr(?:a|á)l\s+.+', IntegralController::class));
@@ -56,14 +67,23 @@ class Search
 
 
 	/**
-	 * @param string $query
+	 * Set language for translator.
+	 */
+	public function setLocale(string $lang): void
+	{
+		$this->translatorHelper->translator->setLocale($lang);
+	}
+
+
+	/**
 	 * @return EngineResult|EngineResult[]
 	 * @throws InvalidDataException|NoResultsException
 	 */
 	public function search(string $query)
 	{
-		Debugger::timer('search_request');
-
+		if (class_exists('\Tracy\Debugger')) {
+			Debugger::timer('search_request');
+		}
 		if (($engineResult = $this->engine->compute($query)) instanceof EngineMultiResult) {
 			return [
 				'left' => $engineResult->getResult('left'),
@@ -76,8 +96,6 @@ class Search
 
 
 	/**
-	 * @param string $query
-	 * @return AutoCompleteResult
 	 * @throws InvalidDataException|NoResultsException
 	 */
 	public function searchAutocomplete(string $query): AutoCompleteResult
@@ -86,7 +104,7 @@ class Search
 		/** @var EngineSingleResult $resultEntity */
 		$resultEntity = \is_array($searchResult) ? $searchResult['left'] : $searchResult;
 
-		return (new AutoCompleteResult)
-			->setResult((new Result)->setBoxes($resultEntity->getBoxes()));
+		return (new AutoCompleteResult())
+			->setResult((new Result())->setBoxes($resultEntity->getBoxes()));
 	}
 }

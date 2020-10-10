@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator;
+namespace Mathematicator\Engine\Formatter;
 
 
-class FixSpaces
+final class FixSpaces
 {
 
 	/** @var string[] */
@@ -21,27 +21,23 @@ class FixSpaces
 	];
 
 
-	/**
-	 * @param string $content
-	 * @return mixed|string
-	 */
-	public function fix(string $content)
+	public static function fix(string $haystack): string
 	{
-		$content = (string) preg_replace('/(\&nbsp\;|\s)+/', ' ', $content);
+		$haystack = (string) preg_replace('/(\&nbsp\;|\s)+/', ' ', $haystack);
 		$iterator = 0;
 
 		while (true) {
-			$origin = $content;
+			$original = $haystack;
 			foreach (self::$rules as $pattern => $replacement) {
-				$content = (string) preg_replace('/' . $pattern . '/', $replacement, $content);
+				$haystack = (string) preg_replace('/' . $pattern . '/', $replacement, $haystack);
 			}
 
 			$iterator++;
-			if ($content === $origin || $iterator > 10) {
+			if ($haystack === $original || $iterator > 10) {
 				break;
 			}
 		}
 
-		return $content;
+		return $haystack;
 	}
 }

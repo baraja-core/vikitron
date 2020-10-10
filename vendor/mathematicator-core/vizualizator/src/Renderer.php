@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Mathematicator\Vizualizator;
 
 
+use Mathematicator\Vizualizator\Compiler\JpgCompiler;
+use Mathematicator\Vizualizator\Compiler\PngCompiler;
+use Mathematicator\Vizualizator\Compiler\SvgICompiler;
+
 final class Renderer
 {
 	public const FORMAT_SVG = 'svg';
@@ -32,15 +36,19 @@ final class Renderer
 	 */
 	public function render(RenderRequest $request, string $format = self::FORMAT_PNG): string
 	{
-		if ($format === self::FORMAT_PNG) {
-			$compiler = new PngCompiler;
-			$contentType = 'image/png';
-		} elseif ($format === self::FORMAT_JPG) {
-			$compiler = new JpgCompiler;
-			$contentType = 'image/jpeg';
-		} else {
-			$compiler = new SvgCompiler;
-			$contentType = null;
+		switch ($format) {
+			case self::FORMAT_PNG:
+				$compiler = new PngCompiler();
+				$contentType = 'image/png';
+				break;
+			case self::FORMAT_JPG:
+				$compiler = new JpgCompiler();
+				$contentType = 'image/jpeg';
+				break;
+			case self::FORMAT_SVG:
+			default:
+				$compiler = new SvgICompiler();
+				$contentType = null;
 		}
 
 		if (($content = $compiler->compile($request)) !== '') {

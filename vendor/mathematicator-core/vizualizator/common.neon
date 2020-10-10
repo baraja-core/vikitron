@@ -1,3 +1,2 @@
-services:
-	- Mathematicator\Vizualizator\MathFunctionRenderer
-	- Mathematicator\Vizualizator\Renderer
+extensions:
+	mathematicator.vizualizator: Mathematicator\Vizualizator\VizualizatorExtension

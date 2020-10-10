@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
-use Mathematicator\Engine\MathematicatorException;
-use Mathematicator\Engine\MathErrorException;
-use Mathematicator\Engine\Query;
-use Mathematicator\Engine\UndefinedOperationException;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Engine\Exception\MathematicatorException;
+use Mathematicator\Engine\Exception\MathErrorException;
+use Mathematicator\Engine\Exception\UndefinedOperationException;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Tokens;
 
-class BaseOperation
+final class BaseOperation
 {
 
 	/** @var AddNumbers */
@@ -49,11 +49,6 @@ class BaseOperation
 
 
 	/**
-	 * @param NumberToken $left
-	 * @param NumberToken $right
-	 * @param string $operation
-	 * @param Query $query
-	 * @return NumberOperationResult|null
 	 * @throws MathematicatorException
 	 */
 	public function process(NumberToken $left, NumberToken $right, string $operation, Query $query): ?NumberOperationResult
@@ -83,7 +78,6 @@ class BaseOperation
 	/**
 	 * @param NumberToken|InfinityToken $left
 	 * @param NumberToken|InfinityToken $right
-	 * @param string $operation
 	 * @return NumberOperationResult|InfinityToken|null
 	 * @throws UndefinedOperationException
 	 */
@@ -147,15 +141,13 @@ class BaseOperation
 
 
 	/**
-	 * @param NumberToken $token
-	 * @return NumberOperationResult
 	 * @throws MathErrorException
 	 */
 	public function processNumberToFactorial(NumberToken $token): NumberOperationResult
 	{
 		return $this->processFactorial(
 			(new FactorialToken($token->getNumber()))
-				->setToken($token->getNumber()->getHumanString())
+				->setToken((string) $token->getNumber()->toHumanString())
 				->setPosition($token->getPosition())
 				->setType(Tokens::M_FACTORIAL)
 		)->setIteratorStep(1);

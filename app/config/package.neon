@@ -23,10 +23,19 @@ extensions:
 	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
 	dbal.console: Baraja\Doctrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
 	localization: Baraja\Localization\LocalizationExtension
+	mathematicator.calculator: Mathematicator\Calculator\CalculatorExtension
+	mathematicator.engine: Mathematicator\Engine\EngineExtension
+	mathematicator.integralSolver: Mathematicator\Integral\IntegralSolverExtension
+	mathematicator.mandelbrotSet: Mathematicator\MandelbrotSet\MandelbrotSetExtension
+	mathematicator.search: Mathematicator\Search\SearchExtension
+	mathematicator.statistic: Mathematicator\Statistics\StatisticExtension
+	mathematicator.tokenizer: Mathematicator\Tokenizer\TokenizerExtension
+	mathematicator.vizualizator: Mathematicator\Vizualizator\VizualizatorExtension
 	orm: Baraja\Doctrine\ORM\DI\OrmExtension
 	orm.annotations: Baraja\Doctrine\ORM\DI\OrmAnnotationsExtension
 	orm.console: Baraja\Doctrine\ORM\DI\OrmConsoleExtension
 	packageManagerExtension: Baraja\PackageManager\PackageManagerExtension
+	psr11: Contributte\Psr11\DI\Psr11ContainerExtension
 
 orm:
 	entityManagerClass: Baraja\Doctrine\EntityManager
@@ -35,91 +44,10 @@ orm.annotations:
 	ignore: []
 	paths:
 		Baraja\Localization: %rootDir%/vendor/baraja-core/localization/src/Entity
-		Mathematicator: %appDir%/../vendor/mathematicator-core
 
 parameters:
 	database:
 		primary: []
-	
-	math:
-		functions:
-			- sin
-			- cos
-			- tan
-			- cotan
-			- log
-			- log\d*
-			- ln
-			- sqrt
-	
-	search:
-		controllerNamespace: "Mathematicator\\SearchController\\{{name}}Controller"
 
 services:
-	baseOperation: Mathematicator\Calculator\Operation\BaseOperation
-	boxRenderer: Mathematicator\Search\Renderer
-	calculator: Mathematicator\Calculator\Calculator
-	integralSolver: Mathematicator\Integral\IntegralSolver
-	mathematicator.engine:
-		factory: Mathematicator\Engine\Engine
-		setup:
-			- addExtraModule(@Mathematicator\Engine\SampleModule)
-	
-	mathematicator.queryNormalizer:
-		factory: Mathematicator\Engine\QueryNormalizer
-	
-	mathematicator.translator:
-		factory: Mathematicator\Engine\Translator
-	
-	search: Mathematicator\Search\SearchAccessor
-	searchConsole: Mathematicator\Search\Console
-	- Mathematicator\Router\Router(%math.functions%)
-	- Mathematicator\SearchController\NumberCounterController(%math.functions%)
-	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
 	- Baraja\Localization\Localization
-	- Mathematicator\MathFunction\SinFunction
-	- Mathematicator\Step\Controller\StepMultiplicationController
-	- Mathematicator\Step\Controller\StepSqrtController
-	- Mathematicator\Step\Controller\StepSqrtHelper
-	- Mathematicator\Step\Controller\StepPowController
-	- Mathematicator\Step\Controller\StepSinController
-	- Mathematicator\MathFunction\FunctionManager
-	- Mathematicator\MathFunction\AbsFunction
-	- Mathematicator\MathFunction\SqrtFunction
-	- Mathematicator\Tokenizer\Tokenizer
-	- Mathematicator\NewtonMethod
-	- Mathematicator\Pi
-	- Mathematicator\Step\RomanIntSteps
-	- Mathematicator\Tokenizer\TokensToObject
-	- Mathematicator\Tokenizer\TokensToLatex
-	- Mathematicator\Tokenizer\FunctionManagerFacade
-	- Mathematicator\Statistics\StatisticsManager
-	- Mathematicator\Numbers\NumberFactory
-	- Mathematicator\Vizualizator\MathFunctionRenderer
-	- Mathematicator\Vizualizator\Renderer
-	- Mathematicator\Step\Controller\StepPlusController
-	- Mathematicator\Calculator\Operation\Factorial
-	- Mathematicator\Step\StepEndpoint
-	- Mathematicator\SearchController\ErrorTooLongController
-	- Mathematicator\SearchController\NumberController
-	- Mathematicator\SearchController\DateController
-	- Mathematicator\SearchController\IntegralController
-	- Mathematicator\SearchController\SequenceController
-	- Mathematicator\SearchController\OEISController
-	- Mathematicator\SearchController\CrossMultiplicationController
-	- Mathematicator\SearchController\MandelbrotSetController
-	- Mathematicator\SearchController\TreeController
-	- Mathematicator\SearchController\OtherController
-	- Mathematicator\NumberRewriter
-	- Mathematicator\Search\Search
-	- Mathematicator\NaturalTextFormatter
-	- Mathematicator\Engine\SampleModule
-	- Mathematicator\Calculator\TokensCalculator
-	- Mathematicator\NumberHelper
-	- Mathematicator\Step\StepFactory
-	- Mathematicator\Calculator\Operation\AddNumbers
-	- Mathematicator\Calculator\Operation\SubtractNumbers
-	- Mathematicator\Calculator\Operation\MultiplicationNumber
-	- Mathematicator\Calculator\Operation\DivisionNumbers
-	- Mathematicator\Calculator\Operation\PowNumber
-	- Mathematicator\Integral\Solver\Solver

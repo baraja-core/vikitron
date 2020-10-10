@@ -1,7 +1,15 @@
 {
 	"name": "mathematicator-core/search",
 	"description": "Mathematicator advance search engine.",
+	"keywords": [
+		"mathematicator",
+		"math",
+		"php",
+		"search"
+	],
+	"type": "library",
 	"homepage": "https://github.com/mathematicator-core/search",
+	"license": "MIT",
 	"authors": [
 		{
 			"name": "Jan Barášek",
@@ -9,32 +17,81 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
-		"nette/utils": "^3.0",
+		"php": ">=7.2",
 		"janbarasek/php-moon-phase": "^2.0",
-		"martindilling/sunny": "^0.5.3",
-		"mathematicator-core/numbers": "^2.0",
+		"martindilling/sunny": "^0.5.4",
 		"mathematicator-core/calculator": "^2.0",
-		"mathematicator-core/tokenizer": "^2.0",
-		"mathematicator-core/mandelbrot-set": "^2.0",
-		"mathematicator-core/statistic": "^2.0",
+		"mathematicator-core/engine": "^2.0",
 		"mathematicator-core/integral-solver": "^2.0",
-		"mathematicator-core/vizualizator": "^2.0"
+		"mathematicator-core/mandelbrot-set": "^2.0",
+		"mathematicator-core/numbers": "^2.1",
+		"mathematicator-core/statistic": "^2.0",
+		"mathematicator-core/tokenizer": "^2.1",
+		"mathematicator-core/vizualizator": "^2.0",
+		"nette/utils": "^3.0",
+		"symfony/translation": "^4.0 || ^5.0",
+		"symfony/yaml": "^5.0"
 	},
 	"require-dev": {
+		"brainmaestro/composer-git-hooks": "dev-master",
+		"nette/tester": "^2.3",
 		"phpstan/phpstan": "^0.12.18",
-		"tracy/tracy": "^2.7",
-		"phpstan/phpstan-nette": "^0.12.6"
+		"phpstan/phpstan-nette": "^0.12.6",
+		"symplify/easy-coding-standard": "^7.2"
+	},
+	"suggest": {
+		"tracy/tracy": "(^2.7) For advance debugging"
 	},
 	"autoload": {
-		"classmap": [
-			"src/"
-		]
+		"psr-4": {
+			"Mathematicator\\Search\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Mathematicator\\Search\\Tests\\": "tests/SearchTests/"
+		}
 	},
 	"scripts": {
-		"phpstan": [
-			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
-		]
+		"post-install-cmd": "cghooks add --ignore-lock",
+		"post-update-cmd": "cghooks update",
+		"cs:install": [
+			"composer create-project nette/code-checker temp/code-checker ^3 --no-progress",
+			"composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress"
+		],
+		"cs:check": [
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml"
+		],
+		"cs:fix": [
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --fix --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml --fix"
+		],
+		"phpstan": "vendor/bin/phpstan analyse src -c phpstan.neon --level 8 --no-progress",
+		"fix": [
+			"composer update",
+			"composer cs:fix",
+			"composer phpstan",
+			"composer test"
+		],
+		"test": "vendor/bin/tester -s -c tests/php.ini -p php tests --coverage coverage.xml --coverage-src src",
+		"cghooks": "vendor/bin/cghooks"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.2.x-dev"
+		},
+		"hooks": {
+			"post-merge": "composer install",
+			"pre-commit": [
+				"composer cs:check",
+				"composer phpstan",
+				"composer test"
+			]
+		}
+	}
 }

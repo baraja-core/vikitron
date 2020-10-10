@@ -1,0 +1,6 @@
+withParam: The number is %number%.
+parent:
+  child: Child of a parent.
+test: Test
+sequentialParams:
+  sample: Sample %0% | %2% | %1%

@@ -2,63 +2,52 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Step;
+namespace Mathematicator\Calculator\Step;
 
 
-use Mathematicator\Engine\TerminateException;
-use Mathematicator\Step\Controller\IStepController;
+use Mathematicator\Calculator\Step\Controller\IStepController;
+use Mathematicator\Engine\Exception\TerminateException;
+use Mathematicator\Engine\Step\Step;
 use Nette\DI\Container;
 use Nette\Utils\ArrayHash;
 
 final class StepEndpoint
 {
 
-	/** @var StepFactory */
-	private $stepFactory;
-
 	/** @var Container */
-	private $serviceFactory;
-
-	/** @var IStepController */
-	private $callback;
+	private $container;
 
 
-	/**
-	 * @param StepFactory $stepFactory
-	 * @param Container $container
-	 */
-	public function __construct(StepFactory $stepFactory, Container $container)
+	public function __construct(Container $container)
 	{
-		$this->stepFactory = $stepFactory;
-		$this->serviceFactory = $container;
+		$this->container = $container;
 	}
 
 
 	/**
-	 * @param string $type
-	 * @param string $data
 	 * @return mixed[]
 	 */
 	public function getStep(string $type, string $data): array
 	{
-		$this->callback = $this->serviceFactory->getByType($type);
+		$callback = $this->container->getByType($type);
+		if (!$callback instanceof IStepController) {
+			throw new \RuntimeException('Service must be instance of "' . IStepController::class . '", but type "' . $type . '" given.');
+		}
 
 		try {
-			$data = json_decode($data);
+			$data = \json_decode($data);
 			$arrayHash = new ArrayHash();
 			foreach ($data as $k => $v) {
 				$arrayHash->{$k} = $v;
 			}
-			$steps = $this->callback->actionDefault($arrayHash);
+			$steps = $callback->actionDefault($arrayHash);
 		} catch (TerminateException $e) {
-			$step = $this->stepFactory->create();
-			$step->setTitle('Nepodařilo se najít postup pro [' . $type . ']');
-			$steps[] = $step;
+			$steps[] = StepFactory::addStep('Could not find a step-by-step solution for "' . $type . '".');
 		}
 
 		$return = [];
-
 		foreach ($steps as $step) {
+			/** @var Step $step */
 			$return[] = [
 				'title' => $step->getTitle(),
 				'latex' => $step->getLatex(),

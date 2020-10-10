@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace Mathematicator\Search;
 
 
-use Nette\StaticClass;
-
 final class TextRenderer
 {
-	use StaticClass;
+
+	/** @throws \Error */
+	public function __construct()
+	{
+		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
+	}
+
 
 	/**
 	 * Reserved for future use.
-	 *
-	 * @param string $haystack
-	 * @return string
 	 */
 	public static function process(string $haystack): string
 	{

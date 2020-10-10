@@ -6,9 +6,11 @@ namespace Mathematicator\Numbers;
 
 
 use Generator;
+use Nette\StaticClass;
 
 final class PrimaryNumber
 {
+	use StaticClass;
 
 	/**
 	 * It gradually returns a list of all small prime numbers.

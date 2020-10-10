@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Vizualizator;
+namespace Mathematicator\Vizualizator\Compiler;
 
 
-final class JpgCompiler extends PhpGDCompiler
+use Mathematicator\Vizualizator\RenderRequest;
+
+final class JpgCompiler extends PhpGDICompiler implements ICompiler
 {
 
 	/**
@@ -14,7 +16,14 @@ final class JpgCompiler extends PhpGDCompiler
 	 */
 	public function compile(RenderRequest $request): string
 	{
-		$this->image = imagecreatetruecolor($request->getWidth(), $request->getHeight());
+		$image = imagecreatetruecolor($request->getWidth(), $request->getHeight());
+
+		if ($image === false) {
+			throw new \Exception('Image cannot be created!');
+		}
+
+		$this->image = $image;
+
 		imagefill($this->image, 0, 0, $this->getColor(255, 255, 255));
 
 		$this->process($request);
@@ -27,6 +36,6 @@ final class JpgCompiler extends PhpGDCompiler
 
 		imagedestroy($this->image);
 
-		return $bin;
+		return (string) $bin;
 	}
 }

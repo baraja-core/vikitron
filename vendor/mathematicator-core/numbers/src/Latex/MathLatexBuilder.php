@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers\Latex;
 
 
+use Mathematicator\Numbers\IMathBuilder;
 use Stringable;
 
-final class MathLatexBuilder implements Stringable
+/**
+ * @implements IMathBuilder<MathLatexBuilder>
+ */
+final class MathLatexBuilder implements IMathBuilder, Stringable
 {
 
 	/** @var MathLatexSnippet */
@@ -15,7 +19,7 @@ final class MathLatexBuilder implements Stringable
 
 
 	/**
-	 * @param string|Stringable $latex
+	 * @param int|string|Stringable $latex
 	 * @param string|null $delimiterLeft
 	 * @param string|null $delimiterRight
 	 */
@@ -45,58 +49,58 @@ final class MathLatexBuilder implements Stringable
 
 
 	/**
-	 * @param string|Stringable $with
+	 * @param int|string|Stringable $with
 	 * @return MathLatexBuilder
 	 */
 	public function plus($with): self
 	{
-		return $this->operator('+', $with);
+		return $this->operator(MathLatexToolkit::PLUS, $with);
 	}
 
 
 	/**
-	 * @param string|Stringable $with
+	 * @param int|string|Stringable $with
 	 * @return MathLatexBuilder
 	 */
 	public function minus($with): self
 	{
-		return $this->operator('-', $with);
+		return $this->operator(MathLatexToolkit::MINUS, $with);
 	}
 
 
 	/**
-	 * @param string|Stringable $with
+	 * @param int|string|Stringable $with
 	 * @return MathLatexBuilder
 	 */
 	public function multipliedBy($with): self
 	{
-		return $this->operator('\cdot', $with);
+		return $this->operator(MathLatexToolkit::MULTIPLY, $with);
 	}
 
 
 	/**
-	 * @param string|Stringable $with
+	 * @param int|string|Stringable $with
 	 * @return MathLatexBuilder
 	 */
 	public function dividedBy($with): self
 	{
-		return $this->operator('\div', $with);
+		return $this->operator(MathLatexToolkit::DIVIDE, $with);
 	}
 
 
 	/**
-	 * @param string|Stringable $to
+	 * @param int|string|Stringable $to
 	 * @return MathLatexBuilder
 	 */
 	public function equals($to): self
 	{
-		return $this->operator('=', $to);
+		return $this->operator(MathLatexToolkit::EQUALS, $to);
 	}
 
 
 	/**
 	 * @param string $operator
-	 * @param string|Stringable $to
+	 * @param int|string|Stringable $to
 	 * @return MathLatexBuilder
 	 */
 	public function operator(string $operator, $to): self
@@ -107,6 +111,11 @@ final class MathLatexBuilder implements Stringable
 	}
 
 
+	/**
+	 * @param string $left
+	 * @param string|null $right
+	 * @return self
+	 */
 	public function wrap(string $left, string $right = null): self
 	{
 		$this->snippet->latex = (string) MathLatexToolkit::wrap($this->snippet->latex, $left, $right);

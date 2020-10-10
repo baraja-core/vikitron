@@ -2,54 +2,39 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator;
+namespace Mathematicator\Engine;
 
 
-use Mathematicator\Engine\MathematicatorException;
-use Nette\Utils\Strings;
-use Nette\Utils\Validators;
-
-class NumberRewriter
+final class NumberRewriter
 {
 
 	/** @var int[] */
-	private $basic = [
-		'nula' => 0,
-		'jedna' => 1,
-		'dvě' => 2,
-		'dva' => 2,
-		'tři' => 3,
-		'čtyři' => 4,
-		'pět' => 5,
-		'šest' => 6,
-		'sedm' => 7,
-		'osm' => 8,
-		'devět' => 9,
-		'deset' => 10,
-		'jedenáct' => 11,
-		'dvanáct' => 12,
-		'třináct' => 13,
-		'čtrnáct' => 14,
-		'patnáct' => 15,
-		'šestnáct' => 16,
-		'sedmnáct' => 17,
-		'osmnáct' => 18,
-		'devatenáct' => 19,
-		'dvacet' => 20,
+	private static $basic = [
+		'nula' => 0, 'jedna' => 1, 'dvě' => 2, 'dva' => 2, 'tři' => 3, 'čtyři' => 4, 'pět' => 5,
+		'šest' => 6, 'sedm' => 7, 'osm' => 8, 'devět' => 9, 'deset' => 10, 'jedenáct' => 11, 'dvanáct' => 12,
+		'třináct' => 13, 'čtrnáct' => 14, 'patnáct' => 15, 'šestnáct' => 16, 'sedmnáct' => 17, 'osmnáct' => 18,
+		'devatenáct' => 19, 'dvacet' => 20,
 	];
 
 	/** @var string[] */
-	private $teens = [
+	private static $regex = [
+		'^(m[ií]nus)\s*(.+)$' => '-$2',
+		'(^|[^\d])(\d+)-ti(\s|$)' => '$1$2$3',
+		'\s*(celé|celých|celá)\s*' => '|',
+	];
+
+	/** @var string[] */
+	private static $teens = [
 		1 => 'deset', 'dvacet', 'třicet', 'čtyřicet', 'padesát', 'šedesát', 'sedmdesát', 'osmdesát', 'devadesát', 'sto',
 	];
 
 	/** @var string[] */
-	private $hundreds = [
+	private static $hundreds = [
 		1 => 'sto', 'dvě stě', 'tři sta', 'čtyři sta', 'pět set', 'šest set', 'sedm set', 'osm set', 'devět set', 'tisíc',
 	];
 
 	/** @var string[][] */
-	private $levels = [
+	private static $levels = [
 		0 => ['', '', ''],
 		3 => ['tisíc', 'tisíce', 'tisíc'],
 		6 => ['milion', 'miliony', 'milionů'],
@@ -80,7 +65,7 @@ class NumberRewriter
 	];
 
 	/** @var string[][] */
-	private $fractions = [
+	private static $fractions = [
 		1 => ['jednina'],
 		2 => ['polovina', 'poloviny', 'polovin'],
 		3 => ['třetina', 'třetiny', 'třetin'],
@@ -93,23 +78,12 @@ class NumberRewriter
 		10 => ['desetina', 'desetiny', 'desetin'],
 	];
 
-	/** @var string[] */
-	private $regex = [
-		'^(m[ií]nus)\s*(.+)$' => '-$2',
-		'(^|[^\d])(\d+)-ti(\s|$)' => '$1$2$3',
-		'\s*(celé|celých|celá)\s*' => '|',
-	];
 
-
-	/**
-	 * @param string $haystack
-	 * @return string
-	 */
 	public function toNumber(string $haystack): string
 	{
-		$haystack = trim(preg_replace('/\s+/', ' ', $haystack));
+		$haystack = trim((string) preg_replace('/\s+/', ' ', $haystack));
 
-		foreach ($this->regex as $key => $value) {
+		foreach (self::$regex as $key => $value) {
 			$haystack = (string) preg_replace('/' . $key . '/', $value, $haystack);
 		}
 
@@ -122,152 +96,9 @@ class NumberRewriter
 	}
 
 
-	/**
-	 * @param string $number
-	 * @return string
-	 */
-	public function toWord(string $number): string
-	{
-		$number = trim($number);
-
-		if (Strings::startsWith($number, '-')) {
-			return 'minus ' . $this->toWord(preg_replace('/^-/', '', $number));
-		}
-
-		if (!Validators::isNumericInt($number)) {
-			return $this->toWordFloat($number);
-		}
-
-		foreach ($this->basic as $w => $n) {
-			if ((string) $n === $number) {
-				return (string) $w;
-			}
-		}
-
-		$return = '';
-		$tokens = [];
-
-		while (true) {
-			if (preg_match('/^(.+)(\d{3})$/', $number, $numberParser)) {
-				$number = $numberParser[1];
-				$tokens[] = $numberParser[2];
-			} else {
-				$tokens[] = $number;
-				break;
-			}
-		}
-
-		$tokens = array_reverse($tokens);
-		$level = (count($tokens) - 1) * 3;
-
-		foreach ($tokens as $token) {
-			$levelName = (isset($this->levels[$level])
-				? $this->smartInflect($token, $this->levels[$level][0], $this->levels[$level][1], $this->levels[$level][2]) . ' '
-				: ''
-			);
-
-			if ($token !== '1' && $levelName !== '') {
-				$return .= $this->toWordTrinity($token) . ' ';
-			}
-
-			$return .= $levelName;
-
-			$level -= 3;
-		}
-
-		return trim(preg_replace('/\s+/', ' ', $return));
-	}
-
-
-	/**
-	 * @param string $float
-	 * @return string
-	 */
-	private function toWordFloat(string $float): string
-	{
-		return $float;
-	}
-
-
-	/**
-	 * @param string $number
-	 * @return string
-	 * @throws \Exception
-	 */
-	private function toWordTrinity(string $number): string
-	{
-		$number = strrev(ltrim($number, '0'));
-		$return = '';
-
-		if (\strlen($number) > 3) {
-			throw new MathematicatorException('Number length must be 1-3 chars.');
-		}
-
-		// hundreds
-		if (isset($number[2]) && $number[2] !== '0') {
-			$hundreds = (int) ($number[2]);
-			$return = $this->hundreds[$hundreds] . ' ';
-		}
-
-		// teens
-		if (isset($number[1])) {
-			if ($number[1] === '1') {
-				$return .= $this->toWord($number[1] . $number[0]);
-			} elseif ($number[1] !== '0') {
-				$teens = (int) ($number[1]);
-				$return .= $this->teens[$teens] . ' ';
-
-				// ones
-				if (isset($number[0]) && $number[0] !== '0') {
-					$return .= $this->formatOnes((int) $number[0]);
-				}
-			}
-		} elseif (isset($number[0]) && $number[0] !== '0') {
-			$return .= $this->formatOnes((int) $number[0]);
-		}
-
-		return trim($return);
-	}
-
-
-	/**
-	 * @param int $number
-	 * @return string
-	 */
-	private function formatOnes(int $number): string
-	{
-		return [1 => 'jedna', 'dva', 'tři', 'čtyři', 'pět', 'šest', 'sedm', 'osm', 'devět'][$number];
-	}
-
-
-	/**
-	 * @param int $number
-	 * @param string $for1
-	 * @param string $for234
-	 * @param string $forOther
-	 * @return string
-	 */
-	private function smartInflect(int $number, string $for1, string $for234, string $forOther): string
-	{
-		if ($number === 1) {
-			return $for1;
-		}
-
-		if ($number > 1 && $number < 5) {
-			return $for234;
-		}
-
-		return $forOther;
-	}
-
-
-	/**
-	 * @param string $word
-	 * @return string
-	 */
 	private function processWord(string $word): string
 	{
-		foreach ($this->basic as $basicWord => $basicRewrite) {
+		foreach (self::$basic as $basicWord => $basicRewrite) {
 			if ($basicWord === $word) {
 				return (string) $basicRewrite;
 			}

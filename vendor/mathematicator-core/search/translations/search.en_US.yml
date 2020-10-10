@@ -1,0 +1,14 @@
+calculate: Calculate
+calculation: Calculation
+crossMultiplication:
+  title: Cross-multiplication
+  description: <b>Cross-multiplication</b> is a mechanical mathematical procedure used in calculations based on direct and indirect proportionality.
+  directProportionality: Direct proportionality
+  indirectProportionality: Indirect proportionality
+  enter3Vals: Enter 3 arbitrary values, the fourth will be calculated.
+definition: Definition
+divisionByZero: Division by zero
+divisionByZeroDesc: '"%number%" cannot be divided by zero.'
+information: Information
+solution: Solution
+untitledBox: Untitled box

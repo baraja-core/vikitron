@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Router;
+namespace Mathematicator\Engine\Router;
 
 
 final class DynamicRoute
@@ -24,9 +24,7 @@ final class DynamicRoute
 
 
 	/**
-	 * @param string $type
 	 * @param mixed $haystack
-	 * @param string $controller
 	 */
 	public function __construct(string $type, $haystack, string $controller)
 	{
@@ -36,9 +34,6 @@ final class DynamicRoute
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getType(): string
 	{
 		return $this->type;
@@ -54,9 +49,6 @@ final class DynamicRoute
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getController(): string
 	{
 		return $this->controller;

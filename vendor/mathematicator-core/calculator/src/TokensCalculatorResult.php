@@ -8,6 +8,7 @@ namespace Mathematicator\Calculator;
 use Mathematicator\Tokenizer\Token\BaseToken;
 use Mathematicator\Tokenizer\Token\IToken;
 use Nette\SmartObject;
+use RuntimeException;
 
 /**
  * @property BaseToken[] $result
@@ -54,7 +55,7 @@ class TokensCalculatorResult
 		$return = [];
 		foreach ($result as $item) {
 			if (!$item instanceof BaseToken) {
-				throw new \RuntimeException('Result item should be instance of "' . BaseToken::class . '".');
+				throw new RuntimeException('Result item should be instance of "' . BaseToken::class . '".');
 			}
 			$return[] = $item;
 		}

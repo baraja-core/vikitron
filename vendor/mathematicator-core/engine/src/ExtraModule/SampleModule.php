@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\ExtraModule;
 
+
+use Mathematicator\Engine\Entity\Box;
 
 final class SampleModule extends BaseModule
 {
-
-	/**
-	 * @param string $query
-	 * @return bool
-	 */
 	public function match(string $query): bool
 	{
 		return $query === 'help';
@@ -22,8 +19,8 @@ final class SampleModule extends BaseModule
 	{
 		$this->result->addBox(
 			(new Box(Box::TYPE_TEXT))
-				->setTitle('Help')
-				->setText('What can I help you with?')
+				->setTitle($this->translator->translate('engine.help'))
+				->setText($this->translator->translate('engine.helpQuestion'))
 		);
 	}
 }

@@ -1,2 +1,2 @@
-services:
-	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
+extensions:
+	mathematicator.mandelbrotSet: Mathematicator\MandelbrotSet\MandelbrotSetExtension

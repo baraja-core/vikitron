@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Search;
 
 
-use Mathematicator\Engine\EngineSingleResult;
+use Mathematicator\Engine\Entity\EngineSingleResult;
 use Mathematicator\Engine\Helper\Terminal;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Command\Command;
@@ -14,16 +14,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Tracy\Debugger;
 use Tracy\Dumper;
 
-class Console extends Command
+final class Console extends Command
 {
 
 	/** @var Search */
 	private $search;
 
 
-	/**
-	 * @param Search $search
-	 */
 	public function __construct(Search $search)
 	{
 		parent::__construct();
@@ -38,20 +35,18 @@ class Console extends Command
 	}
 
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 * @return int
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		try {
-			echo ' __  __       _   _                          _   _           _                ' . "\n";
-			echo '|  \/  | __ _| |_| |__   ___ _ __ ___   __ _| |_(_) ___ __ _| |_ ___  _ __    ' . "\n";
-			echo '| |\/| |/ _` | __| \'_ \ / _ \ \'_ ` _ \ / _` | __| |/ __/ _` | __/ _ \| \'__|' . "\n";
-			echo '| |  | | (_| | |_| | | |  __/ | | | | | (_| | |_| | (_| (_| | || (_) | |      ' . "\n";
-			echo '|_|  |_|\__,_|\__|_| |_|\___|_| |_| |_|\__,_|\__|_|\___\__,_|\__\___/|_|      ' . "\n";
-			echo '                                                        Terminal edition      ' . "\n";
+			echo <<<'EOT'
+ __  __       _   _                          _   _           _
+|  \/  | __ _| |_| |__   ___ _ __ ___   __ _| |_(_) ___ __ _| |_ ___  _ __
+| |\/| |/ _` | __| '_ \ / _ \ '_ ` _ \ / _` | __| |/ __/ _` | __/ _ \| '__|
+| |  | | (_| | |_| | | |  __/ | | | | | (_| | |_| | (_| (_| | || (_) | |
+|_|  |_|\__,_|\__|_| |_|\___|_| |_| |_|\__,_|\__|_|\___\__,_|\__\___/|_|
+                                                        Terminal edition
+
+EOT;
 
 			while (true) {
 				$query = Terminal::ask('Query');
@@ -75,16 +70,16 @@ class Console extends Command
 			$output->writeLn('<error>' . $e->getMessage() . '</error>');
 			echo "\n\n";
 			Terminal::code($e->getFile(), $e->getLine());
-			echo Dumper::toTerminal(Debugger::log($e));
+
+			if (class_exists('\Tracy\Dumper') && class_exists('\Tracy\Debugger')) {
+				echo Dumper::toTerminal(Debugger::log($e));
+			}
 
 			return 1;
 		}
 	}
 
 
-	/**
-	 * @param EngineSingleResult $result
-	 */
 	private function render(EngineSingleResult $result): void
 	{
 		if ($result->getInterpret() !== null) {

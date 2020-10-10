@@ -14,9 +14,6 @@ final class MathFunctionRenderer
 	private $renderer;
 
 
-	/**
-	 * @param Renderer $renderer
-	 */
 	public function __construct(Renderer $renderer)
 	{
 		$this->renderer = $renderer;
@@ -25,8 +22,6 @@ final class MathFunctionRenderer
 
 	/**
 	 * @param IToken[] $tokens
-	 * @param int $width
-	 * @param int $height
 	 * @return string
 	 */
 	public function plot(array $tokens, int $width = 500, int $height = 500): string

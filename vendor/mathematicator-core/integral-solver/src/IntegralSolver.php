@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Mathematicator\Integral;
 
 
-use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\Exception\MathematicatorException;
 use Mathematicator\Engine\QueryNormalizer;
-use Mathematicator\Engine\Step;
+use Mathematicator\Engine\Step\Step;
 use Mathematicator\Integral\Exception\CanNotSolveException;
-use Mathematicator\Integral\Rule\Rule;
+use Mathematicator\Integral\Rule\IRule;
 use Mathematicator\Integral\Solver\Solver;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\OperatorToken;
@@ -28,7 +28,7 @@ use Nette\Tokenizer\Exception;
 class IntegralSolver
 {
 
-	/** @var Rule[] */
+	/** @var IRule[] */
 	public $rules = [];
 
 	/** @var Tokenizer */
@@ -135,10 +135,10 @@ class IntegralSolver
 
 
 	/**
-	 * @param Rule $rule
+	 * @param IRule $rule
 	 * @return IntegralSolver
 	 */
-	public function addRule(Rule $rule): self
+	public function addRule(IRule $rule): self
 	{
 		$this->rules[] = $rule;
 
@@ -208,6 +208,6 @@ class IntegralSolver
 			return $preferenceDifferential;
 		}
 
-		return $variables === [] ? 'x' : array_keys($variables)[0];
+		return (string) ($variables === [] ? 'x' : array_keys($variables)[0]);
 	}
 }

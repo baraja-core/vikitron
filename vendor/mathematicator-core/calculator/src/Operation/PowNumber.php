@@ -5,109 +5,103 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator\Operation;
 
 
-use Mathematicator\Engine\Query;
-use Mathematicator\Engine\UndefinedOperationException;
-use Mathematicator\Numbers\NumberFactory;
+use Brick\Math\BigDecimal;
+use Brick\Math\BigRational;
+use Brick\Math\RoundingMode;
+use Mathematicator\Calculator\Step\Controller\StepPowController;
+use Mathematicator\Calculator\Step\StepFactory;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Engine\Exception\UndefinedOperationException;
+use Mathematicator\Numbers\Calculation;
+use Mathematicator\Numbers\Latex\MathLatexToolkit;
 use Mathematicator\Numbers\SmartNumber;
-use Mathematicator\Step\Controller\StepPowController;
-use Mathematicator\Step\StepFactory;
 use Mathematicator\Tokenizer\Token\NumberToken;
 
-class PowNumber
+final class PowNumber
 {
 
-	/** @var NumberFactory */
-	private $numberFactory;
-
-	/** @var StepFactory */
-	private $stepFactory;
-
-
-	public function __construct(NumberFactory $numberFactory, StepFactory $stepFactory)
-	{
-		$this->numberFactory = $numberFactory;
-		$this->stepFactory = $stepFactory;
-	}
-
-
 	/**
-	 * @param NumberToken $left
-	 * @param NumberToken $right
-	 * @param Query $query
-	 * @return NumberOperationResult
 	 * @throws UndefinedOperationException
 	 */
 	public function process(NumberToken $left, NumberToken $right, Query $query): NumberOperationResult
 	{
-		$leftFraction = $left->getNumber()->getFraction();
-		$rightFraction = $right->getNumber()->getFraction();
+		$leftNumber = $left->getNumber();
+		$rightNumber = $right->getNumber();
+		$leftFraction = $leftNumber->toBigRational();
+		$rightFraction = $rightNumber->toBigRational();
 
-		$result = null;
-
-		if (($rightInteger = $right->getNumber()->isInteger()) && $left->getNumber()->isInteger()) {
-			if ($left->getNumber()->getInteger() === '0' && $right->getNumber()->getInteger() === '0') {
+		if (($rightIsInteger = $rightNumber->isInteger()) === true && $leftNumber->isInteger()) {
+			if ($leftNumber->isEqualTo(0) && $rightNumber->isEqualTo(0)) {
 				throw new UndefinedOperationException(__METHOD__ . ': Undefined operation.');
 			}
 
-			$result = bcpow($left->getToken(), $right->getToken(), $query->getDecimals());
-		} elseif ($rightInteger === true) {
-			$result = bcpow($leftFraction[0], $right->getToken(), $query->getDecimals()) . '/' . bcpow($leftFraction[1], $right->getToken(), $query->getDecimals());
+			$result = Calculation::of($left->getNumber())
+				->power($right->getNumber()->toInt())
+				->getResult();
+		} elseif ($rightIsInteger === true) {
+			$result = SmartNumber::of(
+				BigRational::nd(
+					$leftFraction->getNumerator()->power($right->getNumber()->toInt()),
+					$leftFraction->getDenominator()->power($right->getNumber()->toInt())
+				)
+			);
 		} else {
-			if ($right->getNumber()->isNegative()) {
-				$rightFraction = [
-					$rightFraction[1],
-					$rightFraction[0],
-				];
+			if ($rightNumber->isNegative() === true) {
+				$rightFraction = BigRational::nd(
+					$rightFraction->getDenominator(),
+					$rightFraction->getNumerator()
+				);
 			}
 
-			$result = pow(
-					(float) bcpow($leftFraction[0], $rightFraction[0], $query->getDecimals()),
-					(float) bcdiv('1', $rightFraction[1], $query->getDecimals())
+			$result = SmartNumber::of(
+				BigRational::nd(
+					pow(
+						$leftFraction->getNumerator()->power($rightFraction->getNumerator()->toInt())->toInt(),
+						BigDecimal::one()->dividedBy($rightFraction->getDenominator(), $query->getDecimals(), RoundingMode::HALF_UP)->toFloat()
+					),
+					pow(
+						$leftFraction->getDenominator()->power($rightFraction->getNumerator()->toInt())->toInt(),
+						BigDecimal::one()->dividedBy($rightFraction->getDenominator(), $query->getDecimals(), RoundingMode::HALF_UP)->toFloat()
+					)
 				)
-				. '/'
-				. pow(
-					(float) bcpow($leftFraction[1], $rightFraction[0], $query->getDecimals()),
-					(float) bcdiv('1', $rightFraction[1], $query->getDecimals())
-				);
+			);
 		}
 
-		$newNumber = new NumberToken($this->numberFactory->create($result));
-		$newNumber->setToken($newNumber->getNumber()->getString());
-		$newNumber->setPosition($left->getPosition());
-		$newNumber->setType('number');
+		$newNumber = new NumberToken($result);
+		$newNumber->setToken((string) $newNumber->getNumber())
+			->setPosition($left->getPosition())
+			->setType('number');
 
-		return (new NumberOperationResult)
+		return (new NumberOperationResult())
 			->setNumber($newNumber)
-			->setTitle('Umocňování čísel ' . $left->getNumber()->getHumanString() . ' ^ ' . $right->getNumber()->getHumanString())
-			->setDescription($this->renderDescription($left->getNumber(), $right->getNumber(), $newNumber->getNumber()))
+			->setTitle('Umocňování čísel ' . $leftNumber->toHumanString() . ' ^ ' . $rightNumber->toHumanString())
+			->setDescription($this->renderDescription($leftNumber, $rightNumber, $newNumber->getNumber()))
 			->setAjaxEndpoint(
-				$this->stepFactory->getAjaxEndpoint(StepPowController::class, [
-					'x' => $left->getNumber()->getHumanString(),
-					'y' => $right->getNumber()->getHumanString(),
-					'result' => $newNumber->getNumber()->getString(),
+				StepFactory::getAjaxEndpoint(StepPowController::class, [
+					'x' => $leftNumber->toHumanString(),
+					'y' => $rightNumber->toHumanString(),
+					'result' => (string) $newNumber->getNumber(),
 				])
 			);
 	}
 
 
-	/**
-	 * @param SmartNumber $left
-	 * @param SmartNumber $right
-	 * @param SmartNumber $result
-	 * @return string
-	 */
 	private function renderDescription(SmartNumber $left, SmartNumber $right, SmartNumber $result): string
 	{
 		if (!$left->isInteger() && !$right->isInteger()) {
 			return 'Umocňování zlomků je zatím experimentální a může poskytnout jen přibližný výsledek.';
 		}
-
-		if ($right->isInteger() && $right->getInteger() === '0') {
+		if ($right->isEqualTo(0)) {
 			return '\({a}^{0}\ =\ 1\) Cokoli na nultou (kromě nuly) je vždy jedna. '
 				. 'Umocňování na nultou si lze také představit jako nekonečné odmocňování, '
 				. 'proto se limitně blíží k jedné.';
 		}
 
-		return '\({' . $left->getHumanString() . '}^{' . $right->getHumanString() . '}\ =\ ' . $result->getString() . '\)';
+		return (string) MathLatexToolkit::create(
+			MathLatexToolkit::pow(
+				$left->toHumanString(), $right->toHumanString()
+			)->equals((string) $result),
+			'\(', '\)'
+		);
 	}
 }

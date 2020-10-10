@@ -34,19 +34,12 @@ class NumberOperationResult
 	private $iteratorStep = 2;
 
 
-	/**
-	 * @return NumberToken
-	 */
 	public function getNumber(): NumberToken
 	{
 		return $this->number;
 	}
 
 
-	/**
-	 * @param NumberToken $number
-	 * @return NumberOperationResult
-	 */
 	public function setNumber(NumberToken $number): self
 	{
 		$this->number = $number;
@@ -55,19 +48,12 @@ class NumberOperationResult
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getDescription(): ?string
 	{
 		return $this->description;
 	}
 
 
-	/**
-	 * @param string $description
-	 * @return NumberOperationResult
-	 */
 	public function setDescription(string $description): self
 	{
 		$this->description = $description;
@@ -76,19 +62,12 @@ class NumberOperationResult
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
 
-	/**
-	 * @param string|null $title
-	 * @return NumberOperationResult
-	 */
 	public function setTitle(string $title = null): self
 	{
 		$this->title = $title;
@@ -97,19 +76,12 @@ class NumberOperationResult
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getAjaxEndpoint(): ?string
 	{
 		return $this->ajaxEndpoint;
 	}
 
 
-	/**
-	 * @param string|null $ajaxEndpoint
-	 * @return NumberOperationResult
-	 */
 	public function setAjaxEndpoint(string $ajaxEndpoint = null): self
 	{
 		$this->ajaxEndpoint = $ajaxEndpoint;
@@ -118,19 +90,12 @@ class NumberOperationResult
 	}
 
 
-	/**
-	 * @return int
-	 */
 	public function getIteratorStep(): int
 	{
 		return $this->iteratorStep;
 	}
 
 
-	/**
-	 * @param int $iteratorStep
-	 * @return NumberOperationResult
-	 */
 	public function setIteratorStep(int $iteratorStep): self
 	{
 		$this->iteratorStep = $iteratorStep;

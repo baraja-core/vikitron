@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Calculator;
+namespace Mathematicator\Calculator\Entity;
 
 
-use Mathematicator\Engine\Step;
+use Mathematicator\Engine\Step\Step;
 use Mathematicator\Tokenizer\Token\IToken;
 use Nette\SmartObject;
 
@@ -37,9 +37,6 @@ class CalculatorResult
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function __toString(): string
 	{
 		if (isset($this->resultTokens[0])) {
@@ -101,7 +98,6 @@ class CalculatorResult
 	public function setSteps(array $steps): void
 	{
 		$return = [];
-
 		$lastStepHash = null;
 		foreach ($steps as $step) {
 			$stepHash = $step->getTitle()

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\FrontModule\Presenters;
 
 
+use Mathematicator\Search\ISearchAccessor;
 use Mathematicator\Search\Renderer;
-use Mathematicator\Search\SearchAccessor;
 
 class HomepagePresenter extends BasePresenter
 {
 
 	/**
-	 * @var SearchAccessor
+	 * @var ISearchAccessor
 	 * @inject
 	 */
 	public $search;
@@ -22,6 +22,7 @@ class HomepagePresenter extends BasePresenter
 	 * @inject
 	 */
 	public $renderer;
+
 
 	/**
 	 * @param string|null $q

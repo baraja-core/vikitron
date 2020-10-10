@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Exception;
 
 
-class UndefinedOperationException extends MathErrorException
+final class UndefinedOperationException extends MathErrorException
 {
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Integral;
 
 
-use Mathematicator\Engine\Step;
+use Mathematicator\Engine\Step\Step;
 use Mathematicator\Tokenizer\Token\IToken;
 
 final class IntegralResult

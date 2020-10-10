@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
+class ComposerStaticInit8f79d81e9368094642a62c74c91b901f
 {
     public static $files = array (
         '19a7e2c3b1d506dcdc1b60aab8e102e4' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/shortcuts.php',
@@ -12,6 +12,7 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
     );
 
@@ -24,6 +25,7 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
         ),
@@ -39,8 +41,15 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
         ),
         'M' => 
         array (
+            'Mathematicator\\Vizualizator\\' => 28,
             'Mathematicator\\Tokenizer\\' => 25,
+            'Mathematicator\\Statistics\\' => 26,
+            'Mathematicator\\Search\\' => 22,
             'Mathematicator\\Numbers\\' => 23,
+            'Mathematicator\\MandelbrotSet\\' => 29,
+            'Mathematicator\\Integral\\' => 24,
+            'Mathematicator\\Engine\\' => 22,
+            'Mathematicator\\Calculator\\' => 26,
         ),
         'D' => 
         array (
@@ -95,6 +104,10 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
+        'Symfony\\Component\\Yaml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
         'Symfony\\Component\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation',
@@ -119,13 +132,41 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
         array (
             0 => __DIR__ . '/..' . '/ocramius/package-versions/src/PackageVersions',
         ),
+        'Mathematicator\\Vizualizator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src',
+        ),
         'Mathematicator\\Tokenizer\\' => 
         array (
             0 => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src',
         ),
+        'Mathematicator\\Statistics\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/statistic/src',
+        ),
+        'Mathematicator\\Search\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/search/src',
+        ),
         'Mathematicator\\Numbers\\' => 
         array (
             0 => __DIR__ . '/..' . '/mathematicator-core/numbers/src',
+        ),
+        'Mathematicator\\MandelbrotSet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/mandelbrot-set/src',
+        ),
+        'Mathematicator\\Integral\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src',
+        ),
+        'Mathematicator\\Engine\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/engine/src',
+        ),
+        'Mathematicator\\Calculator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mathematicator-core/calculator/src',
         ),
         'Doctrine\\Persistence\\' => 
         array (
@@ -356,108 +397,6 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
         'Latte\\Token' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Token.php',
         'Latte\\TokenIterator' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/TokenIterator.php',
         'Latte\\Tokenizer' => __DIR__ . '/..' . '/latte/latte/src/Latte/Compiler/Tokenizer.php',
-        'Mathematicator\\Calculator\\Calculator' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Calculator.php',
-        'Mathematicator\\Calculator\\CalculatorResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Entity/CalculatorResult.php',
-        'Mathematicator\\Calculator\\Operation\\AddNumbers' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/AddNumbers.php',
-        'Mathematicator\\Calculator\\Operation\\BaseOperation' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/BaseOperation.php',
-        'Mathematicator\\Calculator\\Operation\\DivisionNumbers' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/DivisionNumbers.php',
-        'Mathematicator\\Calculator\\Operation\\Factorial' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/Factorial.php',
-        'Mathematicator\\Calculator\\Operation\\MultiplicationNumber' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/MultiplicationNumber.php',
-        'Mathematicator\\Calculator\\Operation\\NumberOperationResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/NumberOperationResult.php',
-        'Mathematicator\\Calculator\\Operation\\PowNumber' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/PowNumber.php',
-        'Mathematicator\\Calculator\\Operation\\SubtractNumbers' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Operation/SubtractNumbers.php',
-        'Mathematicator\\Calculator\\TokensCalculator' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/TokensCalculator.php',
-        'Mathematicator\\Calculator\\TokensCalculatorResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/TokensCalculatorResult.php',
-        'Mathematicator\\Engine\\BaseModule' => __DIR__ . '/..' . '/mathematicator-core/engine/src/ExtraModule/BaseModule.php',
-        'Mathematicator\\Engine\\Box' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Box.php',
-        'Mathematicator\\Engine\\Context' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Context.php',
-        'Mathematicator\\Engine\\Controller\\BaseController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/BaseController.php',
-        'Mathematicator\\Engine\\Controller\\ErrorTooLongController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/ErrorTooLongController.php',
-        'Mathematicator\\Engine\\Controller\\IController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/IController.php',
-        'Mathematicator\\Engine\\Controller\\OtherController' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Controllers/OtherController.php',
-        'Mathematicator\\Engine\\DivisionByZero' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/DivisionByZero.php',
-        'Mathematicator\\Engine\\DynamicConfiguration' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/DynamicConfiguration.php',
-        'Mathematicator\\Engine\\Engine' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Engine.php',
-        'Mathematicator\\Engine\\EngineMultiResult' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/EngineMultiResult.php',
-        'Mathematicator\\Engine\\EngineResult' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/EngineResult.php',
-        'Mathematicator\\Engine\\EngineSingleResult' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/EngineSingleResult.php',
-        'Mathematicator\\Engine\\ExtraModule' => __DIR__ . '/..' . '/mathematicator-core/engine/src/ExtraModule/ExtraModule.php',
-        'Mathematicator\\Engine\\Helper\\Czech' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Helpers/Czech.php',
-        'Mathematicator\\Engine\\Helper\\DateTime' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Helpers/DateTime.php',
-        'Mathematicator\\Engine\\Helper\\Safe' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Helpers/Safe.php',
-        'Mathematicator\\Engine\\Helper\\Terminal' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Helpers/Terminal.php',
-        'Mathematicator\\Engine\\InvalidBoxException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/InvalidBoxException.php',
-        'Mathematicator\\Engine\\InvalidDataException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/InvalidDataException.php',
-        'Mathematicator\\Engine\\MathErrorException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/MathErrorException.php',
-        'Mathematicator\\Engine\\MathematicatorException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/MathematicatorException.php',
-        'Mathematicator\\Engine\\NoResultsException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/NoResultsException.php',
-        'Mathematicator\\Engine\\Query' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Query.php',
-        'Mathematicator\\Engine\\QueryNormalizer' => __DIR__ . '/..' . '/mathematicator-core/engine/src/QueryNormalizer.php',
-        'Mathematicator\\Engine\\SampleModule' => __DIR__ . '/..' . '/mathematicator-core/engine/src/ExtraModule/SampleModule.php',
-        'Mathematicator\\Engine\\Source' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Entity/Source.php',
-        'Mathematicator\\Engine\\Step' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Step/Step.php',
-        'Mathematicator\\Engine\\TerminateException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/TerminateException.php',
-        'Mathematicator\\Engine\\TextRenderer' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Renderer/TextRenderer.php',
-        'Mathematicator\\Engine\\Translator' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Translator.php',
-        'Mathematicator\\Engine\\UndefinedOperationException' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Exception/UndefinedOperationException.php',
-        'Mathematicator\\FixSpaces' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Formatter/FixSpaces.php',
-        'Mathematicator\\Integral\\Exception\\CanNotSolveException' => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src/Exceptions/CanNotSolveException.php',
-        'Mathematicator\\Integral\\IntegralResult' => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src/IntegralResult.php',
-        'Mathematicator\\Integral\\IntegralSolver' => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src/IntegralSolver.php',
-        'Mathematicator\\Integral\\Rule\\Rule' => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src/Rules/Rule.php',
-        'Mathematicator\\Integral\\Solver\\Solver' => __DIR__ . '/..' . '/mathematicator-core/integral-solver/src/Solver/Solver.php',
-        'Mathematicator\\MandelbrotSet\\MandelbrotSet' => __DIR__ . '/..' . '/mathematicator-core/mandelbrot-set/src/MandelbrotSet.php',
-        'Mathematicator\\MandelbrotSet\\MandelbrotSetRequest' => __DIR__ . '/..' . '/mathematicator-core/mandelbrot-set/src/MandelbrotSetRequest.php',
-        'Mathematicator\\MathFunction\\AbsFunction' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/Functions/AbsFunction.php',
-        'Mathematicator\\MathFunction\\FunctionDoesNotExistsException' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/FunctionDoesNotExistsException.php',
-        'Mathematicator\\MathFunction\\FunctionManager' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/FunctionManager.php',
-        'Mathematicator\\MathFunction\\FunctionResult' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/FunctionResult.php',
-        'Mathematicator\\MathFunction\\IFunction' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/IFunction.php',
-        'Mathematicator\\MathFunction\\SinFunction' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/Functions/SinFunction.php',
-        'Mathematicator\\MathFunction\\SqrtFunction' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Function/Functions/SqrtFunction.php',
-        'Mathematicator\\NaturalTextFormatter' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Formatter/NaturalTextFormatter.php',
-        'Mathematicator\\NewtonMethod' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Equation/NewtonMethod.php',
-        'Mathematicator\\NumberHelper' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Numbers/NumberHelper.php',
-        'Mathematicator\\NumberRewriter' => __DIR__ . '/..' . '/mathematicator-core/engine/src/NumberRewriter.php',
-        'Mathematicator\\Router\\DynamicRoute' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/DynamicRoute.php',
-        'Mathematicator\\Router\\Router' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/Router.php',
-        'Mathematicator\\SearchController\\CrossMultiplicationController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/CrossMultiplicationController.php',
-        'Mathematicator\\SearchController\\DateController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/DateController.php',
-        'Mathematicator\\SearchController\\IntegralController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/IntegralController.php',
-        'Mathematicator\\SearchController\\MandelbrotSetController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/MandelbrotSetController.php',
-        'Mathematicator\\SearchController\\NumberController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/NumberController.php',
-        'Mathematicator\\SearchController\\NumberCounterController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/NumberCounterController.php',
-        'Mathematicator\\SearchController\\OEISController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/OEISController.php',
-        'Mathematicator\\SearchController\\SequenceController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/SequenceController.php',
-        'Mathematicator\\SearchController\\TreeController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/TreeController.php',
-        'Mathematicator\\Search\\AutoCompleteResult' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/AutoCompleteResult.php',
-        'Mathematicator\\Search\\Console' => __DIR__ . '/..' . '/mathematicator-core/search/src/Console.php',
-        'Mathematicator\\Search\\Renderer' => __DIR__ . '/..' . '/mathematicator-core/search/src/Renderer.php',
-        'Mathematicator\\Search\\Result' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/Result.php',
-        'Mathematicator\\Search\\Search' => __DIR__ . '/..' . '/mathematicator-core/search/src/Search.php',
-        'Mathematicator\\Search\\SearchAccessor' => __DIR__ . '/..' . '/mathematicator-core/search/src/SearchAccessor.php',
-        'Mathematicator\\Search\\TextRenderer' => __DIR__ . '/..' . '/mathematicator-core/search/src/TextRenderer.php',
-        'Mathematicator\\Search\\VideoResult' => __DIR__ . '/..' . '/mathematicator-core/search/src/Entity/VideoResult.php',
-        'Mathematicator\\Statistics\\Entity\\Sequence' => __DIR__ . '/..' . '/mathematicator-core/statistic/src/Entity/Sequence.php',
-        'Mathematicator\\Statistics\\StatisticsManager' => __DIR__ . '/..' . '/mathematicator-core/statistic/src/StatisticsManager.php',
-        'Mathematicator\\Step\\Controller\\IStepController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/IStepController.php',
-        'Mathematicator\\Step\\Controller\\StepMultiplicationController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepMultiplicationController.php',
-        'Mathematicator\\Step\\Controller\\StepPlusController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepPlusController.php',
-        'Mathematicator\\Step\\Controller\\StepPowController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepPowController.php',
-        'Mathematicator\\Step\\Controller\\StepSinController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepSinController.php',
-        'Mathematicator\\Step\\Controller\\StepSqrtController' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepSqrtController.php',
-        'Mathematicator\\Step\\Controller\\StepSqrtHelper' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepContollers/StepSqrtHelper.php',
-        'Mathematicator\\Step\\RomanIntSteps' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepModel/RomanIntSteps.php',
-        'Mathematicator\\Step\\StepEndpoint' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepEndpoint.php',
-        'Mathematicator\\Step\\StepFactory' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepFactory.php',
-        'Mathematicator\\Vizualizator\\Compiler' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Compiler/Compiler.php',
-        'Mathematicator\\Vizualizator\\JpgCompiler' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Compiler/JpgCompiler.php',
-        'Mathematicator\\Vizualizator\\MathFunctionRenderer' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/MathFunctionRenderer.php',
-        'Mathematicator\\Vizualizator\\PhpGDCompiler' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Compiler/PhpGDCompiler.php',
-        'Mathematicator\\Vizualizator\\PngCompiler' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Compiler/PngCompiler.php',
-        'Mathematicator\\Vizualizator\\RenderRequest' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/RenderRequest.php',
-        'Mathematicator\\Vizualizator\\Renderer' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Renderer.php',
-        'Mathematicator\\Vizualizator\\SvgCompiler' => __DIR__ . '/..' . '/mathematicator-core/vizualizator/src/Compiler/SvgCompiler.php',
         'NetteModule\\ErrorPresenter' => __DIR__ . '/..' . '/nette/application/src/Application/ErrorPresenter.php',
         'NetteModule\\MicroPresenter' => __DIR__ . '/..' . '/nette/application/src/Application/MicroPresenter.php',
         'Nette\\Application\\AbortException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
@@ -867,10 +806,10 @@ class ComposerStaticInit56b59f4f36936e7f469c785b2f71b202
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit56b59f4f36936e7f469c785b2f71b202::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit56b59f4f36936e7f469c785b2f71b202::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit56b59f4f36936e7f469c785b2f71b202::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit56b59f4f36936e7f469c785b2f71b202::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8f79d81e9368094642a62c74c91b901f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8f79d81e9368094642a62c74c91b901f::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit8f79d81e9368094642a62c74c91b901f::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit8f79d81e9368094642a62c74c91b901f::$classMap;
 
         }, null, ClassLoader::class);
     }

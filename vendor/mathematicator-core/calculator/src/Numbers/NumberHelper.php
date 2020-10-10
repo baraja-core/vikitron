@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator;
+namespace Mathematicator\Calculator\Numbers;
 
 
 use Nette\Application\LinkGenerator;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Nette\Utils\Strings;
@@ -44,30 +45,19 @@ class NumberHelper
 	private $cache;
 
 
-	/**
-	 * @param LinkGenerator $linkGenerator
-	 * @param IStorage $IStorage
-	 */
-	public function __construct(LinkGenerator $linkGenerator, IStorage $IStorage)
+	public function __construct(LinkGenerator $linkGenerator, IStorage $storage)
 	{
 		$this->linkGenerator = $linkGenerator;
-		$this->cache = new Cache($IStorage, 'number-helper');
+		$this->cache = new Cache($storage, 'number-helper');
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public static function getPiChar(): string
 	{
 		return 'π';
 	}
 
 
-	/**
-	 * @param string $haystack
-	 * @return string
-	 */
 	public static function intToRoman(string $haystack): string
 	{
 		$return = '';
@@ -90,10 +80,6 @@ class NumberHelper
 	}
 
 
-	/**
-	 * @param string $roman
-	 * @return int
-	 */
 	public static function romanToInt(string $roman): int
 	{
 		$roman = Strings::upper($roman);
@@ -113,11 +99,7 @@ class NumberHelper
 	}
 
 
-	/**
-	 * @param int $len
-	 * @return string
-	 */
-	public function getPi($len = 16): string
+	public function getPi(int $len = 16): string
 	{
 		$pi = '1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679'
 			. '8214808651328230664709384460955058223172535940812848111745028410270193852110555964462294895493038196'
@@ -134,10 +116,6 @@ class NumberHelper
 	}
 
 
-	/**
-	 * @param string $number
-	 * @return bool
-	 */
 	public function isRoman(string $number): bool
 	{
 		return (bool) preg_match('/[IVXLCDMivxlcdm]{2,}/', $number);
@@ -145,13 +123,11 @@ class NumberHelper
 
 
 	/**
-	 * @param float $n
-	 * @param float $tolerance
 	 * @return int[]
 	 */
-	public function floatToFraction(float $n, $tolerance = 1.e-8): array
+	public function floatToFraction(float $n, float $tolerance = 1.e-8): array
 	{
-		$n = abs($n);
+		$n = \abs($n);
 		$h1 = 1;
 		$h2 = 0;
 		$k1 = 0;
@@ -174,7 +150,6 @@ class NumberHelper
 
 
 	/**
-	 * @param string $n
 	 * @return string[]
 	 */
 	public function getDivisors(string $n): array
@@ -185,9 +160,9 @@ class NumberHelper
 
 		while ($i <= $s) {
 			if (!bcmod($n, (string) $i)) {
-				$a[] = $i;
+				$a[] = (string) $i;
 				if ($i !== $s) {
-					$a[] = bcdiv($n, (string) $i);
+					$a[] = (string) bcdiv($n, (string) $i);
 				}
 			}
 			++$i;
@@ -198,7 +173,6 @@ class NumberHelper
 
 
 	/**
-	 * @param string $n
 	 * @return int[]|string[]
 	 */
 	public function pfactor(string $n): array
@@ -206,7 +180,6 @@ class NumberHelper
 		if ($n === '1' || $n === '2' || $n === '3') {
 			return [$n];
 		}
-
 		if (($cache = $this->cache->load($n)) !== null) {
 			return $cache;
 		}
@@ -221,20 +194,18 @@ class NumberHelper
 			}
 		}
 
-		$this->cache->save(
-			$n,
-			$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor((string) ($n / $num)))
-		);
+		$return = $num === 0 ? [$n] : array_merge([$num], $this->pfactor((string) ($n / $num)));
+
+		$this->cache->save($n, $return, [
+			Cache::TAGS => ['pfactor'],
+		]);
 
 		return $return;
 	}
 
 
 	/**
-	 * @param string $x
-	 * @param string $y
-	 * @param bool $renderAnimation
-	 * @return string
+	 * @throws InvalidLinkException
 	 */
 	public function getAddStepAsHtml(string $x, string $y, bool $renderAnimation = false): string
 	{
@@ -242,7 +213,7 @@ class NumberHelper
 		$animation = '';
 
 		$numberFormat = static function (string $number): string {
-			return (string) preg_replace('/\.0*$/', '', preg_replace('/\.(\d*?)0+$/', '.$1', $number));
+			return (string) preg_replace('/\.0*$/', '', (string) preg_replace('/\.(\d*?)0+$/', '.$1', $number));
 		};
 
 		$result = $numberFormat(bcadd($x, $y, 10));
@@ -259,11 +230,7 @@ class NumberHelper
 			. $result
 			. '</span>';
 
-		if (
-			$renderAnimation === true
-			&& $lenX <= 10 && $lenY <= 12
-			&& Validators::isNumericInt($x) && Validators::isNumericInt($y)
-		) {
+		if ($renderAnimation === true && $lenX <= 10 && $lenY <= 12 && Validators::isNumericInt($x) && Validators::isNumericInt($y)) {
 			$uniqueId = uniqid('numberHelper', true);
 			$left = 'addNumbersLeft' . $uniqueId;
 			$right = 'addNumbersRight' . $uniqueId;

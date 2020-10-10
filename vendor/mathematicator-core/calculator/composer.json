@@ -1,6 +1,13 @@
 {
 	"name": "mathematicator-core/calculator",
 	"description": "Advance PHP math calculator with complex operations.",
+	"keywords": [
+		"mathematicator",
+		"math",
+		"php"
+	],
+	"type": "library",
+	"license": "MIT",
 	"homepage": "https://github.com/mathematicator-core/calculator",
 	"authors": [
 		{
@@ -9,28 +16,80 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.2",
+		"brick/math": "^0.8.15",
+		"mathematicator-core/engine": "^2.0",
+		"mathematicator-core/numbers": "^2.1",
+		"mathematicator-core/tokenizer": "^2.1",
 		"nette/application": "^3.0",
 		"nette/utils": "^3.0",
+		"nette/di": "^3.0",
 		"nette/caching": "^3.0",
-		"mathematicator-core/tokenizer": "^2.0",
-		"mathematicator-core/numbers": "^2.0",
-		"mathematicator-core/engine": "^2.0"
+		"symfony/polyfill-php80": "^1.17"
 	},
 	"require-dev": {
+		"brainmaestro/composer-git-hooks": "dev-master",
+		"nette/bootstrap": "^3.0",
+		"nette/tester": "~2.3.2",
 		"phpstan/phpstan": "^0.12.18",
-		"tracy/tracy": "^2.7",
 		"phpstan/phpstan-nette": "^0.12.6"
 	},
+	"suggest": {
+		"nette/caching": "(^3.0) To use package in Nette Framework",
+		"nette/di": "(^3.0) To use package in Nette Framework",
+		"ext-bcmath": "For faster math operations",
+		"ext-gmp": "Alternative for faster math operations"
+	},
 	"autoload": {
-		"classmap": [
-			"src/"
-		]
+		"psr-4": {
+			"Mathematicator\\Calculator\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Mathematicator\\Calculator\\Tests\\": "tests/CalculatorTests/"
+		}
 	},
 	"scripts": {
-		"phpstan": [
-			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
-		]
+		"post-install-cmd": "cghooks add --ignore-lock",
+		"post-update-cmd": "cghooks update",
+		"cs:install": [
+			"composer create-project nette/code-checker temp/code-checker ^3 --no-progress",
+			"composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress"
+		],
+		"cs:check": [
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml"
+		],
+		"cs:fix": [
+			"php temp/code-checker/code-checker -d src -d tests -d benchmarks --short-arrays --strict-types --fix --no-progress",
+			"php temp/coding-standard/ecs check src tests benchmarks --config temp/coding-standard/coding-standard-php71.yml --fix"
+		],
+		"phpstan": "vendor/bin/phpstan analyse src -c phpstan.neon --level 8 --no-progress",
+		"fix": [
+			"composer update",
+			"composer cs:fix",
+			"composer phpstan",
+			"composer test"
+		],
+		"test": "vendor/bin/tester -s -c tests/php.ini -p php tests --coverage coverage.xml --coverage-src src",
+		"cghooks": "vendor/bin/cghooks"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.2.x-dev"
+		},
+		"hooks": {
+			"post-merge": "composer install",
+			"pre-commit": [
+				"composer cs:check",
+				"composer phpstan",
+				"composer test"
+			]
+		}
+	}
 }

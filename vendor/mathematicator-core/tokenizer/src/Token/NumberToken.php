@@ -20,11 +20,16 @@ class NumberToken extends BaseToken
 	}
 
 
-	/**
-	 * @return SmartNumber
-	 */
 	public function getNumber(): SmartNumber
 	{
 		return $this->number;
+	}
+
+
+	public function setNumber(SmartNumber $number): self
+	{
+		$this->number = $number;
+
+		return $this;
 	}
 }

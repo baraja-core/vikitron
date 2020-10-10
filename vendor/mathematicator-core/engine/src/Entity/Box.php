@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
 
-use Latte\Runtime\Filters;
+use InvalidArgumentException;
+use Mathematicator\Engine\Step\Step;
 use Nette\SmartObject;
 use Nette\Utils\Json;
+use Nette\Utils\JsonException;
 use Nette\Utils\Strings;
+use RuntimeException;
 
-class Box
+final class Box
 {
 	use SmartObject;
 
@@ -84,7 +87,7 @@ class Box
 	public function __toString(): string
 	{
 		return $this->type === self::TYPE_TEXT
-			? Filters::escapeHtmlText($this->text)
+			? htmlspecialchars((string) $this->text, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8')
 			: '';
 	}
 
@@ -92,6 +95,7 @@ class Box
 	/**
 	 * @param mixed[] $table
 	 * @return Box
+	 * @throws JsonException
 	 */
 	public function setTable(array $table): self
 	{
@@ -108,18 +112,18 @@ class Box
 	public function setKeyValue(array $table = []): self
 	{
 		if ($table !== []) {
-			$buffer = '';
+			$items = [];
 
 			foreach ($table as $key => $value) {
-				$buffer .= '<tr>'
-					. '<th' . ($buffer === '' ? ' style="width:33%"' : '') . '>'
-					. $key
+				$items[] = '<tr>'
+					. '<th' . ($items === [] ? ' style="width:33%"' : '') . '>'
+					. htmlspecialchars((string) $key, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8')
 					. ':</th>'
-					. '<td>' . $value . '</td>'
+					. '<td>' . htmlspecialchars((string) $value, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>'
 					. '</tr>';
 			}
 
-			$this->text = '<table>' . $buffer . '</table>';
+			$this->text = '<table>' . implode('', $items) . '</table>';
 		}
 
 		return $this;
@@ -132,11 +136,7 @@ class Box
 	public function getIcon(): string
 	{
 		if ($this->icon === null) {
-			$icon = 'fas fa-hashtag';
-
-			if ($this->type === self::TYPE_IMAGE) {
-				$icon = 'fas fa-image';
-			}
+			$icon = $this->type === self::TYPE_IMAGE ? 'fas fa-image' : 'fas fa-hashtag';
 		} else {
 			$icon = $this->icon;
 		}
@@ -154,9 +154,7 @@ class Box
 		if (preg_match('/^(fas?)\s+(fa-[a-z0-9\-]+)$/', Strings::normalize($icon), $parser)) {
 			$this->icon = $parser[1] . ' ' . $parser[2];
 		} else {
-			trigger_error(
-				'Icon "' . $icon . '" is not valid FontAwesome icon. Use format "fas fa-xxx".'
-			);
+			throw new RuntimeException('Icon "' . $icon . '" is not valid FontAwesome icon. Use format "fas fa-xxx".');
 		}
 
 		return $this;
@@ -242,8 +240,8 @@ class Box
 
 
 	/**
-	 * @internal
 	 * @return string|null
+	 * @internal
 	 */
 	public function getTag(): ?string
 	{
@@ -252,9 +250,9 @@ class Box
 
 
 	/**
-	 * @internal
 	 * @param string|null $tag
 	 * @return Box
+	 * @internal
 	 */
 	public function setTag(?string $tag): self
 	{
@@ -274,16 +272,26 @@ class Box
 
 
 	/**
-	 * @param Step[] $steps
+	 * First check all given items. When all items is type for Step, replace current step array.
+	 *
+	 * @param Step[]|mixed[] $steps
 	 * @return Box
-	 * @throws \InvalidArgumentException
+	 * @throws InvalidArgumentException
 	 */
 	public function setSteps(array $steps): self
 	{
-		$this->steps = [];
+		$return = [];
 
 		foreach ($steps as $step) {
-			$this->addStep($step);
+			if (!$step instanceof Step) {
+				throw new InvalidArgumentException('Step must be instance of "' . Step::class . '".');
+			}
+			$return[] = $step;
+		}
+
+		$this->steps = [];
+		foreach ($return as $stepItem) {
+			$this->addStep($stepItem);
 		}
 
 		return $this;
@@ -296,10 +304,6 @@ class Box
 	 */
 	public function addStep(Step $step): self
 	{
-		if (!$step instanceof Step) {
-			throw new \InvalidArgumentException('Step must be instance of "' . Step::class . '".');
-		}
-
 		$this->steps[] = $step;
 
 		return $this;

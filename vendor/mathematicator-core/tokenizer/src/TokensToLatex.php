@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
+use Mathematicator\Numbers\Latex\MathLatexBuilder;
+use Mathematicator\Numbers\Latex\MathLatexToolkit;
 use Mathematicator\Tokenizer\Exceptions\TokenizerException;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
@@ -128,16 +130,18 @@ final class TokensToLatex
 			} elseif ($token instanceof RomanNumberToken) { // Roman number XVII
 				$latex .= '\textrm{' . $tk . '}';
 			} elseif ($token instanceof PolynomialToken) {
-				$latex .= ($token->getTimes()->getToken() === '1' ? '' : $token->getTimes()->getNumber()->getString())
+				$latex .= ($token->getTimes()->getToken() === '1' ? '' : $token->getTimes()->getNumber()->toLatex())
 					. ($token->getPower()->getToken() === '1'
 						? $token->getVariable()->getToken()
-						: '{' . $token->getVariable()->getToken() . '}'
-						. '^{' . $token->getPower()->getNumber()->getString() . '}'
+						: (string) MathLatexToolkit::pow(
+							$token->getVariable()->getToken(),
+							$token->getPower()->getNumber()->toLatex()
+						)
 					);
 			} elseif ($token instanceof VariableToken) { // Variable (e.g. x)
 				if ($next === null || ($nextTk !== '/' && $nextTk !== '^')) {
-					$latex .= ($token->getTimes()->isInteger() === false || $token->getTimes()->getInteger() !== '1'
-							? $token->getTimes()->getString()
+					$latex .= (!$token->getTimes()->isInteger() || !$token->getTimes()->toBigInteger()->isEqualTo(1)
+							? $token->getTimes()->toLatex()
 							: ''
 						) . $tk;
 				}
@@ -148,7 +152,7 @@ final class TokensToLatex
 			}
 
 			$iterator->next();
-		} while ($iterator->isFinal() === false);
+		} while (!$iterator->isFinal());
 
 		return $this->processReplaceTable(
 			$this->processReplaceTable($latex, $this->beforeReplaceTable),
@@ -157,30 +161,18 @@ final class TokensToLatex
 	}
 
 
-	/**
-	 * @param string $token
-	 * @return string
-	 */
 	private function latexTranslateTable(string $token): string
 	{
 		return self::$charTable[$token] ?? $token;
 	}
 
 
-	/**
-	 * @param int $level
-	 * @return string
-	 */
 	private function getLeftBracket(int $level): string
 	{
 		return ['\\left(', '\\left[', '\\left\\{'][$level % 3];
 	}
 
 
-	/**
-	 * @param int $level
-	 * @return string
-	 */
 	private function getRightBracket(int $level): string
 	{
 		return ['\\right)', '\\right]', '\\right\\}'][$level % 3];
@@ -188,9 +180,6 @@ final class TokensToLatex
 
 
 	/**
-	 * @param TokenIterator $iterator
-	 * @param int $level
-	 * @return string
 	 * @throws TokenizerException
 	 */
 	private function renderFraction(TokenIterator $iterator, int $level): string
@@ -204,24 +193,20 @@ final class TokensToLatex
 		} else {
 			$lastTokenRender = $lastToken === null ? '?' : $lastToken->getToken();
 		}
-
 		if ($nextToken instanceof SubToken) {
 			$nextTokenRender = $this->iterator($nextToken->getTokens(), $level);
 		} else {
 			$nextTokenRender = $nextToken === null ? '?' : $nextToken->getToken();
 		}
 
-		return '\frac{' . $lastTokenRender . '}{' . $nextTokenRender . '}';
+		return (string) MathLatexToolkit::frac($lastTokenRender, $nextTokenRender);
 	}
 
 
 	/**
-	 * @param TokenIterator $iterator
-	 * @param int $level
-	 * @return string
 	 * @throws TokenizerException
 	 */
-	private function renderPow(TokenIterator $iterator, int $level): string
+	private function renderPow(TokenIterator $iterator, int $level): MathLatexBuilder
 	{
 		$lastToken = $iterator->getLastToken();
 		$nextToken = $iterator->getNextToken();
@@ -234,7 +219,6 @@ final class TokensToLatex
 		} else {
 			$downTokenRender = $lastToken === null ? '?' : $lastToken->getToken();
 		}
-
 		if ($nextToken instanceof SubToken) {
 			$topTokenRender = $this->getLeftBracket($level)
 				. $this->iterator($nextToken->getTokens(), $level)
@@ -243,14 +227,13 @@ final class TokensToLatex
 			$topTokenRender = $nextToken === null ? '?' : $nextToken->getToken();
 		}
 
-		return '{' . $downTokenRender . '}^{' . $topTokenRender . '}';
+		return MathLatexToolkit::pow($downTokenRender, $topTokenRender);
 	}
 
 
 	/**
 	 * Fix generated haystack by smart regular patterns.
 	 *
-	 * @param string $haystack
 	 * @param string[] $replaceTable
 	 * @return string
 	 */

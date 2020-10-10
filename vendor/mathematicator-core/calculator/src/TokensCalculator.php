@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Mathematicator\Calculator;
 
 
+use function count;
+use Mathematicator\Calculator\MathFunction\FunctionManager;
 use Mathematicator\Calculator\Operation\BaseOperation;
-use Mathematicator\Engine\MathematicatorException;
-use Mathematicator\Engine\Query;
-use Mathematicator\Engine\UndefinedOperationException;
-use Mathematicator\MathFunction\FunctionManager;
-use Mathematicator\Numbers\NumberFactory;
+use Mathematicator\Calculator\Operation\NumberOperationResult;
+use Mathematicator\Engine\Entity\Query;
+use Mathematicator\Engine\Exception\MathematicatorException;
+use Mathematicator\Engine\Exception\UndefinedOperationException;
+use Mathematicator\Numbers\Exception\NumberException;
+use Mathematicator\Numbers\SmartNumber;
 use Mathematicator\Tokenizer\Token\FactorialToken;
 use Mathematicator\Tokenizer\Token\FunctionToken;
 use Mathematicator\Tokenizer\Token\InfinityToken;
@@ -29,22 +32,17 @@ final class TokensCalculator
 	/** @var BaseOperation */
 	private $baseOperation;
 
-	/** @var NumberFactory */
-	private $numberFactory;
-
 	/** @var FunctionManager */
 	private $functionManager;
 
 
 	/**
 	 * @param BaseOperation $baseOperation
-	 * @param NumberFactory $numberFactory
 	 * @param FunctionManager $functionManager
 	 */
-	public function __construct(BaseOperation $baseOperation, NumberFactory $numberFactory, FunctionManager $functionManager)
+	public function __construct(BaseOperation $baseOperation, FunctionManager $functionManager)
 	{
 		$this->baseOperation = $baseOperation;
-		$this->numberFactory = $numberFactory;
 		$this->functionManager = $functionManager;
 	}
 
@@ -98,30 +96,31 @@ final class TokensCalculator
 						$iterator->next($newEntity->isAutoPower() ? 2 : 4);
 						$resultEntity->setStepTitle('Převod na mnohočlen')
 							->setStepDescription('Výraz: \(' . $newEntity->getToken() . '\)');
-					} else {
+					} elseif ($newEntity instanceof NumberOperationResult) {
 						$result[] = $newEntity->getNumber();
 						$resultEntity->setStepTitle($newEntity->getTitle())
 							->setStepDescription($newEntity->getDescription())
 							->setAjaxEndpoint($newEntity->getAjaxEndpoint());
 						$iterator->next($newEntity->getIteratorStep());
 					}
+
 					$wasMatched = true;
 				} else {
 					$result[] = $token;
 					$resultEntity->setStepDescription('Přepsání výrazu');
 				}
 			} elseif ($token instanceof SubToken) {
-				if (\count($token->getTokens()) === 1) {
+				if (count($token->getTokens()) === 1) {
 					if ($token instanceof FunctionToken) {
 						$inputToken = $token->getTokens()[0];
 						$resultEntity->setStepTitle(
 							'Zavolání funkce ' . $token->getName()
 							. '(' . ($inputToken instanceof NumberToken
-								? $inputToken->getNumber()->getHumanString()
+								? $inputToken->getNumber()->toHumanString()
 								: $inputToken->getToken()
 							) . ')'
 						);
-						if (($functionResult = $this->functionManager->solve($token->getName(), $inputToken)) === null) {
+						if ($token->getName() === '' || ($functionResult = $this->functionManager->solve($token->getName(), $inputToken)) === null) {
 							$result[] = $inputToken;
 						} else {
 							$result[] = $functionResult->getOutput();
@@ -142,7 +141,7 @@ final class TokensCalculator
 						->setAjaxEndpoint($_result->getAjaxEndpoint());
 					$token->setObjectTokens(
 						(static function (array $results) {
-							if (\count($results) === 1) {
+							if (count($results) === 1) {
 								return ($results[0] ?? null) === null ? null : [$results[0]];
 							}
 
@@ -158,8 +157,12 @@ final class TokensCalculator
 				$resultEntity->setStepTitle($newEntity->getTitle())
 					->setStepDescription($newEntity->getDescription())
 					->setAjaxEndpoint($newEntity->getAjaxEndpoint());
-			} elseif ($token instanceof OperatorToken && \count($result) === 0 && $iterator->getNextToken() instanceof NumberToken) {
-				$result[] = (new NumberToken($this->numberFactory->create('')))
+			} elseif (
+				$token instanceof OperatorToken
+				&& count($result) === 0
+				&& $iterator->getNextToken() instanceof NumberToken
+			) {
+				$result[] = (new NumberToken(SmartNumber::of(0)))
 					->setPosition($token->getPosition())
 					->setToken('0')
 					->setType(Tokens::M_NUMBER);
@@ -179,6 +182,7 @@ final class TokensCalculator
 			}
 		}
 
+		/** @phpstan-ignore-next-line TODO */
 		return $resultEntity->setResult($result);
 	}
 
@@ -187,7 +191,7 @@ final class TokensCalculator
 	 * @param TokenIterator $iterator
 	 * @param Query $query
 	 * @return IToken|Operation\NumberOperationResult|InfinityToken|VariableToken|null
-	 * @throws UndefinedOperationException|MathematicatorException
+	 * @throws UndefinedOperationException|MathematicatorException|NumberException
 	 */
 	private function solveNumberToken(TokenIterator $iterator, Query $query)
 	{

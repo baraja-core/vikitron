@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Search;
+namespace Mathematicator\Search\Entity;
 
 
-use Mathematicator\Engine\Box;
+use Mathematicator\Engine\Entity\Box;
 use Nette\SmartObject;
 
 /**
@@ -43,19 +43,12 @@ final class Result
 	private $boxes;
 
 
-	/**
-	 * @return string
-	 */
 	public function getQuery(): string
 	{
 		return $this->query;
 	}
 
 
-	/**
-	 * @param string $query
-	 * @return Result
-	 */
 	public function setQuery(string $query): self
 	{
 		$this->query = $query;
@@ -64,19 +57,12 @@ final class Result
 	}
 
 
-	/**
-	 * @return int
-	 */
 	public function getLength(): int
 	{
 		return $this->length;
 	}
 
 
-	/**
-	 * @param int $length
-	 * @return Result
-	 */
 	public function setLength(int $length): self
 	{
 		$this->length = $length;
@@ -85,19 +71,12 @@ final class Result
 	}
 
 
-	/**
-	 * @return int
-	 */
 	public function getUserRequests(): int
 	{
 		return $this->userRequests;
 	}
 
 
-	/**
-	 * @param int $userRequests
-	 * @return Result
-	 */
 	public function setUserRequests(int $userRequests): self
 	{
 		$this->userRequests = $userRequests;
@@ -106,19 +85,12 @@ final class Result
 	}
 
 
-	/**
-	 * @return null|Box
-	 */
 	public function getInterpret(): ?Box
 	{
 		return $this->interpret;
 	}
 
 
-	/**
-	 * @param Box $interpret
-	 * @return Result
-	 */
 	public function setInterpret(Box $interpret): self
 	{
 		$this->interpret = $interpret;
@@ -127,19 +99,12 @@ final class Result
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getMatchedRoute(): string
 	{
 		return $this->matchedRoute;
 	}
 
 
-	/**
-	 * @param string $matchedRoute
-	 * @return Result
-	 */
 	public function setMatchedRoute(string $matchedRoute): self
 	{
 		$this->matchedRoute = $matchedRoute;
@@ -169,19 +134,12 @@ final class Result
 	}
 
 
-	/**
-	 * @return float
-	 */
 	public function getTime(): float
 	{
 		return $this->time;
 	}
 
 
-	/**
-	 * @param float $time
-	 * @return Result
-	 */
 	public function setTime(float $time): self
 	{
 		$this->time = $time;

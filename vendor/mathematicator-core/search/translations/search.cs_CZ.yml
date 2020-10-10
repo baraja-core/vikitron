@@ -1,0 +1,14 @@
+calculate: Vypočítat
+calculation: Výpočet
+crossMultiplication:
+  title: Trojčlenka
+  description: <b>Trojčlenka</b> je mechanický matematický postup používaný při výpočtech založených na přímé a nepřímé úměrnosti.
+  directProportionality: Přímá úměra
+  indirectProportionality: Nepřímá úměra
+  enter3Vals: Zadejte 3 libovolné hodnoty, čtvrtá bude vypočítána.
+definition: Definice
+divisionByZero: Dělení nulou
+divisionByZeroDesc: '"%number%" nelze dělit nulou.'
+information: Informace
+solution: Řešení
+untitledBox: Box bez názvu

@@ -1,16 +1,3 @@
-services:
-	mathematicator.engine:
-		factory: Mathematicator\Engine\Engine
-		setup:
-			- addExtraModule(@Mathematicator\Engine\SampleModule)
-	mathematicator.queryNormalizer:
-		factory: Mathematicator\Engine\QueryNormalizer
-	mathematicator.translator:
-		factory: Mathematicator\Engine\Translator
-	- Mathematicator\NumberRewriter
-	- Mathematicator\NaturalTextFormatter
-	- Mathematicator\Engine\SampleModule
-
-orm.annotations:
-	paths:
-		Mathematicator: %appDir%/../vendor/mathematicator-core
+extensions:
+	mathematicator.engine: Mathematicator\Engine\EngineExtension
+	psr11: Contributte\Psr11\DI\Psr11ContainerExtension

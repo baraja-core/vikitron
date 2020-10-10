@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Mathematicator\Search;
 
 
-use Mathematicator\Engine\Box;
-use Mathematicator\Engine\MathematicatorException;
+use Mathematicator\Engine\Entity\Box;
+use Mathematicator\Engine\Exception\MathematicatorException;
+use Mathematicator\Engine\Translator;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 
@@ -23,10 +24,18 @@ final class Renderer
 		Box::TYPE_TABLE => 'renderTable',
 	];
 
+	/** @var Translator */
+	private $translator;
+
+
+	public function __construct(Translator $translator)
+	{
+		$this->translator = $translator;
+	}
+
 
 	/**
 	 * @param mixed $data
-	 * @param string $type
 	 * @return string
 	 * @throws MathematicatorException
 	 */
@@ -40,14 +49,9 @@ final class Renderer
 	}
 
 
-	/**
-	 * @param string $data
-	 * @return string
-	 */
 	public function renderTable(string $data): string
 	{
 		$return = '';
-
 		foreach (\json_decode($data) as $row) {
 			$return .= '<tr>';
 			foreach ($row as $column) {
@@ -78,15 +82,11 @@ final class Renderer
 	}
 
 
-	/**
-	 * @param string $title
-	 * @return string
-	 */
 	public function renderTitle(string $title): string
 	{
 		$return = '';
 
-		foreach (explode('|', $title ?: 'Box bez názvu') as $item) {
+		foreach (explode('|', $title ?: $this->translator->translate('search.untitledBox')) as $item) {
 			$return .= $return !== '' && preg_match('/.+\:\s+.+/', $item = trim($item), $itemParser)
 				? '<span class="search-box-header-hightlight">' . $item . '</span>'
 				: '<span class="search-box-header-text">' . $item . '</span>';
@@ -98,8 +98,6 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $data
-	 * @return string
 	 */
 	public function renderText(string $data): string
 	{
@@ -109,13 +107,10 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $data
-	 * @return string
 	 */
 	public function renderLatex(string $data): string
 	{
 		$return = '';
-
 		foreach (explode("\n", $data) as $line) {
 			$return .= Validators::isNumeric($line)
 				? '<div>' . str_replace('\ ', '&nbsp;', $this->numberFormat($line)) . '</div>'
@@ -130,13 +125,10 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $data
-	 * @return string
 	 */
 	public function renderKeyword(string $data): string
 	{
 		$return = '';
-
 		foreach (explode(';', $data) as $item) {
 			$return .= '<span style="margin:.25em;border:1px solid #E6CF67;background:#FFF2BF;padding:.25em .5em;color:#735E00;display:inline-block">'
 				. htmlspecialchars(trim($item))
@@ -149,15 +141,12 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $data
-	 * @return string
 	 */
 	public function renderImage(string $data): string
 	{
 		if (strncmp($data, 'data:', 5) === 0) {
 			return '<img src="' . $data . '">';
 		}
-
 		if (strncmp($data, '<div class="vizualizator"', 25) === 0) {
 			return $data . '<style>.vizualizator{border:1px solid #aaa}</style>';
 		}
@@ -168,9 +157,6 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $number
-	 * @param bool $isLookLeft
-	 * @return string
 	 */
 	public function numberFormat(string $number, bool $isLookLeft = true): string
 	{
@@ -219,8 +205,6 @@ final class Renderer
 
 	/**
 	 * @internal
-	 * @param string $data
-	 * @return string
 	 */
 	public function renderHtml(string $data): string
 	{

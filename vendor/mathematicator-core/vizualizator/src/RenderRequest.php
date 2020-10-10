@@ -80,7 +80,7 @@ final class RenderRequest
 	 */
 	public function getSerialized(): string
 	{
-		return json_encode([
+		return (string) json_encode([
 			'width' => $this->width,
 			'height' => $this->height,
 			'title' => $this->title,
@@ -158,7 +158,7 @@ final class RenderRequest
 
 
 	/**
-	 * @return int[][]|null[][]|int[][][]
+	 * @return null[][]|int[][][]
 	 */
 	public function getLines(): array
 	{
@@ -196,12 +196,22 @@ final class RenderRequest
 			];
 		}
 
+		/** @phpstan-ignore-next-line */
 		return $lines;
 	}
 
 
+	/**
+	 * @param int $x
+	 * @param int $y
+	 * @param int $a
+	 * @param int $b
+	 * @param string|null $color
+	 * @return $this
+	 */
 	public function addLine(int $x, int $y, int $a, int $b, ?string $color = null): self
 	{
+		/** @phpstan-ignore-next-line */
 		$this->lines[] = [
 			'x' => $x,
 			'y' => $y,
@@ -247,7 +257,7 @@ final class RenderRequest
 				$b = $match[4] . $match[5];
 			}
 
-			return [hexdec($r), hexdec($g), hexdec($b)];
+			return [(int) hexdec($r), (int) hexdec($g), (int) hexdec($b)];
 		}
 
 		return null;

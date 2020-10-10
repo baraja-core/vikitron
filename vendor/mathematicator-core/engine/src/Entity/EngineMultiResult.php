@@ -2,14 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Mathematicator\Engine;
+namespace Mathematicator\Engine\Entity;
 
+
+use Mathematicator\Engine\Exception\NoResultsException;
 
 final class EngineMultiResult extends EngineResult
 {
 
 	/** @var EngineResult[] */
 	private $results;
+
+
+	/**
+	 * @param string $query
+	 */
+	public function __construct(string $query)
+	{
+		parent::__construct($query, null);
+	}
 
 
 	/**
@@ -45,6 +56,10 @@ final class EngineMultiResult extends EngineResult
 			}
 		}
 
+		usort($return, static function (Box $a, Box $b): int {
+			return $a->getRank() < $b->getRank() ? 1 : -1;
+		});
+
 		return $return;
 	}
 
@@ -56,7 +71,7 @@ final class EngineMultiResult extends EngineResult
 	 */
 	public function getResult(string $name = null): EngineResult
 	{
-		if (!isset($this->results[$name])) {
+		if (isset($this->results[$name]) === false) {
 			throw new NoResultsException('Result "' . $name . '" does not exist.');
 		}
 
@@ -76,8 +91,6 @@ final class EngineMultiResult extends EngineResult
 		} else {
 			$this->results[] = $result;
 		}
-
-		$this->setTime($this->getTime() + $result->getTime());
 
 		return $this;
 	}
