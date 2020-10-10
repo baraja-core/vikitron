@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
+use Error;
 use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\SubToken;
 
 final class TokensTreeRenderer
 {
 
-	/**
-	 * @throws \Error
-	 */
+	/** @throws Error */
 	public function __construct()
 	{
-		throw new \Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
+		throw new Error('Class ' . get_class($this) . ' is static and cannot be instantiated.');
 	}
 
 

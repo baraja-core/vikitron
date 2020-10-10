@@ -1,6 +1,14 @@
 {
 	"name": "mathematicator-core/numbers",
 	"description": "Safety operations with numbers.",
+	"keywords": [
+		"mathematicator",
+		"math",
+		"php",
+		"numbers"
+	],
+	"type": "library",
+	"license": "MIT",
 	"homepage": "https://github.com/mathematicator-core/numbers",
 	"authors": [
 		{
@@ -9,24 +17,72 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1.0",
+		"php": ">=7.2",
+		"ext-bcmath": "*",
+		"nette/tester": "^2.3",
 		"nette/utils": "^3.0",
-		"ext-bcmath": "*"
+		"brick/math": "^0.8.15",
+		"symfony/polyfill-php80": "^1.17"
 	},
 	"require-dev": {
+		"brainmaestro/composer-git-hooks": "dev-master",
+		"nette/bootstrap": "^3.0",
 		"phpstan/phpstan": "^0.12.18",
-		"tracy/tracy": "^2.7",
 		"phpstan/phpstan-nette": "^0.12.6"
 	},
+	"suggest": {
+		"brick/math": "(^0.8.15) For better basic math computing."
+	},
 	"autoload": {
-		"classmap": [
-			"src/"
-		]
+		"psr-4": {
+			"Mathematicator\\Numbers\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Mathematicator\\Numbers\\Tests\\": "tests/NumbersTests/"
+		}
 	},
 	"scripts": {
-		"phpstan": [
-			"vendor/bin/phpstan analyse src -c phpstan.neon --level 6 --no-progress"
-		]
+		"post-install-cmd": "cghooks add --ignore-lock",
+		"post-update-cmd": "cghooks update",
+		"cs:install": [
+			"composer create-project nette/code-checker temp/code-checker ^3 --no-progress",
+			"composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress"
+		],
+		"cs:check": [
+			"php temp/code-checker/code-checker -d src -d tests --short-arrays --strict-types --no-progress",
+			"php temp/coding-standard/ecs check src tests --config temp/coding-standard/coding-standard-php71.yml"
+		],
+		"cs:fix": [
+			"php temp/code-checker/code-checker -d src -d tests --short-arrays --strict-types --fix --no-progress",
+			"php temp/coding-standard/ecs check src tests --config temp/coding-standard/coding-standard-php71.yml --fix"
+		],
+		"phpstan": "vendor/bin/phpstan analyse src -c phpstan.neon --level 8 --no-progress",
+		"fix": [
+			"composer update",
+			"composer cs:fix",
+			"composer phpstan",
+			"composer test"
+		],
+		"test": "vendor/bin/tester -s -c tests/php.ini -p php tests --coverage coverage.xml --coverage-src src",
+		"cghooks": "vendor/bin/cghooks"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"config": {
+		"sort-packages": true
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0.x-dev"
+		},
+		"hooks": {
+			"post-merge": "composer install",
+			"pre-commit": [
+				"composer cs:check",
+				"composer phpstan",
+				"composer test"
+			]
+		}
+	}
 }

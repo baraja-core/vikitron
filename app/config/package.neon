@@ -46,7 +46,6 @@ orm.annotations:
 		App: %appDir%
 		Model: %appDir%
 		Baraja: %appDir%/../vendor/baraja-core
-		Mathematicator: %appDir%/../vendor/mathematicator-core
 
 parameters:
 	database:
@@ -89,10 +88,9 @@ services:
 	
 	search: Mathematicator\Search\SearchAccessor
 	searchConsole: Mathematicator\Search\Console
-	- Mathematicator\Tokenizer\Tokenizer(%math%)
-	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
 	- Mathematicator\Router\Router(%math.functions%)
-	- Mathematicator\Tokenizer\TokensToLatex(%math.functions%)
+	- Mathematicator\MandelbrotSet\MandelbrotSet(%tempDir%/mandelbrot-set)
+	- Baraja\Doctrine\EntityManagerDependencies
 	- Mathematicator\MathFunction\SinFunction
 	- Mathematicator\Step\Controller\StepSqrtHelper
 	- Mathematicator\Step\Controller\StepPowController
@@ -100,10 +98,11 @@ services:
 	- Mathematicator\MathFunction\FunctionManager
 	- Mathematicator\MathFunction\AbsFunction
 	- Mathematicator\MathFunction\SqrtFunction
-	- Baraja\Doctrine\EntityManagerDependencies
+	- Mathematicator\Tokenizer\Tokenizer
 	- Mathematicator\NewtonMethod
 	- Mathematicator\Step\Controller\StepMultiplicationController
 	- Mathematicator\Tokenizer\TokensToObject
+	- Mathematicator\Tokenizer\TokensToLatex
 	- Mathematicator\Statistics\StatisticsManager
 	- Mathematicator\Numbers\NumberFactory
 	- Mathematicator\Vizualizator\MathFunctionRenderer

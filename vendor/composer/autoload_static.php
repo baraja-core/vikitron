@@ -12,11 +12,13 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
@@ -42,9 +44,17 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
             'Contributte\\Console\\' => 20,
             'Carbon\\' => 7,
         ),
+        'B' => 
+        array (
+            'Brick\\Math\\' => 11,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
         'Symfony\\Polyfill\\Php73\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
@@ -104,6 +114,10 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Brick\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brick/math/src',
         ),
     );
 
@@ -1077,10 +1091,15 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\NewtonMethod' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Equation/NewtonMethod.php',
         'Mathematicator\\NumberHelper' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Numbers/NumberHelper.php',
         'Mathematicator\\NumberRewriter' => __DIR__ . '/..' . '/mathematicator-core/engine/src/NumberRewriter.php',
-        'Mathematicator\\Numbers\\Cache' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Cache.php',
-        'Mathematicator\\Numbers\\NumberException' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/NumberException.php',
+        'Mathematicator\\Numbers\\Converter\\FractionToLatex' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Converter/FractionToLatex.php',
+        'Mathematicator\\Numbers\\Entity\\Fraction' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Entity/Fraction.php',
+        'Mathematicator\\Numbers\\Exception\\NumberException' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Exception/NumberException.php',
+        'Mathematicator\\Numbers\\Latex\\MathLatexBuilder' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Latex/MathLatexBuilder.php',
+        'Mathematicator\\Numbers\\Latex\\MathLatexSnippet' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Latex/MathLatexSnippet.php',
+        'Mathematicator\\Numbers\\Latex\\MathLatexToolkit' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Latex/MathLatexToolkit.php',
         'Mathematicator\\Numbers\\NumberFactory' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/NumberFactory.php',
-        'Mathematicator\\Numbers\\SmartNumber' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/Entity/SmartNumber.php',
+        'Mathematicator\\Numbers\\PrimaryNumber' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/PrimaryNumber.php',
+        'Mathematicator\\Numbers\\SmartNumber' => __DIR__ . '/..' . '/mathematicator-core/numbers/src/SmartNumber.php',
         'Mathematicator\\Router\\DynamicRoute' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/DynamicRoute.php',
         'Mathematicator\\Router\\Router' => __DIR__ . '/..' . '/mathematicator-core/engine/src/Router/Router.php',
         'Mathematicator\\SearchController\\CrossMultiplicationController' => __DIR__ . '/..' . '/mathematicator-core/search/src/Controllers/CrossMultiplicationController.php',
@@ -1112,29 +1131,30 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Mathematicator\\Step\\RomanIntSteps' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepModel/RomanIntSteps.php',
         'Mathematicator\\Step\\StepEndpoint' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepEndpoint.php',
         'Mathematicator\\Step\\StepFactory' => __DIR__ . '/..' . '/mathematicator-core/calculator/src/Step/StepFactory.php',
+        'Mathematicator\\Tokenizer\\Exceptions\\TokenizerException' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Exceptions/TokenizerException.php',
         'Mathematicator\\Tokenizer\\Helper' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Helper.php',
         'Mathematicator\\Tokenizer\\TokenIterator' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/TokenIterator.php',
-        'Mathematicator\\Tokenizer\\Token\\BaseToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/BaseToken.php',
-        'Mathematicator\\Tokenizer\\Token\\ComparatorToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/ComparatorToken.php',
-        'Mathematicator\\Tokenizer\\Token\\ComplexInfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/ComplexInfinityToken.php',
-        'Mathematicator\\Tokenizer\\Token\\ComplexNumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/ComplexNumberToken.php',
-        'Mathematicator\\Tokenizer\\Token\\ConstantToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/ConstantToken.php',
-        'Mathematicator\\Tokenizer\\Token\\EquationToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/EquationToken.php',
-        'Mathematicator\\Tokenizer\\Token\\FactorialToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/FactorialToken.php',
-        'Mathematicator\\Tokenizer\\Token\\FunctionToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/FunctionToken.php',
-        'Mathematicator\\Tokenizer\\Token\\IToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/IToken.php',
-        'Mathematicator\\Tokenizer\\Token\\InfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/InfinityToken.php',
-        'Mathematicator\\Tokenizer\\Token\\IntervalToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/IntervalToken.php',
-        'Mathematicator\\Tokenizer\\Token\\MatrixToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/MatrixToken.php',
-        'Mathematicator\\Tokenizer\\Token\\NegativeInfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/NegativeInfinityToken.php',
-        'Mathematicator\\Tokenizer\\Token\\NumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/NumberToken.php',
-        'Mathematicator\\Tokenizer\\Token\\OperatorToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/OperatorToken.php',
-        'Mathematicator\\Tokenizer\\Token\\OtherToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/OtherToken.php',
-        'Mathematicator\\Tokenizer\\Token\\PiToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/PiToken.php',
-        'Mathematicator\\Tokenizer\\Token\\PolynomialToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/PolynomialToken.php',
-        'Mathematicator\\Tokenizer\\Token\\RomanNumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/RomanNumberToken.php',
-        'Mathematicator\\Tokenizer\\Token\\SubToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/SubToken.php',
-        'Mathematicator\\Tokenizer\\Token\\VariableToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Entity/VariableToken.php',
+        'Mathematicator\\Tokenizer\\Token\\BaseToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/BaseToken.php',
+        'Mathematicator\\Tokenizer\\Token\\ComparatorToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/ComparatorToken.php',
+        'Mathematicator\\Tokenizer\\Token\\ComplexInfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/ComplexInfinityToken.php',
+        'Mathematicator\\Tokenizer\\Token\\ComplexNumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/ComplexNumberToken.php',
+        'Mathematicator\\Tokenizer\\Token\\ConstantToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/ConstantToken.php',
+        'Mathematicator\\Tokenizer\\Token\\EquationToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/EquationToken.php',
+        'Mathematicator\\Tokenizer\\Token\\FactorialToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/FactorialToken.php',
+        'Mathematicator\\Tokenizer\\Token\\FunctionToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/FunctionToken.php',
+        'Mathematicator\\Tokenizer\\Token\\IToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/IToken.php',
+        'Mathematicator\\Tokenizer\\Token\\InfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/InfinityToken.php',
+        'Mathematicator\\Tokenizer\\Token\\IntervalToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/IntervalToken.php',
+        'Mathematicator\\Tokenizer\\Token\\MatrixToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/MatrixToken.php',
+        'Mathematicator\\Tokenizer\\Token\\NegativeInfinityToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/NegativeInfinityToken.php',
+        'Mathematicator\\Tokenizer\\Token\\NumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/NumberToken.php',
+        'Mathematicator\\Tokenizer\\Token\\OperatorToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/OperatorToken.php',
+        'Mathematicator\\Tokenizer\\Token\\OtherToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/OtherToken.php',
+        'Mathematicator\\Tokenizer\\Token\\PiToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/PiToken.php',
+        'Mathematicator\\Tokenizer\\Token\\PolynomialToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/PolynomialToken.php',
+        'Mathematicator\\Tokenizer\\Token\\RomanNumberToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/RomanNumberToken.php',
+        'Mathematicator\\Tokenizer\\Token\\SubToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/SubToken.php',
+        'Mathematicator\\Tokenizer\\Token\\VariableToken' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Token/VariableToken.php',
         'Mathematicator\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Tokenizer.php',
         'Mathematicator\\Tokenizer\\Tokens' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/Tokens.php',
         'Mathematicator\\Tokenizer\\TokensToLatex' => __DIR__ . '/..' . '/mathematicator-core/tokenizer/src/TokensToLatex.php',
@@ -1469,6 +1489,7 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Nette\\Utils\\TokenizerException' => __DIR__ . '/..' . '/nette/tokenizer/src/Utils/TokenizerException.php',
         'Nette\\Utils\\UnknownImageFileException' => __DIR__ . '/..' . '/nette/utils/src/Utils/exceptions.php',
         'Nette\\Utils\\Validators' => __DIR__ . '/..' . '/nette/utils/src/Utils/Validators.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Tester\\Assert' => __DIR__ . '/..' . '/nette/tester/src/Framework/Assert.php',
         'Tester\\AssertException' => __DIR__ . '/..' . '/nette/tester/src/Framework/AssertException.php',
         'Tester\\CodeCoverage\\Collector' => __DIR__ . '/..' . '/nette/tester/src/CodeCoverage/Collector.php',
@@ -1549,6 +1570,7 @@ class ComposerStaticInit2fa5c1a1db17e00255485aa6ed7f89db
         'Tracy\\ILogger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Logger/ILogger.php',
         'Tracy\\Logger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/Logger/Logger.php',
         'Tracy\\OutputDebugger' => __DIR__ . '/..' . '/tracy/tracy/src/Tracy/OutputDebugger/OutputDebugger.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

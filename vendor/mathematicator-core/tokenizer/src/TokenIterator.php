@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
-use Mathematicator\Engine\MathematicatorException;
+use function count;
+use Mathematicator\Tokenizer\Exceptions\TokenizerException;
 use Mathematicator\Tokenizer\Token\IToken;
 
 class TokenIterator
@@ -20,15 +21,13 @@ class TokenIterator
 
 	/**
 	 * @param IToken[] $tokens
-	 * @throws MathematicatorException
+	 * @throws TokenizerException
 	 */
 	public function __construct(array $tokens)
 	{
 		foreach ($tokens as $token) {
 			if (!$token instanceof IToken) {
-				throw new MathematicatorException(
-					'Token "' . \get_class($token) . '" is not instance of "' . IToken::class . '".'
-				);
+				TokenizerException::tokenMustBeIToken($token);
 			}
 		}
 
@@ -41,7 +40,7 @@ class TokenIterator
 	 */
 	public function getCount(): int
 	{
-		return \count($this->tokens);
+		return count($this->tokens);
 	}
 
 

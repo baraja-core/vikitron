@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mathematicator\Tokenizer;
 
 
+use Mathematicator\Numbers\Exception\NumberException;
 use Mathematicator\Numbers\NumberFactory;
 use Mathematicator\Tokenizer\Token\ComparatorToken;
 use Mathematicator\Tokenizer\Token\EquationToken;
@@ -15,6 +16,7 @@ use Mathematicator\Tokenizer\Token\IToken;
 use Mathematicator\Tokenizer\Token\NumberToken;
 use Mathematicator\Tokenizer\Token\OperatorToken;
 use Mathematicator\Tokenizer\Token\OtherToken;
+use Mathematicator\Tokenizer\Token\PiToken;
 use Mathematicator\Tokenizer\Token\RomanNumberToken;
 use Mathematicator\Tokenizer\Token\SubToken;
 use Mathematicator\Tokenizer\Token\VariableToken;
@@ -39,13 +41,13 @@ class TokensToObject
 	/**
 	 * @param Token[] $tokens
 	 * @return IToken[]
+	 * @throws NumberException
 	 */
 	public function toObject(array $tokens): array
 	{
 		$objects = [];
 
 		for ($iterator = 0; isset($tokens[$iterator]); $iterator++) {
-			/** @var Token $token */
 			$token = $tokens[$iterator];
 			switch ($token->type) {
 				case Tokens::M_NUMBER:
@@ -101,10 +103,9 @@ class TokensToObject
 					$tokenFactory->setName($token->value);
 					break;
 
-				// TODO: Fix in future
-				// case Tokens::M_PI:
-				// $tokenFactory = new PiToken($this->numberFactory->create(M_PI), $this->numberHelper);
-				// break;
+				case Tokens::M_PI:
+					$tokenFactory = new PiToken($this->numberFactory->create(M_PI));
+					break;
 
 				default:
 					$tokenFactory = new OtherToken;
@@ -112,7 +113,7 @@ class TokensToObject
 
 			$objects[] = $tokenFactory->setToken($token->value)
 				->setPosition($token->offset)
-				->setType($token->type);
+				->setType((string) $token->type);
 		}
 
 		return $objects;

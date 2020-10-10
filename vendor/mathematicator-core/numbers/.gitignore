@@ -1,0 +1,12 @@
+# IDEs
+.idea/
+.vscode/
+
+# App
+log/
+temp/
+vendor/
+composer.lock
+
+# Tests
+coverage.xml

@@ -53,7 +53,9 @@
 		"ext-PDO": "*",
 		"ext-bcmath": "*",
 		"contributte/psr11-container-interface": "^0.4.1",
-		"contributte/psr6-caching": "^0.1.0"
+		"contributte/psr6-caching": "^0.1.0",
+		"brick/math": "^0.8.15",
+		"symfony/polyfill-php80": "^1.17"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"

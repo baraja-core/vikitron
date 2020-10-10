@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Mathematicator\Numbers;
 
 
+use Mathematicator\Numbers\Exception\NumberException;
+
 final class NumberFactory
 {
 
