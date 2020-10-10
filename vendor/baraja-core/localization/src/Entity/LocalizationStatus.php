@@ -29,6 +29,9 @@ final class LocalizationStatus
 	/** @var string[]|null[] */
 	private $localeToTitleFormat;
 
+	/** @var string[]|null[] */
+	private $localeToSiteName;
+
 	/** @var string[] */
 	private $domainToLocale;
 
@@ -58,6 +61,7 @@ final class LocalizationStatus
 	 * @param string[]|null[] $localeToTitleSuffix
 	 * @param string[]|null[] $localeToTitleSeparator
 	 * @param string[]|null[] $localeToTitleFormat
+	 * @param string[]|null[] $localeToSiteName
 	 * @param string[] $domainToLocale
 	 * @param string[] $domainToEnvironment
 	 * @param bool[] $domainToProtected
@@ -66,7 +70,7 @@ final class LocalizationStatus
 	 * @param string[][] $domainByEnvironment
 	 * @param mixed[][]|mixed[][][] $domains
 	 */
-	public function __construct(array $availableLocales, string $defaultLocale, array $fallbackLocales, array $localeToTitleSuffix, array $localeToTitleSeparator, array $localeToTitleFormat, array $domainToLocale, array $domainToEnvironment, array $domainToProtected, array $domainToScheme, array $domainToUseWww, array $domainByEnvironment, array $domains)
+	public function __construct(array $availableLocales, string $defaultLocale, array $fallbackLocales, array $localeToTitleSuffix, array $localeToTitleSeparator, array $localeToTitleFormat, array $localeToSiteName, array $domainToLocale, array $domainToEnvironment, array $domainToProtected, array $domainToScheme, array $domainToUseWww, array $domainByEnvironment, array $domains)
 	{
 		$this->availableLocales = $availableLocales;
 		$this->defaultLocale = $defaultLocale;
@@ -74,6 +78,7 @@ final class LocalizationStatus
 		$this->localeToTitleSuffix = $localeToTitleSuffix;
 		$this->localeToTitleSeparator = $localeToTitleSeparator;
 		$this->localeToTitleFormat = $localeToTitleFormat;
+		$this->localeToSiteName = $localeToSiteName;
 		$this->domainToLocale = $domainToLocale;
 		$this->domainToEnvironment = $domainToEnvironment;
 		$this->domainToProtected = $domainToProtected;
@@ -135,6 +140,15 @@ final class LocalizationStatus
 	public function getLocaleToTitleFormat(): array
 	{
 		return $this->localeToTitleFormat;
+	}
+
+
+	/**
+	 * @return string[]|null[]
+	 */
+	public function getLocaleToSiteName(): ?array
+	{
+		return $this->localeToSiteName;
 	}
 
 

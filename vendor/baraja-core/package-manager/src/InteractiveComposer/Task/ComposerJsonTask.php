@@ -65,9 +65,6 @@ final class ComposerJsonTask extends BaseTask
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return 'Composer.json fixer';

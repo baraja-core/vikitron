@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Baraja\Localization;
 
 
-class Translation
+final class Translation
 {
 
 	/** @var string[]|null */
@@ -56,7 +56,11 @@ class Translation
 			$this->startupState = $this->storage = $storageData;
 		} else {
 			if ($language === null) {
-				$language = LocalizationHelper::getLocale(true);
+				if (PHP_SAPI === 'cli') {
+					$language = LocalizationHelper::getLocalization()->getDefaultLocale();
+				} else {
+					$language = LocalizationHelper::getLocale(true);
+				}
 			}
 
 			$this->storage[$language] = $data;
@@ -109,11 +113,6 @@ class Translation
 	}
 
 
-	/**
-	 * @param string|null $haystack
-	 * @param string|null $language
-	 * @return bool
-	 */
 	public function addTranslate(?string $haystack, string $language = null): bool
 	{
 		if ($language === null) {

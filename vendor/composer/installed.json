@@ -1,26 +1,26 @@
 [
     {
         "name": "baraja-core/doctrine",
-        "version": "v2.1.1",
-        "version_normalized": "2.1.1.0",
+        "version": "v2.2.7",
+        "version_normalized": "2.2.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/doctrine.git",
-            "reference": "7793d25bee34d92017879b5e855775f9aa2e124f"
+            "reference": "02f9647143c3c59ca296c4919d3ce54021d2f3de"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/7793d25bee34d92017879b5e855775f9aa2e124f",
-            "reference": "7793d25bee34d92017879b5e855775f9aa2e124f",
+            "url": "https://api.github.com/repos/baraja-core/doctrine/zipball/02f9647143c3c59ca296c4919d3ce54021d2f3de",
+            "reference": "02f9647143c3c59ca296c4919d3ce54021d2f3de",
             "shasum": ""
         },
         "require": {
             "baraja-core/package-manager": "^2.1",
-            "contributte/console": "^0.8.0",
+            "doctrine/dbal": "^2.9",
+            "doctrine/orm": "^2.7",
             "ext-json": "*",
             "ext-pdo": "*",
             "ext-tokenizer": "*",
-            "janbarasek/doctrine-pro": "^2.0",
             "nette/di": "^3.0",
             "nette/finder": "^2.5",
             "nette/utils": "^3.0",
@@ -30,9 +30,10 @@
         "require-dev": {
             "phpstan/phpstan": "^0.12.18",
             "phpstan/phpstan-nette": "^0.12.6",
+            "symplify/easy-coding-standard": "^7.2",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-05-14T13:16:34+00:00",
+        "time": "2020-10-10T14:24:45+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -52,17 +53,17 @@
     },
     {
         "name": "baraja-core/localization",
-        "version": "v1.0.10",
-        "version_normalized": "1.0.10.0",
+        "version": "v1.0.14",
+        "version_normalized": "1.0.14.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/localization.git",
-            "reference": "a3336b3f2272a1eb27605818f0cc27858073488a"
+            "reference": "87c441646ba4486c46ca3cc389492b32a81bd3e0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/localization/zipball/a3336b3f2272a1eb27605818f0cc27858073488a",
-            "reference": "a3336b3f2272a1eb27605818f0cc27858073488a",
+            "url": "https://api.github.com/repos/baraja-core/localization/zipball/87c441646ba4486c46ca3cc389492b32a81bd3e0",
+            "reference": "87c441646ba4486c46ca3cc389492b32a81bd3e0",
             "shasum": ""
         },
         "require": {
@@ -77,9 +78,10 @@
         "require-dev": {
             "phpstan/phpstan": "^0.12.18",
             "phpstan/phpstan-nette": "^0.12.6",
+            "symplify/easy-coding-standard": "^7.2",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-05-22T15:25:11+00:00",
+        "time": "2020-07-27T13:09:36+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -99,17 +101,17 @@
     },
     {
         "name": "baraja-core/package-manager",
-        "version": "v2.1.2",
-        "version_normalized": "2.1.2.0",
+        "version": "v2.1.5",
+        "version_normalized": "2.1.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/baraja-core/package-manager.git",
-            "reference": "8f8d864d63b7c5898d187a9c1cda7b72e961185a"
+            "reference": "8107592ec9fe1d1aa1c046537641332b8853d265"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/8f8d864d63b7c5898d187a9c1cda7b72e961185a",
-            "reference": "8f8d864d63b7c5898d187a9c1cda7b72e961185a",
+            "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/8107592ec9fe1d1aa1c046537641332b8853d265",
+            "reference": "8107592ec9fe1d1aa1c046537641332b8853d265",
             "shasum": ""
         },
         "require": {
@@ -129,7 +131,7 @@
             "phpstan/phpstan-nette": "^0.12.6",
             "tracy/tracy": "^2.7"
         },
-        "time": "2020-05-25T11:58:50+00:00",
+        "time": "2020-10-08T19:23:27+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -149,17 +151,17 @@
     },
     {
         "name": "brick/math",
-        "version": "0.8.15",
-        "version_normalized": "0.8.15.0",
+        "version": "0.8.17",
+        "version_normalized": "0.8.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/brick/math.git",
-            "reference": "9b08d412b9da9455b210459ff71414de7e6241cd"
+            "reference": "e6f8e7d04346a95be89580f8c2c22d6c3fa65556"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/brick/math/zipball/9b08d412b9da9455b210459ff71414de7e6241cd",
-            "reference": "9b08d412b9da9455b210459ff71414de7e6241cd",
+            "url": "https://api.github.com/repos/brick/math/zipball/e6f8e7d04346a95be89580f8c2c22d6c3fa65556",
+            "reference": "e6f8e7d04346a95be89580f8c2c22d6c3fa65556",
             "shasum": ""
         },
         "require": {
@@ -171,7 +173,7 @@
             "phpunit/phpunit": "^7.5.15|^8.5",
             "vimeo/psalm": "^3.5"
         },
-        "time": "2020-04-15T15:59:35+00:00",
+        "time": "2020-08-18T23:41:20+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -458,43 +460,1064 @@
         ]
     },
     {
-        "name": "janbarasek/doctrine-pro",
-        "version": "v2.0.2",
-        "version_normalized": "2.0.2.0",
+        "name": "doctrine/annotations",
+        "version": "1.10.4",
+        "version_normalized": "1.10.4.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/janbarasek/doctrine-pro.git",
-            "reference": "cc9ac33180e352cc3b927175460cfe1f1a317b42"
+            "url": "https://github.com/doctrine/annotations.git",
+            "reference": "bfe91e31984e2ba76df1c1339681770401ec262f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/janbarasek/doctrine-pro/zipball/cc9ac33180e352cc3b927175460cfe1f1a317b42",
-            "reference": "cc9ac33180e352cc3b927175460cfe1f1a317b42",
+            "url": "https://api.github.com/repos/doctrine/annotations/zipball/bfe91e31984e2ba76df1c1339681770401ec262f",
+            "reference": "bfe91e31984e2ba76df1c1339681770401ec262f",
             "shasum": ""
         },
         "require": {
-            "ext-pdo": "*",
+            "doctrine/lexer": "1.*",
             "ext-tokenizer": "*",
-            "php": ">=7.1.0",
-            "symfony/console": "~3.0|~4.0|~5.0"
+            "php": "^7.1 || ^8.0"
         },
-        "time": "2020-05-12T09:00:43+00:00",
+        "require-dev": {
+            "doctrine/cache": "1.*",
+            "phpstan/phpstan": "^0.12.20",
+            "phpunit/phpunit": "^7.5 || ^9.1.5"
+        },
+        "time": "2020-08-10T19:35:50+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.9.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Docblock Annotations Parser",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "annotations",
+            "docblock",
+            "parser"
+        ]
+    },
+    {
+        "name": "doctrine/cache",
+        "version": "1.10.2",
+        "version_normalized": "1.10.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/cache.git",
+            "reference": "13e3381b25847283a91948d04640543941309727"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/cache/zipball/13e3381b25847283a91948d04640543941309727",
+            "reference": "13e3381b25847283a91948d04640543941309727",
+            "shasum": ""
+        },
+        "require": {
+            "php": "~7.1 || ^8.0"
+        },
+        "conflict": {
+            "doctrine/common": ">2.2,<2.4"
+        },
+        "require-dev": {
+            "alcaeus/mongo-php-adapter": "^1.1",
+            "doctrine/coding-standard": "^6.0",
+            "mongodb/mongodb": "^1.1",
+            "phpunit/phpunit": "^7.0",
+            "predis/predis": "~1.0"
+        },
+        "suggest": {
+            "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
+        },
+        "time": "2020-07-07T18:54:01+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.9.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "PHP Doctrine Cache library is a popular cache implementation that supports many different drivers such as redis, memcache, apc, mongodb and others.",
+        "homepage": "https://www.doctrine-project.org/projects/cache.html",
+        "keywords": [
+            "abstraction",
+            "apcu",
+            "cache",
+            "caching",
+            "couchdb",
+            "memcached",
+            "php",
+            "redis",
+            "xcache"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/collections",
+        "version": "1.6.7",
+        "version_normalized": "1.6.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/collections.git",
+            "reference": "55f8b799269a1a472457bd1a41b4f379d4cfba4a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/collections/zipball/55f8b799269a1a472457bd1a41b4f379d4cfba4a",
+            "reference": "55f8b799269a1a472457bd1a41b4f379d4cfba4a",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1.3 || ^8.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^6.0",
+            "phpstan/phpstan-shim": "^0.9.2",
+            "phpunit/phpunit": "^7.0",
+            "vimeo/psalm": "^3.8.1"
+        },
+        "time": "2020-07-27T17:53:49+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "classmap": [
-                "src/"
-            ]
+            "psr-4": {
+                "Doctrine\\Common\\Collections\\": "lib/Doctrine/Common/Collections"
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
         "authors": [
             {
-                "name": "Jan Barášek",
-                "homepage": "http://baraja.cz"
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
             }
         ],
-        "description": "Smart library for Doctrine with data types in entities.",
-        "homepage": "https://github.com/janbarasek/doctrine-pro"
+        "description": "PHP Doctrine Collections library that adds additional functionality on top of PHP arrays.",
+        "homepage": "https://www.doctrine-project.org/projects/collections.html",
+        "keywords": [
+            "array",
+            "collections",
+            "iterators",
+            "php"
+        ]
+    },
+    {
+        "name": "doctrine/common",
+        "version": "3.0.2",
+        "version_normalized": "3.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/common.git",
+            "reference": "a3c6479858989e242a2465972b4f7a8642baf0d4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/common/zipball/a3c6479858989e242a2465972b4f7a8642baf0d4",
+            "reference": "a3c6479858989e242a2465972b4f7a8642baf0d4",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/persistence": "^2.0",
+            "php": "^7.1 || ^8.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^1.0",
+            "phpstan/phpstan": "^0.11",
+            "phpstan/phpstan-phpunit": "^0.11",
+            "phpunit/phpunit": "^7.0",
+            "squizlabs/php_codesniffer": "^3.0",
+            "symfony/phpunit-bridge": "^4.0.5"
+        },
+        "time": "2020-06-05T16:59:53+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\": "lib/Doctrine/Common"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            },
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "PHP Doctrine Common project is a library that provides additional functionality that other Doctrine projects depend on such as better reflection support, persistence interfaces, proxies, event system and much more.",
+        "homepage": "https://www.doctrine-project.org/projects/common.html",
+        "keywords": [
+            "common",
+            "doctrine",
+            "php"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcommon",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/dbal",
+        "version": "2.10.4",
+        "version_normalized": "2.10.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/dbal.git",
+            "reference": "47433196b6390d14409a33885ee42b6208160643"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/dbal/zipball/47433196b6390d14409a33885ee42b6208160643",
+            "reference": "47433196b6390d14409a33885ee42b6208160643",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/cache": "^1.0",
+            "doctrine/event-manager": "^1.0",
+            "ext-pdo": "*",
+            "php": "^7.2"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^8.1",
+            "jetbrains/phpstorm-stubs": "^2019.1",
+            "nikic/php-parser": "^4.4",
+            "phpstan/phpstan": "^0.12.40",
+            "phpunit/phpunit": "^8.5.5",
+            "psalm/plugin-phpunit": "^0.10.0",
+            "symfony/console": "^2.0.5|^3.0|^4.0|^5.0",
+            "vimeo/psalm": "^3.14.2"
+        },
+        "suggest": {
+            "symfony/console": "For helpful console commands such as SQL execution and import of files."
+        },
+        "time": "2020-09-12T21:20:41+00:00",
+        "bin": [
+            "bin/doctrine-dbal"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.10.x-dev",
+                "dev-develop": "3.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\DBAL\\": "lib/Doctrine/DBAL"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            }
+        ],
+        "description": "Powerful PHP database abstraction layer (DBAL) with many features for database schema introspection and management.",
+        "homepage": "https://www.doctrine-project.org/projects/dbal.html",
+        "keywords": [
+            "abstraction",
+            "database",
+            "db2",
+            "dbal",
+            "mariadb",
+            "mssql",
+            "mysql",
+            "oci8",
+            "oracle",
+            "pdo",
+            "pgsql",
+            "postgresql",
+            "queryobject",
+            "sasql",
+            "sql",
+            "sqlanywhere",
+            "sqlite",
+            "sqlserver",
+            "sqlsrv"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fdbal",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/event-manager",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/event-manager.git",
+            "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/event-manager/zipball/41370af6a30faa9dc0368c4a6814d596e81aba7f",
+            "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1 || ^8.0"
+        },
+        "conflict": {
+            "doctrine/common": "<2.9@dev"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^6.0",
+            "phpunit/phpunit": "^7.0"
+        },
+        "time": "2020-05-29T18:28:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\": "lib/Doctrine/Common"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            },
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "The Doctrine Event Manager is a simple PHP event system that was built to be used with the various Doctrine projects.",
+        "homepage": "https://www.doctrine-project.org/projects/event-manager.html",
+        "keywords": [
+            "event",
+            "event dispatcher",
+            "event manager",
+            "event system",
+            "events"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fevent-manager",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/inflector",
+        "version": "1.4.3",
+        "version_normalized": "1.4.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/inflector.git",
+            "reference": "4650c8b30c753a76bf44fb2ed00117d6f367490c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/inflector/zipball/4650c8b30c753a76bf44fb2ed00117d6f367490c",
+            "reference": "4650c8b30c753a76bf44fb2ed00117d6f367490c",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.2 || ^8.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^7.0",
+            "phpstan/phpstan": "^0.11",
+            "phpstan/phpstan-phpunit": "^0.11",
+            "phpstan/phpstan-strict-rules": "^0.11",
+            "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0"
+        },
+        "time": "2020-05-29T07:19:59+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector",
+                "Doctrine\\Inflector\\": "lib/Doctrine/Inflector"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "PHP Doctrine Inflector is a small library that can perform string manipulations with regard to upper/lowercase and singular/plural forms of words.",
+        "homepage": "https://www.doctrine-project.org/projects/inflector.html",
+        "keywords": [
+            "inflection",
+            "inflector",
+            "lowercase",
+            "manipulation",
+            "php",
+            "plural",
+            "singular",
+            "strings",
+            "uppercase",
+            "words"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/instantiator",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/instantiator.git",
+            "reference": "f350df0268e904597e3bd9c4685c53e0e333feea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f350df0268e904597e3bd9c4685c53e0e333feea",
+            "reference": "f350df0268e904597e3bd9c4685c53e0e333feea",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.1 || ^8.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^6.0",
+            "ext-pdo": "*",
+            "ext-phar": "*",
+            "phpbench/phpbench": "^0.13",
+            "phpstan/phpstan-phpunit": "^0.11",
+            "phpstan/phpstan-shim": "^0.11",
+            "phpunit/phpunit": "^7.0"
+        },
+        "time": "2020-05-29T17:27:14+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com",
+                "homepage": "http://ocramius.github.com/"
+            }
+        ],
+        "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
+        "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
+        "keywords": [
+            "constructor",
+            "instantiate"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finstantiator",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/lexer",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/lexer.git",
+            "reference": "e864bbf5904cb8f5bb334f99209b48018522f042"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/lexer/zipball/e864bbf5904cb8f5bb334f99209b48018522f042",
+            "reference": "e864bbf5904cb8f5bb334f99209b48018522f042",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.2 || ^8.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^6.0",
+            "phpstan/phpstan": "^0.11.8",
+            "phpunit/phpunit": "^8.2"
+        },
+        "time": "2020-05-25T17:44:05+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\Lexer\\": "lib/Doctrine/Common/Lexer"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+        "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+        "keywords": [
+            "annotations",
+            "docblock",
+            "lexer",
+            "parser",
+            "php"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/orm",
+        "version": "v2.7.3",
+        "version_normalized": "2.7.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/orm.git",
+            "reference": "d95e03ba660d50d785a9925f41927fef0ee553cf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/orm/zipball/d95e03ba660d50d785a9925f41927fef0ee553cf",
+            "reference": "d95e03ba660d50d785a9925f41927fef0ee553cf",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/annotations": "^1.8",
+            "doctrine/cache": "^1.9.1",
+            "doctrine/collections": "^1.5",
+            "doctrine/common": "^2.11 || ^3.0",
+            "doctrine/dbal": "^2.9.3",
+            "doctrine/event-manager": "^1.1",
+            "doctrine/inflector": "^1.0",
+            "doctrine/instantiator": "^1.3",
+            "doctrine/lexer": "^1.0",
+            "doctrine/persistence": "^1.3.3 || ^2.0",
+            "ext-pdo": "*",
+            "ocramius/package-versions": "^1.2",
+            "php": "^7.1",
+            "symfony/console": "^3.0|^4.0|^5.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^5.0",
+            "phpstan/phpstan": "^0.12.18",
+            "phpunit/phpunit": "^7.5",
+            "symfony/yaml": "^3.4|^4.0|^5.0",
+            "vimeo/psalm": "^3.11"
+        },
+        "suggest": {
+            "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
+        },
+        "time": "2020-05-26T16:03:49+00:00",
+        "bin": [
+            "bin/doctrine"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\ORM\\": "lib/Doctrine/ORM"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "Object-Relational-Mapper for PHP",
+        "homepage": "https://www.doctrine-project.org/projects/orm.html",
+        "keywords": [
+            "database",
+            "orm"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine/orm",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/persistence",
+        "version": "2.0.0",
+        "version_normalized": "2.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/persistence.git",
+            "reference": "1dee036f22cd5dc0bc12132f1d1c38415907be55"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/persistence/zipball/1dee036f22cd5dc0bc12132f1d1c38415907be55",
+            "reference": "1dee036f22cd5dc0bc12132f1d1c38415907be55",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/annotations": "^1.0",
+            "doctrine/cache": "^1.0",
+            "doctrine/collections": "^1.0",
+            "doctrine/event-manager": "^1.0",
+            "doctrine/reflection": "^1.2",
+            "php": "^7.1"
+        },
+        "conflict": {
+            "doctrine/common": "<2.10@dev"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^6.0",
+            "phpstan/phpstan": "^0.11",
+            "phpunit/phpunit": "^7.0",
+            "vimeo/psalm": "^3.11"
+        },
+        "time": "2020-05-12T19:32:44+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\": "lib/Doctrine/Common",
+                "Doctrine\\Persistence\\": "lib/Doctrine/Persistence"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            },
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "The Doctrine Persistence project is a set of shared interfaces and functionality that the different Doctrine object mappers share.",
+        "homepage": "https://doctrine-project.org/projects/persistence.html",
+        "keywords": [
+            "mapper",
+            "object",
+            "odm",
+            "orm",
+            "persistence"
+        ],
+        "funding": [
+            {
+                "url": "https://www.doctrine-project.org/sponsorship.html",
+                "type": "custom"
+            },
+            {
+                "url": "https://www.patreon.com/phpdoctrine",
+                "type": "patreon"
+            },
+            {
+                "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fpersistence",
+                "type": "tidelift"
+            }
+        ]
+    },
+    {
+        "name": "doctrine/reflection",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/reflection.git",
+            "reference": "55e71912dfcd824b2fdd16f2d9afe15684cfce79"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/reflection/zipball/55e71912dfcd824b2fdd16f2d9afe15684cfce79",
+            "reference": "55e71912dfcd824b2fdd16f2d9afe15684cfce79",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/annotations": "^1.0",
+            "ext-tokenizer": "*",
+            "php": "^7.1"
+        },
+        "conflict": {
+            "doctrine/common": "<2.9"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "^5.0",
+            "doctrine/common": "^2.10",
+            "phpstan/phpstan": "^0.11.0",
+            "phpstan/phpstan-phpunit": "^0.11.0",
+            "phpunit/phpunit": "^7.0"
+        },
+        "time": "2020-03-27T11:06:43+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.2.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Doctrine\\Common\\": "lib/Doctrine/Common"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            },
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "The Doctrine Reflection project is a simple library used by the various Doctrine projects which adds some additional functionality on top of the reflection functionality that comes with PHP. It allows you to get the reflection information about classes, methods and properties statically.",
+        "homepage": "https://www.doctrine-project.org/projects/reflection.html",
+        "keywords": [
+            "reflection",
+            "static"
+        ]
     },
     {
         "name": "janbarasek/php-moon-phase",
@@ -529,8 +1552,8 @@
         "authors": [
             {
                 "name": "Erik Scheepers",
-                "role": "Packaging for composer",
-                "email": "e.scheepers@linkorb.com"
+                "email": "e.scheepers@linkorb.com",
+                "role": "Packaging for composer"
             },
             {
                 "name": "Samir Shah",
@@ -551,17 +1574,17 @@
     },
     {
         "name": "latte/latte",
-        "version": "v2.8.1",
-        "version_normalized": "2.8.1.0",
+        "version": "v2.8.2",
+        "version_normalized": "2.8.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/latte.git",
-            "reference": "fc94bd63fe995b40cb219109026e76f281c709c2"
+            "reference": "a3fbffc89f85b2745bc058278c882f745b6ad89b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/latte/zipball/fc94bd63fe995b40cb219109026e76f281c709c2",
-            "reference": "fc94bd63fe995b40cb219109026e76f281c709c2",
+            "url": "https://api.github.com/repos/nette/latte/zipball/a3fbffc89f85b2745bc058278c882f745b6ad89b",
+            "reference": "a3fbffc89f85b2745bc058278c882f745b6ad89b",
             "shasum": ""
         },
         "require": {
@@ -586,7 +1609,7 @@
             "nette/php-generator": "to use tag {templatePrint}",
             "nette/utils": "to use filter |webalize"
         },
-        "time": "2020-05-12T11:07:07+00:00",
+        "time": "2020-09-29T13:32:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -862,38 +1885,61 @@
     },
     {
         "name": "mathematicator-core/numbers",
-        "version": "v2.0.1",
-        "version_normalized": "2.0.1.0",
+        "version": "v2.1.0",
+        "version_normalized": "2.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/numbers.git",
-            "reference": "b600f358fe3a5ab57bbf2667d3790c12270218dd"
+            "reference": "6f2f5a8da205bedfb108271dc3e9cd2b548a427f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/b600f358fe3a5ab57bbf2667d3790c12270218dd",
-            "reference": "b600f358fe3a5ab57bbf2667d3790c12270218dd",
+            "url": "https://api.github.com/repos/mathematicator-core/numbers/zipball/6f2f5a8da205bedfb108271dc3e9cd2b548a427f",
+            "reference": "6f2f5a8da205bedfb108271dc3e9cd2b548a427f",
             "shasum": ""
         },
         "require": {
+            "brick/math": "^0.8.15",
             "ext-bcmath": "*",
+            "nette/tester": "^2.3",
             "nette/utils": "^3.0",
-            "php": ">=7.1.0"
+            "php": ">=7.2",
+            "symfony/polyfill-php80": "^1.17"
         },
         "require-dev": {
+            "brainmaestro/composer-git-hooks": "dev-master",
+            "nette/bootstrap": "^3.0",
             "phpstan/phpstan": "^0.12.18",
-            "phpstan/phpstan-nette": "^0.12.6",
-            "tracy/tracy": "^2.7"
+            "phpstan/phpstan-nette": "^0.12.6"
         },
-        "time": "2020-04-14T12:23:36+00:00",
+        "suggest": {
+            "brick/math": "(^0.8.15) For better basic math computing."
+        },
+        "time": "2020-05-30T08:38:59+00:00",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            },
+            "hooks": {
+                "post-merge": "composer install",
+                "pre-commit": [
+                    "composer cs:check",
+                    "composer phpstan",
+                    "composer test"
+                ]
+            }
+        },
         "installation-source": "dist",
         "autoload": {
-            "classmap": [
-                "src/"
-            ]
+            "psr-4": {
+                "Mathematicator\\Numbers\\": "src/"
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
         "authors": [
             {
                 "name": "Jan Barášek",
@@ -901,7 +1947,13 @@
             }
         ],
         "description": "Safety operations with numbers.",
-        "homepage": "https://github.com/mathematicator-core/numbers"
+        "homepage": "https://github.com/mathematicator-core/numbers",
+        "keywords": [
+            "math",
+            "mathematicator",
+            "numbers",
+            "php"
+        ]
     },
     {
         "name": "mathematicator-core/search",
@@ -999,41 +2051,60 @@
     },
     {
         "name": "mathematicator-core/tokenizer",
-        "version": "v2.0.1",
-        "version_normalized": "2.0.1.0",
+        "version": "v2.1.0",
+        "version_normalized": "2.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mathematicator-core/tokenizer.git",
-            "reference": "b99c9351b210866d389a0d74d3e9577735bc9af5"
+            "reference": "b666fef6371fab8bb606fe84f0f1acf9d603c9e2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b99c9351b210866d389a0d74d3e9577735bc9af5",
-            "reference": "b99c9351b210866d389a0d74d3e9577735bc9af5",
+            "url": "https://api.github.com/repos/mathematicator-core/tokenizer/zipball/b666fef6371fab8bb606fe84f0f1acf9d603c9e2",
+            "reference": "b666fef6371fab8bb606fe84f0f1acf9d603c9e2",
             "shasum": ""
         },
         "require": {
-            "mathematicator-core/numbers": "^2.0",
-            "nette/di": "^3.0",
-            "nette/tester": "^2.0",
+            "mathematicator-core/numbers": "^2.1@dev",
             "nette/tokenizer": "^3.0",
             "nette/utils": "^3.0",
-            "php": ">=7.1"
+            "php": ">=7.2"
         },
         "require-dev": {
+            "brainmaestro/composer-git-hooks": "dev-master",
+            "nette/bootstrap": "^3.0.1",
+            "nette/tester": "^2.0",
             "phpstan/phpstan": "^0.12.18",
-            "phpstan/phpstan-nette": "^0.12.6",
-            "tracy/tracy": "^2.7"
+            "phpstan/phpstan-nette": "^0.12.6"
         },
-        "time": "2020-04-14T12:13:10+00:00",
+        "suggest": {
+            "nette/di": "(^3.0) To use package in Nette Framework"
+        },
+        "time": "2020-05-30T18:01:15+00:00",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            },
+            "hooks": {
+                "post-merge": "composer install",
+                "pre-commit": [
+                    "composer cs:check",
+                    "composer phpstan",
+                    "composer test"
+                ]
+            }
+        },
         "installation-source": "dist",
         "autoload": {
-            "classmap": [
-                "src/"
-            ]
+            "psr-4": {
+                "Mathematicator\\Tokenizer\\": "src/"
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
         "authors": [
             {
                 "name": "Jan Barášek",
@@ -1041,7 +2112,13 @@
             }
         ],
         "description": "Math Tokenizer",
-        "homepage": "https://github.com/mathematicator-core/tokenizer"
+        "homepage": "https://github.com/mathematicator-core/tokenizer",
+        "keywords": [
+            "math",
+            "mathematicator",
+            "php",
+            "tokenizer"
+        ]
     },
     {
         "name": "mathematicator-core/vizualizator",
@@ -1088,17 +2165,17 @@
     },
     {
         "name": "nesbot/carbon",
-        "version": "2.35.0",
-        "version_normalized": "2.35.0.0",
+        "version": "2.41.1",
+        "version_normalized": "2.41.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/briannesbitt/Carbon.git",
-            "reference": "4b9bd835261ef23d36397a46a76b496a458305e5"
+            "reference": "91d8d8dca31936a137213d7c48f8ac981e501ff4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4b9bd835261ef23d36397a46a76b496a458305e5",
-            "reference": "4b9bd835261ef23d36397a46a76b496a458305e5",
+            "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/91d8d8dca31936a137213d7c48f8ac981e501ff4",
+            "reference": "91d8d8dca31936a137213d7c48f8ac981e501ff4",
             "shasum": ""
         },
         "require": {
@@ -1110,13 +2187,14 @@
         "require-dev": {
             "doctrine/orm": "^2.7",
             "friendsofphp/php-cs-fixer": "^2.14 || ^3.0",
-            "kylekatarnls/multi-tester": "^1.1",
-            "phpmd/phpmd": "^2.8",
-            "phpstan/phpstan": "^0.11",
+            "kylekatarnls/multi-tester": "^2.0",
+            "phpmd/phpmd": "^2.9",
+            "phpstan/extension-installer": "^1.0",
+            "phpstan/phpstan": "^0.12.35",
             "phpunit/phpunit": "^7.5 || ^8.0",
             "squizlabs/php_codesniffer": "^3.4"
         },
-        "time": "2020-05-24T18:27:52+00:00",
+        "time": "2020-10-10T11:06:56+00:00",
         "bin": [
             "bin/carbon"
         ],
@@ -1129,6 +2207,11 @@
             "laravel": {
                 "providers": [
                     "Carbon\\Laravel\\ServiceProvider"
+                ]
+            },
+            "phpstan": {
+                "includes": [
+                    "extension.neon"
                 ]
             }
         },
@@ -1173,17 +2256,17 @@
     },
     {
         "name": "nette/application",
-        "version": "v3.0.5",
-        "version_normalized": "3.0.5.0",
+        "version": "v3.0.6",
+        "version_normalized": "3.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/application.git",
-            "reference": "2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2"
+            "reference": "783ad6fc6444f63314175131885c04b3dd0291dd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/application/zipball/2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2",
-            "reference": "2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2",
+            "url": "https://api.github.com/repos/nette/application/zipball/783ad6fc6444f63314175131885c04b3dd0291dd",
+            "reference": "783ad6fc6444f63314175131885c04b3dd0291dd",
             "shasum": ""
         },
         "require": {
@@ -1214,7 +2297,7 @@
             "latte/latte": "Allows using Latte in templates",
             "nette/forms": "Allows to use Nette\\Application\\UI\\Form"
         },
-        "time": "2020-04-20T21:43:19+00:00",
+        "time": "2020-08-25T01:52:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1542,17 +2625,17 @@
     },
     {
         "name": "nette/di",
-        "version": "v3.0.4",
-        "version_normalized": "3.0.4.0",
+        "version": "v3.0.5",
+        "version_normalized": "3.0.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/di.git",
-            "reference": "34d3e47ebe96229b7671664893a3b1128c102213"
+            "reference": "766e8185196a97ded4f9128db6d79a3a124b7eb6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/di/zipball/34d3e47ebe96229b7671664893a3b1128c102213",
-            "reference": "34d3e47ebe96229b7671664893a3b1128c102213",
+            "url": "https://api.github.com/repos/nette/di/zipball/766e8185196a97ded4f9128db6d79a3a124b7eb6",
+            "reference": "766e8185196a97ded4f9128db6d79a3a124b7eb6",
             "shasum": ""
         },
         "require": {
@@ -1572,7 +2655,7 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-05-14T10:29:59+00:00",
+        "time": "2020-08-13T13:04:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1680,17 +2763,17 @@
     },
     {
         "name": "nette/forms",
-        "version": "v3.0.4",
-        "version_normalized": "3.0.4.0",
+        "version": "v3.0.6",
+        "version_normalized": "3.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/forms.git",
-            "reference": "fdedfc2619d75bc2f5999d03acb982557966ae56"
+            "reference": "ecb5f7b8c82585c5fc4698ccb6815542fe6b2db4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/forms/zipball/fdedfc2619d75bc2f5999d03acb982557966ae56",
-            "reference": "fdedfc2619d75bc2f5999d03acb982557966ae56",
+            "url": "https://api.github.com/repos/nette/forms/zipball/ecb5f7b8c82585c5fc4698ccb6815542fe6b2db4",
+            "reference": "ecb5f7b8c82585c5fc4698ccb6815542fe6b2db4",
             "shasum": ""
         },
         "require": {
@@ -1703,13 +2786,14 @@
             "nette/di": "<3.0-stable"
         },
         "require-dev": {
-            "latte/latte": "^2.7",
+            "latte/latte": "^2.8",
+            "nette/application": "^3.0",
             "nette/di": "^3.0",
             "nette/tester": "^2.0",
             "phpstan/phpstan-nette": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2020-04-20T12:59:01+00:00",
+        "time": "2020-07-13T12:29:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1827,17 +2911,17 @@
     },
     {
         "name": "nette/mail",
-        "version": "v3.1.2",
-        "version_normalized": "3.1.2.0",
+        "version": "v3.1.4",
+        "version_normalized": "3.1.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/mail.git",
-            "reference": "374dba88ecc83fc28bc2065846bd5e4de70b43cc"
+            "reference": "bf56ecfd338335f7873c8f356134b3a0960653f8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/mail/zipball/374dba88ecc83fc28bc2065846bd5e4de70b43cc",
-            "reference": "374dba88ecc83fc28bc2065846bd5e4de70b43cc",
+            "url": "https://api.github.com/repos/nette/mail/zipball/bf56ecfd338335f7873c8f356134b3a0960653f8",
+            "reference": "bf56ecfd338335f7873c8f356134b3a0960653f8",
             "shasum": ""
         },
         "require": {
@@ -1858,7 +2942,7 @@
             "ext-fileinfo": "to detect type of attached files",
             "ext-openssl": "to use Nette\\Mail\\DkimSigner"
         },
-        "time": "2020-03-25T22:08:54+00:00",
+        "time": "2020-08-02T16:55:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1899,17 +2983,17 @@
     },
     {
         "name": "nette/neon",
-        "version": "v3.1.2",
-        "version_normalized": "3.1.2.0",
+        "version": "v3.2.1",
+        "version_normalized": "3.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/neon.git",
-            "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e"
+            "reference": "a5b3a60833d2ef55283a82d0c30b45d136b29e75"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/neon/zipball/3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
-            "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
+            "url": "https://api.github.com/repos/nette/neon/zipball/a5b3a60833d2ef55283a82d0c30b45d136b29e75",
+            "reference": "a5b3a60833d2ef55283a82d0c30b45d136b29e75",
             "shasum": ""
         },
         "require": {
@@ -1922,11 +3006,11 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-03-04T11:47:04+00:00",
+        "time": "2020-07-31T12:28:05+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.1-dev"
+                "dev-master": "3.2-dev"
             }
         },
         "installation-source": "dist",
@@ -1963,21 +3047,20 @@
     },
     {
         "name": "nette/php-generator",
-        "version": "v3.4.0",
-        "version_normalized": "3.4.0.0",
+        "version": "v3.4.1",
+        "version_normalized": "3.4.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/php-generator.git",
-            "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b"
+            "reference": "7051954c534cebafd650efe8b145ac75b223cb66"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/php-generator/zipball/ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
-            "reference": "ea2c8e8d6439f0a4e3cd3431c572b51a8131539b",
+            "url": "https://api.github.com/repos/nette/php-generator/zipball/7051954c534cebafd650efe8b145ac75b223cb66",
+            "reference": "7051954c534cebafd650efe8b145ac75b223cb66",
             "shasum": ""
         },
         "require": {
-            "ext-tokenizer": "*",
             "nette/utils": "^2.4.2 || ^3.0",
             "php": ">=7.1"
         },
@@ -1990,7 +3073,7 @@
         "suggest": {
             "nikic/php-parser": "to use ClassType::withBodiesFrom() & GlobalFunction::withBodyFrom()"
         },
-        "time": "2020-05-26T16:32:45+00:00",
+        "time": "2020-06-19T14:31:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2030,17 +3113,17 @@
     },
     {
         "name": "nette/robot-loader",
-        "version": "v3.2.3",
-        "version_normalized": "3.2.3.0",
+        "version": "v3.3.1",
+        "version_normalized": "3.3.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/robot-loader.git",
-            "reference": "726c462e73e739e965ec654a667407074cfe83c0"
+            "reference": "15c1ecd0e6e69e8d908dfc4cca7b14f3b850a96b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/robot-loader/zipball/726c462e73e739e965ec654a667407074cfe83c0",
-            "reference": "726c462e73e739e965ec654a667407074cfe83c0",
+            "url": "https://api.github.com/repos/nette/robot-loader/zipball/15c1ecd0e6e69e8d908dfc4cca7b14f3b850a96b",
+            "reference": "15c1ecd0e6e69e8d908dfc4cca7b14f3b850a96b",
             "shasum": ""
         },
         "require": {
@@ -2054,11 +3137,11 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.3"
         },
-        "time": "2020-02-28T13:10:07+00:00",
+        "time": "2020-09-15T15:14:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "3.2-dev"
+                "dev-master": "3.3-dev"
             }
         },
         "installation-source": "dist",
@@ -2279,17 +3362,17 @@
     },
     {
         "name": "nette/tester",
-        "version": "v2.3.2",
-        "version_normalized": "2.3.2.0",
+        "version": "v2.3.3",
+        "version_normalized": "2.3.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/tester.git",
-            "reference": "793aa4bb87872319902a569ed84a64844fdc1549"
+            "reference": "1fbe4860b4cfabe99f03ee3632db6352f0564d22"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/tester/zipball/793aa4bb87872319902a569ed84a64844fdc1549",
-            "reference": "793aa4bb87872319902a569ed84a64844fdc1549",
+            "url": "https://api.github.com/repos/nette/tester/zipball/1fbe4860b4cfabe99f03ee3632db6352f0564d22",
+            "reference": "1fbe4860b4cfabe99f03ee3632db6352f0564d22",
             "shasum": ""
         },
         "require": {
@@ -2299,7 +3382,7 @@
             "ext-simplexml": "*",
             "phpstan/phpstan": "^0.12"
         },
-        "time": "2020-03-06T15:55:57+00:00",
+        "time": "2020-07-20T10:27:01+00:00",
         "bin": [
             "src/tester"
         ],
@@ -2405,17 +3488,17 @@
     },
     {
         "name": "nette/utils",
-        "version": "v3.1.2",
-        "version_normalized": "3.1.2.0",
+        "version": "v3.1.3",
+        "version_normalized": "3.1.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/utils.git",
-            "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9"
+            "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/utils/zipball/488f58378bba71767e7831c83f9e0fa808bf83b9",
-            "reference": "488f58378bba71767e7831c83f9e0fa808bf83b9",
+            "url": "https://api.github.com/repos/nette/utils/zipball/c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
+            "reference": "c09937fbb24987b2a41c6022ebe84f4f1b8eec0f",
             "shasum": ""
         },
         "require": {
@@ -2435,7 +3518,7 @@
             "ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()",
             "ext-xml": "to use Strings::length() etc. when mbstring is not available"
         },
-        "time": "2020-05-27T09:58:51+00:00",
+        "time": "2020-08-07T10:34:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2482,6 +3565,58 @@
             "utility",
             "validation"
         ]
+    },
+    {
+        "name": "ocramius/package-versions",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Ocramius/PackageVersions.git",
+            "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
+            "reference": "44af6f3a2e2e04f2af46bcb302ad9600cba41c7d",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0.0",
+            "php": "^7.1.0"
+        },
+        "require-dev": {
+            "composer/composer": "^1.6.3",
+            "doctrine/coding-standard": "^5.0.1",
+            "ext-zip": "*",
+            "infection/infection": "^0.7.1",
+            "phpunit/phpunit": "^7.5.17"
+        },
+        "time": "2019-11-15T16:17:10+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "PackageVersions\\Installer",
+            "branch-alias": {
+                "dev-master": "2.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PackageVersions\\": "src/PackageVersions"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Marco Pivetta",
+                "email": "ocramius@gmail.com"
+            }
+        ],
+        "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)"
     },
     {
         "name": "paragonie/random_compat",
@@ -2720,23 +3855,24 @@
     },
     {
         "name": "symfony/console",
-        "version": "v4.4.8",
-        "version_normalized": "4.4.8.0",
+        "version": "v4.4.15",
+        "version_normalized": "4.4.15.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/console.git",
-            "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7"
+            "reference": "90933b39c7b312fc3ceaa1ddeac7eb48cb953124"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/console/zipball/10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
-            "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
+            "url": "https://api.github.com/repos/symfony/console/zipball/90933b39c7b312fc3ceaa1ddeac7eb48cb953124",
+            "reference": "90933b39c7b312fc3ceaa1ddeac7eb48cb953124",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3",
+            "php": ">=7.1.3",
             "symfony/polyfill-mbstring": "~1.0",
             "symfony/polyfill-php73": "^1.8",
+            "symfony/polyfill-php80": "^1.15",
             "symfony/service-contracts": "^1.1|^2"
         },
         "conflict": {
@@ -2763,7 +3899,7 @@
             "symfony/lock": "",
             "symfony/process": ""
         },
-        "time": "2020-03-30T11:41:10+00:00",
+        "time": "2020-09-15T07:58:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2812,17 +3948,17 @@
     },
     {
         "name": "symfony/polyfill-ctype",
-        "version": "v1.17.0",
-        "version_normalized": "1.17.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-ctype.git",
-            "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9"
+            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
-            "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/1c302646f6efc070cd46856e600e5e0684d6b454",
+            "reference": "1c302646f6efc070cd46856e600e5e0684d6b454",
             "shasum": ""
         },
         "require": {
@@ -2831,11 +3967,15 @@
         "suggest": {
             "ext-ctype": "For best performance"
         },
-        "time": "2020-05-12T16:14:59+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.17-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -2886,17 +4026,17 @@
     },
     {
         "name": "symfony/polyfill-mbstring",
-        "version": "v1.17.0",
-        "version_normalized": "1.17.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-mbstring.git",
-            "reference": "fa79b11539418b02fc5e1897267673ba2c19419c"
+            "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fa79b11539418b02fc5e1897267673ba2c19419c",
-            "reference": "fa79b11539418b02fc5e1897267673ba2c19419c",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
+            "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
             "shasum": ""
         },
         "require": {
@@ -2905,11 +4045,15 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2020-05-12T16:47:27+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.17-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -2961,27 +4105,31 @@
     },
     {
         "name": "symfony/polyfill-php73",
-        "version": "v1.17.0",
-        "version_normalized": "1.17.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php73.git",
-            "reference": "a760d8964ff79ab9bf057613a5808284ec852ccc"
+            "reference": "fffa1a52a023e782cdcc221d781fe1ec8f87fcca"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/a760d8964ff79ab9bf057613a5808284ec852ccc",
-            "reference": "a760d8964ff79ab9bf057613a5808284ec852ccc",
+            "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/fffa1a52a023e782cdcc221d781fe1ec8f87fcca",
+            "reference": "fffa1a52a023e782cdcc221d781fe1ec8f87fcca",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2020-05-12T16:47:27+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.17-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -3035,27 +4183,31 @@
     },
     {
         "name": "symfony/polyfill-php80",
-        "version": "v1.17.0",
-        "version_normalized": "1.17.0.0",
+        "version": "v1.18.1",
+        "version_normalized": "1.18.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php80.git",
-            "reference": "5e30b2799bc1ad68f7feb62b60a73743589438dd"
+            "reference": "d87d5766cbf48d72388a9f6b85f280c8ad51f981"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/5e30b2799bc1ad68f7feb62b60a73743589438dd",
-            "reference": "5e30b2799bc1ad68f7feb62b60a73743589438dd",
+            "url": "https://api.github.com/repos/symfony/polyfill-php80/zipball/d87d5766cbf48d72388a9f6b85f280c8ad51f981",
+            "reference": "d87d5766cbf48d72388a9f6b85f280c8ad51f981",
             "shasum": ""
         },
         "require": {
             "php": ">=7.0.8"
         },
-        "time": "2020-05-12T16:47:27+00:00",
+        "time": "2020-07-14T12:35:20+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.17-dev"
+                "dev-master": "1.18-dev"
+            },
+            "thanks": {
+                "name": "symfony/polyfill",
+                "url": "https://github.com/symfony/polyfill"
             }
         },
         "installation-source": "dist",
@@ -3113,17 +4265,17 @@
     },
     {
         "name": "symfony/service-contracts",
-        "version": "v2.1.2",
-        "version_normalized": "2.1.2.0",
+        "version": "v2.2.0",
+        "version_normalized": "2.2.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/service-contracts.git",
-            "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b"
+            "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/66a8f0957a3ca54e4f724e49028ab19d75a8918b",
-            "reference": "66a8f0957a3ca54e4f724e49028ab19d75a8918b",
+            "url": "https://api.github.com/repos/symfony/service-contracts/zipball/d15da7ba4957ffb8f1747218be9e1a121fd298a1",
+            "reference": "d15da7ba4957ffb8f1747218be9e1a121fd298a1",
             "shasum": ""
         },
         "require": {
@@ -3133,11 +4285,15 @@
         "suggest": {
             "symfony/service-implementation": ""
         },
-        "time": "2020-05-20T17:43:50+00:00",
+        "time": "2020-09-07T11:33:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.1-dev"
+                "dev-master": "2.2-dev"
+            },
+            "thanks": {
+                "name": "symfony/contracts",
+                "url": "https://github.com/symfony/contracts"
             }
         },
         "installation-source": "dist",
@@ -3187,22 +4343,23 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v5.0.8",
-        "version_normalized": "5.0.8.0",
+        "version": "v5.1.7",
+        "version_normalized": "5.1.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "c3879db7a68fe3e12b41263b05879412c87b27fd"
+            "reference": "e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/c3879db7a68fe3e12b41263b05879412c87b27fd",
-            "reference": "c3879db7a68fe3e12b41263b05879412c87b27fd",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b",
+            "reference": "e3cdd5119b1b5bf0698c351b8ee20fb5a4ea248b",
             "shasum": ""
         },
         "require": {
-            "php": "^7.2.5",
+            "php": ">=7.2.5",
             "symfony/polyfill-mbstring": "~1.0",
+            "symfony/polyfill-php80": "^1.15",
             "symfony/translation-contracts": "^2"
         },
         "conflict": {
@@ -3231,11 +4388,11 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2020-04-12T16:45:47+00:00",
+        "time": "2020-09-27T03:44:28+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "5.0-dev"
+                "dev-master": "5.1-dev"
             }
         },
         "installation-source": "dist",
@@ -3280,17 +4437,17 @@
     },
     {
         "name": "symfony/translation-contracts",
-        "version": "v2.1.2",
-        "version_normalized": "2.1.2.0",
+        "version": "v2.3.0",
+        "version_normalized": "2.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation-contracts.git",
-            "reference": "e5ca07c8f817f865f618aa072c2fe8e0e637340e"
+            "reference": "e2eaa60b558f26a4b0354e1bbb25636efaaad105"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/e5ca07c8f817f865f618aa072c2fe8e0e637340e",
-            "reference": "e5ca07c8f817f865f618aa072c2fe8e0e637340e",
+            "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/e2eaa60b558f26a4b0354e1bbb25636efaaad105",
+            "reference": "e2eaa60b558f26a4b0354e1bbb25636efaaad105",
             "shasum": ""
         },
         "require": {
@@ -3299,11 +4456,15 @@
         "suggest": {
             "symfony/translation-implementation": ""
         },
-        "time": "2020-05-20T17:43:50+00:00",
+        "time": "2020-09-28T13:05:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.1-dev"
+                "dev-master": "2.3-dev"
+            },
+            "thanks": {
+                "name": "symfony/contracts",
+                "url": "https://github.com/symfony/contracts"
             }
         },
         "installation-source": "dist",
@@ -3353,17 +4514,17 @@
     },
     {
         "name": "texy/texy",
-        "version": "v3.1.1",
-        "version_normalized": "3.1.1.0",
+        "version": "v3.1.2",
+        "version_normalized": "3.1.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/dg/texy.git",
-            "reference": "6f7a7fee99adcfef053237fecb790ae449957275"
+            "reference": "4215ad37e4e1cd639129e1f879053b052d9cc25c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/dg/texy/zipball/6f7a7fee99adcfef053237fecb790ae449957275",
-            "reference": "6f7a7fee99adcfef053237fecb790ae449957275",
+            "url": "https://api.github.com/repos/dg/texy/zipball/4215ad37e4e1cd639129e1f879053b052d9cc25c",
+            "reference": "4215ad37e4e1cd639129e1f879053b052d9cc25c",
             "shasum": ""
         },
         "require": {
@@ -3378,7 +4539,7 @@
             "phpstan/phpstan": "^0.12",
             "tracy/tracy": "^2.4"
         },
-        "time": "2020-01-20T20:23:58+00:00",
+        "time": "2020-07-24T14:52:13+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

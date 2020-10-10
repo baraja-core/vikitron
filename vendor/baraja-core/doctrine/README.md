@@ -1,45 +1,44 @@
-Baraja Doctrine database
-========================
+Baraja Doctrine database 📚
+===========================
 
 ![Integrity check](https://github.com/baraja-core/doctrine/workflows/Integrity%20check/badge.svg)
 
 A simple and easy to use, maximum performance database layer with connection to Doctrine, which allows you to use all the advantages of OOP and also has **support for Nette 3**.
 
-This package automatically installs Doctrine to your project (also setting everything up in the configuration) and runs stably.
+This package automatically installs Doctrine to your project (also sets everything up in the configuration) and runs stably.
 
-How to install
---------------
+📦 Installation & Basic Usage
+-----------------------------
 
-This package can be installed using [PackageRegistrator](https://github.com/baraja-core/package-manager) which is also part of the Baraja [Sandbox](https://github.com/baraja-core/sandbox). If you are not using it, you have to install the package manually following this guide.
+This package can be installed using [Package Manager](https://github.com/baraja-core/package-manager) which is also part of the Baraja [Sandbox](https://github.com/baraja-core/sandbox). If you are not using it, you will have to install the package manually using this guide.
 
-A model configuration can be found in the config.neon file inside the root of the package.
+A model configuration can be found in the `common.neon` file inside the root of the package.
 
 To manually install the package call Composer and execute the following command:
 
 ```shell
-composer require baraja-core/doctrine
+$ composer require baraja-core/doctrine
 ```
 
-In the projects `common.neon` you have to define the database credentials. A fully working example of configuration can be found in the `config.neon` file inside this package.
-
-You can define the configuration simply using parameters (stored in the super-global array `parameters`).
+In the project's `common.neon` you have to define the database credentials. A fully working example of configuration can be found in the `common.neon` file inside this package. You can define the configuration simply using `baraja.database` extension.
 
 For example:
 
 ```yaml
-parameters:
-   database:
-      primary:
-         host: 127.0.0.1
-         dbname: sandbox
-         user: root
-         password: root
+baraja.database:
+   connection:
+      host: 127.0.0.1
+      dbname: sandbox
+      user: root
+      password: root
 ```
 
 For now the package supports only the connection to one database.
 
-Drivers
--------
+Possible connection options: `url`, `pdo`, `memory`, `driver`, `driverClass`, `driverOptions`, `unix_socket`, `host`, `port`, `dbname`, `servicename`, `user`, `password`, `charset`, `portability`, `fetchCase`, `persistent`, `types`, `typesMapping`, `wrapperClass`.
+
+⚙️ Drivers
+----------
 
 In default settings Doctrine use `MySql` driver.
 
@@ -48,10 +47,32 @@ You can rewrite it for example for Postgres:
 In your `common.neon` simple type:
 
 ```yaml
-dbal:
+baraja.database:
    connection:
       driverClass: Baraja\Doctrine\Driver\Postgres\PDOPgSqlDriver
 ```
+
+🗺️ Entity mapping
+------------------
+
+In order for Doctrine to know which classes are **entities** and which **application logic**, it is necessary to set up a mapping.
+
+For mapping, it is necessary to set the introductory part of the namespace entities and the directory where they occur in the project common.neon. A relative path can also be used.
+
+For example:
+
+```yaml
+orm.annotations:
+   paths:
+      App\Baraja\Entity: %rootDir%/app/model/Entity
+```
+
+You can also specify the `ignore` key, which disables browsing a specific directory.
+
+> **Important warning:**
+>
+> The value of the `%rootDir%`, `%appDir%`, `%wwwDir%`, `%vendorDir%` and `%tempDir%` parameters may be corrupted when running schema generation in CLI mode.
+> To resolve this mistake, please install [Package Manager](https://github.com/baraja-core/package-manager) and call the command as a `composer dump`.
 
 Generate database structure from entities
 -----------------------------------------
@@ -71,8 +92,10 @@ The command `o:s:u` means `orm:schema-tool:update`.
 
 If everything will work fine, the command will create the table `core__database_slow_query` which is defined in this package and is ready for logging slow queries.
 
-Best performance
-----------------
+> **TIP:** If you are using [Package Manager](https://github.com/baraja-core/package-manager), you can simply call the `composer dump` command.
+
+🚀 Performance Benchmarks
+-------------------------
 
 When Doctrine is used poorly, it can be unnecessarily slow.
 
@@ -108,25 +131,13 @@ use Baraja\Doctrine\UUID\UuidBinaryIdentifier;
  */
 class DatabaseEntity
 {
-
    use UuidBinaryIdentifier; // <--- UUID trait for entity identifier.
    use SmartObject;          // <--- Strict class for better experience.
 ```
 
 UUID will be generated automatically in PHP.
 
-Entities manipulation
---------------------------
+📄 License
+-----------
 
-The package defines a DIC service `DoctrineHelper` with super useful methods.
-
-- `getEntityVariants(string $entity, array $exclude = null): array`
-- `getBestOfType(string $entity): string`
-- `getTableNameByEntity(string $entity): string`
-- `getRootEntityName(string $entity): string`
-- `getDiscriminatorByEntity(string $entity): string`
-- `remapEntityToBestType($from)`
-- `remapEntity($from, $to)`
-
-More information is in the method doc. comment.
-
+`baraja-core/doctrine` is licensed under the MIT license. See the [LICENSE](https://github.com/baraja-core/doctrine/blob/master/LICENSE) file for more details.

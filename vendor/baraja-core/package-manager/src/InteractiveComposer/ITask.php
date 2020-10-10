@@ -10,10 +10,6 @@ use Baraja\PackageManager\PackageRegistrator;
 
 interface ITask
 {
-
-	/**
-	 * @param PackageRegistrator $packageRegistrator
-	 */
 	public function __construct(PackageRegistrator $packageRegistrator);
 
 	/**
@@ -24,10 +20,5 @@ interface ITask
 	 */
 	public function run(): bool;
 
-	/**
-	 * Return name of task.
-	 *
-	 * @return string
-	 */
 	public function getName(): string;
 }

@@ -43,15 +43,11 @@ final class Helpers
 	}
 
 
-	/**
-	 * @param string $functionName
-	 * @return bool
-	 */
 	public static function functionIsAvailable(string $functionName): bool
 	{
 		static $disabled;
 
-		if (\function_exists($functionName)) {
+		if (\function_exists($functionName) === true) {
 			if ($disabled === null && \is_string($disableFunctions = ini_get('disable_functions'))) {
 				$disabled = explode(',', $disableFunctions) ?: [];
 			}
@@ -110,7 +106,7 @@ final class Helpers
 	 * @param string $path
 	 * @param int|null $line -> if not null mark selected line by red color
 	 */
-	public static function terminalRenderCode(string $path, int $line = null): void
+	public static function terminalRenderCode(string $path, ?int $line = null): void
 	{
 		echo "\n" . $path . ($line === null ? '' : ' [on line ' . $line . ']') . "\n\n";
 		if (\is_file($path) === true) {
@@ -145,7 +141,6 @@ final class Helpers
 	 * @param string $question -> only display to user
 	 * @param string[]|null $possibilities -> if empty, answer can be every valid string or null.
 	 * @return string|null -> null if empty answer
-	 * @throws \RuntimeException
 	 */
 	public static function terminalInteractiveAsk(string $question, ?array $possibilities = null): ?string
 	{
@@ -175,7 +170,6 @@ final class Helpers
 		echo 'Q: ' . trim($question) . "\n" . 'A: ';
 
 		$fOpen = fopen('php://stdin', 'rb');
-
 		if (\is_resource($fOpen) === false) {
 			throw new \RuntimeException('Problem with opening "php://stdin".');
 		}
@@ -191,9 +185,7 @@ final class Helpers
 			$staticTtl++;
 
 			if ($staticTtl > 16) {
-				throw new \RuntimeException(
-					'The maximum invalid response limit was exceeded. Current limit: ' . $staticTtl
-				);
+				throw new \RuntimeException('The maximum invalid response limit was exceeded. Current limit: ' . $staticTtl);
 			}
 
 			return self::terminalInteractiveAsk($question, $possibilities);
@@ -241,10 +233,6 @@ final class Helpers
 	}
 
 
-	/**
-	 * @param string $line
-	 * @return string
-	 */
 	private static function formatTerminalLine(string $line): string
 	{
 		return '      ' . $line . (($repeat = 88 - self::length($line)) > 0 ? str_repeat(' ', $repeat) : '') . '      ' . "\n";

@@ -8,7 +8,7 @@ namespace Baraja\Localization;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class TranslateType extends Type
+final class TranslateType extends Type
 {
 	public const TRANSLATE_TYPE = 'translate';
 
@@ -60,19 +60,12 @@ class TranslateType extends Type
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return self::TRANSLATE_TYPE;
 	}
 
 
-	/**
-	 * @param AbstractPlatform $platform
-	 * @return bool
-	 */
 	public function requiresSQLCommentHint(AbstractPlatform $platform): bool
 	{
 		return true;

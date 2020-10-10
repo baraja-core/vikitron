@@ -5,25 +5,20 @@ declare(strict_types=1);
 namespace Baraja\Doctrine\ORM;
 
 
-use Doctrine\Common\Persistence\AbstractManagerRegistry;
+use Doctrine\Common\Proxy\Proxy;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Proxy\Proxy;
+use Doctrine\Persistence\AbstractManagerRegistry;
 use Nette\DI\Container;
 
-class ManagerRegistry extends AbstractManagerRegistry
+final class ManagerRegistry extends AbstractManagerRegistry
 {
 
 	/** @var Container */
 	private $container;
 
 
-	/**
-	 * @param Connection $connection
-	 * @param EntityManagerInterface $em
-	 * @param Container $container
-	 */
 	public function __construct(Connection $connection, EntityManagerInterface $em, Container $container)
 	{
 		$defaultConnection = $container->findByType(get_class($connection))[0];
@@ -39,8 +34,8 @@ class ManagerRegistry extends AbstractManagerRegistry
 
 	/**
 	 * @param string $alias
-	 * @throws ORMException
 	 * @return string
+	 * @throws ORMException
 	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 */
 	public function getAliasNamespace($alias): string

@@ -9,6 +9,7 @@ use Baraja\Doctrine\UUID\UuidIdentifier;
 use Doctrine\ORM\Mapping as ORM;
 use Nette\SmartObject;
 use Nette\Utils\DateTime;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity()
@@ -50,7 +51,8 @@ class Domain
 	private $locale;
 
 	/**
-	 * localhost|beta|production
+	 * Value is constant of Domain::ENVIRONMENT_*
+	 * Possible values: "localhost", "beta", "production".
 	 *
 	 * @var string
 	 * @ORM\Column(type="string", length=10)
@@ -88,33 +90,22 @@ class Domain
 	private $updatedDate;
 
 
-	/**
-	 * @param string $domain
-	 * @param Locale $locale
-	 * @param string $environment
-	 */
 	public function __construct(string $domain, Locale $locale, string $environment = self::ENVIRONMENT_BETA)
 	{
-		$this->domain = $domain;
+		$this->setDomain($domain);
 		$this->locale = $locale;
-		$this->environment = $environment;
+		$this->setEnvironment($environment);
 		$this->insertedDate = DateTime::from('now');
 		$this->updatedDate = DateTime::from('now');
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isHttps(): bool
 	{
 		return $this->https;
 	}
 
 
-	/**
-	 * @param bool $https
-	 */
 	public function setHttps(bool $https): void
 	{
 		$this->https = $https;
@@ -122,18 +113,12 @@ class Domain
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isWww(): bool
 	{
 		return $this->www;
 	}
 
 
-	/**
-	 * @param bool $www
-	 */
 	public function setWww(bool $www): void
 	{
 		$this->www = $www;
@@ -141,28 +126,26 @@ class Domain
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getDomain(): string
 	{
 		return $this->domain;
 	}
 
 
-	/**
-	 * @param string $domain
-	 */
 	public function setDomain(string $domain): void
 	{
+		if ($domain !== 'localhost' && !preg_match('/^(?:[-A-Za-z0-9]+\.)+[A-Za-z]{2,6}$/', $domain)) {
+			throw new \InvalidArgumentException('Domain "' . $domain . '" is not in valid format.');
+		}
+		if (Strings::length($domain) > 255) {
+			throw new \InvalidArgumentException('The maximum length of the domain is 8 characters, but "' . $domain . '" given.');
+		}
+
 		$this->domain = $domain;
 		$this->setUpdatedDate();
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getLocale(): string
 	{
 		if ($this->locale === null) {
@@ -173,9 +156,6 @@ class Domain
 	}
 
 
-	/**
-	 * @param Locale $locale
-	 */
 	public function setLocale(Locale $locale): void
 	{
 		$this->locale = $locale;
@@ -183,18 +163,12 @@ class Domain
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isDefault(): bool
 	{
 		return $this->default;
 	}
 
 
-	/**
-	 * @param bool $default
-	 */
 	public function setDefault(bool $default): void
 	{
 		$this->default = $default;
@@ -202,46 +176,39 @@ class Domain
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getEnvironment(): string
 	{
+		if (\in_array($this->environment, [self::ENVIRONMENT_LOCALHOST, self::ENVIRONMENT_BETA, self::ENVIRONMENT_PRODUCTION], true) === false) {
+			throw new \RuntimeException('Environment "' . $this->environment . '" is invalid. Please fix broken database record.');
+		}
+
 		return $this->environment;
 	}
 
 
-	/**
-	 * @param string $environment
-	 */
 	public function setEnvironment(string $environment): void
 	{
+		if (\in_array($environment, $environments = [self::ENVIRONMENT_LOCALHOST, self::ENVIRONMENT_BETA, self::ENVIRONMENT_PRODUCTION], true) === false) {
+			throw new \InvalidArgumentException('Environment "' . $environment . '" must be in "' . implode('", "', $environments) . '".');
+		}
+
 		$this->environment = $environment;
 		$this->setUpdatedDate();
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isLocalhost(): bool
 	{
 		return $this->environment === self::ENVIRONMENT_LOCALHOST;
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isBeta(): bool
 	{
 		return $this->environment === self::ENVIRONMENT_BETA;
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isProduction(): bool
 	{
 		return $this->environment === self::ENVIRONMENT_PRODUCTION;
@@ -294,18 +261,12 @@ class Domain
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isProtected(): bool
 	{
 		return $this->protected;
 	}
 
 
-	/**
-	 * @param bool $protected
-	 */
 	public function setProtected(bool $protected): void
 	{
 		$this->protected = $protected;
@@ -313,18 +274,12 @@ class Domain
 	}
 
 
-	/**
-	 * @return \DateTime
-	 */
 	public function getInsertedDate(): \DateTime
 	{
 		return $this->insertedDate;
 	}
 
 
-	/**
-	 * @return \DateTime
-	 */
 	public function getUpdatedDate(): \DateTime
 	{
 		return $this->updatedDate;

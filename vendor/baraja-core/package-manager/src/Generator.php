@@ -17,9 +17,6 @@ final class Generator
 	private $projectRoot;
 
 
-	/**
-	 * @param string $projectRoot
-	 */
 	public function __construct(string $projectRoot)
 	{
 		$this->projectRoot = $projectRoot;
@@ -53,8 +50,6 @@ final class Generator
 	 */
 	private function getPackages(array $composer): array
 	{
-		$packages = [];
-
 		try {
 			$packagesVersions = $this->getPackagesVersions();
 		} catch (PackageDescriptorCompileException $e) {
@@ -76,6 +71,7 @@ final class Generator
 			}
 		}
 
+		$return = [];
 		foreach ($packageDirs as $name => $dependency) {
 			if (is_dir($path = $this->projectRoot . '/vendor/' . ($name = mb_strtolower($name, 'UTF-8'))) === false) {
 				continue;
@@ -85,7 +81,6 @@ final class Generator
 			if (\is_file($path . '/common.neon') === true) {
 				$configPath = $path . '/common.neon';
 			}
-
 			if (\is_file($path . '/config.neon') === true) {
 				if ($configPath !== null) {
 					throw new \RuntimeException('Can not use multiple config files. Please merge "' . $configPath . '" and "config.neon" to "common.neon".');
@@ -93,12 +88,11 @@ final class Generator
 				trigger_error('File "config.neon" is deprecated for Nette 3.0, please use "common.neon" for path: "' . $path . '".');
 				$configPath = $path . '/config.neon';
 			}
-
 			if (is_file($composerPath = $path . '/composer.json') && json_decode(file_get_contents($composerPath)) === null) {
 				PackageDescriptorCompileException::composerJsonIsBroken($name);
 			}
 
-			$packages[] = [
+			$return[] = [
 				'name' => $name,
 				'version' => $packagesVersions[$name] ?? null,
 				'dependency' => $dependency,
@@ -109,7 +103,7 @@ final class Generator
 			];
 		}
 
-		return $packages;
+		return $return;
 	}
 
 
@@ -120,7 +114,6 @@ final class Generator
 	private function formatConfigSections(string $path): array
 	{
 		$return = [];
-
 		foreach (\is_array($neon = Neon::decode(file_get_contents($path))) ? $neon : [] as $part => $haystack) {
 			if ($part === 'services') {
 				$servicesList = '';
@@ -152,7 +145,6 @@ final class Generator
 	private function getPackagesVersions(): array
 	{
 		$return = [];
-
 		$packages = [];
 		if (class_exists(ClassLoader::class, false)) {
 			try {

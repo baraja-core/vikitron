@@ -36,10 +36,6 @@ class PackageRegistrator
 	private static $configurationMode = false;
 
 
-	/**
-	 * @param string|null $projectRoot
-	 * @param string|null $tempPath
-	 */
 	public function __construct(?string $projectRoot = null, ?string $tempPath = null)
 	{
 		static $created = false;
@@ -47,15 +43,14 @@ class PackageRegistrator
 		if ($created === true) {
 			return;
 		}
-
-		if ($projectRoot === null || $tempPath === null) {
+		if ($projectRoot === null || $tempPath === null) { // path auto detection
 			try {
 				$loaderRc = class_exists(ClassLoader::class) ? new \ReflectionClass(ClassLoader::class) : null;
 				$vendorDir = $loaderRc ? dirname($loaderRc->getFileName(), 2) : null;
 			} catch (\ReflectionException $e) {
 				$vendorDir = null;
 			}
-			if ($vendorDir !== null && PHP_SAPI === 'cli' && strncmp($vendorDir, 'phar://', 7) === 0) {
+			if ($vendorDir !== null && PHP_SAPI === 'cli' && (strncmp($vendorDir, 'phar://', 7) === 0 || strncmp($vendorDir, '/usr/share', 10) === 0)) {
 				$vendorDir = (string) preg_replace('/^(.+?[\\\\|\/]vendor)(.*)$/', '$1', debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[0]['file']);
 			}
 			if ($projectRoot === null) {
@@ -65,7 +60,6 @@ class PackageRegistrator
 				$tempPath = rtrim($projectRoot, '/') . '/temp';
 			}
 		}
-
 		if (Debugger::$logDirectory === null) {
 			FileSystem::createDir($projectRoot . '/log');
 			Debugger::enable(false, $projectRoot . '/log');
@@ -99,9 +93,6 @@ class PackageRegistrator
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	final public static function isConfigurationMode(): bool
 	{
 		return self::$configurationMode;
@@ -196,27 +187,18 @@ class PackageRegistrator
 	}
 
 
-	/**
-	 * @return PackageDescriptorEntity
-	 */
 	public static function getPackageDescriptorEntityStatic(): PackageDescriptorEntity
 	{
 		return self::$packageDescriptorEntity;
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getProjectRoot(): string
 	{
 		return self::$projectRoot;
 	}
 
 
-	/**
-	 * @return PackageDescriptorEntity
-	 */
 	public function getPackageDescriptorEntity(): PackageDescriptorEntity
 	{
 		return self::$packageDescriptorEntity;
@@ -252,15 +234,6 @@ class PackageRegistrator
 		}
 
 		return false;
-	}
-
-
-	/**
-	 * @deprecated since 2020-03-29
-	 */
-	public function runAfterActions(): void
-	{
-		throw new \RuntimeException('Method "' . __METHOD__ . '" is deprecated. Please use DIC extension.');
 	}
 
 
@@ -327,12 +300,10 @@ class PackageRegistrator
 					if (\is_iterable($item)) {
 						$score = 2;
 					}
-
 					if ($item instanceof Entity) {
 						$array = (array) $item->value;
 						$score += 3;
 					}
-
 					if (isset($array['factory']) === true) {
 						return $score + 1;
 					}
@@ -356,22 +327,15 @@ class PackageRegistrator
 			$return = trim($return) . "\n";
 		}
 
-		if (!@file_put_contents(self::$configPackagePath, trim((string) preg_replace('/(\s)\[\]\-(\s)/', '$1-$2', $return)) . "\n")) {
-			PackageDescriptorException::canNotRewritePackageNeon(self::$configPackagePath);
-		}
+		FileSystem::write(self::$configPackagePath, trim((string) preg_replace('/(\s)\[\]\-(\s)/', '$1-$2', $return)) . "\n");
 	}
 
 
-	/**
-	 * @param PackageDescriptorEntity $packageDescriptorEntity
-	 * @return bool
-	 */
 	private function isCacheExpired(PackageDescriptorEntity $packageDescriptorEntity): bool
 	{
 		if (!is_file(self::$configPackagePath) || !is_file(self::$configLocalPath)) {
 			return true;
 		}
-
 		if ($packageDescriptorEntity->getComposerHash() !== $this->getComposerHash()) {
 			return true;
 		}

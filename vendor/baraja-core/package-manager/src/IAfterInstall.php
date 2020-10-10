@@ -12,11 +12,6 @@ use Nette\DI\Container;
  */
 interface IAfterInstall
 {
-
-	/**
-	 * @param Container $container
-	 * @param PackageRegistrator $packageRegistrator
-	 */
 	public function __construct(Container $container, PackageRegistrator $packageRegistrator);
 
 	/**

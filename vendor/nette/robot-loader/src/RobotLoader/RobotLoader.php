@@ -52,6 +52,9 @@ class RobotLoader
 	private $classes = [];
 
 	/** @var bool */
+	private $cacheLoaded = false;
+
+	/** @var bool */
 	private $refreshed = false;
 
 	/** @var array of missing classes */
@@ -74,7 +77,6 @@ class RobotLoader
 	 */
 	public function register(bool $prepend = false): self
 	{
-		$this->loadCache();
 		spl_autoload_register([$this, 'tryLoad'], true, $prepend);
 		return $this;
 	}
@@ -85,6 +87,7 @@ class RobotLoader
 	 */
 	public function tryLoad(string $type): void
 	{
+		$this->loadCache();
 		$type = ltrim($type, '\\'); // PHP namespace bug #49143
 		$info = $this->classes[$type] ?? null;
 
@@ -158,6 +161,7 @@ class RobotLoader
 	 */
 	public function getIndexedClasses(): array
 	{
+		$this->loadCache();
 		$res = [];
 		foreach ($this->classes as $class => $info) {
 			$res[$class] = $info['file'];
@@ -171,6 +175,7 @@ class RobotLoader
 	 */
 	public function rebuild(): void
 	{
+		$this->cacheLoaded = true;
 		$this->classes = $this->missing = [];
 		$this->refreshClasses();
 		if ($this->tempDirectory) {
@@ -257,11 +262,16 @@ class RobotLoader
 
 		$iterator = Nette\Utils\Finder::findFiles($acceptFiles)
 			->filter(function (SplFileInfo $file) use (&$disallow) {
-				return !isset($disallow[str_replace('\\', '/', $file->getRealPath())]);
+				return $file->getRealPath() === false
+					? true
+					: !isset($disallow[str_replace('\\', '/', $file->getRealPath())]);
 			})
 			->from($dir)
 			->exclude($ignoreDirs)
 			->filter($filter = function (SplFileInfo $dir) use (&$disallow) {
+				if ($dir->getRealPath() === false) {
+					return true;
+				}
 				$path = str_replace('\\', '/', $dir->getRealPath());
 				if (is_file("$path/netterobots.txt")) {
 					foreach (file("$path/netterobots.txt") as $s) {
@@ -333,8 +343,8 @@ class RobotLoader
 					case T_WHITESPACE:
 						continue 2;
 
-					case T_NS_SEPARATOR:
 					case T_STRING:
+					case PHP_VERSION_ID < 80000 ? T_NS_SEPARATOR : T_NAME_QUALIFIED:
 						if ($expected) {
 							$name .= $token[1];
 						}
@@ -410,6 +420,11 @@ class RobotLoader
 	 */
 	private function loadCache(): void
 	{
+		if ($this->cacheLoaded) {
+			return;
+		}
+		$this->cacheLoaded = true;
+
 		$file = $this->getCacheFile();
 
 		// Solving atomicity to work everywhere is really pain in the ass.

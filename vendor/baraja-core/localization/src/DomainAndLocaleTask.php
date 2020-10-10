@@ -17,7 +17,7 @@ use Nette\Utils\Random;
 /**
  * Priority: 90
  */
-class DomainAndLocaleTask extends BaseTask
+final class DomainAndLocaleTask extends BaseTask
 {
 
 	/** @var EntityManager */
@@ -234,9 +234,6 @@ class DomainAndLocaleTask extends BaseTask
 	}
 
 
-	/**
-	 * @param Domain $domain
-	 */
 	private function editDomain(Domain $domain): void
 	{
 		Helpers::terminalRenderError('Domain editing is not supported yet, please use graphical CMS.');

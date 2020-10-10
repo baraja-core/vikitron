@@ -18,24 +18,20 @@ final class ClearCacheTask extends BaseTask
 	public $tempDirectories = ['proxies'];
 
 
-	/**
-	 * @return bool
-	 */
 	public function run(): bool
 	{
 		if (Helpers::functionIsAvailable('opcache_reset')) {
 			@opcache_reset();
 		}
 
-		$cachePath = ($tempPath = \dirname(__DIR__, 6) . '/temp') . '/cache';
-
+		$tempPath = \dirname(__DIR__, 6) . '/temp';
 		if (is_file($unlinkPath = $tempPath . '/_packageDescriptor/PackageDescriptorEntity.php') === true) {
 			unlink($unlinkPath);
 		}
 
-		echo 'Path: ' . $cachePath;
+		echo 'Path: ' . $tempPath;
 
-		FileSystem::delete($cachePath);
+		FileSystem::delete($tempPath);
 		foreach ($this->tempDirectories ?? [] as $tempDirectory) {
 			FileSystem::delete($tempPath . '/' . $tempDirectory);
 		}
@@ -44,9 +40,6 @@ final class ClearCacheTask extends BaseTask
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return 'Clear cache';

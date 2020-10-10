@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Nette\SmartObject;
 use Nette\Utils\DateTime;
+use Nette\Utils\Strings;
 
 /**
  * @ORM\Entity()
@@ -48,7 +49,7 @@ class Locale
 
 	/**
 	 * @var int
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="smallint")
 	 */
 	private $position = 1;
 
@@ -66,7 +67,7 @@ class Locale
 
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="string", length=64, nullable=true)
 	 */
 	private $titleSuffix;
 
@@ -78,153 +79,150 @@ class Locale
 
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="string", length=64, nullable=true)
 	 */
 	private $titleFormat;
 
-
 	/**
-	 * @param string $locale
+	 * @var string|null
+	 * @ORM\Column(type="string", length=64, nullable=true)
 	 */
+	private $siteName;
+
+
 	public function __construct(string $locale)
 	{
-		$this->locale = strtolower($locale);
+		if (!preg_match('/^[a-z]{2}$/', $locale = strtolower(trim($locale)))) {
+			throw new \InvalidArgumentException('Locale "' . $locale . '" must be 2 [a-z] characters.');
+		}
+
+		$this->locale = $locale;
 		$this->insertedDate = DateTime::from('now');
 		$this->domains = new ArrayCollection;
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function __toString(): string
 	{
 		return $this->getLocale();
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getLocale(): string
 	{
 		return $this->locale;
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isActive(): bool
 	{
 		return $this->active;
 	}
 
 
-	/**
-	 * @param bool $active
-	 */
 	public function setActive(bool $active = true): void
 	{
 		$this->active = $active;
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isDefault(): bool
 	{
 		return $this->default;
 	}
 
 
-	/**
-	 * @param bool $default
-	 */
 	public function setDefault(bool $default): void
 	{
 		$this->default = $default;
 	}
 
 
-	/**
-	 * @return int
-	 */
 	public function getPosition(): int
 	{
 		return $this->position;
 	}
 
 
-	/**
-	 * @param int $position
-	 */
 	public function setPosition(int $position): void
 	{
+		if ($position < 0) {
+			$position = 0;
+		}
+		if ($position > 32767) {
+			$position = 32767;
+		}
+
 		$this->position = $position;
 	}
 
 
-	/**
-	 * @return \DateTime
-	 */
 	public function getInsertedDate(): \DateTime
 	{
 		return $this->insertedDate;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getTitleSuffix(): ?string
 	{
 		return $this->titleSuffix;
 	}
 
 
-	/**
-	 * @param string|null $titleSuffix
-	 */
 	public function setTitleSuffix(?string $titleSuffix): void
 	{
-		$this->titleSuffix = $titleSuffix;
+		if ($titleSuffix !== null && Strings::length($titleSuffix) > 64) {
+			throw new \InvalidArgumentException('The maximum length of the title suffix is 64 characters, but "' . $titleSuffix . '" given.');
+		}
+
+		$this->titleSuffix = trim($titleSuffix ?? '') ?: null;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getTitleSeparator(): ?string
 	{
 		return $this->titleSeparator;
 	}
 
 
-	/**
-	 * @param string|null $titleSeparator
-	 */
 	public function setTitleSeparator(?string $titleSeparator): void
 	{
-		$this->titleSeparator = $titleSeparator;
+		if ($titleSeparator !== null && Strings::length($titleSeparator) > 8) {
+			throw new \InvalidArgumentException('The maximum length of the title separator is 8 characters, but "' . $titleSeparator . '" given.');
+		}
+
+		$this->titleSeparator = trim($titleSeparator ?? '') ?: null;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getTitleFormat(): ?string
 	{
 		return $this->titleFormat;
 	}
 
 
-	/**
-	 * @param string|null $titleFormat
-	 */
 	public function setTitleFormat(?string $titleFormat): void
 	{
-		$this->titleFormat = $titleFormat;
+		if ($titleFormat !== null && Strings::length($titleFormat) > 64) {
+			throw new \InvalidArgumentException('The maximum length of the title format is 64 characters, but "' . $titleFormat . '" given.');
+		}
+
+		$this->titleFormat = trim($titleFormat ?? '') ?: null;
+	}
+
+
+	public function getSiteName(): ?string
+	{
+		return $this->siteName;
+	}
+
+
+	public function setSiteName(?string $siteName): void
+	{
+		if ($siteName !== null && Strings::length($siteName) > 64) {
+			throw new \InvalidArgumentException('The maximum length of the site name is 64 characters, but "' . $siteName . '" given.');
+		}
+
+		$this->siteName = trim($siteName ?? '') ?: null;
 	}
 }

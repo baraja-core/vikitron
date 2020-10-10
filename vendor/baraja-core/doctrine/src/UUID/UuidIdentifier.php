@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Baraja\Doctrine\UUID;
 
 
-use Baraja\Doctrine\DatabaseException;
-
 trait UuidIdentifier
 {
 
@@ -20,22 +18,29 @@ trait UuidIdentifier
 	protected $id;
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getId(): ?string
 	{
+		if ($this->id === null) {
+			throw new \RuntimeException('Entity ID does not exist yet. Did you call ->persist() method first?');
+		}
+
 		return (string) $this->id;
 	}
 
 
-	/**
-	 * @param string|null $id
-	 * @throws DatabaseException
-	 */
 	public function setId(?string $id = null): void
 	{
-		DatabaseException::canNotSetIdentifier($id);
+		throw new \LogicException('Can not set identifier "' . $id . '", please use trait UuidIdentifier.');
+	}
+
+
+	/**
+	 * Back support for migration logic.
+	 */
+	public function dangerouslySetLegacyId(string $id): void
+	{
+		$this->id = $id;
+		throw new \RuntimeException('The ID was passed unsafely. Please catch this exception if it was intended.');
 	}
 
 

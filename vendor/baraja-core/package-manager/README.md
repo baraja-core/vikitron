@@ -5,15 +5,13 @@ Package manager
 
 Search all package dependencies automatically and register to your project.
 
-**Please help improve code and documentation in English. Pull requests and issues are very welcomed!**
-
-Install
--------
+📦 Installation & Basic Usage
+-----------------------------
 
 Simply use Composer:
 
 ```
-composer require baraja-core/package-manager
+$ composer require baraja-core/package-manager
 ```
 
 And add to your project `composer.json` this `scripts` section:
@@ -28,8 +26,8 @@ Now is your project configured.
 
 After each `composer ...` command this Package Manager will be called automatically.
 
-How to use
-----------
+🛠️ How to use
+-------------
 
 In `Booting` class add create new instance of `PackageRegistrator`:
 
@@ -42,8 +40,8 @@ new PackageRegistrator(
 
 **Notice:** PackageRegistrator can work alone, Nette framework is not required, only recommended.
 
-Package.neon
-------------
+🗃️ Package.neon
+---------------
 
 Imagine you want install new package. Then it you must set specific configuration to your project `common.neon`.
 
@@ -57,8 +55,8 @@ $configurator->addConfig(__DIR__ . '/config/package.neon')
 
 > **Warning:** Configuration file can be different in all environment. Commit to repository is not recommended.
 
-Tasks
------
+👷‍♀️ Tasks
+-----------
 
 After creating internal container with list of packages, call list of special tasks.
 
@@ -73,8 +71,8 @@ If you want add your own task, simply create class with name `*Task` implementin
 
 Order of tasks can be defined by `Priority: xxx` doc comment anotation.
 
-Default project assert manager
-------------------------------
+🗺️ Default project assert manager
+---------------------------------
 
 In case of your package contain directory with name `install` or `update`, all inner content will be copied to your project automatically.
 
@@ -96,3 +94,8 @@ If you want create file `jquery.js` to `/www/js` for example, simply define pack
          - jquery.js
 - composer.json
 ```
+
+📄 License
+-----------
+
+`baraja-core/package-manager` is licensed under the MIT license. See the [LICENSE](https://github.com/baraja-core/package-manager/blob/master/LICENSE) file for more details.

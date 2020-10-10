@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Baraja\Localization;
 
 
-class LocalizationException extends \RuntimeException
+final class LocalizationException extends \RuntimeException
 {
 	public static function canNotResolveLocale(?string $defined, ?string $parameter, ?string $domain): void
 	{

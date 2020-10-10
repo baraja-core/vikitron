@@ -6,7 +6,6 @@ namespace Baraja\PackageManager;
 
 
 use Baraja\PackageManager\Exception\PackageDescriptorCompileException;
-use Baraja\PackageManager\Exception\PackageDescriptorException;
 
 /**
  * @internal
@@ -24,9 +23,6 @@ class PackageDescriptorEntity
 	protected $packagest = [];
 
 
-	/**
-	 * @return bool
-	 */
 	public function isClose(): bool
 	{
 		return $this->__close;
@@ -39,16 +35,10 @@ class PackageDescriptorEntity
 	}
 
 
-	/**
-	 * @throws PackageDescriptorException
-	 */
 	public function checkIfClose(): void
 	{
 		if ($this->isClose() === true) {
-			throw new PackageDescriptorException(
-				'Package descriptor was closed to insert.'
-				. "\n" . 'Setters can be used only in compile time.'
-			);
+			throw new \RuntimeException('Package descriptor was closed to insert. Setters can be used only in compile time.');
 		}
 	}
 
@@ -64,7 +54,6 @@ class PackageDescriptorEntity
 
 	/**
 	 * @param \stdClass[] $composer
-	 * @throws PackageDescriptorException
 	 */
 	public function setComposer(array $composer): void
 	{
@@ -102,7 +91,6 @@ class PackageDescriptorEntity
 
 	/**
 	 * @param mixed[] $packagest
-	 * @throws PackageDescriptorException
 	 */
 	public function setPackages(array $packagest): void
 	{
@@ -132,27 +120,18 @@ class PackageDescriptorEntity
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getGeneratedDate(): string
 	{
 		return date('Y-m-d H:i:s');
 	}
 
 
-	/**
-	 * @return int
-	 */
 	public function getGeneratedDateTimestamp(): int
 	{
 		return time();
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getComposerHash(): string
 	{
 		return md5((string) time());

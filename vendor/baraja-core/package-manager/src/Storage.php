@@ -7,7 +7,9 @@ namespace Baraja\PackageManager;
 
 use Baraja\PackageManager\Exception\PackageDescriptorException;
 use Baraja\PackageManager\Exception\PackageEntityDoesNotExistsException;
+use Nette\IOException;
 use Nette\PhpGenerator\ClassType;
+use Nette\Utils\FileSystem;
 use Nette\Utils\Finder;
 
 final class Storage
@@ -44,13 +46,7 @@ final class Storage
 	}
 
 
-	/**
-	 * @internal
-	 * @param PackageDescriptorEntity $packageDescriptorEntity
-	 * @param string $composerHash
-	 * @throws PackageDescriptorException
-	 */
-	public function save(PackageDescriptorEntity $packageDescriptorEntity, string $composerHash = null): void
+	public function save(PackageDescriptorEntity $packageDescriptorEntity, ?string $composerHash = null): void
 	{
 		$class = new ClassType('PackageDescriptorEntity');
 
@@ -81,14 +77,9 @@ final class Storage
 			->setReturnType('string')
 			->setBody('return \'' . ($composerHash ?? '') . '\';');
 
-		$reflection = new \ReflectionObject($packageDescriptorEntity);
-
-		foreach ($reflection->getProperties() as $property) {
+		foreach ((new \ReflectionObject($packageDescriptorEntity))->getProperties() as $property) {
 			if ($property->getName() === '__close') {
-				$class->addProperty(
-					$property->getName(),
-					true
-				)->setVisibility('protected');
+				$class->addProperty($property->getName(), true)->setVisibility('protected');
 			} else {
 				$property->setAccessible(true);
 				$class->addProperty(
@@ -98,17 +89,10 @@ final class Storage
 			}
 		}
 
-		if (!@file_put_contents($this->getPath(), '<?php' . "\n\n" . $class) && !is_file($this->getPath())) {
-			PackageDescriptorException::tempFileGeneratingError($this->getPath());
-		}
+		FileSystem::write($this->getPath(), '<?php' . "\n\n" . $class);
 	}
 
 
-	/**
-	 * @param int $ttl
-	 * @return string
-	 * @throws PackageDescriptorException
-	 */
 	private function getPath(int $ttl = 3): string
 	{
 		static $cache;
@@ -118,21 +102,18 @@ final class Storage
 			$cache = $dir . '/PackageDescriptorEntity.php';
 
 			try {
-				if (is_dir($dir) === false && !mkdir($dir, 0777, true) && !is_dir($dir)) {
-					PackageDescriptorException::canNotCreateTempDir($dir);
+				FileSystem::createDir($dir, 0777);
+				if (\is_file($cache) === false) {
+					FileSystem::write($cache, '');
 				}
-
-				if (is_file($cache) === false && !file_put_contents($cache, '') && !is_file($cache)) {
-					PackageDescriptorException::canNotCreateTempFile($cache);
-				}
-			} catch (PackageDescriptorException $e) {
+			} catch (IOException $e) {
 				if ($ttl > 0) {
 					$this->tryFixTemp($dir);
 
 					return $this->getPath($ttl - 1);
 				}
 
-				throw $e;
+				throw new \InvalidArgumentException($e->getMessage(), $e->getCode(), $e);
 			}
 		}
 
@@ -140,10 +121,6 @@ final class Storage
 	}
 
 
-	/**
-	 * @param string $basePath
-	 * @return bool
-	 */
 	private function tryFixTemp(string $basePath): bool
 	{
 		foreach (Finder::find('*')->in($basePath) as $path => $value) {
@@ -160,9 +137,8 @@ final class Storage
 	 */
 	private function makeScalarValueOnly($data)
 	{
-		if (\is_array($data)) {
+		if (\is_array($data) === true) {
 			$return = [];
-
 			foreach ($data as $key => $value) {
 				if (is_object($value) === false) {
 					$return[$key] = $this->makeScalarValueOnly($value);

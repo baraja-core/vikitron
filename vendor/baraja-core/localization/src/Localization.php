@@ -119,6 +119,23 @@ final class Localization
 
 
 	/**
+	 * Return Domain::ENVIRONMENT_* constant for current request.
+	 * If environment detection failed, method keep "production".
+	 * In case of CLI return "production".
+	 *
+	 * @return string
+	 */
+	public function getEnvironment(): string
+	{
+		if (PHP_SAPI === 'cli' || $this->currentDomain === null) {
+			return Domain::ENVIRONMENT_PRODUCTION;
+		}
+
+		return $this->getStatus()->getDomainToEnvironment()[$this->currentDomain] ?? Domain::ENVIRONMENT_PRODUCTION;
+	}
+
+
+	/**
 	 * @return string[]
 	 */
 	public function getAvailableLocales(): array
@@ -127,9 +144,6 @@ final class Localization
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getDefaultLocale(): string
 	{
 		return $this->getStatus()->getDefaultLocale();
@@ -214,6 +228,7 @@ final class Localization
 			$config['localeToTitleSuffix'],
 			$config['localeToTitleSeparator'],
 			$config['localeToTitleFormat'],
+			$config['localeToSiteName'],
 			$config['domainToLocale'],
 			$config['domainToEnvironment'],
 			$config['domainToProtected'],
@@ -252,6 +267,7 @@ final class Localization
 		$localeToTitleSuffix = [];
 		$localeToTitleSeparator = [];
 		$localeToTitleFormat = [];
+		$localeToSiteName = [];
 		$domainToLocale = [];
 		$domainToEnvironment = [];
 		$domainIsProtected = [];
@@ -292,7 +308,7 @@ final class Localization
 
 		$locales = $this->entityManager->getRepository(Locale::class)
 			->createQueryBuilder('locale')
-			->select('PARTIAL locale.{id, locale, default, titleSuffix, titleSeparator, titleFormat}')
+			->select('PARTIAL locale.{id, locale, default, titleSuffix, titleSeparator, titleFormat, siteName}')
 			->where('locale.active = TRUE')
 			->orderBy('locale.position', 'ASC')
 			->getQuery()
@@ -310,6 +326,7 @@ final class Localization
 			$localeToTitleSuffix[$locale['locale']] = $locale['titleSuffix'];
 			$localeToTitleSeparator[$locale['locale']] = $locale['titleSeparator'];
 			$localeToTitleFormat[$locale['locale']] = $locale['titleFormat'];
+			$localeToSiteName[$locale['locale']] = $locale['siteName'];
 		}
 
 		return [
@@ -319,6 +336,7 @@ final class Localization
 			'localeToTitleSuffix' => $localeToTitleSuffix,
 			'localeToTitleSeparator' => $localeToTitleSeparator,
 			'localeToTitleFormat' => $localeToTitleFormat,
+			'localeToSiteName' => $localeToSiteName,
 			'domainToLocale' => $domainToLocale,
 			'domainToEnvironment' => $domainToEnvironment,
 			'domainToProtected' => $domainIsProtected,

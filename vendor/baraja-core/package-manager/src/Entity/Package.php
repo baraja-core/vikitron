@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Baraja\PackageManager;
 
 
-use Nette\Neon\Neon;
 use Nette\SmartObject;
 
 final class Package
@@ -45,27 +44,18 @@ final class Package
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getVersion(): ?string
 	{
 		return $this->version;
 	}
 
 
-	/**
-	 * @return string
-	 */
 	public function getDependency(): string
 	{
 		return $this->dependency;
@@ -87,24 +77,5 @@ final class Package
 	public function getComposer(): array
 	{
 		return $this->composer;
-	}
-
-
-	/**
-	 * @deprecated please use native implementation or DIC.
-	 * @param string $key
-	 * @return mixed[]
-	 */
-	public function getConfigProperty(string $key): array
-	{
-		if (isset($this->getConfig()[$key]) === true) {
-			if ($this->getConfig()[$key]['rewrite'] === true) {
-				return $this->getConfig()[$key]['data'];
-			}
-
-			return Neon::decode($this->getConfig()[$key]['data']);
-		}
-
-		return [];
 	}
 }

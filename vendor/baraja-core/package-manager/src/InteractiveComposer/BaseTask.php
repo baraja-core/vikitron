@@ -48,18 +48,24 @@ abstract class BaseTask implements ITask
 		static $container;
 
 		if ($container === null) {
-			$container = $this->bootApplication()->createContainer();
+			if (\is_dir($rootDir = dirname(__DIR__, 5)) === false) {
+				throw new \RuntimeException('Root dir "' . $rootDir . '" does not exist.');
+			}
+			$application = $this->bootApplication();
+			$application->addParameters([ // hack for Nette default parameters resolver
+				'rootDir' => $rootDir,
+				'appDir' => $rootDir . '/app',
+				'wwwDir' => $rootDir . '/www',
+				'vendorDir' => $rootDir . '/vendor',
+				'tempDir' => $rootDir . '/temp',
+			]);
+			$container = $application->createContainer();
 		}
 
 		return $container;
 	}
 
 
-	/**
-	 * Try find Nette application and boot.
-	 *
-	 * @return Configurator
-	 */
 	private function bootApplication(): Configurator
 	{
 		foreach (['\App\Bootstrap', '\App\Booting'] as $class) {
@@ -68,8 +74,6 @@ abstract class BaseTask implements ITask
 			}
 		}
 
-		throw new \RuntimeException(
-			'Nette application does not exist, because class "Booting" or "Bootstrap" does not found.'
-		);
+		throw new \RuntimeException('Nette application does not exist, because class "Booting" or "Bootstrap" does not found.');
 	}
 }

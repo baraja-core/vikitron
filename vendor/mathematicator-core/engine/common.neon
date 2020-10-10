@@ -11,6 +11,6 @@ services:
 	- Mathematicator\NaturalTextFormatter
 	- Mathematicator\Engine\SampleModule
 
-#orm.annotations:
-#   paths:
-#      Mathematicator: %appDir%/../vendor/mathematicator-core
+orm.annotations:
+	paths:
+		Mathematicator: %appDir%/../vendor/mathematicator-core
