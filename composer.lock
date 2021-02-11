@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3770ca3023fc3f23d996fd039d44bd3",
+    "content-hash": "311b634ca313e9e3166e6f639e16847e",
     "packages": [
         {
             "name": "baraja-core/doctrine",
@@ -1484,6 +1484,7 @@
                 "reflection",
                 "static"
             ],
+            "abandoned": "roave/better-reflection",
             "time": "2020-03-27T11:06:43+00:00"
         },
         {
@@ -3516,23 +3517,20 @@
         },
         {
             "name": "nette/tokenizer",
-            "version": "v3.0.0",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/tokenizer.git",
-                "reference": "6d0965ac60333dab53f2588977c2067b4d5ad245"
+                "reference": "14d42330fb299e877ad5a01f955098e35190c042"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/tokenizer/zipball/6d0965ac60333dab53f2588977c2067b4d5ad245",
-                "reference": "6d0965ac60333dab53f2588977c2067b4d5ad245",
+                "url": "https://api.github.com/repos/nette/tokenizer/zipball/14d42330fb299e877ad5a01f955098e35190c042",
+                "reference": "14d42330fb299e877ad5a01f955098e35190c042",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
             },
             "require-dev": {
                 "nette/tester": "~2.0",
@@ -3567,7 +3565,7 @@
             ],
             "description": "Nette Tokenizer",
             "homepage": "https://nette.org",
-            "time": "2019-02-06T00:22:59+00:00"
+            "time": "2019-09-13T11:28:17+00:00"
         },
         {
             "name": "nette/utils",
