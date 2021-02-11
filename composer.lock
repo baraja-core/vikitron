@@ -104,16 +104,16 @@
         },
         {
             "name": "baraja-core/package-manager",
-            "version": "v2.1.5",
+            "version": "v2.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/baraja-core/package-manager.git",
-                "reference": "8107592ec9fe1d1aa1c046537641332b8853d265"
+                "reference": "33e54211ee2298a2f4180a5af7a0a1812b1044aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/8107592ec9fe1d1aa1c046537641332b8853d265",
-                "reference": "8107592ec9fe1d1aa1c046537641332b8853d265",
+                "url": "https://api.github.com/repos/baraja-core/package-manager/zipball/33e54211ee2298a2f4180a5af7a0a1812b1044aa",
+                "reference": "33e54211ee2298a2f4180a5af7a0a1812b1044aa",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
             ],
             "description": "Search all package dependencies automatically and register to your project.",
             "homepage": "https://github.com/baraja-core/package-manager",
-            "time": "2020-10-08T19:23:27+00:00"
+            "time": "2020-10-13T20:58:22+00:00"
         },
         {
             "name": "brick/math",
@@ -1484,6 +1484,7 @@
                 "reflection",
                 "static"
             ],
+            "abandoned": "roave/better-reflection",
             "time": "2020-03-27T11:06:43+00:00"
         },
         {
