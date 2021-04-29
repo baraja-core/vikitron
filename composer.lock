@@ -4701,16 +4701,16 @@
         },
         {
             "name": "texy/texy",
-            "version": "v3.1.2",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/texy.git",
-                "reference": "4215ad37e4e1cd639129e1f879053b052d9cc25c"
+                "reference": "5f84b1f629eb0442431e86a5846d47a72177de32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/texy/zipball/4215ad37e4e1cd639129e1f879053b052d9cc25c",
-                "reference": "4215ad37e4e1cd639129e1f879053b052d9cc25c",
+                "url": "https://api.github.com/repos/dg/texy/zipball/5f84b1f629eb0442431e86a5846d47a72177de32",
+                "reference": "5f84b1f629eb0442431e86a5846d47a72177de32",
                 "shasum": ""
             },
             "require": {
@@ -4760,7 +4760,7 @@
                 "texy",
                 "wiki"
             ],
-            "time": "2020-07-24T14:52:13+00:00"
+            "time": "2021-01-13T16:36:38+00:00"
         },
         {
             "name": "tracy/tracy",
