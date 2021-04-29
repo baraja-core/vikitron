@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "311b634ca313e9e3166e6f639e16847e",
+    "content-hash": "e49d8a61c9f10cc8bf885e61719e1385",
     "packages": [
         {
             "name": "baraja-core/doctrine",
@@ -431,37 +431,36 @@
         },
         {
             "name": "contributte/psr6-caching",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/psr6-caching.git",
-                "reference": "e205dbda18e7415bbac84445106ece7358030d38"
+                "reference": "6840b52510a28536f96102673b02816240074310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/psr6-caching/zipball/e205dbda18e7415bbac84445106ece7358030d38",
-                "reference": "e205dbda18e7415bbac84445106ece7358030d38",
+                "url": "https://api.github.com/repos/contributte/psr6-caching/zipball/6840b52510a28536f96102673b02816240074310",
+                "reference": "6840b52510a28536f96102673b02816240074310",
                 "shasum": ""
             },
             "require": {
-                "nette/caching": "~3.0.0",
-                "php": "^7.2.0",
+                "nette/caching": "^3.0.0",
+                "php": ">=7.2",
                 "psr/cache": "^1.0.0"
             },
             "require-dev": {
-                "nette/di": "~3.0.0",
-                "ninjify/qa": "^0.9.0",
-                "phpstan/extension-installer": "^1.0.0",
-                "phpstan/phpstan-deprecation-rules": "^0.11.0",
-                "phpstan/phpstan-nette": "^0.11.0",
-                "phpstan/phpstan-shim": "^0.11.0",
-                "phpstan/phpstan-strict-rules": "^0.11.0",
-                "phpunit/phpunit": "^8.0.0"
+                "nette/di": "^3.0.0",
+                "ninjify/nunjuck": "^0.4",
+                "ninjify/qa": "^0.12",
+                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan-deprecation-rules": "^0.12",
+                "phpstan/phpstan-nette": "^0.12",
+                "phpstan/phpstan-strict-rules": "^0.12"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -471,12 +470,16 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MPL-2.0"
+                "MIT"
             ],
             "authors": [
                 {
                     "name": "Filip Šuška",
                     "homepage": "https://github.com/vody105"
+                },
+                {
+                    "name": "Milan Felix Šulc",
+                    "homepage": "https://f3l1x.io"
                 }
             ],
             "description": "PSR-6 (Caching Interface) adapter for Nette Caching",
@@ -487,7 +490,7 @@
                 "nette",
                 "psr6"
             ],
-            "time": "2019-08-12T10:53:54+00:00"
+            "time": "2021-01-09T17:32:44+00:00"
         },
         {
             "name": "doctrine/annotations",
