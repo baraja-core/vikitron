@@ -58,16 +58,16 @@
         },
         {
             "name": "baraja-core/localization",
-            "version": "v1.0.14",
+            "version": "v1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/baraja-core/localization.git",
-                "reference": "87c441646ba4486c46ca3cc389492b32a81bd3e0"
+                "reference": "6f4fbe3abd12d1949b23a2c7927ad9b063b58a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/baraja-core/localization/zipball/87c441646ba4486c46ca3cc389492b32a81bd3e0",
-                "reference": "87c441646ba4486c46ca3cc389492b32a81bd3e0",
+                "url": "https://api.github.com/repos/baraja-core/localization/zipball/6f4fbe3abd12d1949b23a2c7927ad9b063b58a11",
+                "reference": "6f4fbe3abd12d1949b23a2c7927ad9b063b58a11",
                 "shasum": ""
             },
             "require": {
@@ -100,7 +100,7 @@
             ],
             "description": "Common package for language manipulation.",
             "homepage": "https://github.com/baraja-core/localization",
-            "time": "2020-07-27T13:09:36+00:00"
+            "time": "2020-10-14T10:39:06+00:00"
         },
         {
             "name": "baraja-core/package-manager",
