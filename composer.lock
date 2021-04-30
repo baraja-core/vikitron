@@ -2552,25 +2552,25 @@
         },
         {
             "name": "nette/caching",
-            "version": "v3.0.2",
+            "version": "v3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/caching.git",
-                "reference": "7cab46d8d436e26a874715e6fff13b74d29dbf8c"
+                "reference": "3e771c589dee414724be473c24ad16dae50c1960"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/caching/zipball/7cab46d8d436e26a874715e6fff13b74d29dbf8c",
-                "reference": "7cab46d8d436e26a874715e6fff13b74d29dbf8c",
+                "url": "https://api.github.com/repos/nette/caching/zipball/3e771c589dee414724be473c24ad16dae50c1960",
+                "reference": "3e771c589dee414724be473c24ad16dae50c1960",
                 "shasum": ""
             },
             "require": {
                 "nette/finder": "^2.4 || ^3.0",
                 "nette/utils": "^2.4 || ^3.0",
-                "php": ">=7.1 <8.1"
+                "php": ">=7.2 <8.1"
             },
             "require-dev": {
-                "latte/latte": "^2.9",
+                "latte/latte": "^2.10",
                 "nette/di": "^v3.0",
                 "nette/tester": "^2.0",
                 "phpstan/phpstan": "^0.12",
@@ -2582,7 +2582,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -2615,7 +2615,7 @@
                 "nette",
                 "sqlite"
             ],
-            "time": "2020-11-16T01:37:04+00:00"
+            "time": "2021-03-06T14:07:38+00:00"
         },
         {
             "name": "nette/component-model",
